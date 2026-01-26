@@ -1,12 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Header } from "@/components/Header";
+import { HeroSection } from "@/components/HeroSection";
+import { MethodologySection } from "@/components/MethodologySection";
+import { MethodologyWheel } from "@/components/MethodologyWheel";
+import { KubeWheel } from "@/components/KubeWheel";
+import { EnterpriseTiers } from "@/components/EnterpriseTiers";
+import { IndustryGrid } from "@/components/IndustryGrid";
+import { PartnerSection } from "@/components/PartnerSection";
+import { ComplianceSection } from "@/components/ComplianceSection";
+import { FinalCTA } from "@/components/FinalCTA";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <HeroSection />
+      <MethodologySection />
+      <MethodologyWheel />
+      <KubeWheel />
+      <EnterpriseTiers />
+      <IndustryGrid />
+      <PartnerSection />
+      <ComplianceSection />
+      <FinalCTA />
+      <Footer />
     </div>
   );
 };
