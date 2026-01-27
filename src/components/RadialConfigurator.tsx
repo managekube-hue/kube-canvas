@@ -1,31 +1,31 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, FileText, Calendar, Layers } from "lucide-react";
+import { Check, FileText, Calendar, Box } from "lucide-react";
 
-// Kube data with colors and angles
+// Kube data with colors
 const kubes = [
-  { id: "assessment", name: "Assessment", color: "#10B981", angle: -90, description: "Deployment Maturity Assessment Engine", capabilities: ["Infrastructure Inventory: Servers, storage, network, cloud resources", "Security Assessment: Posture review, vulnerability identification", "Compliance Mapping: Gap analysis against multiple frameworks", "Remediation Roadmap: Prioritized action plan with costs"] },
-  { id: "compliance", name: "Compliance", color: "#8B5CF6", angle: -45, description: "Continuous Compliance & GRC Automation", capabilities: ["Gap Remediation Planning: Detailed plan for closing gaps", "Evidence Automation: Continuous monitoring for compliance drift", "Policy Development: Creation of required policy library", "Audit Management: Liaison with auditors for attestation"] },
-  { id: "mssp", name: "MSSP", color: "#EF4444", angle: 0, description: "Managed Security Services Platform", capabilities: ["24/7 SOC Monitoring: Threat detection, triage, containment", "Managed EDR/XDR: Endpoint behavioral analysis and response", "Vulnerability Management: Continuous scanning and remediation", "Security Architecture: Zero Trust, network segmentation"] },
-  { id: "msp", name: "MSP", color: "#3B82F6", angle: 45, description: "Infrastructure Operations Command Center", capabilities: ["Service Desk: 24/7 or business-hours helpdesk (Tier 1-3)", "Hybrid Infrastructure: Servers, network, storage management", "Managed Workplace: UCaaS, SaaS Ops (M365), UEM/MDM", "BCDR: Disaster Recovery as a Service, backup monitoring"] },
-  { id: "advisory", name: "Advisory", color: "#F59E0B", angle: 90, description: "Strategic Technology Leadership", capabilities: ["Virtual CISO: Security governance, risk management", "Virtual CIO: IT strategic planning, technology roadmapping", "Cloud FinOps: Cost optimization, right-sizing", "M&A Due Diligence: IT assessment and integration planning"] },
-  { id: "innovation", name: "Innovation", color: "#EC4899", angle: 135, description: "AI & Automation Excellence Center", capabilities: ["Hyperautomation: AI-driven RPA, autonomous agents", "Modern Software Delivery: DevSecOps, CI/CD pipelines", "Data Intelligence: Data modernization, business intelligence", "Custom Development: Application development and APIs"] },
-  { id: "industry", name: "Industry", color: "#14B8A6", angle: 180, description: "Vertical-Specific Platform Solutions", capabilities: ["Pre-integrated industry BLOCKs for 9 verticals", "Dell infrastructure + IBM intelligence software", "Validated reference architectures", "Industry-specific compliance mappings"] },
-  { id: "partner", name: "Partner", color: "#6366F1", angle: 225, description: "Strategic Alliance Ecosystem", capabilities: ["Dell Technologies: Servers, storage, APEX consumption", "IBM Software: watsonx, Maximo, Cloud Pak portfolio", "Technology Alliances: Cisco, Microsoft, Veeam, CrowdStrike", "Partner Enablement: Certification support"] },
+  { id: "assessment", name: "Assessment", color: "#10B981", description: "Deployment Maturity Assessment Engine", capabilities: ["Infrastructure Inventory: Servers, storage, network, cloud resources", "Security Assessment: Posture review, vulnerability identification", "Compliance Mapping: Gap analysis against multiple frameworks", "Remediation Roadmap: Prioritized action plan with costs"] },
+  { id: "compliance", name: "Compliance", color: "#8B5CF6", description: "Continuous Compliance & GRC Automation", capabilities: ["Gap Remediation Planning: Detailed plan for closing gaps", "Evidence Automation: Continuous monitoring for compliance drift", "Policy Development: Creation of required policy library", "Audit Management: Liaison with auditors for attestation"] },
+  { id: "mssp", name: "MSSP", color: "#EF4444", description: "Managed Security Services Platform", capabilities: ["24/7 SOC Monitoring: Threat detection, triage, containment", "Managed EDR/XDR: Endpoint behavioral analysis and response", "Vulnerability Management: Continuous scanning and remediation", "Security Architecture: Zero Trust, network segmentation"] },
+  { id: "msp", name: "MSP", color: "#3B82F6", description: "Infrastructure Operations Command Center", capabilities: ["Service Desk: 24/7 or business-hours helpdesk (Tier 1-3)", "Hybrid Infrastructure: Servers, network, storage management", "Managed Workplace: UCaaS, SaaS Ops (M365), UEM/MDM", "BCDR: Disaster Recovery as a Service, backup monitoring"] },
+  { id: "advisory", name: "Advisory", color: "#F59E0B", description: "Strategic Technology Leadership", capabilities: ["Virtual CISO: Security governance, risk management", "Virtual CIO: IT strategic planning, technology roadmapping", "Cloud FinOps: Cost optimization, right-sizing", "M&A Due Diligence: IT assessment and integration planning"] },
+  { id: "innovation", name: "Innovation", color: "#EC4899", description: "AI & Automation Excellence Center", capabilities: ["Hyperautomation: AI-driven RPA, autonomous agents", "Modern Software Delivery: DevSecOps, CI/CD pipelines", "Data Intelligence: Data modernization, business intelligence", "Custom Development: Application development and APIs"] },
+  { id: "industry", name: "Industry", color: "#14B8A6", description: "Vertical-Specific Platform Solutions", capabilities: ["Pre-integrated industry BLOCKs for 9 verticals", "Dell infrastructure + IBM intelligence software", "Validated reference architectures", "Industry-specific compliance mappings"] },
+  { id: "partner", name: "Partner", color: "#6366F1", description: "Strategic Alliance Ecosystem", capabilities: ["Dell Technologies: Servers, storage, APEX consumption", "IBM Software: watsonx, Maximo, Cloud Pak portfolio", "Technology Alliances: Cisco, Microsoft, Veeam, CrowdStrike", "Partner Enablement: Certification support"] },
 ];
 
-// Block data positioned around the wheel
+// Block data
 const blocks = [
-  { id: "m2", name: "M2", angle: -70, label: "Manufacturing", description: "Production Excellence - Predictive maintenance, quality control, secure OT/IT convergence" },
-  { id: "h2", name: "H2", angle: -25, label: "Healthcare", description: "Clinical Excellence - HIPAA compliance, ransomware immunity, EHR performance" },
-  { id: "f2", name: "F2", angle: 20, label: "Financial Services", description: "Mission-Critical Operations - Real-time fraud detection, T+0 regulatory reporting" },
-  { id: "r2", name: "R2", angle: 65, label: "Retail", description: "Omnichannel Commerce - Unified fulfillment, store operations, AI personalization" },
-  { id: "t2", name: "T2", angle: 110, label: "Transportation", description: "Fleet Intelligence - Real-time visibility, predictive maintenance, logistics optimization" },
-  { id: "me2", name: "ME2", angle: 155, label: "Mining", description: "Remote Operations Resilience - OT security, environmental compliance" },
-  { id: "eu2", name: "EU2", angle: 200, label: "Energy", description: "Grid Resilience - Renewable integration, NERC-CIP compliance" },
-  { id: "ps2", name: "PS2", angle: 245, label: "Public Sector", description: "Citizen Services - FedRAMP compliance, smart city infrastructure" },
-  { id: "tc2", name: "TC2", angle: 290, label: "Telecom", description: "Network Transformation - 5G core, edge monetization, network automation" },
+  { id: "m2", name: "M2", label: "Manufacturing", description: "Production Excellence - Predictive maintenance, quality control, secure OT/IT convergence" },
+  { id: "h2", name: "H2", label: "Healthcare", description: "Clinical Excellence - HIPAA compliance, ransomware immunity, EHR performance" },
+  { id: "f2", name: "F2", label: "Financial Services", description: "Mission-Critical Operations - Real-time fraud detection, T+0 regulatory reporting" },
+  { id: "r2", name: "R2", label: "Retail", description: "Omnichannel Commerce - Unified fulfillment, store operations, AI personalization" },
+  { id: "t2", name: "T2", label: "Transportation", description: "Fleet Intelligence - Real-time visibility, predictive maintenance, logistics optimization" },
+  { id: "me2", name: "ME2", label: "Mining", description: "Remote Operations Resilience - OT security, environmental compliance" },
+  { id: "eu2", name: "EU2", label: "Energy", description: "Grid Resilience - Renewable integration, NERC-CIP compliance" },
+  { id: "ps2", name: "PS2", label: "Public Sector", description: "Citizen Services - FedRAMP compliance, smart city infrastructure" },
+  { id: "tc2", name: "TC2", label: "Telecom", description: "Network Transformation - 5G core, edge monetization, network automation" },
 ];
 
 // Designation data
@@ -35,31 +35,31 @@ const designations = [
   { id: "ent", name: "ENT", description: "Enterprise", details: "500+ users, global operations, $150K+/mo" },
 ];
 
-// Industry data positioned on outermost edge
+// Industry data
 const industries = [
-  { id: "manufacturing", name: "MANUFACTURING", angle: -90 },
-  { id: "healthcare", name: "HEALTHCARE", angle: -45 },
-  { id: "financial", name: "FINANCE", angle: 0 },
-  { id: "retail", name: "RETAIL", angle: 45 },
-  { id: "transportation", name: "TRANSPORTATION", angle: 90 },
-  { id: "mining", name: "MINING", angle: 135 },
-  { id: "energy", name: "ENERGY", angle: 180 },
-  { id: "public", name: "PUBLIC SECTOR", angle: 225 },
-  { id: "telecom", name: "TELECOM", angle: 270 },
+  { id: "manufacturing", name: "Manufacturing" },
+  { id: "healthcare", name: "Healthcare" },
+  { id: "financial", name: "Financial Services" },
+  { id: "retail", name: "Retail" },
+  { id: "transportation", name: "Transportation" },
+  { id: "mining", name: "Mining & Extraction" },
+  { id: "energy", name: "Energy & Utilities" },
+  { id: "public", name: "Public Sector" },
+  { id: "telecom", name: "Telecommunications" },
 ];
 
-// Compliance frameworks with positions radiating from center
+// Compliance frameworks
 const complianceFrameworks = [
-  { id: "nist800", name: "NIST", angle: -60, controls: 124 },
-  { id: "soc2", name: "SOC 2", angle: -30, controls: 87 },
-  { id: "cmmc", name: "CMMC", angle: 10, controls: 110 },
-  { id: "nist", name: "NIST", angle: 50, controls: 98 },
-  { id: "gdpr", name: "GDPR", angle: 80, controls: 72 },
-  { id: "pci", name: "PCI-DSS", angle: 120, controls: 78 },
-  { id: "iso27001", name: "ISO 27001", angle: 160, controls: 93 },
-  { id: "ferpa", name: "FERPA", angle: 200, controls: 45 },
-  { id: "hipaa", name: "HIPAA", angle: 240, controls: 45 },
-  { id: "fedramp", name: "FedRAMP", angle: 280, controls: 325 },
+  { id: "nist800", name: "NIST 800-53", controls: 124 },
+  { id: "iso27001", name: "ISO 27001", controls: 93 },
+  { id: "soc2", name: "SOC 2", controls: 87 },
+  { id: "pci", name: "PCI DSS", controls: 78 },
+  { id: "cmmc", name: "CMMC", controls: 110 },
+  { id: "hipaa", name: "HIPAA", controls: 45 },
+  { id: "fedramp", name: "FedRAMP", controls: 325 },
+  { id: "nistcsf", name: "NIST CSF", controls: 98 },
+  { id: "cis", name: "CIS v8", controls: 153 },
+  { id: "fips", name: "FIPS 140-2/3", controls: 42 },
 ];
 
 interface Selection {
@@ -70,142 +70,19 @@ interface Selection {
   compliance: string[];
 }
 
-// 3D Isometric Cube Component
-const IsometricCube = ({ 
-  x, 
-  y, 
-  size, 
-  color, 
-  isActive, 
-  label,
-  onClick 
-}: { 
-  x: number; 
-  y: number; 
-  size: number; 
-  color: string; 
-  isActive: boolean;
-  label: string;
-  onClick: () => void;
-}) => {
-  const halfSize = size / 2;
-  
-  // Isometric cube face calculations
-  const topColor = isActive ? color : "#6B7280";
-  const leftColor = isActive ? color : "#4B5563";
-  const rightColor = isActive ? color : "#374151";
-  
-  return (
-    <g className="cursor-pointer" onClick={onClick}>
-      <motion.g
-        animate={{ 
-          scale: isActive ? 1.15 : 1,
-          y: isActive ? -5 : 0,
-        }}
-        whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Active glow */}
-        {isActive && (
-          <motion.ellipse
-            cx={x}
-            cy={y + size * 0.8}
-            rx={size * 0.8}
-            ry={size * 0.3}
-            fill={color}
-            opacity={0.3}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.3 }}
-            style={{ filter: `blur(8px)` }}
-          />
-        )}
-        
-        {/* Top face (diamond shape) */}
-        <motion.path
-          d={`M ${x} ${y - halfSize * 0.6} 
-              L ${x + halfSize} ${y} 
-              L ${x} ${y + halfSize * 0.6} 
-              L ${x - halfSize} ${y} Z`}
-          fill={topColor}
-          opacity={isActive ? 1 : 0.6}
-          stroke={isActive ? color : "#6B7280"}
-          strokeWidth="1"
-        />
-        
-        {/* Left face */}
-        <motion.path
-          d={`M ${x - halfSize} ${y} 
-              L ${x} ${y + halfSize * 0.6} 
-              L ${x} ${y + size * 0.8} 
-              L ${x - halfSize} ${y + size * 0.5} Z`}
-          fill={leftColor}
-          opacity={isActive ? 0.9 : 0.5}
-        />
-        
-        {/* Right face */}
-        <motion.path
-          d={`M ${x + halfSize} ${y} 
-              L ${x} ${y + halfSize * 0.6} 
-              L ${x} ${y + size * 0.8} 
-              L ${x + halfSize} ${y + size * 0.5} Z`}
-          fill={rightColor}
-          opacity={isActive ? 0.8 : 0.4}
-        />
-        
-        {/* Connection line to center when active */}
-        {isActive && (
-          <motion.line
-            x1={x}
-            y1={y + size * 0.4}
-            x2={300}
-            y2={300}
-            stroke={color}
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{ filter: `drop-shadow(0 0 6px ${color})` }}
-          />
-        )}
-      </motion.g>
-      
-      {/* Label below cube */}
-      <text
-        x={x}
-        y={y + size + 12}
-        textAnchor="middle"
-        fill={isActive ? "white" : "#9CA3AF"}
-        fontSize="10"
-        fontFamily="Roboto Mono"
-        className="uppercase pointer-events-none font-medium"
-      >
-        {label}
-      </text>
-    </g>
-  );
-};
-
 export const RadialConfigurator = () => {
   const [selection, setSelection] = useState<Selection>({
-    kube: null,
+    kube: "assessment", // Default to Assessment Kube active
     block: null,
     designation: null,
     industry: null,
     compliance: [],
   });
-  
-  const [revealLayers, setRevealLayers] = useState(false);
 
   const selectedKube = kubes.find((k) => k.id === selection.kube);
   const selectedBlock = blocks.find((b) => b.id === selection.block);
   const selectedDesignation = designations.find((d) => d.id === selection.designation);
   const selectedIndustry = industries.find((i) => i.id === selection.industry);
-
-  const handleKubeClick = (kubeId: string) => {
-    setSelection((prev) => ({ ...prev, kube: kubeId }));
-    // Trigger slow reveal of inner layers
-    setRevealLayers(true);
-  };
 
   const getTotalControls = () => {
     return selection.compliance.reduce((acc, id) => {
@@ -237,15 +114,15 @@ export const RadialConfigurator = () => {
     return `START ${selectedKube?.name.toUpperCase()} ASSESSMENT`;
   };
 
-  // Center of the wheel
-  const centerX = 300;
-  const centerY = 300;
+  // Calculate positions for rings
+  const centerX = 200;
+  const centerY = 200;
   
-  // Ring radii - Kubes on OUTER ring
-  const kubeRingRadius = 200;      // Outer ring for Kubes
-  const blockRingRadius = 130;     // Middle ring for BLOCKs
-  const complianceRingRadius = 90; // Inner ring for compliance labels
-  const industryLabelRadius = 270; // Outermost for industry labels
+  // Ring radii
+  const kubeRingRadius = 140;
+  const blockRingRadius = 95;
+  const designationRingRadius = 60;
+  const industryRingRadius = 175;
 
   return (
     <section className="py-24 lg:py-32 bg-background" id="configurator">
@@ -256,7 +133,7 @@ export const RadialConfigurator = () => {
           viewport={{ once: true }}
           className="font-display text-3xl sm:text-4xl lg:text-5xl text-white text-center mb-4"
         >
-          BUILD YOUR KUBE STACK
+          RADIAL SERVICE CONFIGURATOR
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -265,373 +142,303 @@ export const RadialConfigurator = () => {
           transition={{ delay: 0.1 }}
           className="font-mono text-muted-foreground text-center mb-12"
         >
-          SELECT A KUBE TO REVEAL INTERCONNECTED SERVICES, INDUSTRIES & COMPLIANCE
+          5-DIMENSIONAL WHEEL: KUBE → BLOCK → DESIGNATION → INDUSTRY → COMPLIANCE
         </motion.p>
 
-        <div className="grid lg:grid-cols-[1fr_400px] gap-8 lg:gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left: Radial Wheel */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="flex flex-col items-center"
           >
-            <div className="relative w-full max-w-2xl aspect-square">
-              <svg viewBox="0 0 600 600" className="w-full h-full">
+            <div className="relative w-full max-w-lg aspect-square">
+              <svg viewBox="0 0 400 400" className="w-full h-full">
                 <defs>
                   <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
                     <feMerge>
                       <feMergeNode in="coloredBlur"/>
                       <feMergeNode in="SourceGraphic"/>
                     </feMerge>
                   </filter>
-                  <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="hsl(32, 91%, 44%)" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-                  </radialGradient>
+                  <linearGradient id="coreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="hsl(32, 91%, 44%)" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="hsl(217, 91%, 60%)" stopOpacity="0.3" />
+                  </linearGradient>
                 </defs>
 
-                {/* Outer decorative ring - dashed */}
-                <circle 
-                  cx={centerX} 
-                  cy={centerY} 
-                  r={250} 
-                  fill="none" 
-                  stroke="hsl(0, 0%, 20%)" 
-                  strokeWidth="1" 
-                  strokeDasharray="4 8" 
-                />
-
-                {/* Industry Labels - Outermost text labels */}
-                {industries.map((industry) => {
-                  const angle = industry.angle * (Math.PI / 180);
-                  const x = centerX + Math.cos(angle) * industryLabelRadius;
-                  const y = centerY + Math.sin(angle) * industryLabelRadius;
+                {/* Ring 4: Industry Ring (Outermost) */}
+                <circle cx={centerX} cy={centerY} r={industryRingRadius} fill="none" stroke="hsl(0, 0%, 15%)" strokeWidth="1" strokeDasharray="4 4" />
+                {industries.map((industry, index) => {
+                  const angle = ((index * 360) / industries.length - 90) * (Math.PI / 180);
+                  const x = centerX + Math.cos(angle) * industryRingRadius;
+                  const y = centerY + Math.sin(angle) * industryRingRadius;
                   const isActive = selection.industry === industry.id;
                   
                   return (
-                    <motion.g
-                      key={industry.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: revealLayers ? 1 : 0.3 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className="cursor-pointer"
-                      onClick={() => setSelection((prev) => ({ ...prev, industry: industry.id }))}
-                    >
+                    <g key={industry.id} className="cursor-pointer" onClick={() => setSelection((prev) => ({ ...prev, industry: industry.id }))}>
+                      <motion.circle
+                        cx={x}
+                        cy={y}
+                        r={isActive ? 14 : 10}
+                        fill={isActive ? "hsl(32, 91%, 44%)" : "hsl(0, 0%, 12%)"}
+                        stroke={isActive ? "hsl(32, 91%, 54%)" : "hsl(0, 0%, 25%)"}
+                        strokeWidth="1"
+                        whileHover={{ scale: 1.2 }}
+                        animate={{ filter: isActive ? "url(#glow)" : "none" }}
+                      />
                       <text
                         x={x}
                         y={y}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        fill={isActive ? "hsl(32, 91%, 44%)" : "hsl(0, 0%, 50%)"}
-                        fontSize="9"
+                        fill={isActive ? "white" : "hsl(220, 9%, 63%)"}
+                        fontSize="5"
                         fontFamily="Roboto Mono"
-                        className="uppercase pointer-events-auto"
-                        style={{ letterSpacing: "1px" }}
+                        className="pointer-events-none uppercase"
                       >
-                        {industry.name}
+                        {industry.name.substring(0, 3)}
                       </text>
-                    </motion.g>
+                    </g>
                   );
                 })}
 
-                {/* Kube Ring - OUTER RING with 8 3D Cubes */}
-                <circle 
-                  cx={centerX} 
-                  cy={centerY} 
-                  r={kubeRingRadius} 
-                  fill="none" 
-                  stroke="hsl(0, 0%, 25%)" 
-                  strokeWidth="1" 
-                  strokeDasharray="2 6"
-                />
-                
-                {kubes.map((kube) => {
-                  const angle = kube.angle * (Math.PI / 180);
+                {/* Ring 1: Kube Ring (Primary) */}
+                <circle cx={centerX} cy={centerY} r={kubeRingRadius} fill="none" stroke="hsl(0, 0%, 20%)" strokeWidth="1" />
+                {kubes.map((kube, index) => {
+                  const angle = ((index * 360) / kubes.length - 90) * (Math.PI / 180);
                   const x = centerX + Math.cos(angle) * kubeRingRadius;
                   const y = centerY + Math.sin(angle) * kubeRingRadius;
                   const isActive = selection.kube === kube.id;
                   
                   return (
-                    <IsometricCube
-                      key={kube.id}
-                      x={x}
-                      y={y}
-                      size={36}
-                      color={kube.color}
-                      isActive={isActive}
-                      label={kube.name}
-                      onClick={() => handleKubeClick(kube.id)}
-                    />
+                    <g key={kube.id} className="cursor-pointer" onClick={() => setSelection((prev) => ({ ...prev, kube: kube.id }))}>
+                      {/* Connection line to center when active */}
+                      {isActive && (
+                        <motion.line
+                          x1={centerX}
+                          y1={centerY}
+                          x2={x}
+                          y2={y}
+                          stroke={kube.color}
+                          strokeWidth="2"
+                          strokeDasharray="5 5"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.5 }}
+                          style={{ filter: `drop-shadow(0 0 8px ${kube.color})` }}
+                        />
+                      )}
+                      
+                      {/* 3D Cube representation */}
+                      <motion.g
+                        whileHover={{ scale: 1.15 }}
+                        animate={{ 
+                          scale: isActive ? 1.1 : 1,
+                        }}
+                      >
+                        {/* Cube back face */}
+                        <rect
+                          x={x - 16}
+                          y={y - 16}
+                          width="26"
+                          height="26"
+                          rx="3"
+                          fill={isActive ? kube.color : "hsl(0, 0%, 15%)"}
+                          opacity={0.4}
+                          transform={`translate(6, 6)`}
+                        />
+                        {/* Cube front face */}
+                        <rect
+                          x={x - 16}
+                          y={y - 16}
+                          width="26"
+                          height="26"
+                          rx="3"
+                          fill={isActive ? kube.color : "hsl(0, 0%, 12%)"}
+                          stroke={isActive ? kube.color : "hsl(0, 0%, 30%)"}
+                          strokeWidth="2"
+                          style={{ filter: isActive ? `drop-shadow(0 0 12px ${kube.color})` : "none" }}
+                        />
+                        {/* Cube icon */}
+                        <Box
+                          x={x - 8}
+                          y={y - 8}
+                          width={16}
+                          height={16}
+                          color={isActive ? "white" : "hsl(220, 9%, 63%)"}
+                          className="pointer-events-none"
+                        />
+                      </motion.g>
+                      
+                      {/* Kube label */}
+                      <text
+                        x={x}
+                        y={y + 28}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        fill={isActive ? "white" : "hsl(220, 9%, 63%)"}
+                        fontSize="8"
+                        fontFamily="Roboto Mono"
+                        className="pointer-events-none uppercase"
+                      >
+                        {kube.name}
+                      </text>
+                    </g>
                   );
                 })}
 
-                {/* Block Markers - MIDDLE RING (revealed on Kube click) */}
-                <AnimatePresence>
-                  {revealLayers && (
-                    <>
-                      <motion.circle 
-                        cx={centerX} 
-                        cy={centerY} 
-                        r={blockRingRadius} 
-                        fill="none" 
-                        stroke="hsl(0, 0%, 20%)" 
-                        strokeWidth="1" 
-                        strokeDasharray="3 6"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
+                {/* Ring 2: Block Ring */}
+                <circle cx={centerX} cy={centerY} r={blockRingRadius} fill="none" stroke="hsl(0, 0%, 18%)" strokeWidth="1" strokeDasharray="2 2" />
+                {blocks.map((block, index) => {
+                  const angle = ((index * 360) / blocks.length - 90) * (Math.PI / 180);
+                  const x = centerX + Math.cos(angle) * blockRingRadius;
+                  const y = centerY + Math.sin(angle) * blockRingRadius;
+                  const isActive = selection.block === block.id;
+                  
+                  return (
+                    <g key={block.id} className="cursor-pointer" onClick={() => setSelection((prev) => ({ ...prev, block: block.id }))}>
+                      <motion.rect
+                        x={x - 12}
+                        y={y - 8}
+                        width="24"
+                        height="16"
+                        rx="3"
+                        fill={isActive ? "hsl(217, 91%, 60%)" : "hsl(0, 0%, 12%)"}
+                        stroke={isActive ? "hsl(217, 91%, 70%)" : "hsl(0, 0%, 25%)"}
+                        strokeWidth="1"
+                        whileHover={{ scale: 1.2 }}
+                        animate={{ filter: isActive ? "url(#glow)" : "none" }}
                       />
-                      
-                      {blocks.map((block, index) => {
-                        const angle = block.angle * (Math.PI / 180);
-                        const x = centerX + Math.cos(angle) * blockRingRadius;
-                        const y = centerY + Math.sin(angle) * blockRingRadius;
-                        const isActive = selection.block === block.id;
-                        
-                        return (
-                          <motion.g 
-                            key={block.id}
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
-                            className="cursor-pointer"
-                            onClick={() => setSelection((prev) => ({ ...prev, block: block.id }))}
-                          >
-                            {/* Diamond shape for BLOCK */}
-                            <motion.path
-                              d={`M ${x} ${y - 10} L ${x + 8} ${y} L ${x} ${y + 10} L ${x - 8} ${y} Z`}
-                              fill={isActive ? "hsl(217, 91%, 60%)" : "transparent"}
-                              stroke={isActive ? "hsl(217, 91%, 70%)" : "hsl(0, 0%, 40%)"}
-                              strokeWidth="1.5"
-                              whileHover={{ scale: 1.3 }}
-                            />
-                            <text
-                              x={x}
-                              y={y - 16}
-                              textAnchor="middle"
-                              fill={isActive ? "hsl(217, 91%, 70%)" : "hsl(0, 0%, 50%)"}
-                              fontSize="8"
-                              fontFamily="Roboto Mono"
-                              className="pointer-events-none"
-                            >
-                              {block.name}
-                            </text>
-                          </motion.g>
-                        );
-                      })}
-                    </>
-                  )}
-                </AnimatePresence>
+                      <text
+                        x={x}
+                        y={y}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        fill={isActive ? "white" : "hsl(220, 9%, 50%)"}
+                        fontSize="7"
+                        fontFamily="Roboto Mono"
+                        className="pointer-events-none font-bold"
+                      >
+                        {block.name}
+                      </text>
+                    </g>
+                  );
+                })}
 
-                {/* Compliance Labels - INNER (revealed on Kube click) */}
-                <AnimatePresence>
-                  {revealLayers && (
-                    <>
-                      {complianceFrameworks.map((framework, index) => {
-                        const angle = framework.angle * (Math.PI / 180);
-                        const x = centerX + Math.cos(angle) * complianceRingRadius;
-                        const y = centerY + Math.sin(angle) * complianceRingRadius;
-                        const isActive = selection.compliance.includes(framework.id);
-                        
-                        return (
-                          <motion.g 
-                            key={framework.id}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.5 }}
-                            transition={{ duration: 0.4, delay: 0.3 + index * 0.03 }}
-                            className="cursor-pointer"
-                            onClick={() => toggleCompliance(framework.id)}
-                          >
-                            <text
-                              x={x}
-                              y={y}
-                              textAnchor="middle"
-                              dominantBaseline="middle"
-                              fill={isActive ? "hsl(262, 83%, 58%)" : "hsl(0, 0%, 35%)"}
-                              fontSize="7"
-                              fontFamily="Roboto Mono"
-                              className="uppercase pointer-events-auto"
-                              style={{ 
-                                opacity: isActive ? 1 : 0.6,
-                                fontWeight: isActive ? 600 : 400
-                              }}
-                            >
-                              {framework.name}
-                            </text>
-                          </motion.g>
-                        );
-                      })}
-                    </>
-                  )}
-                </AnimatePresence>
-
-                {/* Designation Badges - floating (revealed on Kube click) */}
-                <AnimatePresence>
-                  {revealLayers && (
-                    <>
-                      {designations.map((des, index) => {
-                        const positions = [
-                          { x: 80, y: 180 },   // SME - top left
-                          { x: 520, y: 380 },  // SMB - bottom right  
-                          { x: 80, y: 420 },   // ENT - bottom left
-                        ];
-                        const pos = positions[index];
-                        const isActive = selection.designation === des.id;
-                        
-                        return (
-                          <motion.g
-                            key={des.id}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                            className="cursor-pointer"
-                            onClick={() => setSelection((prev) => ({ ...prev, designation: des.id }))}
-                          >
-                            <motion.rect
-                              x={pos.x - 22}
-                              y={pos.y - 10}
-                              width="44"
-                              height="20"
-                              rx="10"
-                              fill={isActive ? "hsl(0, 0%, 20%)" : "hsl(0, 0%, 10%)"}
-                              stroke={isActive ? "hsl(0, 0%, 50%)" : "hsl(0, 0%, 25%)"}
-                              strokeWidth="1"
-                              whileHover={{ scale: 1.1 }}
-                            />
-                            <text
-                              x={pos.x}
-                              y={pos.y}
-                              textAnchor="middle"
-                              dominantBaseline="middle"
-                              fill={isActive ? "white" : "hsl(0, 0%, 60%)"}
-                              fontSize="10"
-                              fontFamily="Roboto Mono"
-                              fontWeight="500"
-                              className="pointer-events-none"
-                            >
-                              {des.name}
-                            </text>
-                          </motion.g>
-                        );
-                      })}
-                    </>
-                  )}
-                </AnimatePresence>
+                {/* Ring 3: Designation Ring */}
+                <circle cx={centerX} cy={centerY} r={designationRingRadius} fill="none" stroke="hsl(0, 0%, 16%)" strokeWidth="1" />
+                {designations.map((des, index) => {
+                  const angle = ((index * 360) / designations.length - 90) * (Math.PI / 180);
+                  const x = centerX + Math.cos(angle) * designationRingRadius;
+                  const y = centerY + Math.sin(angle) * designationRingRadius;
+                  const isActive = selection.designation === des.id;
+                  
+                  return (
+                    <g key={des.id} className="cursor-pointer" onClick={() => setSelection((prev) => ({ ...prev, designation: des.id }))}>
+                      <motion.circle
+                        cx={x}
+                        cy={y}
+                        r={isActive ? 16 : 12}
+                        fill={isActive ? "hsl(0, 0%, 25%)" : "hsl(0, 0%, 10%)"}
+                        stroke={isActive ? "hsl(0, 0%, 50%)" : "hsl(0, 0%, 20%)"}
+                        strokeWidth="1"
+                        whileHover={{ scale: 1.15 }}
+                      />
+                      <text
+                        x={x}
+                        y={y}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        fill={isActive ? "white" : "hsl(220, 9%, 50%)"}
+                        fontSize="8"
+                        fontFamily="Roboto Mono"
+                        className="pointer-events-none font-bold"
+                      >
+                        {des.name}
+                      </text>
+                    </g>
+                  );
+                })}
 
                 {/* Center Core */}
                 <motion.circle
                   cx={centerX}
                   cy={centerY}
-                  r="50"
+                  r="35"
                   fill="hsl(0, 0%, 3%)"
-                  stroke="hsl(0, 0%, 25%)"
+                  stroke="url(#coreGradient)"
                   strokeWidth="2"
                   animate={{ 
-                    boxShadow: selection.kube ? "0 0 30px hsl(32, 91%, 44%)" : "none"
+                    filter: selection.kube ? "drop-shadow(0 0 15px hsl(32, 91%, 44%))" : "none"
                   }}
                 />
-                {selection.kube ? (
-                  <>
-                    <text
-                      x={centerX}
-                      y={centerY - 10}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="white"
-                      fontSize="10"
-                      fontFamily="Special Elite"
-                      className="uppercase"
-                    >
-                      DIGITAL
-                    </text>
-                    <text
-                      x={centerX}
-                      y={centerY + 4}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="white"
-                      fontSize="10"
-                      fontFamily="Special Elite"
-                      className="uppercase"
-                    >
-                      RESILIENCE
-                    </text>
-                    <text
-                      x={centerX}
-                      y={centerY + 20}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="hsl(0, 0%, 50%)"
-                      fontSize="6"
-                      fontFamily="Roboto Mono"
-                    >
-                      Industry • Risk • Outcomes
-                    </text>
-                  </>
-                ) : (
-                  <>
-                    <text
-                      x={centerX}
-                      y={centerY - 8}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="white"
-                      fontSize="10"
-                      fontFamily="Special Elite"
-                      className="uppercase"
-                    >
-                      5-LAYER
-                    </text>
-                    <text
-                      x={centerX}
-                      y={centerY + 8}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="white"
-                      fontSize="10"
-                      fontFamily="Special Elite"
-                      className="uppercase"
-                    >
-                      WHEEL
-                    </text>
-                  </>
-                )}
+                <text
+                  x={centerX}
+                  y={centerY - 6}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="white"
+                  fontSize="7"
+                  fontFamily="Special Elite"
+                  className="uppercase"
+                >
+                  DIGITAL
+                </text>
+                <text
+                  x={centerX}
+                  y={centerY + 4}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="white"
+                  fontSize="7"
+                  fontFamily="Special Elite"
+                  className="uppercase"
+                >
+                  RESILIENCE
+                </text>
+                <text
+                  x={centerX}
+                  y={centerY + 16}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="hsl(220, 9%, 50%)"
+                  fontSize="4"
+                  fontFamily="Roboto Mono"
+                >
+                  Industry • Risk • Outcomes
+                </text>
               </svg>
             </div>
 
             {/* Compliance Panel (Below wheel) */}
-            <motion.div 
-              className="w-full max-w-2xl mt-8 card-glass rounded-xl p-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="font-display text-lg text-white mb-4 flex items-center gap-3">
-                <Layers className="w-5 h-5 text-brand-purple" />
-                LAYER 5: COMPLIANCE (MULTI-SELECT)
+            <div className="w-full max-w-lg mt-6 card-glass rounded-xl p-4">
+              <h4 className="font-display text-sm text-white mb-3 flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-brand-purple text-xs flex items-center justify-center text-white">5</span>
+                COMPLIANCE FRAMEWORKS
               </h4>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 {complianceFrameworks.map((framework) => {
                   const isActive = selection.compliance.includes(framework.id);
                   return (
                     <button
                       key={framework.id}
                       onClick={() => toggleCompliance(framework.id)}
-                      className={`px-4 py-2.5 rounded-lg font-mono text-sm transition-all duration-300 flex items-center gap-2 border ${
+                      className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-300 flex items-center gap-1.5 ${
                         isActive
-                          ? "bg-brand-purple/20 text-white border-brand-purple"
-                          : "bg-card text-muted-foreground border-border hover:text-white hover:border-muted-foreground"
+                          ? "bg-brand-purple/20 text-white ring-1 ring-brand-purple"
+                          : "bg-secondary text-muted-foreground hover:text-white hover:bg-secondary/80"
                       }`}
                     >
-                      {isActive && <Check className="w-4 h-4" />}
+                      {isActive && <Check className="w-3 h-3" />}
                       {framework.name}
                     </button>
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Right: Info Panel */}
