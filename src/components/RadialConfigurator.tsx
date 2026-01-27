@@ -231,9 +231,30 @@ export const RadialConfigurator = () => {
   const centerX = 300;
   const centerY = 300;
   
-  // Ring radii - CUBES ON OUTER, COMPLIANCE ON INNER
+  // Ring radii - CUBES ON OUTER, BLOCKS/COMPLIANCE ON INNER
   const outerKubeRadius = 220;     // Kubes on OUTER ring
-  const complianceRadius = 115;   // Compliance labels on INNER ring
+  const blockRadius = 160;         // Industry BLOCK markers (M2, H2, etc.)
+  const complianceRadius = 115;    // Compliance labels on INNER ring
+
+  // Positions for blocks around the wheel
+  const blockPositions = [
+    { id: "m2", name: "M2", angle: -90 },
+    { id: "h2", name: "H2", angle: -45 },
+    { id: "f2", name: "F2", angle: 0 },
+    { id: "r2", name: "R2", angle: 45 },
+    { id: "t2", name: "T2", angle: 90 },
+    { id: "me2", name: "ME2", angle: 135 },
+    { id: "eu2", name: "EU2", angle: 180 },
+    { id: "ps2", name: "PS2", angle: 225 },
+    { id: "tc2", name: "TC2", angle: 270 },
+  ];
+
+  // Designation badge positions
+  const designationPositions = [
+    { id: "sme", name: "SME", x: centerX, y: centerY - 250 },
+    { id: "smb", name: "SMB", x: centerX + 220, y: centerY + 80 },
+    { id: "ent", name: "ENT", x: centerX - 220, y: centerY + 80 },
+  ];
 
   return (
     <section className="py-24 lg:py-32 bg-background" id="configurator">
@@ -327,10 +348,66 @@ export const RadialConfigurator = () => {
                   );
                 })}
 
-                {/* INNER RING - Compliance Labels (revealed after Kube click) */}
+                {/* REVEALED LAYERS - Industry BLOCKs, Compliance, Designations */}
                 <AnimatePresence>
                   {revealLayers && (
                     <>
+                      {/* BLOCK ring */}
+                      <motion.circle 
+                        cx={centerX} 
+                        cy={centerY} 
+                        r={blockRadius} 
+                        fill="none" 
+                        stroke="hsl(var(--border))" 
+                        strokeWidth="1" 
+                        strokeDasharray="3 6"
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 0.3, scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                      />
+
+                      {/* Industry BLOCK diamond markers (M2, H2, F2, etc.) */}
+                      {blockPositions.map((block, idx) => {
+                        const angleRad = block.angle * (Math.PI / 180);
+                        const x = centerX + Math.cos(angleRad) * blockRadius;
+                        const y = centerY + Math.sin(angleRad) * blockRadius;
+                        const isActive = selection.block === block.id;
+                        const blockData = blocks.find(b => b.id === block.id);
+                        
+                        return (
+                          <motion.g
+                            key={block.id}
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3, delay: 0.15 + idx * 0.04 }}
+                            className="cursor-pointer"
+                            onClick={() => setSelection((prev) => ({ ...prev, block: block.id }))}
+                          >
+                            {/* Diamond shape */}
+                            <motion.path
+                              d={`M ${x} ${y - 8} L ${x + 8} ${y} L ${x} ${y + 8} L ${x - 8} ${y} Z`}
+                              fill={isActive ? "hsl(var(--brand-blue))" : "transparent"}
+                              stroke={isActive ? "hsl(var(--brand-blue))" : "hsl(var(--muted-foreground))"}
+                              strokeWidth="1.5"
+                              opacity={isActive ? 1 : 0.6}
+                            />
+                            {/* Block label */}
+                            <text
+                              x={x}
+                              y={y - 14}
+                              textAnchor="middle"
+                              fill={isActive ? "hsl(var(--brand-blue))" : "hsl(var(--muted-foreground))"}
+                              fontSize="8"
+                              fontFamily="Roboto Mono"
+                              className="uppercase pointer-events-none"
+                              opacity={isActive ? 1 : 0.7}
+                            >
+                              {block.name}
+                            </text>
+                          </motion.g>
+                        );
+                      })}
+
                       {/* Inner compliance ring */}
                       <motion.circle 
                         cx={centerX} 
@@ -381,6 +458,44 @@ export const RadialConfigurator = () => {
                               opacity={isActive ? 1 : 0.6}
                             >
                               {framework.name}
+                            </text>
+                          </motion.g>
+                        );
+                      })}
+
+                      {/* SME / SMB / ENT Designation badges */}
+                      {designationPositions.map((des, idx) => {
+                        const isActive = selection.designation === des.id;
+                        return (
+                          <motion.g
+                            key={des.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.4 + idx * 0.1 }}
+                            className="cursor-pointer"
+                            onClick={() => setSelection((prev) => ({ ...prev, designation: des.id }))}
+                          >
+                            <rect
+                              x={des.x - 22}
+                              y={des.y - 10}
+                              width={44}
+                              height={20}
+                              rx={4}
+                              fill={isActive ? "white" : "transparent"}
+                              stroke={isActive ? "white" : "hsl(var(--border))"}
+                              strokeWidth="1"
+                            />
+                            <text
+                              x={des.x}
+                              y={des.y + 4}
+                              textAnchor="middle"
+                              fill={isActive ? "black" : "hsl(var(--muted-foreground))"}
+                              fontSize="11"
+                              fontFamily="Roboto Mono"
+                              fontWeight={isActive ? "bold" : "normal"}
+                              className="pointer-events-none"
+                            >
+                              {des.name}
                             </text>
                           </motion.g>
                         );
