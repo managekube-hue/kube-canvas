@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { MethodologySection } from "@/components/MethodologySection";
-import { MethodologyWheel } from "@/components/MethodologyWheel";
+import { RadialConfigurator } from "@/components/RadialConfigurator";
 import { KubeWheel } from "@/components/KubeWheel";
 import { EnterpriseTiers } from "@/components/EnterpriseTiers";
 import { IndustryGrid } from "@/components/IndustryGrid";
@@ -16,7 +16,7 @@ const Index = () => {
       <Header />
       <HeroSection />
       <MethodologySection />
-      <MethodologyWheel />
+      <RadialConfigurator />
       <KubeWheel />
       <EnterpriseTiers />
       <IndustryGrid />
