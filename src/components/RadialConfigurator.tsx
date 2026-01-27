@@ -8,11 +8,14 @@ import { Check, FileText, Calendar, Box, ChevronRight } from "lucide-react";
 // 8 Kubes: Assessment, Compliance, MSSP, MSP, Advisory, Innovation, Industry, Product
 // ============================================================================
 
+// Brand color: #D97706 (orange) for ALL active states - NO rainbow colors
+const BRAND_ORANGE = "#D97706";
+const BRAND_GRAY = "#9CA3AF";
+
 const kubes = [
   {
     id: "assessment",
     name: "Assessment",
-    color: "#10B981",
     description: "Deployment Maturity Assessment Engine",
     tagline: "The first step in every engagement. We map your current state, document infrastructure, identify security gaps, and build the transformation roadmap.",
     blocks: [
@@ -25,7 +28,6 @@ const kubes = [
   {
     id: "compliance",
     name: "Compliance",
-    color: "#8B5CF6",
     description: "Continuous Compliance & GRC Automation",
     tagline: "We take the gaps identified in Assessment and turn them into a compliance program. SOC 2, HIPAA, CMMC, ISO 27001, PCI DSS.",
     blocks: [
@@ -38,7 +40,6 @@ const kubes = [
   {
     id: "mssp",
     name: "MSSP",
-    color: "#EF4444",
     description: "Cyber Defense Managed Services",
     tagline: "Continuous threat detection, response, and cyber risk management. 24/7 SOC operations, MDR, security architecture, and GRC services.",
     blocks: [
@@ -51,7 +52,6 @@ const kubes = [
   {
     id: "msp",
     name: "MSP",
-    color: "#3B82F6",
     description: "I&O Managed Services",
     tagline: "Fully managed or co-managed infrastructure stack. End-user productivity, hybrid infrastructure, and business continuity from a dedicated NOC.",
     blocks: [
@@ -64,7 +64,6 @@ const kubes = [
   {
     id: "advisory",
     name: "Advisory",
-    color: "#F59E0B",
     description: "Strategic Advisory & Physical Layer",
     tagline: "Virtual executive roles (vCIO/vCISO) and expert consulting. Align technology investments with business objectives.",
     blocks: [
@@ -77,7 +76,6 @@ const kubes = [
   {
     id: "innovation",
     name: "Innovation",
-    color: "#EC4899",
     description: "Innovation & Intelligence Services",
     tagline: "AI-driven automation and modern software delivery. Agentic AI, hyperautomation, and DevSecOps using watsonx, UiPath, and leading platforms.",
     blocks: [
@@ -90,7 +88,6 @@ const kubes = [
   {
     id: "industry",
     name: "Industry",
-    color: "#14B8A6",
     description: "Industry BLOCK Platforms",
     tagline: "Nine pre-integrated platforms combining Dell infrastructure and IBM intelligence software specifically architected for your vertical.",
     blocks: [
@@ -108,7 +105,6 @@ const kubes = [
   {
     id: "product",
     name: "Product",
-    color: "#6366F1",
     description: "Technology Product Ecosystem",
     tagline: "Strategic partnerships with Dell and IBM delivering validated reference architectures and certified expertise.",
     blocks: [
@@ -121,11 +117,11 @@ const kubes = [
   },
 ];
 
-// Designation data - per documentation
+// Designation data - ALL use brand orange for active, gray for inactive
 const designations = [
-  { id: "sme", name: "SME", description: "Small Enterprise", details: "10-100 users, single site, $5K-15K/mo", color: "#9CA3AF" },
-  { id: "smb", name: "SMB", description: "Mid-Market Standard", details: "100-1000 users, 2-5 sites, $25K-75K/mo", color: "#3B82F6" },
-  { id: "ent", name: "ENT", description: "Enterprise Global", details: "1000+ users, 10+ sites, $150K-500K+/mo", color: "#D97706" },
+  { id: "sme", name: "SME", description: "Small Enterprise", details: "10-100 users, single site, $5K-15K/mo" },
+  { id: "smb", name: "SMB", description: "Mid-Market Standard", details: "100-1000 users, 2-5 sites, $25K-75K/mo" },
+  { id: "ent", name: "ENT", description: "Enterprise Global", details: "1000+ users, 10+ sites, $150K-500K+/mo" },
 ];
 
 // Compliance frameworks
@@ -233,13 +229,13 @@ export const RadialConfigurator = () => {
             THE MANAGEKUBE METHODOLOGY
           </h2>
           <div className="flex items-center justify-center gap-2 sm:gap-4 font-display text-lg sm:text-xl mb-6">
-            <span className="text-brand-success">ASSESS</span>
+            <span className="text-primary">ASSESS</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <span className="text-brand-blue">REMEDIATE</span>
+            <span className="text-primary">REMEDIATE</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
             <span className="text-primary">MANAGE</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <span className="text-brand-purple">OPTIMIZE</span>
+            <span className="text-primary">OPTIMIZE</span>
           </div>
         </motion.div>
 
@@ -296,13 +292,13 @@ export const RadialConfigurator = () => {
                           y1={centerY}
                           x2={x}
                           y2={y}
-                          stroke={kube.color}
+                          stroke={BRAND_ORANGE}
                           strokeWidth="2"
                           strokeDasharray="6 4"
                           initial={{ pathLength: 0, opacity: 0 }}
                           animate={{ pathLength: 1, opacity: 1 }}
                           transition={{ duration: 0.5 }}
-                          style={{ filter: `drop-shadow(0 0 10px ${kube.color})` }}
+                          style={{ filter: `drop-shadow(0 0 10px ${BRAND_ORANGE})` }}
                         />
                       )}
 
@@ -318,7 +314,7 @@ export const RadialConfigurator = () => {
                           width="32"
                           height="32"
                           rx="4"
-                          fill={isActive ? kube.color : "hsl(0, 0%, 12%)"}
+                          fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 12%)"}
                           opacity={0.4}
                           transform="translate(4, 4)"
                         />
@@ -329,10 +325,10 @@ export const RadialConfigurator = () => {
                           width="32"
                           height="32"
                           rx="4"
-                          fill={isActive ? kube.color : "hsl(0, 0%, 8%)"}
-                          stroke={isActive ? kube.color : "hsl(0, 0%, 25%)"}
+                          fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 8%)"}
+                          stroke={isActive ? BRAND_ORANGE : "hsl(0, 0%, 25%)"}
                           strokeWidth="2"
-                          style={{ filter: isActive ? `drop-shadow(0 0 15px ${kube.color})` : "none" }}
+                          style={{ filter: isActive ? `drop-shadow(0 0 15px ${BRAND_ORANGE})` : "none" }}
                         />
                         {/* Box icon inside cube */}
                         <Box
@@ -396,13 +392,13 @@ export const RadialConfigurator = () => {
                                 y1={y}
                                 x2={kubeX}
                                 y2={kubeY}
-                                stroke="#D97706"
+                                stroke={BRAND_ORANGE}
                                 strokeWidth="1.5"
                                 strokeDasharray="4 3"
                                 initial={{ pathLength: 0 }}
                                 animate={{ pathLength: 1 }}
                                 transition={{ duration: 0.3 }}
-                                style={{ filter: "drop-shadow(0 0 8px #D97706)" }}
+                                style={{ filter: `drop-shadow(0 0 8px ${BRAND_ORANGE})` }}
                               />
                             )}
                             <g className="cursor-pointer" onClick={() => setSelection(prev => ({ ...prev, block: block.id }))}>
@@ -412,11 +408,11 @@ export const RadialConfigurator = () => {
                                 width="32"
                                 height="24"
                                 rx="4"
-                                fill={isActive ? "#D97706" : "hsl(0, 0%, 10%)"}
-                                stroke={isActive ? "#F59E0B" : "hsl(0, 0%, 28%)"}
+                                fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 10%)"}
+                                stroke={isActive ? BRAND_ORANGE : "hsl(0, 0%, 28%)"}
                                 strokeWidth="1.5"
                                 whileHover={{ scale: 1.15 }}
-                                style={{ filter: isActive ? "drop-shadow(0 0 12px #D97706)" : "none" }}
+                                style={{ filter: isActive ? `drop-shadow(0 0 12px ${BRAND_ORANGE})` : "none" }}
                               />
                               <text
                                 x={x}
@@ -462,11 +458,11 @@ export const RadialConfigurator = () => {
                               cx={x}
                               cy={y}
                               r={isActive ? 20 : 16}
-                              fill={isActive ? des.color : "hsl(0, 0%, 8%)"}
-                              stroke={isActive ? des.color : "hsl(0, 0%, 25%)"}
+                              fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 8%)"}
+                              stroke={isActive ? BRAND_ORANGE : "hsl(0, 0%, 25%)"}
                               strokeWidth="2"
                               whileHover={{ scale: 1.15 }}
-                              style={{ filter: isActive ? `drop-shadow(0 0 14px ${des.color})` : "none" }}
+                              style={{ filter: isActive ? `drop-shadow(0 0 14px ${BRAND_ORANGE})` : "none" }}
                             />
                             <text
                               x={x}
@@ -552,7 +548,7 @@ export const RadialConfigurator = () => {
                   className="w-full max-w-xl mt-6 card-glass rounded-xl p-4"
                 >
                   <h4 className="font-display text-sm text-white mb-3 flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-brand-purple text-xs flex items-center justify-center text-white">4</span>
+                    <span className="w-5 h-5 rounded-full bg-primary text-xs flex items-center justify-center text-white">4</span>
                     COMPLIANCE FRAMEWORKS (Multi-Select)
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -564,7 +560,7 @@ export const RadialConfigurator = () => {
                           onClick={() => toggleCompliance(framework.id)}
                           className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-300 flex items-center gap-1.5 ${
                             isActive
-                              ? "bg-brand-purple/20 text-white ring-1 ring-brand-purple"
+                              ? "bg-primary/20 text-white ring-1 ring-primary"
                               : "bg-secondary text-muted-foreground hover:text-white hover:bg-secondary/80"
                           }`}
                         >
@@ -581,7 +577,7 @@ export const RadialConfigurator = () => {
             {/* Selection State Indicator */}
             <div className="w-full max-w-xl mt-4">
               <div className="flex items-center justify-center gap-1 text-xs font-mono">
-                <span className={`px-2 py-1 rounded ${selection.kube ? "bg-brand-success/20 text-brand-success" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.kube ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
                   1. Kube {selection.kube ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
@@ -589,11 +585,11 @@ export const RadialConfigurator = () => {
                   2. Block {selection.block ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
-                <span className={`px-2 py-1 rounded ${selection.designation ? "bg-brand-blue/20 text-brand-blue" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.designation ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
                   3. Scale {selection.designation ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
-                <span className={`px-2 py-1 rounded ${selection.compliance.length > 0 ? "bg-brand-purple/20 text-brand-purple" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.compliance.length > 0 ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
                   4. Compliance {selection.compliance.length > 0 ? "✓" : "○"}
                 </span>
               </div>
@@ -624,8 +620,7 @@ export const RadialConfigurator = () => {
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <div
-                        className="w-4 h-4 rounded"
-                        style={{ backgroundColor: selectedKube.color }}
+                        className="w-4 h-4 rounded bg-primary"
                       />
                       <h3 className="font-display text-xl text-white uppercase">
                         {selectedKube.name} Kube
@@ -673,8 +668,7 @@ export const RadialConfigurator = () => {
                     <div className="font-mono text-xs text-muted-foreground mb-2 uppercase">Scale / Designation</div>
                     <div className="flex items-center gap-3">
                       <span
-                        className="px-4 py-2 rounded-full font-mono text-sm text-white font-bold"
-                        style={{ backgroundColor: selectedDesignation.color }}
+                        className="px-4 py-2 rounded-full font-mono text-sm text-white font-bold bg-primary"
                       >
                         {selectedDesignation.name}
                       </span>
@@ -696,7 +690,7 @@ export const RadialConfigurator = () => {
                         return (
                           <span
                             key={id}
-                            className="px-2 py-1 rounded-full font-mono text-xs text-white bg-brand-purple/30"
+                            className="px-2 py-1 rounded-full font-mono text-xs text-white bg-primary/30"
                           >
                             {f?.name}
                           </span>
