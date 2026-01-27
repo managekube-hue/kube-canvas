@@ -3,130 +3,142 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, FileText, Calendar, Box, ChevronRight } from "lucide-react";
 
-// Kube data with colors and nested blocks
+// ============================================================================
+// KUBE DATA - Exactly per ManageKube documentation
+// 8 Kubes: Assessment, Compliance, MSSP, MSP, Advisory, Innovation, Industry, Product
+// ============================================================================
+
 const kubes = [
-  { 
-    id: "assessment", 
-    name: "Assessment", 
-    color: "#10B981", 
+  {
+    id: "assessment",
+    name: "Assessment",
+    color: "#10B981",
     description: "Deployment Maturity Assessment Engine",
+    tagline: "The first step in every engagement. We map your current state, document infrastructure, identify security gaps, and build the transformation roadmap.",
     blocks: [
       { id: "infra-inventory", name: "Infrastructure Inventory", description: "Servers, storage, network, cloud resources" },
-      { id: "security-assess", name: "Security Assessment", description: "Posture review, vulnerability identification" },
-      { id: "compliance-map", name: "Compliance Mapping", description: "Gap analysis against multiple frameworks" },
-      { id: "remediation-road", name: "Remediation Roadmap", description: "Prioritized action plan with costs" },
+      { id: "security-assessment", name: "Security Assessment", description: "Posture review, vulnerability identification" },
+      { id: "compliance-mapping", name: "Compliance Mapping", description: "Gap analysis against multiple frameworks" },
+      { id: "remediation-roadmap", name: "Remediation Roadmap", description: "Prioritized action plan with costs" },
     ]
   },
-  { 
-    id: "compliance", 
-    name: "Compliance", 
-    color: "#8B5CF6", 
+  {
+    id: "compliance",
+    name: "Compliance",
+    color: "#8B5CF6",
     description: "Continuous Compliance & GRC Automation",
+    tagline: "We take the gaps identified in Assessment and turn them into a compliance program. SOC 2, HIPAA, CMMC, ISO 27001, PCI DSS.",
     blocks: [
       { id: "gap-remediation", name: "Gap Remediation Planning", description: "Detailed plan for closing technical and policy gaps" },
-      { id: "evidence-auto", name: "Evidence Automation", description: "Continuous monitoring for compliance drift" },
-      { id: "policy-dev", name: "Policy Development", description: "Creation of required policy library" },
-      { id: "audit-mgmt", name: "Audit Management", description: "Liaison with auditors for attestation" },
+      { id: "evidence-automation", name: "Evidence Automation", description: "Continuous monitoring for compliance drift" },
+      { id: "policy-development", name: "Policy Development", description: "Creation of required policy library" },
+      { id: "audit-management", name: "Audit Management", description: "Liaison with auditors for attestation" },
     ]
   },
-  { 
-    id: "mssp", 
-    name: "MSSP", 
-    color: "#EF4444", 
-    description: "Managed Security Services Platform",
+  {
+    id: "mssp",
+    name: "MSSP",
+    color: "#EF4444",
+    description: "Cyber Defense Managed Services",
+    tagline: "Continuous threat detection, response, and cyber risk management. 24/7 SOC operations, MDR, security architecture, and GRC services.",
     blocks: [
       { id: "soc-monitoring", name: "24/7 SOC Monitoring", description: "Threat detection, triage, containment" },
       { id: "managed-edr", name: "Managed EDR/XDR", description: "Endpoint behavioral analysis and response" },
-      { id: "vuln-mgmt", name: "Vulnerability Management", description: "Continuous scanning and remediation tracking" },
-      { id: "security-arch", name: "Security Architecture", description: "Zero Trust, network segmentation, perimeter security" },
+      { id: "vuln-management", name: "Vulnerability Management", description: "Continuous scanning and remediation tracking" },
+      { id: "security-arch", name: "Security Architecture (Zero Trust)", description: "Network segmentation, perimeter security" },
     ]
   },
-  { 
-    id: "msp", 
-    name: "MSP", 
-    color: "#3B82F6", 
-    description: "Infrastructure Operations Command Center",
+  {
+    id: "msp",
+    name: "MSP",
+    color: "#3B82F6",
+    description: "I&O Managed Services",
+    tagline: "Fully managed or co-managed infrastructure stack. End-user productivity, hybrid infrastructure, and business continuity from a dedicated NOC.",
     blocks: [
-      { id: "service-desk", name: "Service Desk (L1-L3)", description: "24/7 or business-hours helpdesk, incident management" },
-      { id: "hybrid-infra", name: "Hybrid Infrastructure", description: "Servers, network, storage management" },
-      { id: "managed-workplace", name: "Managed Workplace", description: "UCaaS, SaaS Ops (M365), UEM/MDM" },
+      { id: "service-desk", name: "Service Desk (L1-L3)", description: "24×7 or business-hours helpdesk, incident management" },
+      { id: "hybrid-infra", name: "Hybrid Infrastructure", description: "Servers, network, storage, IaaS/PaaS management" },
+      { id: "managed-workplace", name: "Managed Workplace (UCaaS/M365/UEM)", description: "UCaaS, CCaaS, SaaS Ops, Unified Endpoint Management" },
       { id: "bcdr", name: "BCDR (DRaaS)", description: "Disaster Recovery as a Service, backup monitoring" },
     ]
   },
-  { 
-    id: "advisory", 
-    name: "Advisory", 
-    color: "#F59E0B", 
-    description: "Strategic Technology Leadership",
+  {
+    id: "advisory",
+    name: "Advisory",
+    color: "#F59E0B",
+    description: "Strategic Advisory & Physical Layer",
+    tagline: "Virtual executive roles (vCIO/vCISO) and expert consulting. Align technology investments with business objectives.",
     blocks: [
       { id: "vciso", name: "Virtual CISO (vCISO)", description: "Security governance, risk management, compliance strategy" },
-      { id: "vcio", name: "Virtual CIO (vCIO)", description: "IT strategic planning, technology roadmapping" },
+      { id: "vcio", name: "Virtual CIO (vCIO)", description: "IT strategic planning, technology roadmapping, budget alignment" },
       { id: "finops", name: "Cloud FinOps", description: "Cost optimization, right-sizing, consumption governance" },
       { id: "ma-diligence", name: "M&A Due Diligence", description: "IT assessment and integration planning" },
     ]
   },
-  { 
-    id: "innovation", 
-    name: "Innovation", 
-    color: "#EC4899", 
-    description: "AI & Automation Excellence Center",
+  {
+    id: "innovation",
+    name: "Innovation",
+    color: "#EC4899",
+    description: "Innovation & Intelligence Services",
+    tagline: "AI-driven automation and modern software delivery. Agentic AI, hyperautomation, and DevSecOps using watsonx, UiPath, and leading platforms.",
     blocks: [
-      { id: "hyperauto", name: "Hyperautomation", description: "AI-driven RPA, autonomous agents, process optimization" },
-      { id: "devsecops", name: "DevSecOps (CI/CD)", description: "Modern software delivery, CI/CD pipelines" },
-      { id: "data-intel", name: "Data Intelligence", description: "Data modernization, watsonx.data, business intelligence" },
-      { id: "custom-dev", name: "Custom Development", description: "Application development and API integrations" },
+      { id: "hyperautomation", name: "Hyperautomation (RPA/AI Agents)", description: "Software robots and AI agents for process automation" },
+      { id: "devsecops", name: "DevSecOps (CI/CD)", description: "CI/CD pipelines, automated testing, security scanning" },
+      { id: "data-intelligence", name: "Data Intelligence (watsonx.data)", description: "Data modernization, BI, advanced analytics, ML models" },
+      { id: "custom-dev", name: "Custom Development (APIs)", description: "Application development and systems integration" },
     ]
   },
-  { 
-    id: "industry", 
-    name: "Industry", 
-    color: "#14B8A6", 
-    description: "Vertical-Specific Platform Solutions",
+  {
+    id: "industry",
+    name: "Industry",
+    color: "#14B8A6",
+    description: "Industry BLOCK Platforms",
+    tagline: "Nine pre-integrated platforms combining Dell infrastructure and IBM intelligence software specifically architected for your vertical.",
     blocks: [
-      { id: "m2block", name: "M2BLOCK", description: "Manufacturing - Predictive maintenance, quality control, OT/IT" },
-      { id: "h2block", name: "H2BLOCK", description: "Healthcare - HIPAA compliance, ransomware immunity, EHR" },
-      { id: "f2block", name: "F2BLOCK", description: "Financial Services - Fraud detection, T+0 reporting, SOC2/PCI" },
-      { id: "r2block", name: "R2BLOCK", description: "Retail - Omnichannel fulfillment, AI personalization" },
-      { id: "t2block", name: "T2BLOCK", description: "Transportation - Fleet visibility, logistics optimization" },
-      { id: "me2block", name: "ME2BLOCK", description: "Mining/Energy - Remote ops, OT security, environmental" },
-      { id: "eu2block", name: "EU2BLOCK", description: "Energy/Utilities - Grid resilience, NERC-CIP compliance" },
-      { id: "ps2block", name: "PS2BLOCK", description: "Public Sector - FedRAMP, smart city infrastructure" },
-      { id: "tc2block", name: "TC2BLOCK", description: "Telecom - 5G core, edge monetization, network automation" },
+      { id: "m2block", name: "M2BLOCK (Manufacturing)", description: "Production Excellence - Predictive maintenance, quality control, OT/IT convergence" },
+      { id: "h2block", name: "H2BLOCK (Healthcare)", description: "Clinical Excellence - HIPAA compliance, ransomware immunity, EHR performance" },
+      { id: "f2block", name: "F2BLOCK (Financial Services)", description: "Mission-Critical Operations - Fraud detection, T+0 reporting, SOC2/PCI" },
+      { id: "r2block", name: "R2BLOCK (Retail)", description: "Omnichannel Commerce - Unified fulfillment, store operations, AI personalization" },
+      { id: "t2block", name: "T2BLOCK (Transportation)", description: "Fleet Intelligence - Real-time visibility, logistics optimization" },
+      { id: "me2block", name: "ME2BLOCK (Mining/Energy)", description: "Remote Operations Resilience - OT security, environmental compliance" },
+      { id: "eu2block", name: "EU2BLOCK (Energy/Utilities)", description: "Grid Resilience - Renewable integration, NERC-CIP compliance" },
+      { id: "ps2block", name: "PS2BLOCK (Public Sector)", description: "Citizen Services - FedRAMP compliance, smart city infrastructure" },
+      { id: "tc2block", name: "TC2BLOCK (Telecom)", description: "Network Transformation - 5G core, edge monetization, network automation" },
     ]
   },
-  { 
-    id: "product", 
-    name: "Product", 
-    color: "#6366F1", 
+  {
+    id: "product",
+    name: "Product",
+    color: "#6366F1",
     description: "Technology Product Ecosystem",
+    tagline: "Strategic partnerships with Dell and IBM delivering validated reference architectures and certified expertise.",
     blocks: [
-      { id: "infra-hardware", name: "Infrastructure & Hardware", description: "PowerEdge, VxRail, Meraki, PowerSwitch, Endpoints" },
-      { id: "managed-workplace-prod", name: "Managed Workplace", description: "UCaaS (Teams/RingCentral), CCaaS (Genesys), SaaS Ops" },
-      { id: "cloud-data", name: "Cloud & Data", description: "IaaS/PaaS (Azure/AWS/GCP), Backup/DR, watsonx.data" },
-      { id: "security-impl", name: "Security Implementation", description: "SIEM (QRadar), EDR (CrowdStrike), ZTNA (Prisma/Zscaler)" },
-      { id: "auto-dev", name: "Automation & Development", description: "RPA (UiPath), DevSecOps (OpenShift), Custom Apps" },
+      { id: "infra-hardware", name: "Infrastructure & Hardware", description: "Servers/Storage (PowerEdge/VxRail), Network/Edge (Meraki/PowerSwitch), Endpoints" },
+      { id: "managed-workplace-prod", name: "Managed Workplace", description: "UCaaS (Teams/RingCentral/Webex), CCaaS (Genesys/NICE), SaaS Ops (M365/Intune)" },
+      { id: "cloud-data", name: "Cloud & Data", description: "IaaS/PaaS (Azure/AWS/GCP), Backup/DR (PowerProtect/Veeam), watsonx.data" },
+      { id: "security-impl", name: "Security Implementation", description: "SIEM (QRadar/Sentinel), EDR (CrowdStrike/SentinelOne), ZTNA (Prisma/Zscaler)" },
+      { id: "automation-dev", name: "Automation & Development", description: "RPA (UiPath/watsonx Orchestrate), DevSecOps (OpenShift/GitLab), Custom Apps" },
     ]
   },
 ];
 
-// Designation data
+// Designation data - per documentation
 const designations = [
-  { id: "sme", name: "SME", description: "Small Enterprise", details: "1-50 users, single site, $5K-25K/mo", color: "#9CA3AF" },
-  { id: "smb", name: "SMB", description: "Mid-Market", details: "50-500 users, multiple sites, $25K-150K/mo", color: "#3B82F6" },
-  { id: "ent", name: "ENT", description: "Enterprise", details: "500+ users, global operations, $150K+/mo", color: "#D97706" },
+  { id: "sme", name: "SME", description: "Small Enterprise", details: "10-100 users, single site, $5K-15K/mo", color: "#9CA3AF" },
+  { id: "smb", name: "SMB", description: "Mid-Market Standard", details: "100-1000 users, 2-5 sites, $25K-75K/mo", color: "#3B82F6" },
+  { id: "ent", name: "ENT", description: "Enterprise Global", details: "1000+ users, 10+ sites, $150K-500K+/mo", color: "#D97706" },
 ];
 
 // Compliance frameworks
 const complianceFrameworks = [
   { id: "nist800", name: "NIST 800-53", controls: 124 },
-  { id: "iso27001", name: "ISO 27001", controls: 93 },
+  { id: "iso27001", name: "ISO 27001:2022", controls: 93 },
   { id: "soc2", name: "SOC 2", controls: 87 },
-  { id: "pci", name: "PCI DSS", controls: 78 },
-  { id: "cmmc", name: "CMMC", controls: 110 },
+  { id: "pci", name: "PCI DSS v4.0", controls: 78 },
+  { id: "cmmc", name: "CMMC Level 2/3", controls: 110 },
   { id: "hipaa", name: "HIPAA", controls: 45 },
   { id: "fedramp", name: "FedRAMP", controls: 325 },
-  { id: "nistcsf", name: "NIST CSF", controls: 98 },
-  { id: "cis", name: "CIS v8", controls: 153 },
+  { id: "nistcsf", name: "NIST CSF 2.0", controls: 98 },
+  { id: "cis", name: "CIS Controls v8.1", controls: 153 },
   { id: "fips", name: "FIPS 140-2/3", controls: 42 },
 ];
 
@@ -160,9 +172,9 @@ export const RadialConfigurator = () => {
     const baseAssessment = 7500;
     const controlCost = getTotalControls() * 100;
     const designationMultiplier = selection.designation === "ent" ? 3 : selection.designation === "smb" ? 1.5 : 1;
-    return { 
-      assessment: (baseAssessment + selection.compliance.length * 1500) * designationMultiplier, 
-      monthly: Math.round((controlCost / 12) + 5000) * designationMultiplier 
+    return {
+      assessment: (baseAssessment + selection.compliance.length * 1500) * designationMultiplier,
+      monthly: Math.round((controlCost / 12) + 5000) * designationMultiplier
     };
   };
 
@@ -179,8 +191,8 @@ export const RadialConfigurator = () => {
     setSelection((prev) => ({
       kube: kubeId,
       block: null,
-      designation: prev.designation, // Keep designation
-      compliance: prev.compliance, // Keep compliance
+      designation: prev.designation,
+      compliance: prev.compliance,
     }));
   };
 
@@ -195,15 +207,16 @@ export const RadialConfigurator = () => {
   // Calculate positions for rings
   const centerX = 200;
   const centerY = 200;
-  
-  // Ring radii
-  const kubeRingRadius = 155;
-  const blockRingRadius = 100;
-  const designationRingRadius = 50;
 
-  // Check if we should show inner rings
+  // Ring radii - outer to inner
+  const kubeRingRadius = 160;      // Ring 1: Far outer - Kubes (always visible)
+  const blockRingRadius = 105;     // Ring 2: Kube-specific blocks (appears after Kube click)
+  const designationRingRadius = 55; // Ring 3: SME/SMB/ENT (appears after Kube click)
+
+  // Show inner rings after Kube selection
   const showBlocks = selection.kube !== null;
   const showDesignation = selection.kube !== null;
+  // Show compliance after Kube + Block + Designation selected
   const showCompliance = selection.kube !== null && selection.block !== null && selection.designation !== null;
 
   return (
@@ -219,7 +232,7 @@ export const RadialConfigurator = () => {
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-4">
             THE MANAGEKUBE METHODOLOGY
           </h2>
-          <div className="flex items-center justify-center gap-2 sm:gap-4 font-display text-lg sm:text-xl text-muted-foreground mb-6">
+          <div className="flex items-center justify-center gap-2 sm:gap-4 font-display text-lg sm:text-xl mb-6">
             <span className="text-brand-success">ASSESS</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
             <span className="text-brand-blue">REMEDIATE</span>
@@ -228,9 +241,6 @@ export const RadialConfigurator = () => {
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
             <span className="text-brand-purple">OPTIMIZE</span>
           </div>
-          <p className="font-mono text-sm text-muted-foreground max-w-2xl mx-auto">
-            Click a Kube → Select a Block → Choose Scale → Add Compliance
-          </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
@@ -241,7 +251,7 @@ export const RadialConfigurator = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center"
           >
-            <div className="relative w-full max-w-lg aspect-square">
+            <div className="relative w-full max-w-xl aspect-square">
               <svg viewBox="0 0 400 400" className="w-full h-full">
                 <defs>
                   <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -259,24 +269,27 @@ export const RadialConfigurator = () => {
                     </feMerge>
                   </filter>
                   <linearGradient id="coreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(32, 91%, 44%)" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="hsl(217, 91%, 60%)" stopOpacity="0.5" />
+                    <stop offset="0%" stopColor="hsl(32, 91%, 44%)" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="hsl(217, 91%, 60%)" stopOpacity="0.6" />
                   </linearGradient>
                 </defs>
 
                 {/* Outer ring background */}
                 <circle cx={centerX} cy={centerY} r={kubeRingRadius} fill="none" stroke="hsl(0, 0%, 15%)" strokeWidth="1" />
 
-                {/* Ring 1: Kube Ring (Outermost - always visible) */}
+                {/* ================================================================ */}
+                {/* RING 1: KUBE RING (Far Outer - Always Visible) */}
+                {/* 8 large 3D cube icons with color-coded states */}
+                {/* ================================================================ */}
                 {kubes.map((kube, index) => {
                   const angle = ((index * 360) / kubes.length - 90) * (Math.PI / 180);
                   const x = centerX + Math.cos(angle) * kubeRingRadius;
                   const y = centerY + Math.sin(angle) * kubeRingRadius;
                   const isActive = selection.kube === kube.id;
-                  
+
                   return (
                     <g key={kube.id} className="cursor-pointer" onClick={() => handleKubeClick(kube.id)}>
-                      {/* Connection line to center when active */}
+                      {/* Connection line from Kube to center when active */}
                       {isActive && (
                         <motion.line
                           x1={centerX}
@@ -285,59 +298,57 @@ export const RadialConfigurator = () => {
                           y2={y}
                           stroke={kube.color}
                           strokeWidth="2"
-                          strokeDasharray="5 5"
+                          strokeDasharray="6 4"
                           initial={{ pathLength: 0, opacity: 0 }}
                           animate={{ pathLength: 1, opacity: 1 }}
                           transition={{ duration: 0.5 }}
                           style={{ filter: `drop-shadow(0 0 10px ${kube.color})` }}
                         />
                       )}
-                      
+
                       {/* 3D Cube representation */}
                       <motion.g
                         whileHover={{ scale: 1.15 }}
-                        animate={{ 
-                          scale: isActive ? 1.1 : 1,
-                        }}
+                        animate={{ scale: isActive ? 1.1 : 1 }}
                       >
-                        {/* Cube back face */}
+                        {/* Cube back face (3D effect) */}
                         <rect
                           x={x - 18}
                           y={y - 18}
-                          width="30"
-                          height="30"
+                          width="32"
+                          height="32"
                           rx="4"
-                          fill={isActive ? kube.color : "hsl(0, 0%, 15%)"}
+                          fill={isActive ? kube.color : "hsl(0, 0%, 12%)"}
                           opacity={0.4}
-                          transform="translate(5, 5)"
+                          transform="translate(4, 4)"
                         />
                         {/* Cube front face */}
                         <rect
                           x={x - 18}
                           y={y - 18}
-                          width="30"
-                          height="30"
+                          width="32"
+                          height="32"
                           rx="4"
-                          fill={isActive ? kube.color : "hsl(0, 0%, 10%)"}
+                          fill={isActive ? kube.color : "hsl(0, 0%, 8%)"}
                           stroke={isActive ? kube.color : "hsl(0, 0%, 25%)"}
                           strokeWidth="2"
                           style={{ filter: isActive ? `drop-shadow(0 0 15px ${kube.color})` : "none" }}
                         />
-                        {/* Box icon */}
+                        {/* Box icon inside cube */}
                         <Box
-                          x={x - 9}
-                          y={y - 9}
-                          width={18}
-                          height={18}
+                          x={x - 10}
+                          y={y - 10}
+                          width={20}
+                          height={20}
                           color={isActive ? "white" : "hsl(220, 9%, 50%)"}
                           className="pointer-events-none"
                         />
                       </motion.g>
-                      
+
                       {/* Kube label */}
                       <text
                         x={x}
-                        y={y + 30}
+                        y={y + 32}
                         textAnchor="middle"
                         dominantBaseline="middle"
                         fill={isActive ? "white" : "hsl(220, 9%, 50%)"}
@@ -351,30 +362,34 @@ export const RadialConfigurator = () => {
                   );
                 })}
 
-                {/* Ring 2: Block Ring (Kube-specific - appears after Kube selection) */}
+                {/* ================================================================ */}
+                {/* RING 2: BLOCK RING (Kube-specific - appears after Kube click) */}
+                {/* Shows blocks associated with the selected Kube */}
+                {/* ================================================================ */}
                 <AnimatePresence>
                   {showBlocks && selectedKube && (
                     <motion.g
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 0, scale: 0.7 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
                       transition={{ duration: 0.4 }}
                     >
-                      <circle cx={centerX} cy={centerY} r={blockRingRadius} fill="none" stroke="hsl(0, 0%, 20%)" strokeWidth="1" strokeDasharray="3 3" />
+                      <circle cx={centerX} cy={centerY} r={blockRingRadius} fill="none" stroke="hsl(0, 0%, 20%)" strokeWidth="1" strokeDasharray="4 4" />
                       {selectedKube.blocks.map((block, index) => {
                         const angle = ((index * 360) / selectedKube.blocks.length - 90) * (Math.PI / 180);
                         const x = centerX + Math.cos(angle) * blockRingRadius;
                         const y = centerY + Math.sin(angle) * blockRingRadius;
                         const isActive = selection.block === block.id;
-                        
-                        // Draw line from block to active kube when block is selected
+
+                        // Draw connection line from Block to Kube when selected
                         const kubeIndex = kubes.findIndex(k => k.id === selection.kube);
                         const kubeAngle = ((kubeIndex * 360) / kubes.length - 90) * (Math.PI / 180);
                         const kubeX = centerX + Math.cos(kubeAngle) * kubeRingRadius;
                         const kubeY = centerY + Math.sin(kubeAngle) * kubeRingRadius;
-                        
+
                         return (
                           <g key={block.id}>
+                            {/* Connection line from Block to Kube */}
                             {isActive && (
                               <motion.line
                                 x1={x}
@@ -383,37 +398,37 @@ export const RadialConfigurator = () => {
                                 y2={kubeY}
                                 stroke="#D97706"
                                 strokeWidth="1.5"
-                                strokeDasharray="4 4"
+                                strokeDasharray="4 3"
                                 initial={{ pathLength: 0 }}
                                 animate={{ pathLength: 1 }}
                                 transition={{ duration: 0.3 }}
-                                style={{ filter: "drop-shadow(0 0 6px #D97706)" }}
+                                style={{ filter: "drop-shadow(0 0 8px #D97706)" }}
                               />
                             )}
                             <g className="cursor-pointer" onClick={() => setSelection(prev => ({ ...prev, block: block.id }))}>
                               <motion.rect
-                                x={x - 14}
-                                y={y - 10}
-                                width="28"
-                                height="20"
+                                x={x - 16}
+                                y={y - 12}
+                                width="32"
+                                height="24"
                                 rx="4"
-                                fill={isActive ? "#D97706" : "hsl(0, 0%, 12%)"}
-                                stroke={isActive ? "#F59E0B" : "hsl(0, 0%, 30%)"}
+                                fill={isActive ? "#D97706" : "hsl(0, 0%, 10%)"}
+                                stroke={isActive ? "#F59E0B" : "hsl(0, 0%, 28%)"}
                                 strokeWidth="1.5"
                                 whileHover={{ scale: 1.15 }}
-                                style={{ filter: isActive ? "drop-shadow(0 0 10px #D97706)" : "none" }}
+                                style={{ filter: isActive ? "drop-shadow(0 0 12px #D97706)" : "none" }}
                               />
                               <text
                                 x={x}
                                 y={y}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                fill={isActive ? "white" : "hsl(220, 9%, 60%)"}
+                                fill={isActive ? "white" : "hsl(220, 9%, 55%)"}
                                 fontSize="6"
                                 fontFamily="Roboto Mono"
                                 className="pointer-events-none"
                               >
-                                {block.name.length > 10 ? block.name.substring(0, 10) + "..." : block.name}
+                                {block.name.length > 12 ? block.name.substring(0, 12) + "..." : block.name}
                               </text>
                             </g>
                           </g>
@@ -423,13 +438,15 @@ export const RadialConfigurator = () => {
                   )}
                 </AnimatePresence>
 
-                {/* Ring 3: Designation Ring (SME/SMB/ENT - appears after Kube selection) */}
+                {/* ================================================================ */}
+                {/* RING 3: DESIGNATION RING (SME/SMB/ENT - appears after Kube click) */}
+                {/* ================================================================ */}
                 <AnimatePresence>
                   {showDesignation && (
                     <motion.g
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 0, scale: 0.7 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
                       transition={{ duration: 0.4, delay: 0.1 }}
                     >
                       <circle cx={centerX} cy={centerY} r={designationRingRadius} fill="none" stroke="hsl(0, 0%, 18%)" strokeWidth="1" />
@@ -438,26 +455,26 @@ export const RadialConfigurator = () => {
                         const x = centerX + Math.cos(angle) * designationRingRadius;
                         const y = centerY + Math.sin(angle) * designationRingRadius;
                         const isActive = selection.designation === des.id;
-                        
+
                         return (
                           <g key={des.id} className="cursor-pointer" onClick={() => setSelection(prev => ({ ...prev, designation: des.id }))}>
                             <motion.circle
                               cx={x}
                               cy={y}
-                              r={isActive ? 18 : 14}
-                              fill={isActive ? des.color : "hsl(0, 0%, 10%)"}
+                              r={isActive ? 20 : 16}
+                              fill={isActive ? des.color : "hsl(0, 0%, 8%)"}
                               stroke={isActive ? des.color : "hsl(0, 0%, 25%)"}
                               strokeWidth="2"
                               whileHover={{ scale: 1.15 }}
-                              style={{ filter: isActive ? `drop-shadow(0 0 12px ${des.color})` : "none" }}
+                              style={{ filter: isActive ? `drop-shadow(0 0 14px ${des.color})` : "none" }}
                             />
                             <text
                               x={x}
                               y={y}
                               textAnchor="middle"
                               dominantBaseline="middle"
-                              fill={isActive ? "white" : "hsl(220, 9%, 60%)"}
-                              fontSize="9"
+                              fill={isActive ? "white" : "hsl(220, 9%, 55%)"}
+                              fontSize="10"
                               fontFamily="Roboto Mono"
                               className="pointer-events-none font-bold"
                             >
@@ -470,15 +487,17 @@ export const RadialConfigurator = () => {
                   )}
                 </AnimatePresence>
 
-                {/* Center Core */}
+                {/* ================================================================ */}
+                {/* CENTER CORE: "DIGITAL RESILIENCE" */}
+                {/* ================================================================ */}
                 <motion.circle
                   cx={centerX}
                   cy={centerY}
-                  r="28"
-                  fill="hsl(0, 0%, 3%)"
+                  r="30"
+                  fill="hsl(0, 0%, 2%)"
                   stroke="url(#coreGradient)"
                   strokeWidth="2"
-                  animate={{ 
+                  animate={{
                     filter: selection.kube ? "drop-shadow(0 0 20px hsl(32, 91%, 44%))" : "none"
                   }}
                 />
@@ -488,7 +507,7 @@ export const RadialConfigurator = () => {
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fill="white"
-                  fontSize="6"
+                  fontSize="7"
                   fontFamily="Special Elite"
                   className="uppercase"
                 >
@@ -496,11 +515,11 @@ export const RadialConfigurator = () => {
                 </text>
                 <text
                   x={centerX}
-                  y={centerY + 4}
+                  y={centerY + 5}
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fill="white"
-                  fontSize="6"
+                  fontSize="7"
                   fontFamily="Special Elite"
                   className="uppercase"
                 >
@@ -508,7 +527,7 @@ export const RadialConfigurator = () => {
                 </text>
                 <text
                   x={centerX}
-                  y={centerY + 14}
+                  y={centerY + 16}
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fill="hsl(220, 9%, 50%)"
@@ -520,7 +539,9 @@ export const RadialConfigurator = () => {
               </svg>
             </div>
 
-            {/* Compliance Panel (Below wheel - appears after full selection) */}
+            {/* ================================================================ */}
+            {/* COMPLIANCE PANEL (Below wheel - appears after Kube + Block + Designation) */}
+            {/* ================================================================ */}
             <AnimatePresence>
               {showCompliance && (
                 <motion.div
@@ -528,11 +549,11 @@ export const RadialConfigurator = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.4 }}
-                  className="w-full max-w-lg mt-6 card-glass rounded-xl p-4"
+                  className="w-full max-w-xl mt-6 card-glass rounded-xl p-4"
                 >
                   <h4 className="font-display text-sm text-white mb-3 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-brand-purple text-xs flex items-center justify-center text-white">4</span>
-                    COMPLIANCE FRAMEWORKS
+                    COMPLIANCE FRAMEWORKS (Multi-Select)
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {complianceFrameworks.map((framework) => {
@@ -558,28 +579,31 @@ export const RadialConfigurator = () => {
             </AnimatePresence>
 
             {/* Selection State Indicator */}
-            <div className="w-full max-w-lg mt-4">
+            <div className="w-full max-w-xl mt-4">
               <div className="flex items-center justify-center gap-1 text-xs font-mono">
                 <span className={`px-2 py-1 rounded ${selection.kube ? "bg-brand-success/20 text-brand-success" : "bg-secondary text-muted-foreground"}`}>
-                  Kube {selection.kube ? "✓" : "○"}
+                  1. Kube {selection.kube ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
                 <span className={`px-2 py-1 rounded ${selection.block ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
-                  Block {selection.block ? "✓" : "○"}
+                  2. Block {selection.block ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
                 <span className={`px-2 py-1 rounded ${selection.designation ? "bg-brand-blue/20 text-brand-blue" : "bg-secondary text-muted-foreground"}`}>
-                  Scale {selection.designation ? "✓" : "○"}
+                  3. Scale {selection.designation ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
                 <span className={`px-2 py-1 rounded ${selection.compliance.length > 0 ? "bg-brand-purple/20 text-brand-purple" : "bg-secondary text-muted-foreground"}`}>
-                  Compliance {selection.compliance.length > 0 ? "✓" : "○"}
+                  4. Compliance {selection.compliance.length > 0 ? "✓" : "○"}
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Right: Info Panel */}
+          {/* ================================================================ */}
+          {/* RIGHT PANEL: Info Panel */}
+          {/* Always shows: Active Kube → Active Block → Scale → BOM */}
+          {/* ================================================================ */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -595,11 +619,11 @@ export const RadialConfigurator = () => {
                 transition={{ duration: 0.3 }}
                 className="space-y-5"
               >
-                {/* Section 1: Kube (Always shown when selected) */}
+                {/* Section 1: Active Kube */}
                 {selectedKube && (
                   <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div 
+                    <div className="flex items-center gap-2 mb-2">
+                      <div
                         className="w-4 h-4 rounded"
                         style={{ backgroundColor: selectedKube.color }}
                       />
@@ -607,21 +631,22 @@ export const RadialConfigurator = () => {
                         {selectedKube.name} Kube
                       </h3>
                     </div>
-                    <p className="font-mono text-sm text-primary mb-4">{selectedKube.description}</p>
-                    
+                    <p className="font-mono text-sm text-primary mb-2">{selectedKube.description}</p>
+                    <p className="font-mono text-xs text-white/70">{selectedKube.tagline}</p>
+
                     {/* Nested Blocks List */}
-                    <div className="space-y-2">
-                      <div className="font-mono text-xs text-muted-foreground mb-2">AVAILABLE BLOCKS</div>
+                    <div className="mt-4 space-y-2">
+                      <div className="font-mono text-xs text-muted-foreground mb-2 uppercase">Blocks in this Kube</div>
                       {selectedKube.blocks.map((block) => {
                         const isActive = selection.block === block.id;
                         return (
                           <div
                             key={block.id}
                             onClick={() => setSelection(prev => ({ ...prev, block: block.id }))}
-                            className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-                              isActive 
-                                ? "bg-primary/20 ring-1 ring-primary" 
-                                : "bg-secondary/50 hover:bg-secondary/80"
+                            className={`p-3 rounded-lg cursor-pointer transition-all duration-200 border ${
+                              isActive
+                                ? "bg-primary/15 border-primary/50"
+                                : "bg-secondary/30 border-transparent hover:bg-secondary/50"
                             }`}
                           >
                             <div className="flex items-center gap-2">
@@ -645,15 +670,18 @@ export const RadialConfigurator = () => {
                 {/* Section 2: Scale / Designation */}
                 {selectedDesignation && (
                   <div className="pt-4 border-t border-border">
-                    <div className="font-mono text-xs text-muted-foreground mb-2">SCALE / DESIGNATION</div>
+                    <div className="font-mono text-xs text-muted-foreground mb-2 uppercase">Scale / Designation</div>
                     <div className="flex items-center gap-3">
-                      <span 
+                      <span
                         className="px-4 py-2 rounded-full font-mono text-sm text-white font-bold"
                         style={{ backgroundColor: selectedDesignation.color }}
                       >
                         {selectedDesignation.name}
                       </span>
-                      <span className="font-mono text-xs text-white/70">{selectedDesignation.details}</span>
+                      <div>
+                        <div className="font-mono text-sm text-white">{selectedDesignation.description}</div>
+                        <div className="font-mono text-xs text-muted-foreground">{selectedDesignation.details}</div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -661,7 +689,7 @@ export const RadialConfigurator = () => {
                 {/* Section 3: Compliance Stack */}
                 {selection.compliance.length > 0 && (
                   <div className="pt-4 border-t border-border">
-                    <div className="font-mono text-xs text-muted-foreground mb-2">COMPLIANCE STACK</div>
+                    <div className="font-mono text-xs text-muted-foreground mb-2 uppercase">Compliance Stack</div>
                     <div className="flex flex-wrap gap-2 mb-3">
                       {selection.compliance.map((id) => {
                         const f = complianceFrameworks.find((f) => f.id === id);
@@ -699,7 +727,7 @@ export const RadialConfigurator = () => {
                     <Box className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <div className="font-display text-xl text-white mb-2">SELECT A KUBE</div>
                     <p className="font-mono text-sm text-muted-foreground">
-                      Click any cube on the outer ring to begin configuring your stack
+                      Click any cube on the outer ring to begin building your stack
                     </p>
                   </div>
                 )}
