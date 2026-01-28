@@ -1,8 +1,10 @@
+/** DO NOT TOUCH - Kube breakdown section with 3D cubes and premium design */
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { Cube3D, FloatingCubes } from "./Cube3D";
 
 const kubes = [
   {
@@ -68,8 +70,19 @@ export const KubeBreakdownSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-32 lg:py-48 section-white" id="kubes">
-      <div className="container mx-auto px-6 lg:px-12">
+    <section 
+      ref={ref} 
+      className="py-32 lg:py-48 relative overflow-hidden"
+      style={{ background: "linear-gradient(135deg, hsl(var(--brand-black)) 0%, hsl(0 0% 12%) 50%, hsl(var(--brand-black)) 100%)" }}
+      id="kubes"
+    >
+      {/* Floating 3D Cubes Background */}
+      <FloatingCubes />
+
+      {/* Gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-foreground/20 pointer-events-none" />
+
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -77,18 +90,18 @@ export const KubeBreakdownSection = () => {
           transition={{ duration: 0.7 }}
           className="max-w-3xl mb-20"
         >
-          <div className="accent-line mb-8" />
-          <h2 className="text-headline text-foreground mb-6">
-            Eight <span className="text-brand-orange">Kubes</span>.
+          <div className="h-1 w-16 bg-primary mb-8" />
+          <h2 className="text-headline text-background mb-6">
+            Eight <span className="text-primary">Kubes</span>.
             <br />Infinite Configurations.
           </h2>
-          <p className="text-body-xl text-muted-foreground">
+          <p className="text-body-xl text-background/70">
             Each Kube contains configurable Blocks—specific capabilities you can add, remove, or scale independently.
           </p>
         </motion.div>
 
-        {/* Kubes List */}
-        <div className="space-y-0">
+        {/* Kubes Grid - 2 columns with 3D cube accents */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {kubes.map((kube, index) => (
             <motion.div
               key={kube.id}
@@ -98,31 +111,48 @@ export const KubeBreakdownSection = () => {
             >
               <Link
                 to={kube.href}
-                className="block border-t border-border py-8 lg:py-10 group"
+                className="group block relative bg-white/5 backdrop-blur-sm border border-white/10 p-8 hover:bg-white/10 hover:border-primary/50 transition-all duration-300"
               >
-                <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
-                  {/* Name */}
-                  <div className="lg:col-span-3">
-                    <h3 className="text-title text-foreground group-hover:text-brand-orange transition-colors">
+                {/* Mini 3D Cube accent */}
+                <motion.div
+                  className="absolute -top-4 -right-4 opacity-50 group-hover:opacity-100 transition-opacity"
+                  animate={{
+                    rotate: [0, 360],
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  <Cube3D size={40} delay={index * 0.1} />
+                </motion.div>
+
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    {/* Tagline */}
+                    <span className="text-caption text-primary mb-2 block">{kube.tagline}</span>
+                    
+                    {/* Name */}
+                    <h3 className="text-title text-background group-hover:text-primary transition-colors mb-3">
                       {kube.name}
                     </h3>
-                  </div>
-
-                  {/* Tagline */}
-                  <div className="lg:col-span-2">
-                    <span className="text-label text-brand-orange">{kube.tagline}</span>
-                  </div>
-
-                  {/* Description */}
-                  <div className="lg:col-span-6">
-                    <p className="text-body-lg text-muted-foreground">{kube.description}</p>
+                    
+                    {/* Description */}
+                    <p className="text-body text-background/60">{kube.description}</p>
                   </div>
 
                   {/* Arrow */}
-                  <div className="lg:col-span-1 flex justify-end">
-                    <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-2 transition-all" />
-                  </div>
+                  <ArrowRight className="w-6 h-6 text-background/40 group-hover:text-primary group-hover:translate-x-2 transition-all flex-shrink-0 mt-8" />
                 </div>
+
+                {/* Bottom accent line */}
+                <motion.div
+                  className="absolute bottom-0 left-0 h-0.5 bg-primary"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.3 }}
+                />
               </Link>
             </motion.div>
           ))}
@@ -133,17 +163,32 @@ export const KubeBreakdownSection = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="border-t border-border pt-12 mt-8"
+          className="text-center mt-16"
         >
           <Link
             to="/kubes"
-            className="inline-flex items-center gap-3 text-subtitle text-foreground hover:text-brand-orange transition-colors group"
+            className="inline-flex items-center gap-3 text-subtitle text-background hover:text-primary transition-colors group"
           >
             Explore all Kubes
             <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Link>
         </motion.div>
       </div>
+
+      {/* Large decorative cube in corner */}
+      <motion.div
+        className="absolute -bottom-20 -right-20 opacity-20"
+        animate={{
+          rotate: [0, 360],
+        }}
+        transition={{
+          duration: 60,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      >
+        <Cube3D size={200} />
+      </motion.div>
     </section>
   );
 };
