@@ -1,13 +1,14 @@
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { ProblemSection } from "@/components/ProblemSection";
 import { MethodologySection } from "@/components/MethodologySection";
+import { DifferentiatorsSection } from "@/components/DifferentiatorsSection";
+import { KubeBreakdownSection } from "@/components/KubeBreakdownSection";
+import { PricingSection } from "@/components/PricingSection";
+import { IndustrySolutionsSection } from "@/components/IndustrySolutionsSection";
+import { AssessmentConfiguratorSection } from "@/components/AssessmentConfiguratorSection";
 import { RadialConfigurator } from "@/components/RadialConfigurator";
-import { KubeWheel } from "@/components/KubeWheel";
-import { EnterpriseTiers } from "@/components/EnterpriseTiers";
-import { IndustryGrid } from "@/components/IndustryGrid";
-import { PartnerSection } from "@/components/PartnerSection";
-import { ComplianceSection } from "@/components/ComplianceSection";
-import { FinalCTA } from "@/components/FinalCTA";
+import { FooterCTA } from "@/components/FooterCTA";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -15,14 +16,15 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <HeroSection />
+      <ProblemSection />
       <MethodologySection />
+      <DifferentiatorsSection />
+      <KubeBreakdownSection />
+      <PricingSection />
+      <IndustrySolutionsSection />
+      <AssessmentConfiguratorSection />
       <RadialConfigurator />
-      <KubeWheel />
-      <EnterpriseTiers />
-      <IndustryGrid />
-      <PartnerSection />
-      <ComplianceSection />
-      <FinalCTA />
+      <FooterCTA />
       <Footer />
     </div>
   );
