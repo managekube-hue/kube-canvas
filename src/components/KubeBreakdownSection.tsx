@@ -1,64 +1,56 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowRight, Shield, Server, Lightbulb, BarChart3, Zap, Factory, Package, ClipboardCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const kubes = [
   {
     id: "assessment",
-    name: "ASSESSMENT KUBE",
-    icon: ClipboardCheck,
-    tagline: "FREE Entry Point",
-    features: ["Infrastructure Inventory", "Security Assessment", "Compliance Mapping"],
+    name: "Assessment",
+    tagline: "FREE entry point",
+    description: "Infrastructure inventory, security assessment, compliance mapping, remediation roadmap.",
   },
   {
     id: "compliance",
-    name: "COMPLIANCE KUBE",
-    icon: Shield,
-    tagline: "Framework Gaps Closed",
-    features: ["Gap Remediation", "Evidence Automation", "Audit Management"],
+    name: "Compliance",
+    tagline: "Framework gaps closed",
+    description: "Gap remediation, evidence automation, policy development, audit management.",
   },
   {
     id: "mssp",
-    name: "MSSP KUBE",
-    icon: Shield,
-    tagline: "24/7 SOC, EDR/XDR, Vuln Mgmt",
-    features: ["Security Operations", "Threat Detection", "Vulnerability Management"],
+    name: "MSSP",
+    tagline: "24/7 SOC operations",
+    description: "Threat detection, managed EDR/XDR, vulnerability management, Zero Trust architecture.",
   },
   {
     id: "msp",
-    name: "MSP KUBE",
-    icon: Server,
-    tagline: "NOC, Service Desk",
-    features: ["Service Desk L1-L3", "Hybrid Infrastructure", "BCDR"],
+    name: "MSP",
+    tagline: "NOC & Service Desk",
+    description: "L1-L3 support, hybrid infrastructure, managed workplace, BCDR.",
   },
   {
     id: "advisory",
-    name: "ADVISORY KUBE",
-    icon: BarChart3,
-    tagline: "vCIO/vCISO, FinOps, Strategy",
-    features: ["Virtual CISO", "Virtual CIO", "Cloud FinOps"],
+    name: "Advisory",
+    tagline: "vCIO & vCISO",
+    description: "Strategic planning, security governance, Cloud FinOps, M&A due diligence.",
   },
   {
     id: "innovation",
-    name: "INNOVATION KUBE",
-    icon: Zap,
-    tagline: "RPA, DevSecOps, AI Agents",
-    features: ["Hyperautomation", "DevSecOps", "Data Intelligence"],
+    name: "Innovation",
+    tagline: "AI & Automation",
+    description: "Hyperautomation, DevSecOps, data intelligence, custom development.",
   },
   {
     id: "industry",
-    name: "INDUSTRY KUBE",
-    icon: Factory,
-    tagline: "9 Vertical Platforms Pre-Built",
-    features: ["M2BLOCK", "H2BLOCK", "F2BLOCK", "+6 more"],
+    name: "Industry",
+    tagline: "9 vertical platforms",
+    description: "Pre-built BLOCK platforms for manufacturing, healthcare, finance, and more.",
   },
   {
     id: "product",
-    name: "PRODUCT KUBE",
-    icon: Package,
-    tagline: "Project Config, BOM Gen",
-    features: ["Dell Infrastructure", "IBM Software", "Custom BOMs"],
+    name: "Product",
+    tagline: "Dell & IBM partnership",
+    description: "Validated architectures, certified expertise, integrated technology stack.",
   },
 ];
 
@@ -70,57 +62,48 @@ export const KubeBreakdownSection = () => {
     <section ref={ref} className="py-24 lg:py-32 section-white" id="kubes">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Headline */}
-          <motion.h2
+          {/* Header */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="font-display text-3xl sm:text-4xl lg:text-5xl text-center text-foreground mb-16"
+            className="mb-16"
           >
-            EIGHT INTEGRATED MODULES
-          </motion.h2>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
+              Capabilities
+            </p>
+            <h2 className="font-display text-3xl lg:text-4xl text-foreground">
+              Eight integrated modules.
+            </h2>
+          </motion.div>
 
           {/* 4x2 Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
-          >
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
             {kubes.map((kube, index) => (
               <motion.a
                 key={kube.id}
                 href={`#${kube.id}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
-                className="card-enterprise group cursor-pointer"
+                transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                className="bg-background p-6 group hover:bg-foreground transition-colors duration-300"
               >
-                <kube.icon className="w-6 h-6 text-foreground mb-4" strokeWidth={1.5} />
-                
-                <h3 className="font-display text-lg text-foreground mb-2">
+                <span className="font-mono text-xs text-muted-foreground group-hover:text-background/60 transition-colors block mb-2">
+                  {kube.tagline}
+                </span>
+                <h3 className="font-display text-xl text-foreground group-hover:text-background transition-colors mb-3">
                   {kube.name}
                 </h3>
-                
-                <p className="font-mono text-xs text-muted-foreground mb-4">
-                  {kube.tagline}
+                <p className="font-mono text-xs text-muted-foreground group-hover:text-background/70 transition-colors leading-relaxed mb-4">
+                  {kube.description}
                 </p>
-                
-                <ul className="space-y-1 mb-4">
-                  {kube.features.map((feature) => (
-                    <li key={feature} className="font-mono text-xs text-muted-foreground">
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <span className="font-mono text-xs text-foreground flex items-center gap-1 group-hover:gap-2 transition-all">
+                <span className="font-mono text-xs text-foreground group-hover:text-background transition-colors flex items-center gap-1">
                   Explore
-                  <ArrowRight className="w-3 h-3" />
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </span>
               </motion.a>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

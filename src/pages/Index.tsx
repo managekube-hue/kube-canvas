@@ -7,7 +7,6 @@ import { KubeBreakdownSection } from "@/components/KubeBreakdownSection";
 import { PricingSection } from "@/components/PricingSection";
 import { IndustrySolutionsSection } from "@/components/IndustrySolutionsSection";
 import { AssessmentConfiguratorSection } from "@/components/AssessmentConfiguratorSection";
-import { RadialConfigurator } from "@/components/RadialConfigurator";
 import { FooterCTA } from "@/components/FooterCTA";
 import { Footer } from "@/components/Footer";
 
@@ -23,7 +22,6 @@ const Index = () => {
       <PricingSection />
       <IndustrySolutionsSection />
       <AssessmentConfiguratorSection />
-      <RadialConfigurator />
       <FooterCTA />
       <Footer />
     </div>
