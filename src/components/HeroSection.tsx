@@ -2,12 +2,27 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AnimatedCounter } from "./AnimatedCounter";
+import logo from "@/assets/logo.png";
 
 export const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center pt-28 lg:pt-36 section-white">
+    <section className="min-h-screen flex items-center pt-20 lg:pt-24 section-white">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-6xl">
+          {/* Logo above headline */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-8"
+          >
+            <img 
+              src={logo} 
+              alt="ManageKube IT Services" 
+              className="h-20 lg:h-28 w-auto"
+            />
+          </motion.div>
+
           {/* Accent line */}
           <motion.div
             initial={{ width: 0 }}

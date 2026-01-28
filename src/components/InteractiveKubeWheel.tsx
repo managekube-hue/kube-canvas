@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Plus, ArrowRight, ChevronRight } from "lucide-react";
-
-interface Product {
-  name: string;
-  description?: string;
-}
+import { Check, Plus, ChevronRight } from "lucide-react";
 
 interface Block {
   id: string;
@@ -33,167 +28,202 @@ export const InteractiveKubeWheel = ({
   activeBlock,
   onSetActiveBlock,
 }: InteractiveKubeWheelProps) => {
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [hoveredSegment, setHoveredSegment] = useState<string | null>(null);
 
-  // Calculate positions for blocks on outer ring
-  const getBlockPosition = (index: number, total: number, radius: number) => {
-    const angleStep = (2 * Math.PI) / total;
-    const angle = index * angleStep - Math.PI / 2; // Start from top
+  // Calculate pie segment path
+  const getSegmentPath = (index: number, total: number, innerRadius: number, outerRadius: number) => {
+    const anglePerSegment = (2 * Math.PI) / total;
+    const startAngle = index * anglePerSegment - Math.PI / 2;
+    const endAngle = startAngle + anglePerSegment;
+    const gap = 0.02; // Small gap between segments
+
+    const x1 = Math.cos(startAngle + gap) * outerRadius;
+    const y1 = Math.sin(startAngle + gap) * outerRadius;
+    const x2 = Math.cos(endAngle - gap) * outerRadius;
+    const y2 = Math.sin(endAngle - gap) * outerRadius;
+    const x3 = Math.cos(endAngle - gap) * innerRadius;
+    const y3 = Math.sin(endAngle - gap) * innerRadius;
+    const x4 = Math.cos(startAngle + gap) * innerRadius;
+    const y4 = Math.sin(startAngle + gap) * innerRadius;
+
+    const largeArcFlag = anglePerSegment > Math.PI ? 1 : 0;
+
+    return `
+      M ${x1} ${y1}
+      A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2} ${y2}
+      L ${x3} ${y3}
+      A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x4} ${y4}
+      Z
+    `;
+  };
+
+  // Calculate label position for each segment
+  const getLabelPosition = (index: number, total: number, radius: number) => {
+    const anglePerSegment = (2 * Math.PI) / total;
+    const midAngle = index * anglePerSegment + anglePerSegment / 2 - Math.PI / 2;
     return {
-      x: Math.cos(angle) * radius,
-      y: Math.sin(angle) * radius,
+      x: Math.cos(midAngle) * radius,
+      y: Math.sin(midAngle) * radius,
     };
   };
 
-  // Calculate positions for products on inner ring
-  const getProductPosition = (index: number, total: number, radius: number) => {
-    const angleStep = (2 * Math.PI) / total;
-    const angle = index * angleStep - Math.PI / 2;
-    return {
-      x: Math.cos(angle) * radius,
-      y: Math.sin(angle) * radius,
-    };
-  };
-
-  const outerRadius = 200;
-  const innerRadius = 120;
-  const centerSize = 100;
+  const centerRadius = 70;
+  const innerRadius = 75;
+  const outerRadius = 160;
+  const labelRadius = (innerRadius + outerRadius) / 2;
 
   return (
     <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-      {/* Left Side - 60% - Interactive Wheel */}
-      <div className="lg:col-span-3 relative flex items-center justify-center min-h-[500px] lg:min-h-[600px]">
-        <div className="relative w-full max-w-[500px] aspect-square">
-          {/* Decorative rings */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="rounded-full border border-border/20"
-              style={{ width: outerRadius * 2 + 80, height: outerRadius * 2 + 80 }}
+      {/* Left Side - 60% - Interactive Pie Wheel */}
+      <div className="lg:col-span-3 relative flex items-center justify-center min-h-[450px] lg:min-h-[550px]">
+        <div className="relative">
+          <svg 
+            width="400" 
+            height="400" 
+            viewBox="-200 -200 400 400"
+            className="transform transition-transform duration-300"
+          >
+            {/* Decorative outer rings */}
+            <circle 
+              cx="0" 
+              cy="0" 
+              r="175" 
+              fill="none" 
+              stroke="hsl(var(--border))" 
+              strokeWidth="1" 
+              strokeDasharray="4 4"
+              opacity="0.3"
             />
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="rounded-full border border-border/10"
-              style={{ width: outerRadius * 2 + 120, height: outerRadius * 2 + 120 }}
+            <circle 
+              cx="0" 
+              cy="0" 
+              r="190" 
+              fill="none" 
+              stroke="hsl(var(--border))" 
+              strokeWidth="1" 
+              strokeDasharray="2 6"
+              opacity="0.2"
             />
-          </div>
 
-          {/* Center Hub - Kube Name */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="rounded-full bg-foreground flex items-center justify-center z-20 shadow-2xl"
-              style={{ width: centerSize, height: centerSize }}
-            >
-              <div className="text-center px-2">
-                <span className="text-white font-bold text-xs tracking-wider block leading-tight">
-                  {kubeName.replace(" Kube", "").toUpperCase()}
-                </span>
-                <span className="text-white/60 text-[10px] font-medium tracking-widest">
-                  KUBE
-                </span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Inner Ring - Products (shown when a block is active) */}
-          <AnimatePresence>
-            {activeBlock && activeBlock.products && activeBlock.products.length > 0 && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                {activeBlock.products.slice(0, 8).map((product, index) => {
-                  const pos = getProductPosition(index, Math.min(activeBlock.products!.length, 8), innerRadius);
-                  const isSelected = selectedProduct === product;
-                  
-                  return (
-                    <motion.button
-                      key={`${activeBlock.id}-${product}`}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      onClick={() => setSelectedProduct(isSelected ? null : product)}
-                      className={`absolute w-16 h-16 rounded-full flex items-center justify-center text-center p-1 transition-all duration-200 cursor-pointer border-2 text-[9px] font-medium leading-tight z-10 ${
-                        isSelected
-                          ? "border-brand-orange bg-brand-orange text-white"
-                          : "border-border/50 bg-white/90 text-foreground hover:border-brand-orange hover:scale-105"
-                      }`}
-                      style={{
-                        transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px))`,
-                        left: '50%',
-                        top: '50%',
-                      }}
-                    >
-                      <span className="line-clamp-2">{product}</span>
-                    </motion.button>
-                  );
-                })}
-              </div>
-            )}
-          </AnimatePresence>
-
-          {/* Outer Ring - Blocks */}
-          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Pie Segments for Blocks */}
             {blocks.map((block, index) => {
-              const pos = getBlockPosition(index, blocks.length, outerRadius);
               const isSelected = selectedBlocks.includes(block.id);
               const isActive = activeBlock?.id === block.id;
+              const isHovered = hoveredSegment === block.id;
 
               return (
-                <motion.button
+                <motion.path
                   key={block.id}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
-                  onClick={() => {
-                    onSetActiveBlock(isActive ? null : block);
-                    setSelectedProduct(null);
+                  d={getSegmentPath(index, blocks.length, innerRadius, outerRadius)}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: isActive ? 1.05 : 1,
                   }}
-                  className={`absolute w-20 h-20 lg:w-24 lg:h-24 rounded-lg flex items-center justify-center text-center p-2 transition-all duration-300 cursor-pointer border-2 shadow-lg z-10 ${
-                    isActive
-                      ? "border-foreground bg-foreground text-white scale-110"
-                      : isSelected
-                      ? "border-brand-orange bg-brand-orange text-white"
-                      : "border-border bg-white hover:border-foreground hover:scale-105"
-                  }`}
-                  style={{
-                    transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px))`,
-                    left: '50%',
-                    top: '50%',
-                  }}
-                >
-                  <span className="text-[10px] lg:text-xs font-semibold leading-tight">
-                    {block.name}
-                  </span>
-                </motion.button>
-              );
-            })}
-          </div>
-
-          {/* Connection Lines */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 500 500">
-            {blocks.map((block, index) => {
-              const pos = getBlockPosition(index, blocks.length, outerRadius - 40);
-              const isSelected = selectedBlocks.includes(block.id);
-              const isActive = activeBlock?.id === block.id;
-              
-              return (
-                <motion.line
-                  key={block.id}
-                  x1="250"
-                  y1="250"
-                  x2={250 + pos.x}
-                  y2={250 + pos.y}
-                  stroke={isActive ? "hsl(var(--foreground))" : isSelected ? "hsl(24 95% 53%)" : "hsl(var(--border))"}
-                  strokeWidth={isActive ? "2" : "1"}
-                  strokeDasharray={isSelected || isActive ? "0" : "4"}
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 0.5 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  fill={
+                    isActive 
+                      ? "hsl(24 95% 53%)" 
+                      : isSelected 
+                      ? "hsl(24 95% 53% / 0.7)" 
+                      : isHovered 
+                      ? "hsl(var(--muted))"
+                      : "hsl(var(--background))"
+                  }
+                  stroke={
+                    isActive || isSelected
+                      ? "hsl(24 95% 53%)"
+                      : "hsl(var(--border))"
+                  }
+                  strokeWidth={isActive ? 2 : 1}
+                  className="cursor-pointer transition-colors duration-200"
+                  onClick={() => onSetActiveBlock(isActive ? null : block)}
+                  onMouseEnter={() => setHoveredSegment(block.id)}
+                  onMouseLeave={() => setHoveredSegment(null)}
                 />
               );
             })}
+
+            {/* Segment Labels */}
+            {blocks.map((block, index) => {
+              const pos = getLabelPosition(index, blocks.length, labelRadius);
+              const isActive = activeBlock?.id === block.id;
+              const isSelected = selectedBlocks.includes(block.id);
+              
+              // Calculate rotation for text to be readable
+              const anglePerSegment = (360) / blocks.length;
+              const midAngle = index * anglePerSegment + anglePerSegment / 2 - 90;
+              let textRotation = midAngle;
+              if (midAngle > 90 && midAngle < 270) {
+                textRotation = midAngle + 180;
+              }
+
+              return (
+                <g 
+                  key={`label-${block.id}`}
+                  className="pointer-events-none"
+                >
+                  <text
+                    x={pos.x}
+                    y={pos.y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className={`text-[10px] lg:text-xs font-semibold transition-colors ${
+                      isActive || isSelected ? "fill-white" : "fill-foreground"
+                    }`}
+                    style={{
+                      transform: `rotate(${textRotation}deg)`,
+                      transformOrigin: `${pos.x}px ${pos.y}px`,
+                    }}
+                  >
+                    {block.name.length > 15 
+                      ? block.name.split(' ').map((word, i) => (
+                          <tspan 
+                            key={i} 
+                            x={pos.x} 
+                            dy={i === 0 ? "-0.5em" : "1.1em"}
+                          >
+                            {word}
+                          </tspan>
+                        ))
+                      : block.name
+                    }
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* Center Hub */}
+            <motion.circle
+              cx="0"
+              cy="0"
+              r={centerRadius}
+              fill="hsl(var(--foreground))"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="drop-shadow-xl"
+            />
+            
+            {/* Center Text */}
+            <text
+              x="0"
+              y="-8"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="fill-white text-sm font-bold tracking-wider"
+            >
+              {kubeName.replace(" Kube", "").toUpperCase()}
+            </text>
+            <text
+              x="0"
+              y="12"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="fill-white/60 text-[10px] font-medium tracking-widest"
+            >
+              KUBE
+            </text>
           </svg>
         </div>
       </div>
@@ -263,11 +293,7 @@ export const InteractiveKubeWheel = ({
                     {activeBlock.products.map((product, i) => (
                       <span
                         key={i}
-                        className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                          selectedProduct === product
-                            ? "bg-brand-orange text-white"
-                            : "bg-secondary text-foreground"
-                        }`}
+                        className="px-3 py-1.5 text-xs font-medium bg-secondary text-foreground"
                       >
                         {product}
                       </span>
@@ -309,10 +335,10 @@ export const InteractiveKubeWheel = ({
               className="h-full flex flex-col items-center justify-center text-center py-16 px-8 bg-secondary/30 border border-dashed border-border"
             >
               <div className="w-16 h-16 rounded-full border-2 border-dashed border-muted-foreground/30 flex items-center justify-center mb-4">
-                <ArrowRight className="w-6 h-6 text-muted-foreground/50" />
+                <ChevronRight className="w-6 h-6 text-muted-foreground/50" />
               </div>
               <p className="text-body text-muted-foreground mb-2">
-                Click a block in the wheel
+                Click a segment in the wheel
               </p>
               <p className="text-sm text-muted-foreground/70">
                 to explore capabilities and add to your BOM
