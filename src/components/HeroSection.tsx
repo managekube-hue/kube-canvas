@@ -1,114 +1,92 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ServerRack } from "@/components/ServerRack";
 
 const metrics = [
-  { value: "8", label: "SPECIALIZED KUBES", sublabel: "Interconnected Capabilities" },
-  { value: "3", label: "DELIVERY TIERS", sublabel: "SMB to Enterprise Scale" },
-  { value: "425+", label: "CONTROLS", sublabel: "Compliance Frameworks" },
+  { value: "8", label: "MODULES", sublabel: "Integrated service delivery" },
+  { value: "3", label: "TIERS", sublabel: "SMB to enterprise scale" },
+  { value: "1,200+", label: "CONTROLS", sublabel: "Compliance controls mapped" },
 ];
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0 grid-lines opacity-30" />
-      
-      {/* Gradient Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl animate-pulse-slow" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-accent/10 blur-3xl animate-pulse-slow" style={{ animationDelay: "1.5s" }} />
+    <section className="min-h-screen flex items-center pt-20 section-white">
+      <div className="container mx-auto px-4 lg:px-8 py-16 lg:py-24">
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+          {/* Left Column - Copy (60%) */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.9] tracking-tight mb-8"
+            >
+              TRANSFORM IT.
+              <br />
+              AT ANY SCALE.
+            </motion.h1>
 
-      <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-8"
-          >
-            IT TRANSFORMATION.
-            <br />
-            <span className="text-gradient-orange">METHODICALLY DELIVERED.</span>
-          </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-body-lg text-muted-foreground max-w-xl mb-8"
+            >
+              Free assessment reveals your exact transformation path.
+            </motion.p>
 
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-mono text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-16"
-          >
-            We replace IT complexity with a systematic methodology. The result: 
-            validated architecture, continuous compliance, and measurable business outcomes.
-          </motion.p>
-
-          {/* Metrics Display */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16"
-          >
-            {metrics.map((metric, index) => (
-              <motion.div
-                key={metric.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="card-glass rounded-lg p-6 hover:border-primary/50 transition-colors duration-300"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex flex-col sm:flex-row items-start gap-4 mb-16"
+            >
+              <a href="#assessment" className="btn-primary">
+                START FREE ASSESSMENT
+              </a>
+              <a
+                href="#methodology"
+                className="btn-secondary flex items-center gap-2 group"
               >
-                <div className="font-display text-4xl lg:text-5xl text-white mb-2">
-                  {metric.value}
-                </div>
-                <div className="font-display text-lg lg:text-xl text-white mb-1">
-                  {metric.label}
-                </div>
-                <div className="font-mono text-xs lg:text-sm text-muted-foreground">
-                  {metric.sublabel}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                Explore Methodology
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </motion.div>
+          </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono text-base lg:text-lg uppercase tracking-wider px-8 lg:px-12 py-6 glow-orange"
-            >
-              START WITH ASSESSMENT
-            </Button>
-            <a
-              href="#kubes"
-              className="font-mono text-sm text-muted-foreground hover:text-white transition-colors flex items-center gap-2 group"
-            >
-              View Kube Architecture
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </motion.div>
+          {/* Right Column - Server Rack + Metrics (40%) */}
+          <div className="lg:col-span-2 order-1 lg:order-2">
+            <div className="flex flex-col items-center lg:items-end gap-8">
+              {/* Server Rack Animation */}
+              <ServerRack />
+
+              {/* Metrics */}
+              <div className="space-y-4 w-full max-w-[280px]">
+                {metrics.map((metric, index) => (
+                  <motion.div
+                    key={metric.label}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 1.2 + index * 0.2 }}
+                    className="card-enterprise flex items-center gap-4 p-4"
+                  >
+                    <span className="font-display text-3xl lg:text-4xl text-foreground">
+                      {metric.value}
+                    </span>
+                    <div>
+                      <div className="font-mono text-xs uppercase tracking-widest text-foreground">
+                        {metric.label}
+                      </div>
+                      <div className="font-mono text-xs text-muted-foreground">
+                        {metric.sublabel}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
-          >
-            <div className="w-1 h-2 bg-white/50 rounded-full" />
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );

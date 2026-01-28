@@ -8,9 +8,10 @@ import { Check, FileText, Calendar, Box, ChevronRight } from "lucide-react";
 // 8 Kubes: Assessment, Compliance, MSSP, MSP, Advisory, Innovation, Industry, Product
 // ============================================================================
 
-// Brand color: #D97706 (orange) for ALL active states - NO rainbow colors
-const BRAND_ORANGE = "#D97706";
-const BRAND_GRAY = "#9CA3AF";
+// Brand colors using CSS variables for consistency
+const BRAND_ACCENT = "hsl(14 100% 60%)"; // Orange accent
+const BRAND_BLACK = "hsl(0 0% 4%)";
+const BRAND_GRAY = "hsl(0 0% 42%)";
 
 const kubes = [
   {
@@ -216,8 +217,8 @@ export const RadialConfigurator = () => {
   const showCompliance = selection.kube !== null && selection.block !== null && selection.designation !== null;
 
   return (
-    <section className="py-24 lg:py-32 bg-background" id="configurator">
-      <div className="container mx-auto px-4">
+    <section className="py-24 lg:py-32 section-off-white" id="configurator">
+      <div className="container mx-auto px-4 lg:px-8">
         {/* Header with methodology flow */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -225,17 +226,20 @@ export const RadialConfigurator = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-4">
-            THE MANAGEKUBE METHODOLOGY
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-foreground mb-4">
+            INTERACTIVE CONFIGURATOR
           </h2>
+          <p className="text-body-lg text-muted-foreground mb-6">
+            Build your custom engagement
+          </p>
           <div className="flex items-center justify-center gap-2 sm:gap-4 font-display text-lg sm:text-xl mb-6">
-            <span className="text-primary">ASSESS</span>
+            <span className="text-foreground">ASSESS</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <span className="text-primary">REMEDIATE</span>
+            <span className="text-foreground">REMEDIATE</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <span className="text-primary">MANAGE</span>
+            <span className="text-foreground">MANAGE</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <span className="text-primary">OPTIMIZE</span>
+            <span className="text-foreground">OPTIMIZE</span>
           </div>
         </motion.div>
 
@@ -292,13 +296,13 @@ export const RadialConfigurator = () => {
                           y1={centerY}
                           x2={x}
                           y2={y}
-                          stroke={BRAND_ORANGE}
+                          stroke={BRAND_ACCENT}
                           strokeWidth="2"
                           strokeDasharray="6 4"
                           initial={{ pathLength: 0, opacity: 0 }}
                           animate={{ pathLength: 1, opacity: 1 }}
                           transition={{ duration: 0.5 }}
-                          style={{ filter: `drop-shadow(0 0 10px ${BRAND_ORANGE})` }}
+                          style={{ filter: `drop-shadow(0 0 10px ${BRAND_ACCENT})` }}
                         />
                       )}
 
@@ -314,7 +318,7 @@ export const RadialConfigurator = () => {
                           width="32"
                           height="32"
                           rx="4"
-                          fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 12%)"}
+                          fill={isActive ? BRAND_ACCENT : "hsl(0, 0%, 90%)"}
                           opacity={0.4}
                           transform="translate(4, 4)"
                         />
@@ -325,10 +329,10 @@ export const RadialConfigurator = () => {
                           width="32"
                           height="32"
                           rx="4"
-                          fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 8%)"}
-                          stroke={isActive ? BRAND_ORANGE : "hsl(0, 0%, 25%)"}
+                          fill={isActive ? BRAND_ACCENT : "hsl(0, 0%, 100%)"}
+                          stroke={isActive ? BRAND_ACCENT : "hsl(0, 0%, 80%)"}
                           strokeWidth="2"
-                          style={{ filter: isActive ? `drop-shadow(0 0 15px ${BRAND_ORANGE})` : "none" }}
+                          style={{ filter: isActive ? `drop-shadow(0 0 15px ${BRAND_ACCENT})` : "none" }}
                         />
                         {/* Box icon inside cube */}
                         <Box
@@ -336,7 +340,7 @@ export const RadialConfigurator = () => {
                           y={y - 10}
                           width={20}
                           height={20}
-                          color={isActive ? "white" : "hsl(220, 9%, 50%)"}
+                          color={isActive ? "white" : "hsl(0, 0%, 42%)"}
                           className="pointer-events-none"
                         />
                       </motion.g>
@@ -347,7 +351,7 @@ export const RadialConfigurator = () => {
                         y={y + 32}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        fill={isActive ? "white" : "hsl(220, 9%, 50%)"}
+                        fill={isActive ? BRAND_BLACK : "hsl(0, 0%, 42%)"}
                         fontSize="9"
                         fontFamily="Roboto Mono"
                         className="pointer-events-none uppercase font-medium"
@@ -370,7 +374,7 @@ export const RadialConfigurator = () => {
                       exit={{ opacity: 0, scale: 0.7 }}
                       transition={{ duration: 0.4 }}
                     >
-                      <circle cx={centerX} cy={centerY} r={blockRingRadius} fill="none" stroke="hsl(0, 0%, 20%)" strokeWidth="1" strokeDasharray="4 4" />
+                      <circle cx={centerX} cy={centerY} r={blockRingRadius} fill="none" stroke="hsl(0, 0%, 80%)" strokeWidth="1" strokeDasharray="4 4" />
                       {selectedKube.blocks.map((block, index) => {
                         const angle = ((index * 360) / selectedKube.blocks.length - 90) * (Math.PI / 180);
                         const x = centerX + Math.cos(angle) * blockRingRadius;
@@ -392,13 +396,13 @@ export const RadialConfigurator = () => {
                                 y1={y}
                                 x2={kubeX}
                                 y2={kubeY}
-                                stroke={BRAND_ORANGE}
+                                stroke={BRAND_ACCENT}
                                 strokeWidth="1.5"
                                 strokeDasharray="4 3"
                                 initial={{ pathLength: 0 }}
                                 animate={{ pathLength: 1 }}
                                 transition={{ duration: 0.3 }}
-                                style={{ filter: `drop-shadow(0 0 8px ${BRAND_ORANGE})` }}
+                                style={{ filter: `drop-shadow(0 0 8px ${BRAND_ACCENT})` }}
                               />
                             )}
                             <g className="cursor-pointer" onClick={() => setSelection(prev => ({ ...prev, block: block.id }))}>
@@ -408,18 +412,18 @@ export const RadialConfigurator = () => {
                                 width="32"
                                 height="24"
                                 rx="4"
-                                fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 10%)"}
-                                stroke={isActive ? BRAND_ORANGE : "hsl(0, 0%, 28%)"}
+                                fill={isActive ? BRAND_ACCENT : "hsl(0, 0%, 96%)"}
+                                stroke={isActive ? BRAND_ACCENT : "hsl(0, 0%, 80%)"}
                                 strokeWidth="1.5"
                                 whileHover={{ scale: 1.15 }}
-                                style={{ filter: isActive ? `drop-shadow(0 0 12px ${BRAND_ORANGE})` : "none" }}
+                                style={{ filter: isActive ? `drop-shadow(0 0 12px ${BRAND_ACCENT})` : "none" }}
                               />
                               <text
                                 x={x}
                                 y={y}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                fill={isActive ? "white" : "hsl(220, 9%, 55%)"}
+                                fill={isActive ? "white" : "hsl(0, 0%, 42%)"}
                                 fontSize="6"
                                 fontFamily="Roboto Mono"
                                 className="pointer-events-none"
@@ -445,7 +449,7 @@ export const RadialConfigurator = () => {
                       exit={{ opacity: 0, scale: 0.7 }}
                       transition={{ duration: 0.4, delay: 0.1 }}
                     >
-                      <circle cx={centerX} cy={centerY} r={designationRingRadius} fill="none" stroke="hsl(0, 0%, 18%)" strokeWidth="1" />
+                      <circle cx={centerX} cy={centerY} r={designationRingRadius} fill="none" stroke="hsl(0, 0%, 80%)" strokeWidth="1" />
                       {designations.map((des, index) => {
                         const angle = ((index * 360) / designations.length - 90) * (Math.PI / 180);
                         const x = centerX + Math.cos(angle) * designationRingRadius;
@@ -458,18 +462,18 @@ export const RadialConfigurator = () => {
                               cx={x}
                               cy={y}
                               r={isActive ? 20 : 16}
-                              fill={isActive ? BRAND_ORANGE : "hsl(0, 0%, 8%)"}
-                              stroke={isActive ? BRAND_ORANGE : "hsl(0, 0%, 25%)"}
+                              fill={isActive ? BRAND_ACCENT : "hsl(0, 0%, 100%)"}
+                              stroke={isActive ? BRAND_ACCENT : "hsl(0, 0%, 80%)"}
                               strokeWidth="2"
                               whileHover={{ scale: 1.15 }}
-                              style={{ filter: isActive ? `drop-shadow(0 0 14px ${BRAND_ORANGE})` : "none" }}
+                              style={{ filter: isActive ? `drop-shadow(0 0 14px ${BRAND_ACCENT})` : "none" }}
                             />
                             <text
                               x={x}
                               y={y}
                               textAnchor="middle"
                               dominantBaseline="middle"
-                              fill={isActive ? "white" : "hsl(220, 9%, 55%)"}
+                              fill={isActive ? "white" : "hsl(0, 0%, 42%)"}
                               fontSize="10"
                               fontFamily="Roboto Mono"
                               className="pointer-events-none font-bold"
@@ -490,11 +494,11 @@ export const RadialConfigurator = () => {
                   cx={centerX}
                   cy={centerY}
                   r="30"
-                  fill="hsl(0, 0%, 2%)"
+                  fill={BRAND_BLACK}
                   stroke="url(#coreGradient)"
                   strokeWidth="2"
                   animate={{
-                    filter: selection.kube ? "drop-shadow(0 0 20px hsl(32, 91%, 44%))" : "none"
+                    filter: selection.kube ? `drop-shadow(0 0 20px ${BRAND_ACCENT})` : "none"
                   }}
                 />
                 <text
@@ -526,7 +530,7 @@ export const RadialConfigurator = () => {
                   y={centerY + 16}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fill="hsl(220, 9%, 50%)"
+                  fill="hsl(0, 0%, 70%)"
                   fontSize="3.5"
                   fontFamily="Roboto Mono"
                 >
@@ -545,10 +549,10 @@ export const RadialConfigurator = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.4 }}
-                  className="w-full max-w-xl mt-6 card-glass rounded-xl p-4"
+                  className="w-full max-w-xl mt-6 card-enterprise p-4"
                 >
-                  <h4 className="font-display text-sm text-white mb-3 flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-primary text-xs flex items-center justify-center text-white">4</span>
+                  <h4 className="font-display text-sm text-foreground mb-3 flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-foreground text-xs flex items-center justify-center text-background">4</span>
                     COMPLIANCE FRAMEWORKS (Multi-Select)
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -560,8 +564,8 @@ export const RadialConfigurator = () => {
                           onClick={() => toggleCompliance(framework.id)}
                           className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-300 flex items-center gap-1.5 ${
                             isActive
-                              ? "bg-primary/20 text-white ring-1 ring-primary"
-                              : "bg-secondary text-muted-foreground hover:text-white hover:bg-secondary/80"
+                              ? "bg-foreground text-background"
+                              : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
                           }`}
                         >
                           {isActive && <Check className="w-3 h-3" />}
@@ -577,19 +581,19 @@ export const RadialConfigurator = () => {
             {/* Selection State Indicator */}
             <div className="w-full max-w-xl mt-4">
               <div className="flex items-center justify-center gap-1 text-xs font-mono">
-                <span className={`px-2 py-1 rounded ${selection.kube ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.kube ? "bg-foreground text-background" : "bg-muted text-muted-foreground"}`}>
                   1. Kube {selection.kube ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
-                <span className={`px-2 py-1 rounded ${selection.block ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.block ? "bg-foreground text-background" : "bg-muted text-muted-foreground"}`}>
                   2. Block {selection.block ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
-                <span className={`px-2 py-1 rounded ${selection.designation ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.designation ? "bg-foreground text-background" : "bg-muted text-muted-foreground"}`}>
                   3. Scale {selection.designation ? "✓" : "○"}
                 </span>
                 <ChevronRight className="w-3 h-3 text-muted-foreground" />
-                <span className={`px-2 py-1 rounded ${selection.compliance.length > 0 ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}>
+                <span className={`px-2 py-1 rounded ${selection.compliance.length > 0 ? "bg-foreground text-background" : "bg-muted text-muted-foreground"}`}>
                   4. Compliance {selection.compliance.length > 0 ? "✓" : "○"}
                 </span>
               </div>
@@ -604,7 +608,7 @@ export const RadialConfigurator = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="card-glass rounded-xl p-6 lg:p-8 h-fit lg:sticky lg:top-24"
+            className="card-enterprise h-fit lg:sticky lg:top-24"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -619,15 +623,13 @@ export const RadialConfigurator = () => {
                 {selectedKube && (
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <div
-                        className="w-4 h-4 rounded bg-primary"
-                      />
-                      <h3 className="font-display text-xl text-white uppercase">
+                      <div className="w-4 h-4 rounded bg-foreground" />
+                      <h3 className="font-display text-xl text-foreground uppercase">
                         {selectedKube.name} Kube
                       </h3>
                     </div>
-                    <p className="font-mono text-sm text-primary mb-2">{selectedKube.description}</p>
-                    <p className="font-mono text-xs text-white/70">{selectedKube.tagline}</p>
+                    <p className="font-mono text-sm text-muted-foreground mb-2">{selectedKube.description}</p>
+                    <p className="font-mono text-xs text-muted-foreground">{selectedKube.tagline}</p>
 
                     {/* Nested Blocks List */}
                     <div className="mt-4 space-y-2">
@@ -638,20 +640,20 @@ export const RadialConfigurator = () => {
                           <div
                             key={block.id}
                             onClick={() => setSelection(prev => ({ ...prev, block: block.id }))}
-                            className={`p-3 rounded-lg cursor-pointer transition-all duration-200 border ${
+                            className={`p-3 cursor-pointer transition-all duration-200 border ${
                               isActive
-                                ? "bg-primary/15 border-primary/50"
-                                : "bg-secondary/30 border-transparent hover:bg-secondary/50"
+                                ? "bg-foreground text-background border-foreground"
+                                : "bg-muted border-border hover:border-foreground"
                             }`}
                           >
                             <div className="flex items-center gap-2">
-                              <div className={`w-2 h-2 rounded-full ${isActive ? "bg-primary" : "bg-muted-foreground"}`} />
-                              <span className={`font-mono text-sm ${isActive ? "text-white" : "text-white/70"}`}>
+                              <div className={`w-2 h-2 rounded-full ${isActive ? "bg-background" : "bg-muted-foreground"}`} />
+                              <span className={`font-mono text-sm ${isActive ? "text-background" : "text-foreground"}`}>
                                 {block.name}
                               </span>
                             </div>
                             {isActive && (
-                              <p className="font-mono text-xs text-muted-foreground mt-1 ml-4">
+                              <p className="font-mono text-xs text-background/70 mt-1 ml-4">
                                 {block.description}
                               </p>
                             )}
@@ -667,13 +669,11 @@ export const RadialConfigurator = () => {
                   <div className="pt-4 border-t border-border">
                     <div className="font-mono text-xs text-muted-foreground mb-2 uppercase">Scale / Designation</div>
                     <div className="flex items-center gap-3">
-                      <span
-                        className="px-4 py-2 rounded-full font-mono text-sm text-white font-bold bg-primary"
-                      >
+                      <span className="px-4 py-2 font-mono text-sm text-background font-bold bg-foreground">
                         {selectedDesignation.name}
                       </span>
                       <div>
-                        <div className="font-mono text-sm text-white">{selectedDesignation.description}</div>
+                        <div className="font-mono text-sm text-foreground">{selectedDesignation.description}</div>
                         <div className="font-mono text-xs text-muted-foreground">{selectedDesignation.details}</div>
                       </div>
                     </div>
@@ -690,7 +690,7 @@ export const RadialConfigurator = () => {
                         return (
                           <span
                             key={id}
-                            className="px-2 py-1 rounded-full font-mono text-xs text-white bg-primary/30"
+                            className="px-2 py-1 font-mono text-xs text-background bg-foreground"
                           >
                             {f?.name}
                           </span>
@@ -698,18 +698,18 @@ export const RadialConfigurator = () => {
                       })}
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-secondary rounded-lg p-3">
-                        <div className="font-display text-2xl text-white">{getTotalControls()}</div>
+                      <div className="bg-muted p-3">
+                        <div className="font-display text-2xl text-foreground">{getTotalControls()}</div>
                         <div className="font-mono text-xs text-muted-foreground">Total Controls</div>
                       </div>
-                      <div className="bg-secondary rounded-lg p-3">
-                        <div className="font-display text-2xl text-primary">
+                      <div className="bg-muted p-3">
+                        <div className="font-display text-2xl text-foreground">
                           ${(getEstimatedCost().assessment / 1000).toFixed(1)}K
                         </div>
                         <div className="font-mono text-xs text-muted-foreground">Est. Assessment</div>
                       </div>
                     </div>
-                    <div className="mt-3 font-mono text-xs text-white/50">
+                    <div className="mt-3 font-mono text-xs text-muted-foreground">
                       Est. Remediation: ${(getEstimatedCost().monthly / 1000).toFixed(0)}K/mo
                     </div>
                   </div>
@@ -719,7 +719,7 @@ export const RadialConfigurator = () => {
                 {!selectedKube && (
                   <div className="text-center py-12">
                     <Box className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                    <div className="font-display text-xl text-white mb-2">SELECT A KUBE</div>
+                    <div className="font-display text-xl text-foreground mb-2">SELECT A KUBE</div>
                     <p className="font-mono text-sm text-muted-foreground">
                       Click any cube on the outer ring to begin building your stack
                     </p>
@@ -729,11 +729,11 @@ export const RadialConfigurator = () => {
                 {/* CTAs */}
                 {selectedKube && (
                   <div className="space-y-3 pt-6">
-                    <Button className="w-full bg-primary hover:bg-primary/90 font-mono text-sm">
+                    <Button className="w-full btn-primary font-mono text-sm">
                       <FileText className="w-4 h-4 mr-2" />
                       {getCTAText()}
                     </Button>
-                    <Button variant="outline" className="w-full font-mono text-sm">
+                    <Button variant="outline" className="w-full btn-secondary font-mono text-sm">
                       <Calendar className="w-4 h-4 mr-2" />
                       SCHEDULE CONSULTATION
                     </Button>
