@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 export const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center pt-24 lg:pt-32 section-white">
+    <section className="min-h-screen flex items-center pt-28 lg:pt-36 section-white">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-6xl">
           {/* Accent line */}
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: 64 }}
+            animate={{ width: 80 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="accent-line mb-8"
+            className="accent-line mb-10"
           />
 
           {/* Main Headline */}
@@ -57,28 +58,18 @@ export const HeroSection = () => {
             </Link>
           </motion.div>
 
-          {/* Stats Row - Simple horizontal layout */}
+          {/* Stats Row - Centered with Animation */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="flex flex-wrap gap-x-16 gap-y-8 border-t border-border pt-12"
+            className="border-t border-border pt-12"
           >
-            <div>
-              <div className="text-display text-foreground">8</div>
-              <div className="text-label text-muted-foreground mt-1">Kubes</div>
-            </div>
-            <div>
-              <div className="text-display text-foreground">9</div>
-              <div className="text-label text-muted-foreground mt-1">Industry Platforms</div>
-            </div>
-            <div>
-              <div className="text-display text-foreground">6</div>
-              <div className="text-label text-muted-foreground mt-1">Pricing Models</div>
-            </div>
-            <div>
-              <div className="text-display text-brand-orange">1,200+</div>
-              <div className="text-label text-muted-foreground mt-1">Controls Mapped</div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-16 justify-items-center max-w-4xl mx-auto">
+              <AnimatedCounter end={8} label="Kubes" duration={1500} />
+              <AnimatedCounter end={9} label="Industry Platforms" duration={1700} />
+              <AnimatedCounter end={6} label="Pricing Models" duration={1900} />
+              <AnimatedCounter end={1200} suffix="+" label="Controls Mapped" highlight duration={2200} />
             </div>
           </motion.div>
         </div>
