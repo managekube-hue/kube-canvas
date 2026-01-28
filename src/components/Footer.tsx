@@ -23,6 +23,7 @@ const industries = [
 const company = [
   { label: "About", href: "/about" },
   { label: "Methodology", href: "/methodology" },
+  { label: "Solutions", href: "/solutions" },
   { label: "Pricing", href: "/pricing" },
   { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
