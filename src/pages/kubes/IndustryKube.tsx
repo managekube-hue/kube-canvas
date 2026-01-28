@@ -1,168 +1,185 @@
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
+import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const industries = [
   {
-    id: "manufacturing",
-    name: "M2BLOCK",
-    title: "Manufacturing",
-    description: "Smart factory OT/IT convergence, predictive maintenance, and supply chain optimization.",
+    id: "m2block",
+    name: "Manufacturing M2BLOCK",
+    description: "Production excellence through intelligent operations. Predictive maintenance, automated quality control, and production optimization.",
     href: "/industries/manufacturing",
+    challenge: "Unplanned downtime, quality defects, manual inspection processes",
   },
   {
-    id: "healthcare",
-    name: "H2BLOCK",
-    title: "Healthcare",
-    description: "HIPAA-compliant infrastructure, telehealth platforms, and clinical system integrations.",
+    id: "h2block",
+    name: "Healthcare H2BLOCK",
+    description: "Clinical excellence through secure infrastructure. HIPAA compliance, EHR optimization, and medical device integration.",
     href: "/industries/healthcare",
+    challenge: "Slow EHR systems, compliance requirements, cybersecurity threats",
   },
   {
-    id: "financial-services",
-    name: "F2BLOCK",
-    title: "Financial Services",
-    description: "SOX/PCI compliance, fraud detection, and secure trading infrastructure.",
+    id: "f2block",
+    name: "Financial Services F2BLOCK",
+    description: "Regulatory compliance through resilient platforms. Real-time fraud detection, trading system performance, and audit readiness.",
     href: "/industries/financial-services",
+    challenge: "Regulatory pressure, fraud prevention, transaction latency",
   },
   {
-    id: "retail",
-    name: "R2BLOCK",
-    title: "Retail",
-    description: "PCI-compliant POS, omnichannel integration, and inventory optimization.",
+    id: "r2block",
+    name: "Retail R2BLOCK",
+    description: "Omnichannel excellence through unified commerce. Inventory optimization, customer experience, and store technology.",
     href: "/industries/retail",
+    challenge: "Omnichannel integration, inventory visibility, customer experience",
   },
   {
-    id: "transportation",
-    name: "T2BLOCK",
-    title: "Transportation",
-    description: "Fleet management, logistics optimization, and DOT compliance.",
+    id: "t2block",
+    name: "Transportation T2BLOCK",
+    description: "Fleet intelligence through connected operations. Route optimization, asset tracking, and driver compliance.",
     href: "/industries/transportation",
+    challenge: "Fuel costs, asset utilization, regulatory compliance",
   },
   {
-    id: "mining-extraction",
-    name: "ME2BLOCK",
-    title: "Mining & Extraction",
-    description: "Remote site connectivity, safety systems, and environmental monitoring.",
+    id: "me2block",
+    name: "Mining & Extraction ME2BLOCK",
+    description: "Remote operations through resilient infrastructure. Harsh environment computing, safety systems, and environmental compliance.",
     href: "/industries/mining-extraction",
+    challenge: "Extreme environments, equipment failures, safety and compliance",
   },
   {
-    id: "energy-utilities",
-    name: "EU2BLOCK",
-    title: "Energy & Utilities",
-    description: "NERC CIP compliance, SCADA security, and smart grid infrastructure.",
+    id: "eu2block",
+    name: "Energy & Utilities EU2BLOCK",
+    description: "Grid resilience through intelligent asset management. Renewable integration, SCADA security, and sustainability reporting.",
     href: "/industries/energy-utilities",
+    challenge: "Grid stability, aging assets, cybersecurity for OT",
   },
   {
-    id: "public-sector",
-    name: "PS2BLOCK",
-    title: "Public Sector",
-    description: "FedRAMP/StateRAMP compliance, citizen services, and secure government infrastructure.",
+    id: "ps2block",
+    name: "Public Sector PS2BLOCK",
+    description: "Citizen services through secure digital platforms. FedRAMP compliance, remote work enablement, and legacy modernization.",
     href: "/industries/public-sector",
+    challenge: "Legacy systems, compliance requirements, citizen service delivery",
   },
   {
-    id: "telecommunications",
-    name: "TC2BLOCK",
-    title: "Telecommunications",
-    description: "Network operations, 5G infrastructure, and carrier-grade security.",
+    id: "tc2block",
+    name: "Telecommunications TC2BLOCK",
+    description: "Network transformation through cloud-native infrastructure. 5G deployment, BSS/OSS modernization, and edge computing.",
     href: "/industries/telecommunications",
+    challenge: "5G deployment, legacy BSS/OSS, operational expenses",
   },
 ];
 
 const IndustryKube = () => {
   return (
     <PageLayout>
-      <PageBanner
-        title="Industry Kube"
-        subtitle="Pre-configured solution platforms for 9 verticals. Each BLOCK combines Dell infrastructure with IBM intelligence, tuned to your industry's specific compliance, operational, and technology requirements."
+      <PageBanner 
+        title="Industry Kube" 
+        subtitle="Pre-integrated business transformation platforms designed for nine industry verticals. Each BLOCK combines enterprise infrastructure, intelligent software, and comprehensive managed services into outcome-focused solutions."
         phase="REMEDIATE"
       />
 
-      {/* Industry Grid */}
-      <section className="py-20 lg:py-32 bg-white">
+      {/* Value Proposition */}
+      <section className="py-20 lg:py-24 bg-white border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-label text-muted-foreground mb-12"
+              className="text-label text-muted-foreground mb-6"
             >
-              9 Industry Platforms
+              THE MANAGEKUBE DIFFERENCE
             </motion.p>
-
-            <div className="space-y-0">
-              {industries.map((industry, index) => (
-                <motion.div
-                  key={industry.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  className="border-t border-border"
-                >
-                  <Link
-                    to={industry.href}
-                    className="group block py-8 lg:py-10"
-                  >
-                    <div className="grid lg:grid-cols-12 gap-6 items-center">
-                      <div className="lg:col-span-2">
-                        <span className="text-label text-brand-orange font-bold">
-                          {industry.name}
-                        </span>
-                      </div>
-                      <div className="lg:col-span-3">
-                        <h3 className="text-title text-foreground group-hover:translate-x-2 transition-transform">
-                          {industry.title}
-                        </h3>
-                      </div>
-                      <div className="lg:col-span-6">
-                        <p className="text-body-lg text-muted-foreground">
-                          {industry.description}
-                        </p>
-                      </div>
-                      <div className="lg:col-span-1 flex justify-end">
-                        <ArrowRight className="w-6 h-6 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-body-xl text-foreground leading-relaxed"
+            >
+              Organizations engage these platforms to achieve specific business results rather than purchasing and integrating technology components independently. A manufacturing organization does not procure servers, storage systems, and software licenses separately—instead, they engage the Manufacturing M2BLOCK platform to establish predictive maintenance capabilities, automated quality control, and production optimization. The underlying technology stack operates transparently while delivering measurable operational improvements.
+            </motion.p>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20 lg:py-32 bg-foreground text-white">
+      {/* Industry Grid */}
+      <section className="py-20 lg:py-32 bg-secondary">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="text-center mb-16">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-label text-muted-foreground mb-4"
+            >
+              NINE INDUSTRY VERTICALS
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-headline text-foreground"
+            >
+              Select Your Industry
+            </motion.h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {industries.map((industry, index) => (
+              <motion.div
+                key={industry.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Link
+                  to={industry.href}
+                  className="group block h-full p-8 bg-white border border-border hover:border-foreground transition-all duration-300"
+                >
+                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-brand-orange transition-colors">
+                    {industry.name}
+                  </h3>
+                  <p className="text-body text-muted-foreground mb-4">
+                    {industry.description}
+                  </p>
+                  <p className="text-sm text-muted-foreground/70 mb-6">
+                    <strong>Challenge:</strong> {industry.challenge}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm font-semibold text-foreground group-hover:text-brand-orange transition-colors">
+                    Explore BLOCK
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sizing Section */}
+      <section className="py-24 lg:py-32 bg-foreground text-background">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-16">
               <div>
-                <p className="text-label text-white/50 mb-6">How Industry Kubes Work</p>
-                <h2 className="text-headline text-white">
-                  Pre-configured for your vertical
-                </h2>
+                <p className="text-label text-background/50 mb-6">FLEXIBLE ENGAGEMENT</p>
+                <h2 className="text-headline text-background">Scale to Your Size</h2>
               </div>
               <div className="space-y-8">
                 <div className="border-l-4 border-brand-orange pl-6">
-                  <h3 className="text-title text-white mb-2">Compliance Built-In</h3>
-                  <p className="text-body-lg text-white/70">
-                    Industry-specific frameworks (HIPAA, PCI, NERC CIP, etc.) are pre-mapped with controls and evidence collection.
-                  </p>
+                  <h3 className="text-xl font-bold text-background mb-2">Small Business Entry</h3>
+                  <p className="text-body text-background/70">10-100 users, single location. $5K-15K/month.</p>
                 </div>
                 <div className="border-l-4 border-brand-orange pl-6">
-                  <h3 className="text-title text-white mb-2">Validated Architectures</h3>
-                  <p className="text-body-lg text-white/70">
-                    Dell and IBM reference architectures tested and certified for your industry's workloads.
-                  </p>
+                  <h3 className="text-xl font-bold text-background mb-2">Mid-Market Standard</h3>
+                  <p className="text-body text-background/70">100-1,000 users, 2-5 locations. $25K-75K/month.</p>
                 </div>
                 <div className="border-l-4 border-brand-orange pl-6">
-                  <h3 className="text-title text-white mb-2">Accelerated Deployment</h3>
-                  <p className="text-body-lg text-white/70">
-                    Pre-built integrations and configurations reduce implementation time by 40-60%.
-                  </p>
+                  <h3 className="text-xl font-bold text-background mb-2">Enterprise Global</h3>
+                  <p className="text-body text-background/70">1,000+ users, 10+ locations. $150K-500K+/month.</p>
                 </div>
               </div>
             </div>
@@ -170,25 +187,10 @@ const IndustryKube = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 lg:py-32 bg-secondary">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-headline text-foreground mb-8">Find your industry solution</h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/#assessment" className="btn-primary">
-                Start Free Assessment
-              </Link>
-              <Link to="/contact" className="btn-secondary">
-                Talk to an Expert
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Pathfinder CTA */}
+      <PathfinderCTA />
     </PageLayout>
   );
 };
 
 export default IndustryKube;
-

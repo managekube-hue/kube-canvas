@@ -41,7 +41,7 @@ export const Footer = () => {
               className="h-12 w-auto mb-6 brightness-0 invert"
             />
             <p className="text-body-lg text-white/60 max-w-sm">
-              Making complex IT understandable. Dell infrastructure. IBM software. One accountable team.
+              Making complex IT understandable. Enterprise infrastructure. Intelligent software. One accountable team.
             </p>
           </div>
 
