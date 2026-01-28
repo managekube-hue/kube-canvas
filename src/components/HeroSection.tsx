@@ -63,8 +63,7 @@ export const HeroSection = () => {
               transition={{ duration: 0.7, delay: 2.2 }}
               className="text-body-xl text-white/70 max-w-xl mb-12"
             >
-              From $99 automation templates to enterprise platform deployments. 
-              Dell infrastructure. IBM software. One accountable team.
+              One methodology. Four phases. Complete accountability from assessment to optimization.
             </motion.p>
 
             {/* CTAs */}
@@ -89,71 +88,79 @@ export const HeroSection = () => {
               </Link>
             </motion.div>
 
-            {/* 3-Column Capability Matrix */}
+            {/* 4-Column Methodology Grid */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 2.8 }}
               className="pt-10"
             >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-8">
-                {/* Column 1: What You Get */}
-                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    What You Get
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+                {/* Column 1: ASSESS */}
+                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
+                  <span className="font-mono text-5xl text-white font-bold mb-2">01</span>
+                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                    ASSESS
                   </h3>
-                  <p className="font-mono text-lg text-white font-bold mb-3">
-                    SINGLE TEAM
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    Current state agent inventory
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    No vendor sprawl.
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    Risk register + remediation roadmap
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    One SLA.
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-4">
-                    Clear ownership.
-                  </p>
-                  <p className="font-mono text-2xl text-brand-orange font-bold">
-                    8 vendors → 1 team
+                  <p className="font-mono text-sm text-muted-foreground">
+                    4-week fixed scope output
                   </p>
                 </div>
 
-                {/* Column 2: How Assessment Works */}
-                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    How Assessment Works
+                {/* Column 2: REMEDIATE */}
+                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
+                  <span className="font-mono text-5xl text-white font-bold mb-2">02</span>
+                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                    REMEDIATE
                   </h3>
-                  <p className="font-mono text-lg text-white font-bold mb-3">
-                    AGENT-BASED DISCOVERY
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    Product deployment projects
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Deploy lightweight agents
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    Compliance framework implementation
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Real-time inventory
-                  </p>
-                  <p className="font-mono text-sm text-white/70">
-                    Automatic gap analysis
+                  <p className="font-mono text-sm text-muted-foreground">
+                    90-day project execution
                   </p>
                 </div>
 
-                {/* Column 3: Assessment → Revenue */}
-                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    Assessment → Recommendations
+                {/* Column 3: MANAGE */}
+                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
+                  <span className="font-mono text-5xl text-white font-bold mb-2">03</span>
+                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                    MANAGE
                   </h3>
-                  <p className="font-mono text-lg text-white font-bold mb-3">
-                    PRODUCT & SERVICE FIT
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    MSP/MSSP daily operations
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Assessment reveals gaps
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    NOC + service desk
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    We recommend exact SKUs
+                  <p className="font-mono text-sm text-muted-foreground">
+                    SLA-backed infrastructure
                   </p>
-                  <p className="font-mono text-sm text-white/70">
-                    + Kubes to close them
+                </div>
+
+                {/* Column 4: OPTIMIZE */}
+                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
+                  <span className="font-mono text-5xl text-white font-bold mb-2">04</span>
+                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                    OPTIMIZE
+                  </h3>
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    vCIO/vCISO strategic advisory
+                  </p>
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    FinOps cost governance
+                  </p>
+                  <p className="font-mono text-sm text-muted-foreground">
+                    AI automation deployment
                   </p>
                 </div>
               </div>
@@ -161,9 +168,10 @@ export const HeroSection = () => {
               {/* Full-Width CTA Button */}
               <Link
                 to="/assessment"
-                className="w-full inline-flex items-center justify-center px-8 py-4 bg-brand-orange text-white font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
+                className="w-full inline-flex items-center justify-center px-8 py-5 bg-brand-orange text-white font-mono font-bold text-lg uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
               >
-                Build My Engagement Plan
+                Build My Plan
+                <ArrowRight className="w-5 h-5 ml-3" />
               </Link>
             </motion.div>
           </div>
