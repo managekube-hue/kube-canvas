@@ -1,10 +1,10 @@
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
-import { MethodologyWheel } from "@/components/MethodologyWheel";
+import { InteractiveKubeWheel } from "@/components/InteractiveKubeWheel";
 import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 interface Block {
@@ -85,29 +85,28 @@ export const KubePageTemplate = ({
         </section>
       )}
 
-      {/* Block Buttons - For non-wheel users */}
-      <section className="py-16 lg:py-20 bg-secondary">
+      {/* Block Buttons - Quick access for non-wheel users */}
+      <section className="py-12 lg:py-16 bg-secondary">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="text-center mb-12">
-            <p className="text-label text-muted-foreground mb-4">{tagline}</p>
-            <h2 className="text-title text-foreground">
-              Select Your Blocks
+          <div className="mb-8">
+            <p className="text-label text-muted-foreground mb-2">{tagline}</p>
+            <h2 className="text-xl font-bold text-foreground">
+              Quick Access: Select Blocks
             </h2>
           </div>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap gap-3">
             {blocksWithIds.map((block, index) => (
               <motion.button
                 key={block.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.03 }}
                 onClick={() => {
                   setActiveBlock(block);
-                  // Scroll to wheel section
                   document.getElementById('wheel-section')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`px-6 py-4 font-semibold transition-all border-2 ${
+                className={`px-5 py-3 text-sm font-semibold transition-all border-2 ${
                   activeBlock?.id === block.id
                     ? "border-foreground bg-foreground text-white"
                     : selectedBlocks.includes(block.id)
@@ -122,15 +121,15 @@ export const KubePageTemplate = ({
         </div>
       </section>
 
-      {/* Interactive Wheel Section */}
+      {/* Interactive Wheel Section - 60% left, 40% right */}
       <section id="wheel-section" className="py-20 lg:py-32 bg-white">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
+          <div className="mb-12">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-label text-muted-foreground mb-4"
+              className="text-label text-muted-foreground mb-2"
             >
               INTERACTIVE CONFIGURATION
             </motion.p>
@@ -138,13 +137,13 @@ export const KubePageTemplate = ({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-headline text-foreground"
+              className="text-2xl lg:text-3xl font-bold text-foreground"
             >
               Explore {name.replace(" Kube", "")} Blocks
             </motion.h2>
           </div>
 
-          <MethodologyWheel
+          <InteractiveKubeWheel
             kubeName={name}
             blocks={blocksWithIds}
             selectedBlocks={selectedBlocks}
