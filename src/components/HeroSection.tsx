@@ -89,19 +89,82 @@ export const HeroSection = () => {
               </Link>
             </motion.div>
 
-            {/* Stats Row */}
+            {/* 3-Column Capability Matrix */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 2.8 }}
-              className="border-t border-white/20 pt-10"
+              className="pt-10"
             >
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-10">
-                <AnimatedCounter end={8} label="Kubes" duration={1500} />
-                <AnimatedCounter end={9} label="Industry Platforms" duration={1700} />
-                <AnimatedCounter end={6} label="Pricing Models" duration={1900} />
-                <AnimatedCounter end={1200} suffix="+" label="Controls Mapped" highlight duration={2200} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-8">
+                {/* Column 1: What You Get */}
+                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
+                    What You Get
+                  </h3>
+                  <p className="font-mono text-lg text-white font-bold mb-3">
+                    ONE ACCOUNTABLE TEAM
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    No vendor handoffs.
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-4">
+                    Single SLA across stack.
+                  </p>
+                  <p className="font-mono text-2xl text-brand-orange font-bold">
+                    8 → 1
+                  </p>
+                </div>
+
+                {/* Column 2: How It Works */}
+                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
+                    How It Works
+                  </h3>
+                  <p className="font-mono text-lg text-white font-bold mb-3">
+                    ASSESSMENT FIRST
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    4-week current-state review
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Inventory + risk + roadmap
+                  </p>
+                  <p className="font-mono text-sm text-white/70">
+                    Fixed-scope, fixed-price
+                  </p>
+                </div>
+
+                {/* Column 3: Proven at Scale */}
+                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
+                    Proven at Scale
+                  </h3>
+                  <p className="font-mono text-lg text-white font-bold mb-3">
+                    BUILT FOR ENTERPRISE
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-1">
+                    Dell Titanium Black
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-1">
+                    IBM Platinum
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-1">
+                    47+ regulated clients
+                  </p>
+                  <p className="font-mono text-sm text-white/70">
+                    SMB → Fortune 500
+                  </p>
+                </div>
               </div>
+
+              {/* Full-Width CTA Button */}
+              <Link
+                to="/assessment"
+                className="w-full inline-flex items-center justify-center px-8 py-4 bg-brand-orange text-white font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
+              >
+                Build My Engagement Plan
+              </Link>
             </motion.div>
           </div>
 
