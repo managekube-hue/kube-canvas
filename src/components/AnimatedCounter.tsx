@@ -1,4 +1,3 @@
-/** DO NOT TOUCH - Animated counter with light mode support */
 import { useCountUp } from "@/hooks/useCountUp";
 import { motion } from "framer-motion";
 
@@ -8,7 +7,6 @@ interface AnimatedCounterProps {
   label: string;
   highlight?: boolean;
   duration?: number;
-  light?: boolean;
 }
 
 export const AnimatedCounter = ({
@@ -17,7 +15,6 @@ export const AnimatedCounter = ({
   label,
   highlight = false,
   duration = 2000,
-  light = false,
 }: AnimatedCounterProps) => {
   const { ref, formattedValue } = useCountUp({
     end,
@@ -36,18 +33,12 @@ export const AnimatedCounter = ({
     >
       <div
         className={`text-display ${
-          highlight 
-            ? "text-primary" 
-            : light 
-              ? "text-background" 
-              : "text-foreground"
+          highlight ? "text-brand-orange" : "text-foreground"
         }`}
       >
         {formattedValue}
       </div>
-      <div className={`text-label mt-2 ${light ? "text-background/60" : "text-muted-foreground"}`}>
-        {label}
-      </div>
+      <div className="text-label text-muted-foreground mt-2">{label}</div>
     </motion.div>
   );
 };

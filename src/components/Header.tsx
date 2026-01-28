@@ -9,25 +9,14 @@ interface NavItem {
   children?: { label: string; href: string }[];
 }
 
-/** DO NOT TOUCH - Navigation items configuration */
 const navItems: NavItem[] = [
   {
     label: "Methodology",
     href: "/methodology",
   },
   {
-    label: "Solutions",
-    children: [
-      { label: "Find by Problem", href: "/find-by-problem" },
-      { label: "Find by Business Size", href: "/find-by-size" },
-      { label: "All Solutions", href: "/solutions" },
-      { label: "Start Assessment", href: "/assessment" },
-    ],
-  },
-  {
     label: "Kubes",
     children: [
-      { label: "All Kubes Overview", href: "/kubes" },
       { label: "Assessment Kube", href: "/kubes/assessment-kube" },
       { label: "Compliance Kube", href: "/kubes/compliance-kube" },
       { label: "MSSP Kube", href: "/kubes/mssp-kube" },
@@ -53,16 +42,16 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: "Company",
-    children: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
     label: "Pricing",
     href: "/pricing",
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Contact",
+    href: "/contact",
   },
 ];
 
