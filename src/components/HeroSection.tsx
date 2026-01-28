@@ -63,7 +63,8 @@ export const HeroSection = () => {
               transition={{ duration: 0.7, delay: 2.2 }}
               className="text-body-xl text-white/70 max-w-xl mb-12"
             >
-              One methodology. Four phases. Complete accountability from assessment to optimization.
+              From $99 automation templates to enterprise platform deployments. 
+              Dell infrastructure. IBM software. One accountable team.
             </motion.p>
 
             {/* CTAs */}
@@ -88,55 +89,71 @@ export const HeroSection = () => {
               </Link>
             </motion.div>
 
-            {/* 4-Column Methodology Grid */}
+            {/* 3-Column Capability Matrix */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 2.8 }}
               className="pt-10"
             >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
-                {/* Column 1: ASSESS */}
-                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
-                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">01</span>
-                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
-                    ASSESS
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-8">
+                {/* Column 1: What You Get */}
+                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
+                    What You Get
                   </h3>
-                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-                    Agent inventory · Risk register · 4-week output
+                  <p className="font-mono text-lg text-white font-bold mb-3">
+                    SINGLE TEAM
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    No vendor sprawl.
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    One SLA.
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-4">
+                    Clear ownership.
+                  </p>
+                  <p className="font-mono text-2xl text-brand-orange font-bold">
+                    8 vendors → 1 team
                   </p>
                 </div>
 
-                {/* Column 2: REMEDIATE */}
-                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
-                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">02</span>
-                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
-                    REMEDIATE
+                {/* Column 2: How Assessment Works */}
+                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
+                    How Assessment Works
                   </h3>
-                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-                    Product deploy · Compliance impl · 90-day execution
+                  <p className="font-mono text-lg text-white font-bold mb-3">
+                    AGENT-BASED DISCOVERY
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Deploy lightweight agents
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Real-time inventory
+                  </p>
+                  <p className="font-mono text-sm text-white/70">
+                    Automatic gap analysis
                   </p>
                 </div>
 
-                {/* Column 3: MANAGE */}
-                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
-                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">03</span>
-                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
-                    MANAGE
+                {/* Column 3: Assessment → Revenue */}
+                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
+                    Assessment → Recommendations
                   </h3>
-                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-                    MSP/MSSP ops · NOC + service desk · SLA-backed
+                  <p className="font-mono text-lg text-white font-bold mb-3">
+                    PRODUCT & SERVICE FIT
                   </p>
-                </div>
-
-                {/* Column 4: OPTIMIZE */}
-                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
-                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">04</span>
-                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
-                    OPTIMIZE
-                  </h3>
-                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-                    vCIO/vCISO · FinOps governance · AI automation
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Assessment reveals gaps
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    We recommend exact SKUs
+                  </p>
+                  <p className="font-mono text-sm text-white/70">
+                    + Kubes to close them
                   </p>
                 </div>
               </div>
@@ -144,10 +161,9 @@ export const HeroSection = () => {
               {/* Full-Width CTA Button */}
               <Link
                 to="/assessment"
-                className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-orange text-white font-mono font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
+                className="w-full inline-flex items-center justify-center px-8 py-4 bg-brand-orange text-white font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
               >
-                Build My Plan
-                <ArrowRight className="w-4 h-4" />
+                Build My Engagement Plan
               </Link>
             </motion.div>
           </div>
