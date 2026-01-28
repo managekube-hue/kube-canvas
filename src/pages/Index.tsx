@@ -4,7 +4,6 @@ import { ProblemSection } from "@/components/ProblemSection";
 import { MethodologySection } from "@/components/MethodologySection";
 import { DifferentiatorsSection } from "@/components/DifferentiatorsSection";
 import { KubeBreakdownSection } from "@/components/KubeBreakdownSection";
-import { PricingSection } from "@/components/PricingSection";
 import { IndustrySolutionsSection } from "@/components/IndustrySolutionsSection";
 import { AssessmentConfiguratorSection } from "@/components/AssessmentConfiguratorSection";
 import { FooterCTA } from "@/components/FooterCTA";
@@ -12,14 +11,13 @@ import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
       <ProblemSection />
       <MethodologySection />
       <DifferentiatorsSection />
       <KubeBreakdownSection />
-      <PricingSection />
       <IndustrySolutionsSection />
       <AssessmentConfiguratorSection />
       <FooterCTA />

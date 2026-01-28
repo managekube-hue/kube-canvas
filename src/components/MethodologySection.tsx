@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const phases = [
@@ -9,116 +10,102 @@ const phases = [
     number: "01",
     label: "ASSESS",
     kubes: ["Assessment Kube", "Compliance Kube"],
-    description: "Map current state, document infrastructure, identify security gaps, build transformation roadmap.",
+    description: "Map current state. Document infrastructure. Identify gaps. Build your transformation roadmap.",
   },
   {
     id: "remediate",
     number: "02",
     label: "REMEDIATE",
     kubes: ["Product Kube", "MSSP Kube", "Industry Kube"],
-    description: "Close compliance gaps, implement security controls, deploy infrastructure.",
+    description: "Close compliance gaps. Implement security controls. Deploy infrastructure.",
   },
   {
     id: "manage",
     number: "03",
     label: "MANAGE",
     kubes: ["MSP Kube", "MSSP Kube"],
-    description: "24/7 operations, service desk, NOC/SOC, continuous monitoring.",
+    description: "24/7 operations. Service desk. NOC/SOC. Continuous monitoring.",
   },
   {
     id: "optimize",
     number: "04",
     label: "OPTIMIZE",
     kubes: ["Advisory Kube", "Innovation Kube"],
-    description: "Strategic guidance, cost optimization, automation, continuous improvement.",
+    description: "Strategic guidance. Cost optimization. Automation. Continuous improvement.",
   },
 ];
 
 export const MethodologySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [activePhase, setActivePhase] = useState<string | null>(null);
 
   return (
-    <section ref={ref} className="py-24 lg:py-32 section-white" id="methodology">
-      <div className="container mx-auto px-4 lg:px-8">
+    <section ref={ref} className="py-32 lg:py-48 bg-white" id="methodology">
+      <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="mb-16 lg:mb-24"
+            transition={{ duration: 0.9 }}
+            className="mb-24"
           >
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              Our Methodology
+            <p className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6">
+              The Methodology
             </p>
-            <h2 className="font-display text-3xl lg:text-4xl text-foreground mb-6">
-              One methodology. Four phases.
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1]">
+              One methodology.
               <br />
-              Eight integrated modules.
+              <span className="text-muted-foreground">Four phases. Eight Kubes.</span>
             </h2>
           </motion.div>
 
-          {/* Phases Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
+          {/* Phases - Staggered Layout, Not Grid Boxes */}
+          <div className="space-y-0">
             {phases.map((phase, index) => (
               <motion.div
                 key={phase.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                onMouseEnter={() => setActivePhase(phase.id)}
-                onMouseLeave={() => setActivePhase(null)}
-                className={`bg-background p-6 lg:p-8 cursor-pointer transition-all duration-300 ${
-                  activePhase === phase.id ? "bg-foreground text-background" : ""
-                }`}
+                transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
+                className="border-t border-border py-12 lg:py-16 group hover:bg-[#FAFAFA] transition-colors -mx-6 lg:-mx-12 px-6 lg:px-12"
               >
-                <span className={`font-mono text-xs tracking-wider mb-4 block ${
-                  activePhase === phase.id ? "text-background/60" : "text-muted-foreground"
-                }`}>
-                  {phase.number}
-                </span>
-                
-                <h3 className={`font-display text-2xl mb-4 ${
-                  activePhase === phase.id ? "text-background" : "text-foreground"
-                }`}>
-                  {phase.label}
-                </h3>
-                
-                <p className={`font-mono text-sm leading-relaxed mb-6 ${
-                  activePhase === phase.id ? "text-background/80" : "text-muted-foreground"
-                }`}>
-                  {phase.description}
-                </p>
-                
-                <div className="space-y-1">
-                  {phase.kubes.map((kube) => (
-                    <p key={kube} className={`font-mono text-xs ${
-                      activePhase === phase.id ? "text-background/60" : "text-muted-foreground"
-                    }`}>
-                      → {kube}
-                    </p>
-                  ))}
+                <div className="grid lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-1">
+                    <span className="font-mono text-sm text-muted-foreground">{phase.number}</span>
+                  </div>
+                  <div className="lg:col-span-3">
+                    <h3 className="font-display text-3xl lg:text-4xl text-foreground">{phase.label}</h3>
+                  </div>
+                  <div className="lg:col-span-5">
+                    <p className="font-mono text-lg text-muted-foreground leading-relaxed">{phase.description}</p>
+                  </div>
+                  <div className="lg:col-span-3">
+                    <div className="space-y-2">
+                      {phase.kubes.map((kube) => (
+                        <p key={kube} className="font-mono text-base text-foreground">→ {kube}</p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Bottom CTA */}
+          {/* CTA */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-12 text-center"
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-16 pt-12 border-t border-border"
           >
-            <a
-              href="#kubes"
-              className="inline-flex items-center gap-2 font-mono text-sm text-foreground hover:text-muted-foreground transition-colors group"
+            <Link
+              to="/kubes"
+              className="inline-flex items-center gap-3 font-mono text-lg text-foreground hover:text-muted-foreground transition-colors group"
             >
-              Explore all eight modules
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+              Explore all eight Kubes
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+            </Link>
           </motion.div>
         </div>
       </div>

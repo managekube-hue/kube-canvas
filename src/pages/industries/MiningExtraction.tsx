@@ -1,0 +1,1 @@
+export { MiningExtraction as default } from './index';
