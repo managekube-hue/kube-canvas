@@ -1,0 +1,1 @@
+export { PublicSector as default } from './index';

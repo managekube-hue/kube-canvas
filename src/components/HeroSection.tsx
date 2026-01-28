@@ -1,97 +1,89 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-const metrics = [
-  { value: "8", label: "MODULES" },
-  { value: "3", label: "TIERS" },
-  { value: "1,200+", label: "CONTROLS" },
-];
-
 export const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center pt-20 section-white overflow-hidden">
-      <div className="container mx-auto px-4 lg:px-8 py-16 lg:py-24">
-        {/* Content First - Always */}
-        <div className="max-w-4xl">
+    <section className="min-h-screen flex items-center pt-24 bg-white overflow-hidden">
+      <div className="container mx-auto px-6 lg:px-12 py-20 lg:py-32">
+        <div className="max-w-5xl">
           {/* Eyebrow */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6"
+            className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground mb-8"
           >
             Enterprise IT Transformation
           </motion.p>
 
-          {/* Main Headline */}
+          {/* Main Headline - Massive */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.95] tracking-tight text-foreground mb-8"
+            transition={{ duration: 0.9, delay: 0.1 }}
+            className="font-display text-[clamp(3rem,10vw,7rem)] leading-[0.9] tracking-tight text-foreground mb-10"
           >
             IT Transformation.
             <br />
             <span className="text-muted-foreground">Methodically Delivered.</span>
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* Subheadline - Larger */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="font-mono text-base lg:text-lg text-muted-foreground max-w-xl mb-12 leading-relaxed"
+            className="font-mono text-lg lg:text-xl text-muted-foreground max-w-2xl mb-16 leading-relaxed"
           >
             Assessment → Remediation → Operations → Optimization.
             <br className="hidden sm:block" />
             Dell infrastructure. IBM software. One accountable team.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTAs - Larger */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-col sm:flex-row items-start gap-4 mb-20"
+            className="flex flex-col sm:flex-row items-start gap-6 mb-24"
           >
             <a
               href="#assessment"
-              className="inline-flex items-center justify-center bg-foreground text-background px-8 py-4 font-mono text-sm uppercase tracking-wider hover:bg-foreground/90 transition-colors"
+              className="inline-flex items-center justify-center bg-foreground text-background px-10 py-5 font-mono text-base uppercase tracking-wider hover:bg-foreground/90 transition-colors"
             >
               Build My Engagement Plan
             </a>
             <a
-              href="#methodology"
-              className="inline-flex items-center gap-2 px-8 py-4 font-mono text-sm text-foreground hover:text-muted-foreground transition-colors group"
+              href="/methodology"
+              className="inline-flex items-center gap-3 px-10 py-5 font-mono text-base text-foreground hover:text-muted-foreground transition-colors group"
             >
               View Methodology
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
             </a>
           </motion.div>
 
-          {/* Metrics Row */}
+          {/* Stats - Horizontal, not boxes */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex items-center gap-12 lg:gap-16 pt-12 border-t border-border"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="flex items-baseline gap-16 lg:gap-24"
           >
-            {metrics.map((metric, index) => (
-              <div key={metric.label} className="text-left">
-                <div className="font-display text-3xl lg:text-4xl text-foreground mb-1">
-                  {metric.value}
-                </div>
-                <div className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                  {metric.label}
-                </div>
-              </div>
-            ))}
+            <div>
+              <span className="font-display text-6xl lg:text-7xl text-foreground">8</span>
+              <span className="font-mono text-base lg:text-lg text-muted-foreground ml-3">Kubes</span>
+            </div>
+            <div>
+              <span className="font-display text-6xl lg:text-7xl text-foreground">3</span>
+              <span className="font-mono text-base lg:text-lg text-muted-foreground ml-3">Tiers</span>
+            </div>
+            <div>
+              <span className="font-display text-6xl lg:text-7xl text-foreground">1,200+</span>
+              <span className="font-mono text-base lg:text-lg text-muted-foreground ml-3">Controls</span>
+            </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Subtle decorative element - far right, desktop only */}
-      <div className="hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-[60vh] bg-gradient-to-b from-transparent via-border to-transparent" />
     </section>
   );
 };

@@ -1,0 +1,1 @@
+export { Transportation as default } from './index';
