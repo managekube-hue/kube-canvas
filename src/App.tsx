@@ -31,6 +31,11 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 
+// New Pages
+import Assessment from "./pages/Assessment";
+import FindByProblem from "./pages/FindByProblem";
+import Solutions from "./pages/Solutions";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -42,6 +47,11 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/methodology" element={<Methodology />} />
+          
+          {/* Assessment & Navigation Paths */}
+          <Route path="/assessment" element={<Assessment />} />
+          <Route path="/find-by-problem" element={<FindByProblem />} />
+          <Route path="/solutions" element={<Solutions />} />
           
           {/* Kubes */}
           <Route path="/kubes" element={<KubesOverview />} />
