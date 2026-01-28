@@ -59,90 +59,177 @@ export const MethodologySection = () => {
           </p>
         </motion.div>
 
-        {/* Zigzag Tree Roadmap */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Central vertical line */}
+        {/* TRUE ZIGZAG TREE ROADMAP - Cards alternate LEFT and RIGHT with central trunk */}
+        <div className="relative max-w-6xl mx-auto">
+          {/* Central vertical trunk line */}
           <motion.div
             initial={{ height: 0 }}
             animate={isInView ? { height: "100%" } : {}}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="absolute left-1/2 top-0 w-px bg-gradient-to-b from-primary via-primary/50 to-primary/20 -translate-x-1/2"
-            style={{ zIndex: 0 }}
+            className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-primary/60 to-primary/30 -translate-x-1/2 hidden lg:block"
+            style={{ zIndex: 1 }}
           />
 
-          {phases.map((phase, index) => {
-            const isLeft = index % 2 === 0;
-            const Icon = phase.icon;
-            
-            return (
-              <motion.div
-                key={phase.number}
-                initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
-                className={`relative flex items-center mb-16 last:mb-0 ${
-                  isLeft ? "lg:flex-row" : "lg:flex-row-reverse"
-                }`}
-              >
-                {/* Branch line connecting to center */}
+          <div className="space-y-0">
+            {phases.map((phase, index) => {
+              const isLeft = index % 2 === 0;
+              const Icon = phase.icon;
+              
+              return (
                 <motion.div
-                  initial={{ width: 0 }}
-                  animate={isInView ? { width: "50%" } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.2 }}
-                  className={`hidden lg:block absolute top-1/2 h-px bg-gradient-to-r ${
-                    isLeft 
-                      ? "right-1/2 from-transparent to-primary/50" 
-                      : "left-1/2 from-primary/50 to-transparent"
-                  }`}
-                  style={{ width: "calc(50% - 40px)" }}
-                />
-
-                {/* Center node */}
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: 1 } : {}}
-                  transition={{ duration: 0.4, delay: 0.6 + index * 0.2, type: "spring" }}
-                  className="absolute left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-primary flex items-center justify-center z-10 shadow-lg"
-                  style={{ boxShadow: "0 0 30px hsl(var(--primary) / 0.4)" }}
+                  key={phase.number}
+                  initial={{ opacity: 0, x: isLeft ? -80 : 80 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.2 + index * 0.15 }}
+                  className="relative"
                 >
-                  <Icon className="w-7 h-7 text-background" strokeWidth={1.5} />
-                </motion.div>
-
-                {/* Content card */}
-                <div className={`w-full lg:w-[calc(50%-60px)] ${isLeft ? "lg:pr-8" : "lg:pl-8"}`}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className={`bg-card border border-border p-8 relative ${
-                      isLeft ? "lg:mr-auto lg:text-right" : "lg:ml-auto lg:text-left"
-                    }`}
-                  >
-                    {/* Phase number accent */}
-                    <div className={`absolute ${isLeft ? "right-8" : "left-8"} -top-4`}>
-                      <span className="text-display text-primary/20 font-bold">{phase.number}</span>
-                    </div>
-
-                    <h3 className="text-title text-foreground mb-4 mt-6">{phase.title}</h3>
-                    <p className="text-body-lg text-muted-foreground mb-6">{phase.description}</p>
+                  {/* Desktop Layout: True Zigzag */}
+                  <div className="hidden lg:grid lg:grid-cols-2 lg:gap-0 items-center min-h-[280px]">
                     
-                    {/* Active Kubes */}
-                    <div className={`flex flex-wrap gap-2 ${isLeft ? "lg:justify-end" : "lg:justify-start"}`}>
-                      {phase.kubes.map((kube) => (
-                        <span
-                          key={kube}
-                          className="px-3 py-1 text-caption bg-primary/10 text-primary border border-primary/20"
-                        >
-                          {kube}
-                        </span>
-                      ))}
-                    </div>
-                  </motion.div>
-                </div>
+                    {/* LEFT SIDE */}
+                    <div className={`${isLeft ? 'pr-16' : ''}`}>
+                      {isLeft && (
+                        <div className="relative">
+                          {/* Horizontal branch from card to trunk */}
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={isInView ? { width: "64px" } : {}}
+                            transition={{ duration: 0.4, delay: 0.4 + index * 0.15 }}
+                            className="absolute right-0 top-1/2 h-0.5 bg-gradient-to-r from-border to-primary/50"
+                            style={{ transform: 'translateX(100%)' }}
+                          />
+                          
+                          {/* Content Card - LEFT aligned */}
+                          <motion.div
+                            whileHover={{ scale: 1.02, x: -8 }}
+                            transition={{ duration: 0.3 }}
+                            className="bg-card border border-border p-8 relative text-right ml-auto max-w-lg"
+                          >
+                            {/* Phase number watermark */}
+                            <span className="absolute top-4 right-6 text-6xl font-bold text-primary/15 select-none">
+                              {phase.number}
+                            </span>
 
-                {/* Empty space for opposite side on mobile */}
-                <div className="hidden lg:block w-[calc(50%-60px)]" />
-              </motion.div>
-            );
-          })}
+                            <h3 className="text-3xl lg:text-4xl font-display text-foreground mb-4 relative z-10">
+                              {phase.title}
+                            </h3>
+                            <p className="text-body-lg text-muted-foreground mb-6 relative z-10">
+                              {phase.description}
+                            </p>
+                            
+                            {/* Kube Tags */}
+                            <div className="flex flex-wrap gap-2 justify-end">
+                              {phase.kubes.map((kube) => (
+                                <span
+                                  key={kube}
+                                  className="px-3 py-1.5 text-xs font-mono uppercase tracking-wider bg-primary/10 text-primary border border-primary/20"
+                                >
+                                  {kube}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CENTER: Icon Node on the Trunk */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : {}}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.15, type: "spring", stiffness: 200 }}
+                      className="absolute left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-primary flex items-center justify-center z-20 shadow-xl"
+                      style={{ boxShadow: "0 0 40px hsl(var(--primary) / 0.5)" }}
+                    >
+                      <Icon className="w-6 h-6 text-primary-foreground" strokeWidth={2} />
+                    </motion.div>
+
+                    {/* RIGHT SIDE */}
+                    <div className={`${!isLeft ? 'pl-16' : ''}`}>
+                      {!isLeft && (
+                        <div className="relative">
+                          {/* Horizontal branch from trunk to card */}
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={isInView ? { width: "64px" } : {}}
+                            transition={{ duration: 0.4, delay: 0.4 + index * 0.15 }}
+                            className="absolute left-0 top-1/2 h-0.5 bg-gradient-to-l from-border to-primary/50"
+                            style={{ transform: 'translateX(-100%)' }}
+                          />
+                          
+                          {/* Content Card - RIGHT aligned */}
+                          <motion.div
+                            whileHover={{ scale: 1.02, x: 8 }}
+                            transition={{ duration: 0.3 }}
+                            className="bg-card border border-border p-8 relative text-left mr-auto max-w-lg"
+                          >
+                            {/* Phase number watermark */}
+                            <span className="absolute top-4 left-6 text-6xl font-bold text-primary/15 select-none">
+                              {phase.number}
+                            </span>
+
+                            <h3 className="text-3xl lg:text-4xl font-display text-foreground mb-4 relative z-10">
+                              {phase.title}
+                            </h3>
+                            <p className="text-body-lg text-muted-foreground mb-6 relative z-10">
+                              {phase.description}
+                            </p>
+                            
+                            {/* Kube Tags */}
+                            <div className="flex flex-wrap gap-2 justify-start">
+                              {phase.kubes.map((kube) => (
+                                <span
+                                  key={kube}
+                                  className="px-3 py-1.5 text-xs font-mono uppercase tracking-wider bg-primary/10 text-primary border border-primary/20"
+                                >
+                                  {kube}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Mobile Layout: Stacked with left accent */}
+                  <div className="lg:hidden relative pl-16 pb-12">
+                    {/* Vertical line for mobile */}
+                    <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 to-primary/20" />
+                    
+                    {/* Icon node for mobile */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : {}}
+                      transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                      className="absolute left-0 top-4 w-12 h-12 rounded-full bg-primary flex items-center justify-center z-10 shadow-lg"
+                    >
+                      <Icon className="w-5 h-5 text-primary-foreground" strokeWidth={2} />
+                    </motion.div>
+
+                    {/* Content Card for mobile */}
+                    <div className="bg-card border border-border p-6 relative">
+                      <span className="absolute top-3 right-4 text-4xl font-bold text-primary/15 select-none">
+                        {phase.number}
+                      </span>
+                      <h3 className="text-2xl font-display text-foreground mb-3">{phase.title}</h3>
+                      <p className="text-body text-muted-foreground mb-4">{phase.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {phase.kubes.map((kube) => (
+                          <span
+                            key={kube}
+                            className="px-2 py-1 text-xs font-mono uppercase tracking-wider bg-primary/10 text-primary border border-primary/20"
+                          >
+                            {kube}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* CTA */}
@@ -150,7 +237,7 @@ export const MethodologySection = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 1.5 }}
-          className="text-center mt-20"
+          className="text-center mt-24"
         >
           <Link
             to="/methodology"
