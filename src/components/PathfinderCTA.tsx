@@ -1,36 +1,36 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Target, ClipboardCheck, Building2, Users, Phone } from "lucide-react";
+import { Search, ClipboardList, Building2, Users, MessageSquare } from "lucide-react";
 
 const pathways = [
   {
-    icon: Target,
+    icon: Search,
     title: "Find by Problem",
     description: "What challenge are you facing?",
     href: "/find-by-problem",
   },
   {
-    icon: ClipboardCheck,
+    icon: ClipboardList,
     title: "Find by Assessment",
-    description: "Get AI-powered recommendations",
+    description: "Get a free transformation roadmap",
     href: "/assessment",
   },
   {
     icon: Building2,
     title: "Find by Industry",
-    description: "Pre-built vertical solutions",
+    description: "Solutions for your sector",
     href: "/kubes/industry-kube",
   },
   {
     icon: Users,
     title: "Find by Business Size",
-    description: "SMB, Mid-Market, or Enterprise",
+    description: "SMB to Enterprise solutions",
     href: "/pricing",
   },
   {
-    icon: Phone,
-    title: "Contact",
-    description: "Talk to an expert",
+    icon: MessageSquare,
+    title: "Contact Us",
+    description: "Talk to a solutions architect",
     href: "/contact",
   },
 ];
@@ -38,11 +38,11 @@ const pathways = [
 export const PathfinderCTA = () => {
   return (
     <section className="relative py-20 lg:py-24 overflow-hidden">
-      {/* Gradient Background */}
+      {/* Dark Gradient Background - Black to Orange to Gray */}
       <div 
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(24 95% 40%) 50%, hsl(var(--muted)) 100%)",
+          background: "linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 30%, hsl(24 70% 35%) 60%, #4A4A4A 100%)",
         }}
       />
       
@@ -53,13 +53,15 @@ export const PathfinderCTA = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="text-label text-white/60 mb-4">NOT SURE WHERE TO START?</p>
-          <h2 className="text-2xl lg:text-3xl font-bold text-white">
-            Choose your path
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            Find Your Path
           </h2>
+          <p className="text-lg text-white/70">
+            Every organization's transformation journey starts somewhere. Choose your entry point.
+          </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {pathways.map((pathway, index) => (
             <motion.div
               key={pathway.title}
@@ -67,16 +69,17 @@ export const PathfinderCTA = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              className={index === 4 ? "col-span-2 lg:col-span-1" : ""}
             >
               <Link
                 to={pathway.href}
-                className="group block bg-white/10 backdrop-blur-sm border border-white/20 p-6 hover:bg-white/20 transition-all h-full"
+                className="group block bg-gradient-to-br from-brand-orange/90 to-brand-orange/70 p-6 hover:from-brand-orange hover:to-brand-orange/80 transition-all h-full"
               >
-                <pathway.icon className="w-8 h-8 text-brand-orange mb-4" />
-                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-brand-orange transition-colors">
+                <pathway.icon className="w-8 h-8 text-white mb-4" strokeWidth={1.5} />
+                <h3 className="text-base font-bold text-white mb-2">
                   {pathway.title}
                 </h3>
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-white/80">
                   {pathway.description}
                 </p>
               </Link>

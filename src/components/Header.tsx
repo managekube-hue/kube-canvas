@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo.png";
 
 interface NavItem {
   label: string;
@@ -66,14 +65,13 @@ export const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto h-20 lg:h-28 flex items-center justify-between px-6 lg:px-12">
-        {/* Logo - Enlarged */}
+      <div className="container mx-auto h-16 lg:h-20 flex items-center justify-between px-6 lg:px-12">
+        {/* Text Logo - Manage (black) Kube (orange) */}
         <Link to="/" className="flex-shrink-0">
-          <img 
-            src={logo} 
-            alt="ManageKube IT Services" 
-            className="h-14 sm:h-16 lg:h-20 w-auto"
-          />
+          <span className="text-2xl lg:text-3xl font-bold tracking-tight">
+            <span className="text-foreground">Manage</span>
+            <span className="text-brand-orange">Kube</span>
+          </span>
         </Link>
 
         {/* Hamburger Button */}
