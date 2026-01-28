@@ -1,83 +1,67 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 
 export const ProblemSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-32 lg:py-48 bg-[#FAFAFA]" id="problem">
+    <section ref={ref} className="py-32 lg:py-48 section-off-white">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="max-w-6xl mx-auto">
-          {/* Large Editorial Layout */}
-          <motion.div
+        <div className="max-w-5xl mx-auto">
+          {/* Large statement */}
+          <motion.p
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9 }}
-            className="mb-20"
+            transition={{ duration: 0.8 }}
+            className="text-headline text-foreground leading-tight mb-16"
           >
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] max-w-4xl">
-              Your IT is fragmented.
-              <br />
-              <span className="text-muted-foreground">We make it coherent.</span>
-            </h2>
-          </motion.div>
+            Most organizations manage IT through{" "}
+            <span className="text-brand-orange">8–12 separate vendors</span>.
+            No one owns the integration. Audits fail. Incidents cascade. Costs compound.
+          </motion.p>
 
-          {/* Two Column - Text Heavy, Not Boxes */}
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-32">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <p className="font-mono text-lg lg:text-xl text-muted-foreground leading-relaxed mb-8">
-                Most organizations manage IT through 8-12 separate vendors. 
-                No single team owns the integration. Incidents cascade. 
-                Audits fail. Costs compound.
-              </p>
-              <p className="font-mono text-lg lg:text-xl text-foreground leading-relaxed">
-                We replace the chaos with a single methodology.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="space-y-12"
-            >
-              {/* Before/After - Not Boxes */}
-              <div className="border-l-2 border-muted-foreground/30 pl-8">
-                <span className="font-mono text-sm uppercase tracking-wider text-muted-foreground block mb-3">Typical Organization</span>
-                <span className="font-display text-5xl text-foreground">12</span>
-                <span className="font-mono text-lg text-muted-foreground ml-3">separate vendors</span>
-              </div>
-              
-              <div className="border-l-2 border-foreground pl-8">
-                <span className="font-mono text-sm uppercase tracking-wider text-muted-foreground block mb-3">ManageKube Approach</span>
-                <span className="font-display text-5xl text-foreground">1</span>
-                <span className="font-mono text-lg text-muted-foreground ml-3">integrated team</span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* CTA */}
+          {/* Divider */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-20"
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="divider origin-left mb-16"
+          />
+
+          {/* Solution statement */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="grid lg:grid-cols-2 gap-12"
           >
-            <Link
-              to="/methodology"
-              className="inline-flex items-center gap-3 font-mono text-lg text-foreground hover:text-muted-foreground transition-colors group"
-            >
-              See how it works
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-            </Link>
+            <div>
+              <h2 className="text-title text-foreground mb-6">
+                We replace the chaos with one systematic methodology.
+              </h2>
+              <p className="text-body-lg text-muted-foreground">
+                Assess → Remediate → Manage → Optimize. Every engagement follows this sequence. 
+                No gaps. No handoffs. No surprises.
+              </p>
+            </div>
+            <div className="space-y-6">
+              <div className="flex gap-6">
+                <div className="text-display text-brand-orange">1</div>
+                <div>
+                  <div className="text-subtitle text-foreground">Single Accountability</div>
+                  <div className="text-body text-muted-foreground">One team owns the outcome</div>
+                </div>
+              </div>
+              <div className="flex gap-6">
+                <div className="text-display text-brand-orange">∞</div>
+                <div>
+                  <div className="text-subtitle text-foreground">Continuous Optimization</div>
+                  <div className="text-body text-muted-foreground">Not a project—a partnership</div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
