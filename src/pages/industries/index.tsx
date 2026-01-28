@@ -36,7 +36,7 @@ export const IndustryPageTemplate = ({
       <div 
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(24 95% 40%) 50%, hsl(var(--muted)) 100%)",
+          background: "linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 30%, hsl(24 70% 35%) 60%, #4A4A4A 100%)",
         }}
       />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -221,7 +221,7 @@ export const IndustryPageTemplate = ({
   </PageLayout>
 );
 
-// Manufacturing
+// Manufacturing M2BLOCK
 export const Manufacturing = () => (
   <IndustryPageTemplate
     name="Manufacturing"
@@ -254,11 +254,11 @@ export const Manufacturing = () => (
     ]}
     technologies={["PowerEdge XR", "VxRail HCI", "PowerScale", "IBM Maximo", "Visual Inspection", "Process Mining", "Cloud Pak for AIOps"]}
     compliance={["CMMC", "NIST 800-171", "ISO 27001", "IEC 62443"]}
-    scalability="The platform scales from single production facilities using PowerEdge tower servers and OptiPlex desktop endpoints to global manufacturing enterprises requiring VxBlock systems, PowerMax storage, and APEX consumption models supporting hundreds of sites."
+    scalability="The platform scales from single production facilities using PowerEdge tower servers and OptiPlex desktop endpoints to global manufacturing enterprises requiring VxBlock systems, PowerMax storage for mission-critical applications, and APEX consumption models supporting hundreds of sites with centralized edge management through NativeEdge software."
   />
 );
 
-// Healthcare
+// Healthcare H2BLOCK
 export const Healthcare = () => (
   <IndustryPageTemplate
     name="Healthcare"
@@ -295,7 +295,7 @@ export const Healthcare = () => (
   />
 );
 
-// Financial Services
+// Financial Services F2BLOCK
 export const FinancialServices = () => (
   <IndustryPageTemplate
     name="Financial Services"
@@ -332,7 +332,7 @@ export const FinancialServices = () => (
   />
 );
 
-// Retail
+// Retail R2BLOCK
 export const Retail = () => (
   <IndustryPageTemplate
     name="Retail"
@@ -369,7 +369,7 @@ export const Retail = () => (
   />
 );
 
-// Transportation
+// Transportation T2BLOCK
 export const Transportation = () => (
   <IndustryPageTemplate
     name="Transportation"
@@ -401,64 +401,64 @@ export const Transportation = () => (
       },
     ]}
     technologies={["PowerEdge XR", "Edge Gateway", "VxRail", "IBM Maximo", "watsonx", "IBM MQ", "Decision Optimization", "MaaS360"]}
-    compliance={["DOT", "FMCSA", "ELD Mandate", "ISO 27001"]}
+    compliance={["ELD Mandate", "FMCSA", "DOT", "ISO 28000"]}
     scalability="The platform scales from local carriers using PowerEdge tower servers to global logistics providers requiring APEX infrastructure and comprehensive edge-to-core-to-cloud integration."
   />
 );
 
-// Mining & Extraction
+// Mining & Extraction ME2BLOCK
 export const MiningExtraction = () => (
   <IndustryPageTemplate
     name="Mining & Extraction"
     block="ME2BLOCK"
     tagline="Remote Operations Through Resilient Infrastructure"
-    description="Technology architected for extreme environments and remote operations, enabling safe operations, environmental compliance, and predictive asset management."
+    description="Technology architected for extreme environments and remote operations, withstanding harsh conditions while enabling safe operations and environmental compliance."
     challenges={[
-      "Remote locations with harsh environmental conditions challenging technology reliability",
-      "Equipment failures in mining environments creating safety risks and production losses",
-      "Connectivity challenges requiring autonomous operational capabilities",
+      "Remote operations challenge connectivity and require autonomous capabilities",
+      "Equipment failures in mining environments create safety risks and production losses",
+      "Extreme environmental conditions exceed standard equipment tolerances",
       "Environmental compliance and emissions tracking requirements",
     ]}
     capabilities={[
       {
         title: "Extreme Environment Computing",
-        description: "PowerEdge XR servers operate in temperature ranges from negative forty to positive fifty-five degrees Celsius while withstanding shock and vibration.",
+        description: "PowerEdge XR servers operate in temperature ranges from -40°C to +55°C while withstanding shock and vibration for reliable remote site operations.",
       },
       {
         title: "Heavy Equipment Management",
         description: "IBM Maximo manages heavy equipment fleets across multiple mine sites, tracking maintenance history and predicting failures before they occur.",
       },
       {
-        title: "Emissions Tracking",
-        description: "Envizi Supply Chain Intelligence enables emissions tracking across Scope One, Two, and Three categories for environmental compliance.",
+        title: "OSDU Data Platform",
+        description: "OSDU Data Platform and Energy Data Nexus provide comprehensive data management for exploration and production operations.",
       },
       {
-        title: "OT/IT Security",
-        description: "QRadar SIEM monitors both information technology and operational technology environments to detect threats targeting critical infrastructure.",
+        title: "Emissions Tracking",
+        description: "Envizi Supply Chain Intelligence enables emissions tracking across Scope 1, 2, and 3 categories for environmental compliance.",
       },
     ]}
-    technologies={["PowerEdge XR", "OEM Edge Servers", "VxRail", "IBM Maximo", "OSDU Data Platform", "Energy Data Nexus", "Envizi", "QRadar"]}
-    compliance={["MSHA", "EPA", "ISO 27001", "ISO 14001"]}
+    technologies={["PowerEdge XR", "OEM Edge Servers", "VxRail", "IBM Maximo", "OSDU Data Platform", "Envizi", "QRadar SIEM"]}
+    compliance={["MSHA", "EPA", "ISO 14001", "NERC CIP"]}
     scalability="The platform scales from single exploration sites using PowerEdge XR systems to global mining enterprises requiring PowerMax storage, OSDU data platforms, and comprehensive edge networks."
   />
 );
 
-// Energy & Utilities
+// Energy & Utilities EU2BLOCK
 export const EnergyUtilities = () => (
   <IndustryPageTemplate
     name="Energy & Utilities"
     block="EU2BLOCK"
     tagline="Grid Resilience Through Intelligent Asset Management"
-    description="Technology architected for critical infrastructure reliability and operational technology integration, supporting grid modernization and renewable energy integration."
+    description="Technology architected for critical infrastructure reliability and operational technology integration, maintaining absolute reliability while integrating renewable energy sources."
     challenges={[
-      "Grid instability from renewable integration creating operational complexity",
-      "Asset failures causing service interruptions affecting customers",
-      "Cyber threats targeting critical infrastructure requiring specialized protection",
-      "Sustainability reporting requirements and emissions tracking",
+      "Grid instability from renewable integration creates operational complexity",
+      "Asset failures cause service interruptions affecting customers",
+      "Cyber threats target critical infrastructure requiring advanced protection",
+      "Sustainability reporting requirements demand accurate emissions tracking",
     ]}
     capabilities={[
       {
-        title: "Critical Asset Management",
+        title: "Grid Asset Management",
         description: "IBM Maximo manages physical assets from generation equipment to transmission lines to distribution transformers, monitoring performance and predicting failures.",
       },
       {
@@ -467,89 +467,89 @@ export const EnergyUtilities = () => (
       },
       {
         title: "Sustainability Reporting",
-        description: "Envizi automates emissions data collection and sustainability reporting for regulatory compliance and stakeholder communications.",
+        description: "Envizi automates emissions data collection and sustainability reporting across all operational facilities.",
       },
       {
-        title: "Critical Infrastructure Security",
+        title: "OT/IT Security",
         description: "QRadar monitors both enterprise and operational technology environments with specialized threat intelligence for critical infrastructure.",
       },
     ]}
     technologies={["PowerEdge XR", "NativeEdge Energy", "IBM Maximo", "watsonx", "Decision Optimization", "Envizi", "QRadar", "OSDU Energy Data Nexus"]}
-    compliance={["NERC CIP", "FERC", "ISO 27001", "EPA"]}
-    scalability="The platform scales from municipal utilities using PowerEdge rack servers to national grid operators requiring APEX infrastructure, multi-region disaster recovery, and comprehensive NERC-CIP compliance."
+    compliance={["NERC CIP", "FERC", "EPA", "ISO 50001"]}
+    scalability="The platform scales from municipal utilities using PowerEdge rack servers to national grid operators requiring APEX infrastructure, multi-region disaster recovery, and comprehensive NERC-CIP compliance capabilities."
   />
 );
 
-// Public Sector
+// Public Sector PS2BLOCK
 export const PublicSector = () => (
   <IndustryPageTemplate
     name="Public Sector"
     block="PS2BLOCK"
     tagline="Citizen Services Through Secure Digital Platforms"
-    description="Technology architected for government compliance and citizen service delivery, enabling digital transformation while meeting stringent security requirements."
+    description="Technology enabling digitization of citizen services, remote work for employees, and modernization of aging infrastructure while meeting varying compliance requirements."
     challenges={[
-      "Manual citizen service processes creating delays and reducing satisfaction",
-      "Legacy systems resisting modernization efforts",
-      "Remote work demands requiring security without compromising productivity",
-      "Multiple overlapping compliance requirements across agencies",
+      "Manual citizen service processes create delays and reduce satisfaction",
+      "Legacy systems resist modernization efforts",
+      "Remote work demands security without compromising productivity",
+      "Varying compliance requirements across federal, state, and local levels",
     ]}
     capabilities={[
       {
-        title: "Citizen Service Automation",
-        description: "IBM watsonx Assistant automates citizen service interactions including 311 systems and case management, reducing wait times and improving satisfaction.",
+        title: "Citizen Service Digitization",
+        description: "Digital platforms enable online service delivery, reducing in-person visits and improving citizen satisfaction through convenient access.",
       },
       {
-        title: "Process Digitization",
-        description: "Business Automation Workflow digitizes manual processes for permits, licenses, and service requests, accelerating service delivery.",
+        title: "Legacy Modernization",
+        description: "Cloud migration and application modernization strategies update aging systems while maintaining continuity of critical services.",
       },
       {
-        title: "Zero Trust Access",
-        description: "IBM Verify enables zero-trust remote access for government employees, maintaining security while supporting distributed work.",
+        title: "Secure Remote Work",
+        description: "IBM Verify and MaaS360 enable secure remote work with identity-centric access controls and comprehensive endpoint management.",
       },
       {
-        title: "Records Management",
-        description: "FileNet Content Manager handles records management, e-discovery, and Freedom of Information Act requirements with comprehensive audit trails.",
+        title: "FedRAMP Compliance",
+        description: "Pre-authorized cloud infrastructure and continuous monitoring capabilities meet federal security requirements.",
       },
     ]}
-    technologies={["PowerEdge", "Unity", "VxBlock", "PowerMax", "APEX", "watsonx Assistant", "IBM Verify", "OpenPages", "Maximo", "TRIRIGA", "FileNet"]}
-    compliance={["FedRAMP", "StateRAMP", "CJIS", "FISMA", "IL4/IL5"]}
-    scalability="The platform scales from city governments using PowerEdge tower servers to federal agencies requiring PowerMax storage, FedRAMP APEX infrastructure, and multi-agency integration."
+    technologies={["PowerEdge", "VxRail", "Azure Government", "AWS GovCloud", "IBM Verify", "MaaS360", "OpenPages"]}
+    compliance={["FedRAMP", "FISMA", "StateRAMP", "CJIS", "ITAR"]}
+    scalability="The platform scales from municipal agencies using PowerEdge servers to federal departments requiring FedRAMP High authorization and comprehensive security controls."
   />
 );
 
-// Telecommunications
+// Telecommunications TC2BLOCK
 export const Telecommunications = () => (
   <IndustryPageTemplate
     name="Telecommunications"
     block="TC2BLOCK"
-    tagline="Network Transformation Through Cloud-Native Infrastructure"
-    description="Technology architected for communications infrastructure and cloud-native deployments, enabling 5G transformation and new service creation."
+    tagline="Network Evolution Through Intelligent Operations"
+    description="Technology architected for network operators managing complex infrastructure while deploying next-generation services and maintaining service quality."
     challenges={[
-      "Traditional network architectures creating vendor lock-in and limiting flexibility",
-      "Legacy BSS/OSS systems resisting cloud-native transformation",
-      "Pressure to deploy 5G networks while reducing operational expenses",
-      "Need to create new revenue streams through edge computing and enterprise services",
+      "Network complexity increases with 5G deployment and edge computing",
+      "Service quality must be maintained across heterogeneous infrastructure",
+      "Customer experience depends on rapid issue resolution",
+      "Revenue assurance requires accurate billing and fraud prevention",
     ]}
     capabilities={[
       {
-        title: "Open RAN Deployment",
-        description: "PowerEdge servers provide validated platforms for Open RAN deployments with Altiostar and Mavenir solutions for flexible network architecture.",
+        title: "Network Assurance",
+        description: "Cloud Pak for Network Automation provides closed-loop network assurance with AI-driven anomaly detection and automated remediation.",
       },
       {
-        title: "AI Network Operations",
-        description: "Cloud Pak for AIOps provides artificial intelligence-driven network operations, reducing manual intervention and accelerating incident resolution.",
+        title: "5G Infrastructure",
+        description: "PowerEdge servers and VxRail infrastructure support 5G core network functions and multi-access edge computing deployments.",
       },
       {
-        title: "Subscriber Analytics",
-        description: "Watsonx artificial intelligence analyzes subscriber data for churn prediction and network optimization to improve customer retention.",
+        title: "OSS/BSS Integration",
+        description: "IBM software integrates operational and business support systems for unified service delivery and customer management.",
       },
       {
-        title: "BSS/OSS Modernization",
-        description: "WebSphere Hybrid Edition modernizes legacy business support systems and operations support systems for cloud-native operation.",
+        title: "Customer Experience",
+        description: "Watsonx AI enables intelligent customer service through virtual agents and predictive issue resolution.",
       },
     ]}
-    technologies={["PowerEdge 17th Gen", "VxRail", "PowerFlex", "NVIDIA Spectrum", "Telecom Infrastructure Automation", "Cloud Pak for AIOps", "watsonx", "WebSphere"]}
-    compliance={["FCC", "CPNI", "ISO 27001", "SOC 2"]}
-    scalability="The platform scales from mobile virtual network operators using VxRail systems to tier-one global carriers requiring APEX custom infrastructure, Open RAN deployments, and multi-cloud architectures."
+    technologies={["PowerEdge", "VxRail", "Cloud Pak for Network Automation", "watsonx", "IBM MQ", "API Connect"]}
+    compliance={["FCC", "CPNI", "SOC 2", "ISO 27001"]}
+    scalability="The platform scales from regional carriers to global telecommunications providers requiring massive compute capacity for 5G core networks and edge deployments."
   />
 );
