@@ -1,4 +1,11 @@
+/**
+ * DO NOT TOUCH - Assessment Page
+ * Entry point for AI-powered Assessment Engine
+ * Functionality and UI design are COMPLETED - do not modify
+ */
+
 import { PageLayout } from "@/components/PageLayout";
+import { PageBanner } from "@/components/PageBanner";
 import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -53,60 +60,30 @@ const assessmentSteps = [
 const Assessment = () => {
   return (
     <PageLayout>
-      {/* Hero Banner */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(24 95% 40%) 50%, hsl(var(--muted)) 100%)",
-          }}
-        />
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
-          <div className="max-w-4xl">
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-label text-white/70 mb-6"
+      {/* Gradient Banner - Matches other pages */}
+      <PageBanner
+        title="Discover Your Transformation Path"
+        subtitle="Take our AI-powered assessment to receive a personalized roadmap, risk analysis, and recommended solutions—all completely free."
+        phase="FREE ASSESSMENT"
+      />
+
+      {/* CTA Button Section */}
+      <section className="py-12 bg-white border-b border-border">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to="/assessment/start"
+              className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
             >
-              FREE ASSESSMENT
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
+              Start Free Assessment
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 bg-foreground text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
             >
-              Discover Your Exact{" "}
-              <span className="text-brand-orange">Transformation Path</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg lg:text-xl text-white/80 max-w-2xl mb-10"
-            >
-              Take our AI-powered assessment to receive a personalized roadmap, 
-              risk analysis, and recommended solutions—all completely free.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-wrap gap-4"
-            >
-              <Link
-                to="/assessment/start"
-                className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
-              >
-                Start Free Assessment
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 bg-white/10 text-white px-8 py-4 font-semibold hover:bg-white/20 transition-colors border border-white/20"
-              >
-                Talk to an Expert
-              </Link>
-            </motion.div>
+              Talk to an Expert
+            </Link>
           </div>
         </div>
       </section>

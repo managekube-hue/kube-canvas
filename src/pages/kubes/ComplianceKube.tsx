@@ -1,58 +1,99 @@
+/**
+ * DO NOT TOUCH - Compliance Kube Page
+ * Content from official ManageKube documentation
+ * 
+ * COMPLIANCE BY DESIGN capabilities:
+ * - Smart Question Consolidation: 85-120 questions covering 1,200+ controls
+ * - Automated Evidence Collection: Dell CloudIQ, IBM QRadar integration
+ * - Remediation Roadmaps: 90-day implementation plans
+ * - Continuous Monitoring: Drift detection and automated alerts
+ * 
+ * Supported Frameworks: NIST, ISO27001, SOC2, PCI, CMMC, HIPAA, FedRAMP, NIST CSF, CIS Controls v8.1, FIPS 140-2/3
+ * 
+ * Functionality and UI design are COMPLETED - do not modify
+ */
+
 import { KubePageTemplate } from "@/components/KubePageTemplate";
 
 const ComplianceKube = () => {
   return (
     <KubePageTemplate
       name="Compliance Kube"
-      tagline="Framework Gaps Closed"
+      tagline="ACHIEVE CONTINUOUS COMPLIANCE"
       phase="ASSESS"
-      description="Turn gaps into a compliance program. SOC 2, HIPAA, CMMC, ISO 27001, PCI DSS. Continuous compliance, not annual scrambles."
-      narrative="The Compliance Kube takes the gaps identified in Assessment and transforms them into a sustainable compliance program. We create actionable remediation plans with assigned owners, deadlines, and dependencies. Track progress in real-time dashboards, automate evidence collection, and maintain always audit-ready documentation. Move from reactive annual scrambles to proactive continuous compliance. Our approach ensures you're audit-ready at any moment, not just during certification windows."
+      description="The Assessment Kube identifies technical gaps. We then implement controls that deliver continuous compliance across all major industry frameworks."
+      narrative="The Compliance Kube transforms identified gaps into a sustainable compliance program. We employ Smart Question Consolidation—85-120 questions covering 1,200+ controls through multi-framework mapping. Automated Evidence Collection integrates directly with Dell CloudIQ, IBM QRadar, and infrastructure platforms. Remediation Roadmaps deliver 90-day implementation plans with resource allocation and timeline visibility. Continuous Monitoring provides ongoing compliance posture tracking with drift detection and automated alerts. Move from reactive annual scrambles to proactive continuous compliance."
       blocks={[
         {
-          id: "gap-remediation",
-          name: "Gap Remediation Planning",
-          description: "Detailed plan for closing technical and policy gaps identified in assessment.",
-          details: "We create actionable remediation plans with assigned owners, deadlines, and dependencies. Each gap is categorized by effort, cost, and risk reduction impact. Track progress in real-time dashboards with automated notifications and escalation paths. Prioritization based on regulatory urgency, security risk, and business impact.",
+          id: "smart-consolidation",
+          name: "Smart Question Consolidation",
+          description: "85-120 questions covering 1,200+ controls through multi-framework mapping.",
+          details: "Our intelligent assessment engine consolidates overlapping control requirements across frameworks. Instead of answering thousands of redundant questions, you answer 85-120 targeted questions that map to 1,200+ individual controls across NIST, ISO, SOC 2, PCI DSS, CMMC, HIPAA, and more. This reduces assessment time by 80% while ensuring complete coverage.",
+          useCases: [
+            "Multi-framework compliance programs",
+            "Initial compliance baseline",
+            "Annual compliance reviews",
+            "M&A due diligence",
+          ],
+          products: ["ManageKube Assessment Engine", "Vanta", "Drata", "Hyperproof"],
+        },
+        {
+          id: "evidence-automation",
+          name: "Automated Evidence Collection",
+          description: "Direct integration with Dell CloudIQ, IBM QRadar, and infrastructure platforms.",
+          details: "Continuous, automated collection of compliance evidence from your infrastructure. Direct integrations with Dell CloudIQ for hardware telemetry, IBM QRadar for security events, cloud platforms for configuration snapshots, and identity providers for access reviews. Evidence is timestamped, version-controlled, and audit-ready 24/7.",
+          useCases: [
+            "SOC 2 Type II preparation",
+            "Continuous compliance monitoring",
+            "Reducing audit prep time",
+            "Real-time compliance dashboards",
+          ],
+          products: ["Dell CloudIQ", "IBM QRadar", "Vanta", "Drata", "ServiceNow"],
+        },
+        {
+          id: "remediation-roadmaps",
+          name: "Remediation Roadmaps",
+          description: "90-day implementation plans with resource allocation and timeline visibility.",
+          details: "Transform compliance gaps into actionable project plans. Each finding is prioritized by risk, regulatory urgency, and implementation effort. 90-day roadmaps include specific tasks, resource requirements, dependencies, and milestones. Progress tracking with automated notifications ensures nothing falls through the cracks.",
           useCases: [
             "Pre-certification preparation",
             "Audit finding remediation",
             "Compliance program maturation",
-            "Control implementation tracking",
+            "Board reporting",
           ],
-          products: ["Vanta", "Drata", "Hyperproof", "AuditBoard", "ServiceNow GRC"],
+          products: ["ManageKube Roadmap Builder", "ServiceNow", "Jira", "Monday.com"],
         },
         {
-          id: "evidence-automation",
-          name: "Evidence Automation",
-          description: "Continuous monitoring for compliance drift with automated evidence collection.",
-          details: "Automated collection of evidence from your systems—always audit-ready with current documentation and screenshots. Continuous monitoring detects configuration drift and control failures in real-time. Evidence repository maintains complete audit trails with version control. Integration with cloud platforms, identity providers, and security tools for automated evidence gathering.",
+          id: "continuous-monitoring",
+          name: "Continuous Monitoring",
+          description: "Ongoing compliance posture tracking with drift detection and automated alerts.",
+          details: "Real-time monitoring of your compliance posture across all frameworks. Drift detection identifies when configurations, policies, or controls fall out of compliance. Automated alerts notify the right people immediately. Trend analysis helps predict and prevent compliance issues before they occur.",
           useCases: [
-            "SOC 2 Type II preparation",
-            "Continuous compliance monitoring",
-            "Reducing audit prep time by 80%",
-            "Multi-framework evidence management",
+            "Continuous compliance programs",
+            "Configuration drift prevention",
+            "Proactive risk management",
+            "Executive compliance reporting",
           ],
-          products: ["Vanta", "Drata", "Anecdotes", "Secureframe", "Tugboat Logic"],
+          products: ["ManageKube Compliance Monitor", "Vanta", "Drata", "IBM QRadar"],
         },
         {
           id: "policy-development",
           name: "Policy Development",
           description: "Creation of required policy library tailored to your organization and frameworks.",
-          details: "Custom policy development aligned with your operations. From information security policies to acceptable use, incident response to data retention—all tailored to your industry, size, and regulatory requirements. Annual review cycles and version control included. Policies mapped to multiple frameworks to maximize efficiency across SOC 2, ISO 27001, HIPAA, and more.",
+          details: "Custom policy development aligned with your operations and regulatory requirements. From information security policies to acceptable use, incident response to data retention—all tailored to your industry, size, and compliance needs. Policies mapped to multiple frameworks to maximize efficiency.",
           useCases: [
             "New compliance program launch",
             "Policy refresh initiatives",
             "Multi-framework policy alignment",
             "Regulatory requirement changes",
           ],
-          products: ["Custom templates", "Framework-aligned policies", "Annual review process", "Policy management platform"],
+          products: ["Custom templates", "Framework-aligned policies", "Annual review process"],
         },
         {
           id: "audit-management",
           name: "Audit Management",
           description: "Liaison with auditors for attestation, managing the entire audit lifecycle.",
-          details: "We coordinate with auditors, manage evidence requests, and guide you through the entire audit process from planning to attestation. Pre-audit readiness reviews ensure no surprises. Auditor liaison handles day-to-day communication. Remediation support for any findings with root cause analysis and corrective action plans. Multi-framework audit coordination for organizations with overlapping requirements.",
+          details: "We coordinate with auditors, manage evidence requests, and guide you through the entire audit process from planning to attestation. Pre-audit readiness reviews ensure no surprises. Auditor liaison handles day-to-day communication. Remediation support for any findings.",
           useCases: [
             "First-time SOC 2 certification",
             "Annual recertification audits",
@@ -61,42 +102,16 @@ const ComplianceKube = () => {
           ],
           products: ["Schellman", "A-LIGN", "Coalfire", "Deloitte", "KPMG"],
         },
-        {
-          id: "grc-platform",
-          name: "GRC Platform Implementation",
-          description: "Governance, Risk, and Compliance platform deployment and configuration.",
-          details: "Implementation of enterprise GRC platforms for centralized risk management, policy governance, and compliance tracking. Risk register creation and management with technical controls mapping. Integration with security tools for automated risk assessment. Executive dashboards for board-level reporting on compliance posture and risk trends.",
-          useCases: [
-            "Enterprise GRC consolidation",
-            "Risk register implementation",
-            "Board-level compliance reporting",
-            "Vendor risk management",
-          ],
-          products: ["IBM OpenPages", "ServiceNow GRC", "Archer", "OneTrust", "LogicGate"],
-        },
-        {
-          id: "security-awareness",
-          name: "Security Awareness Training",
-          description: "Employee training programs for compliance requirements and security best practices.",
-          details: "Comprehensive security awareness training programs meeting compliance requirements for HIPAA, PCI DSS, SOC 2, and other frameworks. Phishing simulations with progressive difficulty. Role-based training for privileged users and developers. Tracking and reporting for audit evidence. Annual training calendars with automated reminders and completion tracking.",
-          useCases: [
-            "HIPAA workforce training",
-            "PCI DSS awareness requirements",
-            "Phishing simulation programs",
-            "New employee onboarding",
-          ],
-          products: ["KnowBe4", "Proofpoint", "Cofense", "SANS Security Awareness", "Curricula"],
-        },
       ]}
       deliverables={[
         "Compliance Program Charter",
+        "Multi-Framework Control Mapping",
+        "Automated Evidence Repository",
+        "90-Day Remediation Roadmap",
         "Policy & Procedure Library",
-        "Automated Evidence Collection",
-        "Audit-Ready Documentation",
         "Continuous Compliance Dashboard",
-        "Auditor Coordination & Support",
-        "Risk Register & Controls Matrix",
-        "Security Awareness Program",
+        "Audit-Ready Documentation",
+        "Executive Compliance Reports",
       ]}
       relatedKubes={[
         { name: "Assessment Kube", href: "/kubes/assessment-kube" },

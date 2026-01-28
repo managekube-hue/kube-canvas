@@ -1,4 +1,12 @@
+/**
+ * DO NOT TOUCH - Kubes Overview Page
+ * Updated design with gradient banner headers
+ * Functionality and UI design are COMPLETED - do not modify
+ */
+
 import { PageLayout } from "@/components/PageLayout";
+import { PageBanner } from "@/components/PageBanner";
+import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -73,39 +81,15 @@ const kubes = [
 const KubesOverview = () => {
   return (
     <PageLayout>
-      {/* Hero */}
-      <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-5xl">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6"
-            >
-              Capabilities
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="font-display text-5xl sm:text-6xl lg:text-7xl text-foreground leading-[0.95] mb-8"
-            >
-              Eight integrated Kubes.
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="font-mono text-lg lg:text-xl text-muted-foreground max-w-2xl"
-            >
-              Each Kube serves a specific function in the Assess → Remediate → Manage → Optimize cycle. Together, they deliver end-to-end IT transformation.
-            </motion.p>
-          </div>
-        </div>
-      </section>
+      {/* Gradient Banner */}
+      <PageBanner
+        title="Eight Integrated Kubes"
+        subtitle="Each Kube serves a specific function in the Assess → Remediate → Manage → Optimize cycle. Together, they deliver end-to-end IT transformation."
+        phase="CAPABILITIES"
+      />
 
       {/* Kubes List */}
-      <section className="py-24 lg:py-32 bg-[#FAFAFA]">
+      <section className="py-24 lg:py-32 bg-secondary">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
             {kubes.map((kube, index) => (
@@ -143,6 +127,27 @@ const KubesOverview = () => {
           </div>
         </div>
       </section>
+
+      {/* CTA */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-6 lg:px-12 text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
+            Not sure which Kube to start with?
+          </h2>
+          <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
+            Take our free assessment to get personalized recommendations based on your infrastructure, security, and compliance needs.
+          </p>
+          <Link
+            to="/assessment"
+            className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
+          >
+            Start Free Assessment
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+      </section>
+
+      <PathfinderCTA />
     </PageLayout>
   );
 };
