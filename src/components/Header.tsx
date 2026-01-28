@@ -65,10 +65,10 @@ export const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto h-16 lg:h-20 flex items-center justify-between px-6 lg:px-12">
-        {/* Text Logo - Manage (black) Kube (orange) */}
+      <div className="container mx-auto h-20 lg:h-24 flex items-center justify-between px-6 lg:px-12">
+        {/* Text Logo - Manage (black) Kube (orange) - LARGE */}
         <Link to="/" className="flex-shrink-0">
-          <span className="text-2xl lg:text-3xl font-bold tracking-tight">
+          <span className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
             <span className="text-foreground">Manage</span>
             <span className="text-brand-orange">Kube</span>
           </span>
@@ -92,7 +92,7 @@ export const Header = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-20 lg:top-28 bg-background z-40 overflow-y-auto"
+            className="fixed inset-0 top-20 lg:top-24 bg-background z-40 overflow-y-auto"
           >
             <div className="container mx-auto px-6 lg:px-12 py-12">
               <nav className="space-y-0">
