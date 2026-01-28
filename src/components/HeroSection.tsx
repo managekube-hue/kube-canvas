@@ -103,57 +103,57 @@ export const HeroSection = () => {
                     What You Get
                   </h3>
                   <p className="font-mono text-lg text-white font-bold mb-3">
-                    ONE ACCOUNTABLE TEAM
+                    SINGLE TEAM
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-2">
-                    No vendor handoffs.
+                    No vendor sprawl.
+                  </p>
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    One SLA.
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-4">
-                    Single SLA across stack.
+                    Clear ownership.
                   </p>
                   <p className="font-mono text-2xl text-brand-orange font-bold">
-                    8 → 1
+                    8 vendors → 1 team
                   </p>
                 </div>
 
-                {/* Column 2: How It Works */}
+                {/* Column 2: How Assessment Works */}
                 <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    How It Works
+                    How Assessment Works
                   </h3>
                   <p className="font-mono text-lg text-white font-bold mb-3">
-                    ASSESSMENT FIRST
+                    AGENT-BASED DISCOVERY
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-2">
-                    4-week current-state review
+                    Deploy lightweight agents
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-2">
-                    Inventory + risk + roadmap
+                    Real-time inventory
                   </p>
                   <p className="font-mono text-sm text-white/70">
-                    Fixed-scope, fixed-price
+                    Automatic gap analysis
                   </p>
                 </div>
 
-                {/* Column 3: Proven at Scale */}
+                {/* Column 3: Assessment → Revenue */}
                 <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    Proven at Scale
+                    Assessment → Recommendations
                   </h3>
                   <p className="font-mono text-lg text-white font-bold mb-3">
-                    BUILT FOR ENTERPRISE
+                    PRODUCT & SERVICE FIT
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-1">
-                    Dell Titanium Black
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Assessment reveals gaps
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-1">
-                    IBM Platinum
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-1">
-                    47+ regulated clients
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    We recommend exact SKUs
                   </p>
                   <p className="font-mono text-sm text-white/70">
-                    SMB → Fortune 500
+                    + Kubes to close them
                   </p>
                 </div>
               </div>
