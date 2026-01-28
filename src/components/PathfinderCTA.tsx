@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, ClipboardList, Building2, Users, MessageSquare } from "lucide-react";
 
+/** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
   {
     icon: Search,
@@ -28,18 +29,13 @@ const pathways = [
     href: "/find-by-size",
   },
   {
-    icon: Users,
-    title: "Find by Business Size",
-    description: "SMB to Enterprise solutions",
-    href: "/pricing",
-  },
-  {
     icon: MessageSquare,
     title: "Contact Us",
     description: "Talk to a solutions architect",
     href: "/contact",
   },
 ];
+/** END DO NOT TOUCH */
 
 export const PathfinderCTA = () => {
   return (
