@@ -115,6 +115,7 @@ const navItems: NavItem[] = [
           { label: "Automation & Development", href: "/kubes/product-kube#automation" },
         ],
       },
+      { label: "Browse All Solutions", href: "/solutions" },
     ],
   },
   {
