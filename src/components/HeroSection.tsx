@@ -95,72 +95,48 @@ export const HeroSection = () => {
               transition={{ duration: 0.8, delay: 2.8 }}
               className="pt-10"
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
                 {/* Column 1: ASSESS */}
-                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
-                  <span className="font-mono text-5xl text-white font-bold mb-2">01</span>
-                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
+                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">01</span>
+                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
                     ASSESS
                   </h3>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    Current state agent inventory
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    Risk register + remediation roadmap
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground">
-                    4-week fixed scope output
+                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                    Agent inventory · Risk register · 4-week output
                   </p>
                 </div>
 
                 {/* Column 2: REMEDIATE */}
-                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
-                  <span className="font-mono text-5xl text-white font-bold mb-2">02</span>
-                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
+                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">02</span>
+                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
                     REMEDIATE
                   </h3>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    Product deployment projects
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    Compliance framework implementation
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground">
-                    90-day project execution
+                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                    Product deploy · Compliance impl · 90-day execution
                   </p>
                 </div>
 
                 {/* Column 3: MANAGE */}
-                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
-                  <span className="font-mono text-5xl text-white font-bold mb-2">03</span>
-                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
+                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">03</span>
+                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
                     MANAGE
                   </h3>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    MSP/MSSP daily operations
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    NOC + service desk
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground">
-                    SLA-backed infrastructure
+                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                    MSP/MSSP ops · NOC + service desk · SLA-backed
                   </p>
                 </div>
 
                 {/* Column 4: OPTIMIZE */}
-                <div className="bg-[#1F2937] border-2 border-brand-orange p-6 h-[320px] flex flex-col justify-center hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition-all duration-300">
-                  <span className="font-mono text-5xl text-white font-bold mb-2">04</span>
-                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">
+                <div className="bg-secondary border border-brand-orange/40 p-4 hover:border-brand-orange transition-colors">
+                  <span className="font-mono text-2xl lg:text-3xl text-brand-orange font-bold">04</span>
+                  <h3 className="font-mono text-sm lg:text-base text-white uppercase tracking-wider mt-1 mb-2">
                     OPTIMIZE
                   </h3>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    vCIO/vCISO strategic advisory
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground mb-2">
-                    FinOps cost governance
-                  </p>
-                  <p className="font-mono text-sm text-muted-foreground">
-                    AI automation deployment
+                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                    vCIO/vCISO · FinOps governance · AI automation
                   </p>
                 </div>
               </div>
@@ -168,10 +144,10 @@ export const HeroSection = () => {
               {/* Full-Width CTA Button */}
               <Link
                 to="/assessment"
-                className="w-full inline-flex items-center justify-center px-8 py-5 bg-brand-orange text-white font-mono font-bold text-lg uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-orange text-white font-mono font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
               >
                 Build My Plan
-                <ArrowRight className="w-5 h-5 ml-3" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </motion.div>
           </div>
