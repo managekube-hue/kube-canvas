@@ -25,6 +25,12 @@ const pathways = [
     icon: Users,
     title: "Find by Business Size",
     description: "SMB to Enterprise solutions",
+    href: "/find-by-size",
+  },
+  {
+    icon: Users,
+    title: "Find by Business Size",
+    description: "SMB to Enterprise solutions",
     href: "/pricing",
   },
   {
