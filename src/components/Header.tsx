@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 interface NavItem {
   label: string;
@@ -10,71 +12,48 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "METHODOLOGY",
+    label: "Methodology",
+    href: "/methodology",
+  },
+  {
+    label: "Kubes",
     children: [
-      { label: "Assess → Remediate → Manage → Optimize", href: "#methodology" },
+      { label: "Assessment Kube", href: "/kubes/assessment-kube" },
+      { label: "Compliance Kube", href: "/kubes/compliance-kube" },
+      { label: "MSSP Kube", href: "/kubes/mssp-kube" },
+      { label: "MSP Kube", href: "/kubes/msp-kube" },
+      { label: "Advisory Kube", href: "/kubes/advisory-kube" },
+      { label: "Innovation Kube", href: "/kubes/innovation-kube" },
+      { label: "Industry Kube", href: "/kubes/industry-kube" },
+      { label: "Product Kube", href: "/kubes/product-kube" },
     ],
   },
   {
-    label: "KUBES",
+    label: "Industries",
     children: [
-      { label: "Assessment Kube", href: "#assessment" },
-      { label: "Compliance Kube", href: "#compliance" },
-      { label: "MSSP Kube", href: "#mssp" },
-      { label: "MSP Kube", href: "#msp" },
-      { label: "Advisory Kube", href: "#advisory" },
-      { label: "Innovation Kube", href: "#innovation" },
-      { label: "Industry Kube", href: "#industry" },
-      { label: "Product Kube", href: "#product" },
+      { label: "Manufacturing", href: "/industries/manufacturing" },
+      { label: "Healthcare", href: "/industries/healthcare" },
+      { label: "Financial Services", href: "/industries/financial-services" },
+      { label: "Retail", href: "/industries/retail" },
+      { label: "Transportation", href: "/industries/transportation" },
+      { label: "Mining & Extraction", href: "/industries/mining-extraction" },
+      { label: "Energy & Utilities", href: "/industries/energy-utilities" },
+      { label: "Public Sector", href: "/industries/public-sector" },
+      { label: "Telecommunications", href: "/industries/telecommunications" },
     ],
   },
   {
-    label: "INDUSTRY",
-    children: [
-      { label: "Manufacturing (M2BLOCK)", href: "#m2block" },
-      { label: "Healthcare (H2BLOCK)", href: "#h2block" },
-      { label: "Financial Services (F2BLOCK)", href: "#f2block" },
-      { label: "Retail (R2BLOCK)", href: "#r2block" },
-      { label: "Transportation (T2BLOCK)", href: "#t2block" },
-      { label: "Mining & Extraction (ME2BLOCK)", href: "#me2block" },
-      { label: "Energy & Utilities (EU2BLOCK)", href: "#eu2block" },
-      { label: "Public Sector (PS2BLOCK)", href: "#ps2block" },
-      { label: "Telecom (TC2BLOCK)", href: "#tc2block" },
-    ],
+    label: "Pricing",
+    href: "/pricing",
   },
   {
-    label: "COMPLIANCE",
-    children: [
-      { label: "NIST 800-53", href: "#nist" },
-      { label: "SOC 2", href: "#soc2" },
-      { label: "HIPAA", href: "#hipaa" },
-      { label: "CMMC", href: "#cmmc" },
-      { label: "ISO 27001", href: "#iso27001" },
-      { label: "PCI DSS", href: "#pcidss" },
-    ],
+    label: "About",
+    href: "/about",
   },
   {
-    label: "PRICING",
-    children: [
-      { label: "Small Business Templates", href: "#smb-pricing" },
-      { label: "Precision Pay™", href: "#precision-pay" },
-      { label: "Flex Core™", href: "#flex-core" },
-      { label: "Outcome-Based", href: "#outcome-based" },
-      { label: "Project Credits™", href: "#project-credits" },
-      { label: "Fractional™", href: "#fractional" },
-      { label: "Hybrid Commit™", href: "#hybrid-commit" },
-    ],
+    label: "Contact",
+    href: "/contact",
   },
-  { label: "SHOP", href: "#shop" },
-  {
-    label: "ABOUT",
-    children: [
-      { label: "Our Story", href: "#story" },
-      { label: "Partners (Dell, IBM)", href: "#partners" },
-      { label: "Careers", href: "#careers" },
-    ],
-  },
-  { label: "CONTACT", href: "#contact" },
 ];
 
 export const Header = () => {
@@ -86,22 +65,24 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
-      <div className="container mx-auto h-20 flex items-center justify-between px-4 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="container mx-auto h-20 lg:h-24 flex items-center justify-between px-6 lg:px-12">
         {/* Logo */}
-        <a href="/" className="flex flex-col">
-          <span className="font-display text-xl lg:text-2xl text-foreground tracking-wide">
-            MANAGEKUBE
-          </span>
-        </a>
+        <Link to="/" className="flex-shrink-0">
+          <img 
+            src={logo} 
+            alt="ManageKube IT Services" 
+            className="h-12 lg:h-16 w-auto"
+          />
+        </Link>
 
         {/* Hamburger Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 text-foreground hover:bg-muted rounded transition-colors"
+          className="p-3 text-foreground hover:text-muted-foreground transition-colors"
           aria-label="Toggle menu"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
         </button>
       </div>
 
@@ -109,29 +90,29 @@ export const Header = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-20 bg-background z-40 overflow-y-auto"
+            className="fixed inset-0 top-20 lg:top-24 bg-background z-40 overflow-y-auto"
           >
-            <div className="container mx-auto px-4 lg:px-8 py-8">
-              <nav className="space-y-1">
+            <div className="container mx-auto px-6 lg:px-12 py-12">
+              <nav className="space-y-0">
                 {navItems.map((item) => (
                   <div key={item.label} className="border-b border-border">
                     {item.children ? (
                       <>
                         <button
                           onClick={() => toggleExpanded(item.label)}
-                          className="w-full flex items-center justify-between py-4 text-left"
+                          className="w-full flex items-center justify-between py-6 text-left group"
                         >
-                          <span className="font-mono text-sm uppercase tracking-widest text-foreground">
+                          <span className="text-title text-foreground group-hover:text-brand-orange transition-colors">
                             {item.label}
                           </span>
                           {expandedItem === item.label ? (
-                            <ChevronDown size={20} className="text-muted-foreground" />
+                            <ChevronDown size={24} className="text-muted-foreground" />
                           ) : (
-                            <ChevronRight size={20} className="text-muted-foreground" />
+                            <ChevronRight size={24} className="text-muted-foreground" />
                           )}
                         </button>
                         <AnimatePresence>
@@ -140,19 +121,19 @@ export const Header = () => {
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.2 }}
+                              transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="pl-4 pb-4 space-y-2">
+                              <div className="pl-6 pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                                 {item.children.map((child) => (
-                                  <a
+                                  <Link
                                     key={child.label}
-                                    href={child.href}
+                                    to={child.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="block py-2 font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    className="block py-3 text-body-lg text-muted-foreground hover:text-brand-orange transition-colors"
                                   >
                                     {child.label}
-                                  </a>
+                                  </Link>
                                 ))}
                               </div>
                             </motion.div>
@@ -160,27 +141,27 @@ export const Header = () => {
                         </AnimatePresence>
                       </>
                     ) : (
-                      <a
-                        href={item.href}
+                      <Link
+                        to={item.href || "/"}
                         onClick={() => setIsOpen(false)}
-                        className="block py-4 font-mono text-sm uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors"
+                        className="block py-6 text-title text-foreground hover:text-brand-orange transition-colors"
                       >
                         {item.label}
-                      </a>
+                      </Link>
                     )}
                   </div>
                 ))}
               </nav>
 
-              {/* CTA in menu */}
-              <div className="mt-8 pt-8 border-t border-border">
-                <a
-                  href="#assessment"
+              {/* CTA */}
+              <div className="mt-12">
+                <Link
+                  to="/contact"
                   onClick={() => setIsOpen(false)}
-                  className="btn-primary inline-block text-center w-full sm:w-auto"
+                  className="btn-primary"
                 >
-                  START FREE ASSESSMENT
-                </a>
+                  Get Started
+                </Link>
               </div>
             </div>
           </motion.div>

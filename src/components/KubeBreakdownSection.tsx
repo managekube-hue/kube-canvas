@@ -8,57 +8,57 @@ const kubes = [
   {
     id: "assessment",
     name: "Assessment",
-    tagline: "FREE entry point",
-    description: "Infrastructure inventory, security assessment, compliance mapping, remediation roadmap.",
+    tagline: "The Free Entry Point",
+    description: "Comprehensive infrastructure, security, and compliance discovery. Generates your transformation roadmap.",
     href: "/kubes/assessment-kube",
   },
   {
     id: "compliance",
     name: "Compliance",
-    tagline: "Framework gaps closed",
-    description: "Gap remediation, evidence automation, policy development, audit management.",
+    tagline: "Framework Mastery",
+    description: "NIST, SOC 2, HIPAA, CMMC, ISO 27001, PCI DSS. Policy development. Evidence automation. Audit support.",
     href: "/kubes/compliance-kube",
   },
   {
     id: "mssp",
     name: "MSSP",
-    tagline: "24/7 SOC operations",
-    description: "Threat detection, managed EDR/XDR, vulnerability management, Zero Trust architecture.",
+    tagline: "Security Operations",
+    description: "24/7 SOC. EDR/XDR. Vulnerability management. Threat hunting. Incident response.",
     href: "/kubes/mssp-kube",
   },
   {
     id: "msp",
     name: "MSP",
-    tagline: "NOC & Service Desk",
-    description: "L1-L3 support, hybrid infrastructure, managed workplace, BCDR.",
+    tagline: "IT Operations",
+    description: "Service desk L1–L3. Hybrid infrastructure. Cloud management. BCDR. End-user support.",
     href: "/kubes/msp-kube",
   },
   {
     id: "advisory",
     name: "Advisory",
-    tagline: "vCIO & vCISO",
-    description: "Strategic planning, security governance, Cloud FinOps, M&A due diligence.",
+    tagline: "Strategic Leadership",
+    description: "Virtual CISO. Virtual CIO. Cloud FinOps. Technology roadmapping. M&A due diligence.",
     href: "/kubes/advisory-kube",
   },
   {
     id: "innovation",
     name: "Innovation",
-    tagline: "AI & Automation",
-    description: "Hyperautomation, DevSecOps, data intelligence, custom development.",
+    tagline: "Automation & AI",
+    description: "Hyperautomation. RPA. AI agents. DevSecOps. Process intelligence.",
     href: "/kubes/innovation-kube",
   },
   {
     id: "industry",
     name: "Industry",
-    tagline: "9 vertical platforms",
-    description: "Pre-built BLOCK platforms for manufacturing, healthcare, finance, and more.",
+    tagline: "9 Vertical Platforms",
+    description: "Pre-built BLOCKs for manufacturing, healthcare, financial services, and 6 more regulated verticals.",
     href: "/kubes/industry-kube",
   },
   {
     id: "product",
     name: "Product",
-    tagline: "Dell & IBM partnership",
-    description: "Validated architectures, certified expertise, integrated technology stack.",
+    tagline: "The Configurator",
+    description: "Project scoping. BOM generation. Dell infrastructure. IBM software. Partner procurement.",
     href: "/kubes/product-kube",
   },
 ];
@@ -68,58 +68,81 @@ export const KubeBreakdownSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-32 lg:py-48 bg-[#FAFAFA]" id="kubes">
+    <section ref={ref} className="py-32 lg:py-48 section-white" id="kubes">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9 }}
-            className="mb-24"
-          >
-            <p className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6">
-              Capabilities
-            </p>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1]">
-              Eight integrated Kubes.
-            </h2>
-          </motion.div>
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mb-20"
+        >
+          <div className="accent-line mb-8" />
+          <h2 className="text-headline text-foreground mb-6">
+            Eight <span className="text-brand-orange">Kubes</span>.
+            <br />Infinite Configurations.
+          </h2>
+          <p className="text-body-xl text-muted-foreground">
+            Each Kube contains configurable Blocks—specific capabilities you can add, remove, or scale independently.
+          </p>
+        </motion.div>
 
-          {/* Kubes List - Staggered Row Layout */}
-          <div className="space-y-0">
-            {kubes.map((kube, index) => (
-              <motion.div
-                key={kube.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.08 }}
+        {/* Kubes List */}
+        <div className="space-y-0">
+          {kubes.map((kube, index) => (
+            <motion.div
+              key={kube.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.08 }}
+            >
+              <Link
+                to={kube.href}
+                className="block border-t border-border py-8 lg:py-10 group"
               >
-                <Link
-                  to={kube.href}
-                  className="block border-t border-border py-10 lg:py-12 group hover:bg-white transition-colors -mx-6 lg:-mx-12 px-6 lg:px-12"
-                >
-                  <div className="grid lg:grid-cols-12 gap-6 items-center">
-                    <div className="lg:col-span-3">
-                      <h3 className="font-display text-2xl lg:text-3xl text-foreground group-hover:translate-x-2 transition-transform">
-                        {kube.name}
-                      </h3>
-                    </div>
-                    <div className="lg:col-span-2">
-                      <span className="font-mono text-sm text-muted-foreground">{kube.tagline}</span>
-                    </div>
-                    <div className="lg:col-span-5">
-                      <p className="font-mono text-base text-muted-foreground">{kube.description}</p>
-                    </div>
-                    <div className="lg:col-span-2 flex justify-end">
-                      <ArrowRight className="w-6 h-6 text-foreground group-hover:translate-x-2 transition-transform" />
-                    </div>
+                <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+                  {/* Name */}
+                  <div className="lg:col-span-3">
+                    <h3 className="text-title text-foreground group-hover:text-brand-orange transition-colors">
+                      {kube.name}
+                    </h3>
                   </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+
+                  {/* Tagline */}
+                  <div className="lg:col-span-2">
+                    <span className="text-label text-brand-orange">{kube.tagline}</span>
+                  </div>
+
+                  {/* Description */}
+                  <div className="lg:col-span-6">
+                    <p className="text-body-lg text-muted-foreground">{kube.description}</p>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="lg:col-span-1 flex justify-end">
+                    <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-2 transition-all" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.9 }}
+          className="border-t border-border pt-12 mt-8"
+        >
+          <Link
+            to="/kubes"
+            className="inline-flex items-center gap-3 text-subtitle text-foreground hover:text-brand-orange transition-colors group"
+          >
+            Explore all Kubes
+            <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
