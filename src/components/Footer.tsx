@@ -111,10 +111,10 @@ export const Footer = () => {
             © 2025 ManageKube. All rights reserved.
           </p>
           <div className="flex items-center gap-8">
-            <Link to="#" className="text-sm text-white/40 hover:text-white transition-colors">
+            <Link to="/privacy" className="text-sm text-white/40 hover:text-white transition-colors">
               Privacy
             </Link>
-            <Link to="#" className="text-sm text-white/40 hover:text-white transition-colors">
+            <Link to="/terms" className="text-sm text-white/40 hover:text-white transition-colors">
               Terms
             </Link>
           </div>

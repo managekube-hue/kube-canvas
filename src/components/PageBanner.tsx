@@ -9,7 +9,7 @@ interface PageBannerProps {
 export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
   return (
     <section
-      className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden"
+      className="relative pt-20 pb-16 lg:pt-24 lg:pb-24 overflow-hidden"
       style={{
         background: `linear-gradient(135deg, 
           hsl(0 0% 6%) 0%, 
