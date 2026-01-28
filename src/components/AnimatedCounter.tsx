@@ -1,3 +1,4 @@
+/** DO NOT TOUCH - Animated counter for hero stats */
 import { useCountUp } from "@/hooks/useCountUp";
 import { motion } from "framer-motion";
 
@@ -33,12 +34,13 @@ export const AnimatedCounter = ({
     >
       <div
         className={`text-display ${
-          highlight ? "text-brand-orange" : "text-foreground"
+          highlight ? "text-brand-orange" : "text-white"
         }`}
       >
         {formattedValue}
       </div>
-      <div className="text-label text-muted-foreground mt-2">{label}</div>
+      <div className="text-label text-white/60 mt-2">{label}</div>
     </motion.div>
   );
 };
+/** END DO NOT TOUCH */
