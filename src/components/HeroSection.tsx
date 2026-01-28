@@ -63,8 +63,7 @@ export const HeroSection = () => {
               transition={{ duration: 0.7, delay: 2.2 }}
               className="text-body-xl text-white/70 max-w-xl mb-12"
             >
-              From $99 automation templates to enterprise platform deployments. 
-              Dell infrastructure. IBM software. One accountable team.
+              One methodology. Four phases.
             </motion.p>
 
             {/* CTAs */}
@@ -97,63 +96,51 @@ export const HeroSection = () => {
               className="pt-10"
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-8">
-                {/* Column 1: What You Get */}
+                {/* Column 1: Assess */}
                 <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    What You Get
+                    01 ASSESS
                   </h3>
-                  <p className="font-mono text-lg text-white font-bold mb-3">
-                    SINGLE TEAM
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Current state agent inventory
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-2">
-                    No vendor sprawl.
+                    Risk register + remediation roadmap
                   </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    One SLA.
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-4">
-                    Clear ownership.
-                  </p>
-                  <p className="font-mono text-2xl text-brand-orange font-bold">
-                    8 vendors → 1 team
+                  <p className="font-mono text-sm text-white/70">
+                    4-week fixed scope output
                   </p>
                 </div>
 
-                {/* Column 2: How Assessment Works */}
+                {/* Column 2: Remediate */}
                 <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    How Assessment Works
+                    02 REMEDIATE
                   </h3>
-                  <p className="font-mono text-lg text-white font-bold mb-3">
-                    AGENT-BASED DISCOVERY
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    Product deployment projects
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-2">
-                    Deploy lightweight agents
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Real-time inventory
+                    Compliance framework implementation
                   </p>
                   <p className="font-mono text-sm text-white/70">
-                    Automatic gap analysis
+                    90-day project execution
                   </p>
                 </div>
 
-                {/* Column 3: Assessment → Revenue */}
+                {/* Column 3: Manage */}
                 <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    Assessment → Recommendations
+                    03 MANAGE
                   </h3>
-                  <p className="font-mono text-lg text-white font-bold mb-3">
-                    PRODUCT & SERVICE FIT
+                  <p className="font-mono text-sm text-white/70 mb-2">
+                    MSP/MSSP daily operations
                   </p>
                   <p className="font-mono text-sm text-white/70 mb-2">
-                    Assessment reveals gaps
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    We recommend exact SKUs
+                    NOC + service desk
                   </p>
                   <p className="font-mono text-sm text-white/70">
-                    + Kubes to close them
+                    SLA-backed infrastructure
                   </p>
                 </div>
               </div>
