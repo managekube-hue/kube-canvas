@@ -117,6 +117,15 @@ import DocsLicenseMatrix from "./pages/docs/DocsLicenseMatrix";
 import DocsMonorepo from "./pages/docs/DocsMonorepo";
 import DocsSummary from "./pages/docs/DocsSummary";
 
+// UIDR Open Source Docs Site
+import UidrHome from "./pages/uidr/UidrHome";
+import UidrPlatform from "./pages/uidr/UidrPlatform";
+import UidrDocs from "./pages/uidr/UidrDocs";
+import UidrContributors from "./pages/uidr/UidrContributors";
+import UidrOpenSource from "./pages/uidr/UidrOpenSource";
+import UidrContact from "./pages/uidr/UidrContact";
+
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -246,6 +255,15 @@ const App = () => (
           <Route path="/docs/monorepo" element={<DocsMonorepo />} />
           <Route path="/docs/summary" element={<DocsSummary />} />
           <Route path="/docs/:moduleId" element={<DocModulePage />} />
+
+          {/* UIDR Open Source Docs Site */}
+          <Route path="/uidr" element={<UidrHome />} />
+          <Route path="/uidr/platform" element={<UidrPlatform />} />
+          <Route path="/uidr/docs" element={<UidrDocs />} />
+          <Route path="/uidr/docs/:moduleId" element={<UidrDocs />} />
+          <Route path="/uidr/contributors" element={<UidrContributors />} />
+          <Route path="/uidr/open-source" element={<UidrOpenSource />} />
+          <Route path="/uidr/contact" element={<UidrContact />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
