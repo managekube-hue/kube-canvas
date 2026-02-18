@@ -1,120 +1,107 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
-const ourTools = [
-  { label: "How Kubric Works", href: "/our-tools/how-kubric-works" },
-  { label: "Kubric UIDR Platform", href: "/our-tools/kubric-uidr" },
-  { label: "Kubric Data Graph", href: "/our-tools/kubric-data-graph" },
-  { label: "KubricAI", href: "/our-tools/kubric-ai" },
-];
-
 const kubes = [
-  { label: "CIO KUBE", href: "/kubes/cio-kube" },
-  { label: "ITDR KUBE", href: "/kubes/itdr-kube" },
-  { label: "NDR KUBE", href: "/kubes/ndr-kube" },
-  { label: "CDR KUBE", href: "/kubes/cdr-kube" },
-  { label: "GRC KUBE", href: "/kubes/grc-kube" },
-  { label: "VDR KUBE", href: "/kubes/vdr-kube" },
-  { label: "View All 15 Kubes →", href: "/kubes" },
-];
+{ label: "CIO KUBE", href: "/kubes/cio-kube" },
+{ label: "NPM KUBE", href: "/kubes/npm-kube" },
+{ label: "ITDR KUBE", href: "/kubes/itdr-kube" },
+{ label: "NDR KUBE", href: "/kubes/ndr-kube" },
+{ label: "CDR KUBE", href: "/kubes/cdr-kube" },
+{ label: "GRC KUBE", href: "/kubes/grc-kube" },
+{ label: "VDR KUBE", href: "/kubes/vdr-kube" },
+{ label: "View All 15 Kubes →", href: "/kubes" }];
+
 
 const products = [
-  { label: "XRO — Small Business", href: "/products/xro" },
-  { label: "XMM — SME Platform", href: "/products/xmm" },
-  { label: "XME — Enterprise", href: "/products/xme" },
-  { label: "Custom Configuration", href: "/products/custom" },
-  { label: "All Products →", href: "/products" },
-];
+{ label: "XRO — Small Business", href: "/products/xro" },
+{ label: "XMM — SME Platform", href: "/products/xmm" },
+{ label: "XME — Enterprise", href: "/products/xme" }];
+
 
 const services = [
-  { label: "Managed NOC", href: "/services/managed-noc" },
-  { label: "Managed SOC", href: "/services/managed-soc" },
-  { label: "Managed Compliance", href: "/services/managed-compliance" },
-  { label: "Managed Cloud", href: "/services/managed-cloud" },
-  { label: "Security Assessments", href: "/services/security-assessments" },
-  { label: "Penetration Testing", href: "/services/penetration-testing" },
-  { label: "All Services →", href: "/services" },
-];
+{ label: "Managed NOC", href: "/services/managed-noc" },
+{ label: "Managed SOC", href: "/services/managed-soc" },
+{ label: "Security Assessments", href: "/services/security-assessments" },
+{ label: "Penetration Testing", href: "/services/penetration-testing" },
+{ label: "All Services →", href: "/services" }];
 
-const solutions = [
-  { label: "Healthcare", href: "/solutions/healthcare" },
-  { label: "Manufacturing", href: "/solutions/manufacturing" },
-  { label: "Financial Services", href: "/solutions/financial-services" },
-  { label: "Public Sector", href: "/solutions/public-sector" },
-  { label: "Enterprise", href: "/solutions/enterprise" },
-  { label: "All Solutions →", href: "/solutions/hub" },
-];
 
 const compliance = [
-  { label: "CMMC", href: "/compliance/cmmc" },
-  { label: "HIPAA", href: "/compliance/hipaa" },
-  { label: "SOC 2", href: "/compliance/soc2" },
-  { label: "NIST 800-171", href: "/compliance/nist-800-171" },
-  { label: "PCI-DSS", href: "/compliance/pci-dss" },
-  { label: "ISO 27001", href: "/compliance/iso-27001" },
-];
+{ label: "CMMC", href: "/compliance/cmmc" },
+{ label: "HIPAA", href: "/compliance/hipaa" },
+{ label: "SOC 2", href: "/compliance/soc2" },
+{ label: "NIST 800-171", href: "/compliance/nist-800-171" },
+{ label: "PCI-DSS", href: "/compliance/pci-dss" }];
+
 
 const company = [
-  { label: "About", href: "/about" },
-  { label: "Methodology", href: "/methodology" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Careers", href: "/careers" },
-  { label: "Contact", href: "/contact" },
-  { label: "Read the Docs", href: "/uidr/docs" },
-];
+{ label: "About", href: "/about" },
+{ label: "Methodology", href: "/methodology" },
+{ label: "Our Tools", href: "/our-tools" },
+{ label: "Pricing", href: "/pricing" },
+{ label: "Careers", href: "/careers" },
+{ label: "Contact", href: "/contact" }];
+
+
+const kubricDocs = [
+{ label: "Read Kubric Docs", href: "/uidr" },
+{ label: "EDR · Endpoint", href: "/uidr/docs/edr" },
+{ label: "ITDR · Identity", href: "/uidr/docs/itdr" },
+{ label: "NDR · Network", href: "/uidr/docs/ndr" },
+{ label: "CDR · Cloud", href: "/uidr/docs/cdr" },
+{ label: "VDR · Vulnerability", href: "/uidr/docs/vdr" },
+{ label: "GRC · Governance", href: "/uidr/docs/grc" },
+{ label: "K-DOCS Full Tree →", href: "/uidr/docs" }];
+
 
 export const Footer = () => {
   return (
     <footer className="section-dark py-20 lg:py-24">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-8 gap-10 lg:gap-6 mb-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-7 gap-10 lg:gap-6 mb-16">
           {/* Logo & Tagline */}
           <div className="lg:col-span-2">
             <img src={logo} alt="ManageKube IT Services" className="h-12 w-auto mb-6 brightness-0 invert" />
             <p className="text-body-lg text-white/60 max-w-sm">
-              Unified detection, response, and operations. 15 DR Modules. One intelligent platform.
+              Unified detection, response, and operations. 18 DR Modules. One intelligent platform.
             </p>
-          </div>
-
-          {/* Our Tools */}
-          <div>
-            <h4 className="text-label text-white mb-5">Our Tools</h4>
-            <ul className="space-y-2.5">
-              {ourTools.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Kubes */}
           <div>
             <h4 className="text-label text-white mb-5">Kubes</h4>
-            <ul className="space-y-2.5">
-              {kubes.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            
+
+
+
+
+
+
+
+
           </div>
 
           {/* Products */}
           <div>
             <h4 className="text-label text-white mb-5">Products</h4>
             <ul className="space-y-2.5">
-              {products.map((item) => (
-                <li key={item.label}>
+              {products.map((item) =>
+              <li key={item.label}>
                   <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
                     {item.label}
                   </Link>
                 </li>
-              ))}
+              )}
+            </ul>
+            <h4 className="text-label text-white mt-6 mb-5">Compliance</h4>
+            <ul className="space-y-2.5">
+              {compliance.map((item) =>
+              <li key={item.label}>
+                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -122,37 +109,13 @@ export const Footer = () => {
           <div>
             <h4 className="text-label text-white mb-5">Services</h4>
             <ul className="space-y-2.5">
-              {services.map((item) => (
-                <li key={item.label}>
+              {services.map((item) =>
+              <li key={item.label}>
                   <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
                     {item.label}
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Solutions + Compliance */}
-          <div>
-            <h4 className="text-label text-white mb-5">Solutions</h4>
-            <ul className="space-y-2.5 mb-6">
-              {solutions.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <h4 className="text-label text-white mb-5">Compliance</h4>
-            <ul className="space-y-2.5">
-              {compliance.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              )}
             </ul>
           </div>
 
@@ -160,20 +123,41 @@ export const Footer = () => {
           <div>
             <h4 className="text-label text-white mb-5">Company</h4>
             <ul className="space-y-2.5">
-              {company.map((item) => (
-                <li key={item.label}>
+              {company.map((item) =>
+              <li key={item.label}>
                   <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
                     {item.label}
                   </Link>
                 </li>
-              ))}
+              )}
+            </ul>
+          </div>
+
+          {/* Kubric Docs */}
+          <div>
+            <h4 className="text-label text-white mb-5">Kubric Docs</h4>
+            <ul className="space-y-2.5">
+              {kubricDocs.map((item) =>
+              <li key={item.label}>
+                  <Link
+                  to={item.href}
+                  className={`text-sm transition-colors ${
+                  item.label === "Read Kubric Docs" ?
+                  "text-brand-orange hover:text-brand-orange/80 font-semibold" :
+                  "text-white/60 hover:text-brand-orange"}`
+                  }>
+
+                    {item.label}
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-white/40">© 2026 ManageKube. All rights reserved.</p>
+          <p className="text-sm text-white/40">© 2025 ManageKube. All rights reserved.</p>
           <div className="flex items-center gap-8">
             <Link to="/privacy" className="text-sm text-white/40 hover:text-white transition-colors">Privacy</Link>
             <Link to="/terms" className="text-sm text-white/40 hover:text-white transition-colors">Terms</Link>
@@ -182,6 +166,6 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>);
+
 };
