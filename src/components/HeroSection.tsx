@@ -101,8 +101,8 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* Bottom gradient fade - starts below CTAs */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent z-10" />
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
     </section>
   );
 };
