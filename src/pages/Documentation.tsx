@@ -168,7 +168,7 @@ export default function Documentation() {
               </div>
             </div>
             <Link
-              to="/uidr/technical-docs"
+              to="/uidr"
               className="flex-shrink-0 flex items-center gap-2 bg-foreground text-background px-8 py-4 text-sm font-bold uppercase tracking-widest hover:opacity-80 transition-opacity"
             >
               Access Technical Docs

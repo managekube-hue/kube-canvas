@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { UidrLayout } from "@/components/UidrLayout";
 import { TreeSidebar } from "@/components/TreeSidebar";
 import { PageViewer } from "@/components/PageViewer";
 import { useAllPages } from "@/hooks/useDocumentation";
-import { Search, PanelLeftClose, PanelLeftOpen, BookOpen, ArrowLeft } from "lucide-react";
+import { Search, PanelLeftClose, PanelLeftOpen, BookOpen } from "lucide-react";
 
 export default function UidrTechnicalDocs() {
   const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
@@ -15,25 +14,6 @@ export default function UidrTechnicalDocs() {
 
   return (
     <UidrLayout>
-      {/* Back bar */}
-      <div className="border-b border-white/5 bg-background/80 px-6 py-3 flex items-center gap-4">
-        <Link
-          to="/documentation"
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
-        >
-          <ArrowLeft size={14} />
-          Back to Documentation
-        </Link>
-        <span className="text-foreground/20">|</span>
-        <span className="text-foreground/50 text-sm font-mono">K-DOCS Technical Documentation Explorer</span>
-        {!loading && !error && pages.length > 0 && (
-          <>
-            <span className="text-foreground/20">|</span>
-            <span className="text-foreground/30 text-xs font-mono">{pages.length} pages synced from Notion</span>
-          </>
-        )}
-      </div>
-
       {/* App shell */}
       <div className="flex" style={{ height: "calc(100vh - 3.5rem - 2.75rem)", overflow: "hidden" }}>
 
