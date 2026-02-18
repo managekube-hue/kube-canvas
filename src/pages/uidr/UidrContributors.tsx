@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { UidrLayout } from "@/components/UidrLayout";
-import { Github, MessageSquare, LayoutGrid, FileText, Video, Calendar, CheckSquare, ExternalLink, Key, Copy, Check } from "lucide-react";
+import { Github, MessageSquare, LayoutGrid, FileText, Calendar, CheckSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const TOOLCHAIN = [
   {
@@ -37,7 +37,7 @@ const TOOLCHAIN = [
     icon: FileText,
     label: "Notion",
     sub: "Documentation",
-    href: "#notion-config",
+    href: "https://notion.so",
   },
 ];
 
@@ -70,24 +70,6 @@ const FOOTER_LINKS = {
 };
 
 export default function UidrContributors() {
-  const [notionKey, setNotionKey] = useState("");
-  const [notionPageId] = useState("577e03ba-7700-4f59-8e4e-08e2c07bb275");
-  const [keySaved, setKeySaved] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleSaveKey = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!notionKey.trim()) return;
-    setKeySaved(true);
-    setTimeout(() => setKeySaved(false), 3000);
-  };
-
-  const copyPageId = () => {
-    navigator.clipboard.writeText(notionPageId);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <UidrLayout>
       <div className="max-w-3xl mx-auto px-6 pt-16 pb-24">
@@ -111,9 +93,9 @@ export default function UidrContributors() {
             {TOOLCHAIN.map(tool => (
               <a
                 key={tool.label}
-                href={tool.href === "#notion-config" ? "#notion-config" : tool.href}
-                target={tool.href.startsWith("http") ? "_blank" : undefined}
-                rel={tool.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                href={tool.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#111111] border border-white/10 rounded-xl p-4 flex flex-col items-center gap-2 hover:border-white/20 transition-colors group"
               >
                 <tool.icon size={20} className="text-white group-hover:opacity-80 transition-opacity" />
@@ -122,77 +104,6 @@ export default function UidrContributors() {
               </a>
             ))}
           </div>
-        </div>
-
-        {/* Notion API Configuration */}
-        <div id="notion-config" className="mb-16 rounded-xl border border-white/10 bg-[#111111] p-6">
-          <div className="flex items-center gap-3 mb-5">
-            <Key size={16} style={{ color: "hsl(24 95% 53%)" }} />
-            <h2 className="text-base font-bold text-white">Notion API Configuration</h2>
-          </div>
-          <p className="text-white/40 text-sm mb-6 leading-relaxed">
-            Connect your Notion workspace to enable live documentation sync across all 480+ K-DOCS pages.
-          </p>
-
-          <form onSubmit={handleSaveKey} className="space-y-4">
-            {/* API Key */}
-            <div>
-              <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">
-                Notion API Key
-              </label>
-              <div className="relative">
-                <input
-                  type="password"
-                  value={notionKey}
-                  onChange={e => setNotionKey(e.target.value)}
-                  placeholder="secret_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 text-sm font-mono focus:outline-none focus:border-white/30 transition-colors pr-24"
-                />
-                <a
-                  href="https://www.notion.so/my-integrations"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/30 hover:text-white/60 flex items-center gap-1 transition-colors"
-                >
-                  Get key <ExternalLink size={10} />
-                </a>
-              </div>
-            </div>
-
-            {/* Root Page ID */}
-            <div>
-              <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">
-                Root Documentation Page ID
-              </label>
-              <div className="flex items-center gap-2">
-                <div className="flex-1 bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white/60 text-sm font-mono">
-                  {notionPageId}
-                </div>
-                <button
-                  type="button"
-                  onClick={copyPageId}
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-white/10 bg-[#0a0a0a] text-white/40 hover:text-white transition-colors text-xs"
-                >
-                  {copied ? <Check size={14} style={{ color: "hsl(24 95% 53%)" }} /> : <Copy size={14} />}
-                </button>
-              </div>
-              <p className="text-white/25 text-xs mt-1.5 font-mono">
-                Syncs all 480+ child pages recursively from DOCUMENTATION root
-              </p>
-            </div>
-
-            <button
-              type="submit"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors"
-              style={{
-                background: keySaved ? "rgba(255,255,255,0.05)" : "hsl(24 95% 53%)",
-                color: keySaved ? "hsl(24 95% 53%)" : "#ffffff",
-                border: keySaved ? "1px solid hsl(24 95% 53%)" : "none",
-              }}
-            >
-              {keySaved ? <><Check size={14} /> Saved</> : "Save Configuration"}
-            </button>
-          </form>
         </div>
 
         {/* Application Form */}
@@ -273,13 +184,13 @@ export default function UidrContributors() {
                     {link.label}
                   </a>
                 ) : (
-                  <a
+                  <Link
                     key={link.label}
-                    href={link.href}
+                    to={link.href}
                     className="block text-xs text-white/40 hover:text-white/70 transition-colors mb-1"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 )
               ))}
             </div>

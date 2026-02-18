@@ -26,8 +26,9 @@ export function useModules() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!supabase) { setLoading(false); return; }
     async function load() {
-      const { data } = await supabase
+      const { data } = await supabase!
         .from('v_module_stats')
         .select('*')
         .order('order_index');
@@ -46,8 +47,13 @@ export function useAllPages() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!supabase) {
+      setError('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are not set. Add them in Project Settings → Environment Variables.');
+      setLoading(false);
+      return;
+    }
     async function load() {
-      const { data, error: err } = await supabase
+      const { data, error: err } = await supabase!
         .from('pages')
         .select('*')
         .eq('is_deleted', false)
@@ -71,13 +77,13 @@ export function usePageContent(pageId: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!pageId) {
+    if (!pageId || !supabase) {
       setLoading(false);
       return;
     }
     async function load() {
       setLoading(true);
-      const { data } = await supabase
+      const { data } = await supabase!
         .from('pages')
         .select('*')
         .eq('id', pageId)
@@ -96,16 +102,16 @@ export function useSearch(query: string) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (query.length < 2) {
+    if (query.length < 2 || !supabase) {
       setResults([]);
       return;
     }
-
     const timer = setTimeout(() => search(), 300);
     return () => clearTimeout(timer);
   }, [query]);
 
   async function search() {
+    if (!supabase) return;
     setLoading(true);
     const { data } = await supabase
       .from('pages')
@@ -124,8 +130,9 @@ export function useChildren(parentId: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!supabase) { setLoading(false); return; }
     async function load() {
-      const { data } = await supabase
+      const { data } = await supabase!
         .from('pages')
         .select('*')
         .eq('parent_id', parentId)
