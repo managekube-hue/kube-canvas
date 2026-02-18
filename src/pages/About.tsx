@@ -150,7 +150,7 @@ const About = () => {
               to="/assessment"
               className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
             >
-              Start Free Assessment
+              Onboard Today
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link

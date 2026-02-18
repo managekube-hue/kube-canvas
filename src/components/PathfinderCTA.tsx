@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, ClipboardList, Shield, LayoutGrid, Server, BookOpen, ArrowRight } from "lucide-react";
-import ctaBannerVideo from "@/assets/cta-banner.mp4";
+import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
@@ -55,7 +55,7 @@ export const PathfinderCTA = () => {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src={ctaBannerVideo} type="video/mp4" />
+        <source src={footerCtaVideo} type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/50" />
 

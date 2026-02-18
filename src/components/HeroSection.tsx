@@ -73,7 +73,7 @@ export const HeroSection = () => {
               to="/assessment"
               className="inline-flex items-center justify-center px-8 py-4 bg-brand-orange text-white font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
             >
-              Start Free Assessment
+              Onboard Today
             </Link>
             <Link
               to="/methodology"

@@ -723,7 +723,7 @@ const FindByProblem = () => {
               to="/assessment"
               className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
             >
-              Start Free Assessment
+              Onboard Today
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
