@@ -226,7 +226,6 @@ const Assessment = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

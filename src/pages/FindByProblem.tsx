@@ -786,7 +786,6 @@ const FindByProblem = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

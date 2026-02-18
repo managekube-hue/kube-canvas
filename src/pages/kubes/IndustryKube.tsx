@@ -187,8 +187,6 @@ const IndustryKube = () => {
         </div>
       </section>
 
-      {/* Pathfinder CTA */}
-      <PathfinderCTA />
     </PageLayout>
   );
 };
