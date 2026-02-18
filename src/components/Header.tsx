@@ -208,14 +208,14 @@ const megaMenu = {
     ],
   },
   "Resources": {
-    href: "/uidr/docs",
+    href: "/documentation",
     desc: "Technical documentation for Kubric UIDR — infrastructure, orchestration, security, and compliance.",
-    viewAll: "View K-DOCS",
+    viewAll: "View Documentation",
     columns: [
       {
         heading: "Documentation",
         items: [
-          { label: "Read the Docs", desc: "Full K-DOCS technical documentation covering infrastructure, orchestration, security, and compliance.", href: "/uidr/docs" },
+          { label: "Documentation Hub", desc: "All Kubric documentation — Kubes, compliance, tools, services, and pricing guides.", href: "/documentation" },
           { label: "How Kubric Works", desc: "Architecture overview of the unified Kubric platform.", href: "/our-tools/how-kubric-works" },
           { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against Kube coverage.", href: "/compliance" },
           { label: "Assessment Calculator", desc: "Estimate your security maturity and identify gaps in minutes.", href: "/assessment" },
