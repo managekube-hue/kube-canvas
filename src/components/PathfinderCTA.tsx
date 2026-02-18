@@ -1,39 +1,45 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Search, ClipboardList, Building2, Users, MessageSquare } from "lucide-react";
+import { Search, ClipboardList, Shield, LayoutGrid, Server, BookOpen, ArrowRight } from "lucide-react";
 import ctaBannerVideo from "@/assets/cta-banner.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
   {
-    icon: Search,
-    title: "Find by Problem",
-    description: "What challenge are you facing?",
-    href: "/find-by-problem",
-  },
-  {
     icon: ClipboardList,
-    title: "Find by Assessment",
-    description: "Get a free transformation roadmap",
+    title: "Free Assessment",
+    description: "Map your security posture in minutes",
     href: "/assessment",
   },
   {
-    icon: Building2,
-    title: "Find by Industry",
-    description: "Solutions for your sector",
-    href: "/kubes/industry-kube",
+    icon: LayoutGrid,
+    title: "Explore Kubes",
+    description: "15 detection & response modules",
+    href: "/kubes",
   },
   {
-    icon: Users,
-    title: "Find by Business Size",
-    description: "SMB to Enterprise solutions",
-    href: "/find-by-size",
+    icon: Server,
+    title: "Our Products",
+    description: "XRO, XMM & XME platform tiers",
+    href: "/products",
   },
   {
-    icon: MessageSquare,
-    title: "Contact Us",
-    description: "Talk to a solutions architect",
-    href: "/contact",
+    icon: Shield,
+    title: "Managed Services",
+    description: "NOC, SOC, Compliance & Cloud",
+    href: "/services",
+  },
+  {
+    icon: Search,
+    title: "Find by Problem",
+    description: "Start from the challenge you face",
+    href: "/find-by-problem",
+  },
+  {
+    icon: BookOpen,
+    title: "Read the Docs",
+    description: "K-DOCS technical documentation",
+    href: "/uidr/docs",
   },
 ];
 /** END DO NOT TOUCH */
@@ -48,13 +54,11 @@ export const PathfinderCTA = () => {
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        style={{ width: "100%", height: "100%" }}
       >
         <source src={ctaBannerVideo} type="video/mp4" />
       </video>
-      {/* Subtle dark scrim so text stays legible */}
-      <div className="absolute inset-0 bg-black/40" />
-      
+      <div className="absolute inset-0 bg-black/50" />
+
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,35 +66,36 @@ export const PathfinderCTA = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
+          <p className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-3">Where would you like to go?</p>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
             Find Your Path
           </h2>
-          <p className="text-lg text-white/70">
-            Every organization's transformation journey starts somewhere. Choose your entry point.
+          <p className="text-base text-white/60 max-w-xl mx-auto">
+            Every transformation starts somewhere. Choose your entry point into the Kubric platform.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {pathways.map((pathway, index) => (
             <motion.div
               key={pathway.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={index === 4 ? "col-span-2 lg:col-span-1" : ""}
+              transition={{ delay: index * 0.07 }}
             >
               <Link
                 to={pathway.href}
-                className="group block bg-gradient-to-br from-brand-orange/90 to-brand-orange/70 p-6 hover:from-brand-orange hover:to-brand-orange/80 transition-all h-full"
+                className="group flex flex-col items-start p-5 bg-white/5 border border-white/10 hover:bg-brand-orange hover:border-brand-orange transition-all h-full"
               >
-                <pathway.icon className="w-8 h-8 text-white mb-4" strokeWidth={1.5} />
-                <h3 className="text-base font-bold text-white mb-2">
+                <pathway.icon className="w-6 h-6 text-brand-orange group-hover:text-white mb-4 transition-colors" strokeWidth={1.5} />
+                <h3 className="text-sm font-bold text-white mb-1 leading-tight">
                   {pathway.title}
                 </h3>
-                <p className="text-sm text-white/80">
+                <p className="text-xs text-white/55 group-hover:text-white/80 transition-colors leading-relaxed flex-1">
                   {pathway.description}
                 </p>
+                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white mt-3 transition-colors group-hover:translate-x-1 duration-200" />
               </Link>
             </motion.div>
           ))}
