@@ -9,7 +9,7 @@ import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 lg:pt-24 overflow-hidden bg-black">
+    <section className="relative min-h-screen flex items-center pt-20 lg:pt-24 pb-24 overflow-hidden bg-black">
       {/* Video Background with Overlay */}
       <div className="absolute inset-0 z-0">
         <video
@@ -101,8 +101,8 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
+      {/* Bottom gradient fade - starts below CTAs */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent z-10" />
     </section>
   );
 };
