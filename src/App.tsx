@@ -110,6 +110,12 @@ import ClientPortal from "./pages/login/ClientPortal";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Documentation from "./pages/Documentation";
+import DocsOverview from "./pages/docs/DocsOverview";
+import DocModulePage from "./pages/docs/DocModulePage";
+import DocsNats from "./pages/docs/DocsNats";
+import DocsLicenseMatrix from "./pages/docs/DocsLicenseMatrix";
+import DocsMonorepo from "./pages/docs/DocsMonorepo";
+import DocsSummary from "./pages/docs/DocsSummary";
 
 const queryClient = new QueryClient();
 
@@ -234,6 +240,12 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/documentation" element={<Documentation />} />
+          <Route path="/docs" element={<DocsOverview />} />
+          <Route path="/docs/nats" element={<DocsNats />} />
+          <Route path="/docs/license-matrix" element={<DocsLicenseMatrix />} />
+          <Route path="/docs/monorepo" element={<DocsMonorepo />} />
+          <Route path="/docs/summary" element={<DocsSummary />} />
+          <Route path="/docs/:moduleId" element={<DocModulePage />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
