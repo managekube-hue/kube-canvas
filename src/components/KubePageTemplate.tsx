@@ -2,7 +2,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
 import { InteractiveKubeWheel } from "@/components/InteractiveKubeWheel";
 // PageBanner now handles the child-page video internally
-import { PathfinderCTA } from "@/components/PathfinderCTA";
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -206,8 +206,6 @@ export const KubePageTemplate = ({
         </div>
       </section>
 
-      {/* Pathfinder CTA */}
-      <PathfinderCTA />
     </PageLayout>
   );
 };
