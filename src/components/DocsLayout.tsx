@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { kdocsTree, getExtColor } from "@/data/kdocs-tree";
 import { ChevronDown, ChevronRight, FileText, Folder, FolderOpen, Menu, X, BookOpen, Sparkles } from "lucide-react";
 
@@ -198,6 +199,7 @@ export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         </main>
       </div>
 
+      <PathfinderCTA />
       <Footer />
     </div>
   );

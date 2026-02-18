@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Settings } from "lucide-react";
+import { PathfinderCTA } from "@/components/PathfinderCTA";
+import { Footer } from "@/components/Footer";
 
 const NAV_LINKS = [
   { label: "Home", href: "/uidr" },
@@ -57,6 +59,9 @@ export const UidrLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="pt-14">
         {children}
       </div>
+
+      <PathfinderCTA />
+      <Footer />
     </div>
   );
 };
