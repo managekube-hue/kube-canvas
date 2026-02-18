@@ -102,22 +102,6 @@ export const KubeDetailPage = ({
         </section>
       )}
 
-      {/* CTA */}
-      <section className="section-dark py-16">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to add {code} to your platform?</h2>
-          <p className="text-white/60 mb-8">Start with a free assessment and we'll build your custom configuration.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/assessment"
-              className="btn-primary inline-flex items-center gap-2">
-              Start Free Assessment <ArrowRight size={16} />
-            </Link>
-            <Link to="/contact" className="btn-secondary inline-flex items-center gap-2">
-              Talk to an Expert
-            </Link>
-          </div>
-        </div>
-      </section>
     </PageLayout>
   );
 };

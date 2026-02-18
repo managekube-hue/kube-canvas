@@ -43,15 +43,6 @@ export const ComplianceDetailPage = ({ framework, fullName, audience, descriptio
         </div>
       </section>
 
-      <section className="section-dark py-16">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Start your {framework} compliance journey</h2>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link to="/assessment" className="btn-primary inline-flex items-center gap-2">Free Gap Analysis <ArrowRight size={16} /></Link>
-            <Link to="/contact" className="btn-secondary">Talk to a Compliance Expert</Link>
-          </div>
-        </div>
-      </section>
     </PageLayout>
   );
 };
