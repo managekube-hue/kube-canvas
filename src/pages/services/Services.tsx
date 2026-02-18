@@ -38,13 +38,13 @@ const serviceGroups = [
 export default function Services() {
   return (
     <PageLayout>
-      <section className="relative pt-20 pb-16 overflow-hidden bg-black">
+      <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden bg-black min-h-[42vh] flex items-center">
         <div className="absolute inset-0 z-0">
-          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-20">
+          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-40">
             <source src={childPageVideo} type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
         </div>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
