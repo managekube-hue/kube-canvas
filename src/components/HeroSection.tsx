@@ -42,7 +42,7 @@ export const HeroSection = () => {
             {/* Main Headline with Typewriter Effect */}
             <h1 className="text-hero text-white mb-4">
               <TypewriterText 
-                text="IT TRANSFORMATION." 
+                text="One Service Provider." 
                 speed={60} 
                 delay={300}
               />
@@ -53,7 +53,7 @@ export const HeroSection = () => {
               transition={{ duration: 0.5, delay: 1.8 }}
               className="text-hero text-brand-orange mb-8"
             >
-              AT ANY SCALE.
+              Zero Silos.
             </motion.h1>
 
             {/* Subheadline */}
@@ -63,7 +63,7 @@ export const HeroSection = () => {
               transition={{ duration: 0.7, delay: 2.2 }}
               className="text-body-xl text-white/70 max-w-xl mb-12"
             >
-              One methodology. Four phases.
+              Complete visibility across NOC, SOC, and business operations. We manage your infrastructure, security, and compliance so you can focus on growth.
             </motion.p>
 
             {/* CTAs */}
