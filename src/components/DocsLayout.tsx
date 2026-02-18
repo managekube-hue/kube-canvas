@@ -2,103 +2,156 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PathfinderCTA } from "@/components/PathfinderCTA";
-import { docModules, categoryLabels, categoryColors } from "@/data/docs-modules";
-import { ChevronDown, ChevronRight, BookOpen, Menu, X } from "lucide-react";
+import { kdocsTree, getExtColor } from "@/data/kdocs-tree";
+import { ChevronDown, ChevronRight, FileText, Folder, FolderOpen, Menu, X, BookOpen, Sparkles } from "lucide-react";
 
-const categoryOrder = ["endpoint", "network", "cloud", "identity", "data", "governance", "operations", "intelligence"];
-
-const topLinks = [
-  { label: "Overview", href: "/docs" },
-  { label: "NATS Message Bus", href: "/docs/nats" },
-  { label: "License Compliance", href: "/docs/license-matrix" },
-  { label: "Monorepo Structure", href: "/docs/monorepo" },
-  { label: "Integration Summary", href: "/docs/summary" },
-];
+const FileIcon = ({ ext }: { ext?: string }) => {
+  const color = getExtColor(ext);
+  return <FileText size={11} className={color} />;
+};
 
 export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
-    endpoint: true, network: true, cloud: true, identity: true,
-    data: true, governance: true, operations: true, intelligence: true,
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    "k-core-01": true,
+    "k-map-11": true,
   });
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleCategory = (cat: string) => {
-    setOpenCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
-  };
-
-  const isActive = (href: string) => location.pathname === href;
+  const toggle = (id: string) =>
+    setOpenSections(prev => ({ ...prev, [id]: !prev[id] }));
 
   const SidebarContent = () => (
-    <div className="h-full flex flex-col">
-      <div className="px-6 pt-6 pb-4 border-b border-border">
-        <Link to="/docs" className="flex items-center gap-2 mb-4">
-          <BookOpen size={16} className="text-brand-orange" />
-          <span className="text-xs font-bold tracking-widest uppercase text-muted-foreground">Kubric UIDR Docs</span>
+    <div className="h-full flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="px-5 pt-5 pb-4 border-b border-border flex-shrink-0">
+        <Link to="/docs" className="flex items-center gap-2 mb-1">
+          <BookOpen size={14} className="text-brand-orange" />
+          <span className="text-[11px] font-black tracking-widest uppercase text-foreground">K-DOCS</span>
         </Link>
-        <nav className="space-y-0.5">
-          {topLinks.map(link => (
-            <Link
-              key={link.href}
-              to={link.href}
-              onClick={() => setSidebarOpen(false)}
-              className={`block px-3 py-2 text-sm font-medium rounded-none transition-colors ${
-                isActive(link.href)
-                  ? "bg-brand-orange/10 text-brand-orange border-l-2 border-brand-orange"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <p className="text-[10px] text-muted-foreground">Kubric Orchestration Reference</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6 py-4">
-        <p className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground/60 mb-3">DR Modules</p>
-        <nav className="space-y-1">
-          {categoryOrder.map(cat => {
-            const modules = docModules.filter(m => m.category === cat);
-            if (!modules.length) return null;
-            const isOpen = openCategories[cat];
-            return (
-              <div key={cat}>
-                <button
-                  onClick={() => toggleCategory(cat)}
-                  className="w-full flex items-center justify-between py-2 text-left group"
-                >
-                  <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: categoryColors[cat] }}>
-                    {categoryLabels[cat]}
-                  </span>
-                  {isOpen
-                    ? <ChevronDown size={12} className="text-muted-foreground/60" />
-                    : <ChevronRight size={12} className="text-muted-foreground/60" />
-                  }
-                </button>
-                {isOpen && (
-                  <div className="ml-2 space-y-0.5 border-l border-border pl-3 mb-2">
-                    {modules.map(mod => (
-                      <Link
-                        key={mod.id}
-                        to={`/docs/${mod.id}`}
-                        onClick={() => setSidebarOpen(false)}
-                        className={`flex items-center gap-2 px-2 py-1.5 text-xs font-medium transition-colors ${
-                          isActive(`/docs/${mod.id}`)
-                            ? "text-brand-orange"
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        <span className="text-[10px] font-bold opacity-60 w-8 flex-shrink-0">{mod.code}</span>
-                        <span className="truncate">{mod.name.split(" — ")[0]}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
+      {/* Tree */}
+      <div className="flex-1 overflow-y-auto py-3 font-mono">
+        {kdocsTree.map(section => {
+          const isOpen = !!openSections[section.id];
+          return (
+            <div key={section.id} className="mb-0.5">
+              {/* Section header */}
+              <button
+                onClick={() => toggle(section.id)}
+                className="w-full flex items-center gap-1.5 px-4 py-1.5 text-left hover:bg-secondary/50 transition-colors group"
+              >
+                {isOpen
+                  ? <FolderOpen size={12} style={{ color: section.color }} className="flex-shrink-0" />
+                  : <Folder size={12} style={{ color: section.color }} className="flex-shrink-0" />
+                }
+                <span className="text-[10px] font-bold tracking-widest uppercase flex-1 truncate" style={{ color: section.color }}>
+                  {section.code}
+                </span>
+                {isOpen
+                  ? <ChevronDown size={10} className="text-muted-foreground/50 flex-shrink-0" />
+                  : <ChevronRight size={10} className="text-muted-foreground/50 flex-shrink-0" />
+                }
+              </button>
+
+              {isOpen && (
+                <div className="ml-4 border-l border-border/50 pl-0">
+                  {section.children.map(group => {
+                    const groupKey = `${section.id}--${group.id}`;
+                    const groupOpen = openSections[groupKey] !== false; // default open
+                    return (
+                      <div key={group.id}>
+                        <button
+                          onClick={() => toggle(groupKey)}
+                          className="w-full flex items-center gap-1.5 px-3 py-1 text-left hover:bg-secondary/30 transition-colors"
+                        >
+                          {groupOpen
+                            ? <FolderOpen size={10} className="text-muted-foreground flex-shrink-0" />
+                            : <Folder size={10} className="text-muted-foreground flex-shrink-0" />
+                          }
+                          <span className="text-[10px] text-muted-foreground font-medium flex-1 truncate">
+                            {group.code}
+                          </span>
+                          {group.isNew && (
+                            <Sparkles size={8} className="text-brand-orange flex-shrink-0" />
+                          )}
+                          {groupOpen
+                            ? <ChevronDown size={9} className="text-muted-foreground/40 flex-shrink-0" />
+                            : <ChevronRight size={9} className="text-muted-foreground/40 flex-shrink-0" />
+                          }
+                        </button>
+
+                        {groupOpen && (
+                          <div className="ml-3 border-l border-border/30 pl-0">
+                            {/* Direct files */}
+                            {group.files?.map(file => (
+                              <div
+                                key={file.id}
+                                className="flex items-center gap-1.5 px-3 py-0.5 text-left hover:bg-secondary/20 transition-colors"
+                              >
+                                <FileIcon ext={file.ext} />
+                                <span className="text-[9px] text-muted-foreground/70 font-mono truncate flex-1">
+                                  {file.code}
+                                </span>
+                                {file.isNew && <Sparkles size={7} className="text-brand-orange flex-shrink-0" />}
+                              </div>
+                            ))}
+                            {/* Subgroups */}
+                            {group.subGroups?.map(sub => {
+                              const subKey = `${groupKey}--${sub.id}`;
+                              const subOpen = openSections[subKey] !== false;
+                              return (
+                                <div key={sub.id}>
+                                  <button
+                                    onClick={() => toggle(subKey)}
+                                    className="w-full flex items-center gap-1.5 px-3 py-0.5 text-left hover:bg-secondary/20 transition-colors"
+                                  >
+                                    {subOpen
+                                      ? <FolderOpen size={9} className="text-muted-foreground/60 flex-shrink-0" />
+                                      : <Folder size={9} className="text-muted-foreground/60 flex-shrink-0" />
+                                    }
+                                    <span className="text-[9px] text-muted-foreground/60 flex-1 truncate font-mono">
+                                      {sub.code}
+                                    </span>
+                                    {sub.isNew && <Sparkles size={7} className="text-brand-orange flex-shrink-0" />}
+                                  </button>
+                                  {subOpen && (
+                                    <div className="ml-3 border-l border-border/20 pl-0">
+                                      {sub.files.map(file => (
+                                        <div
+                                          key={file.id}
+                                          className="flex items-center gap-1.5 px-3 py-0.5 hover:bg-secondary/10 transition-colors"
+                                        >
+                                          <FileIcon ext={file.ext} />
+                                          <span className="text-[9px] text-muted-foreground/50 font-mono truncate flex-1">
+                                            {file.code}
+                                          </span>
+                                          {file.isNew && <Sparkles size={7} className="text-brand-orange flex-shrink-0" />}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer counts */}
+      <div className="px-5 py-3 border-t border-border flex-shrink-0">
+        <p className="text-[9px] font-mono text-muted-foreground/50">120,000+ intelligence assets</p>
+        <p className="text-[9px] font-mono text-muted-foreground/40">18 DR Modules · 11 Sections</p>
       </div>
     </div>
   );
@@ -110,11 +163,11 @@ export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className="flex min-h-[calc(100vh-72px)]">
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:flex flex-col w-72 flex-shrink-0 border-r border-border bg-background sticky top-[72px] h-[calc(100vh-72px)] overflow-hidden">
+        <aside className="hidden lg:flex flex-col w-64 flex-shrink-0 border-r border-border bg-background sticky top-[72px] h-[calc(100vh-72px)] overflow-hidden">
           <SidebarContent />
         </aside>
 
-        {/* Mobile sidebar toggle */}
+        {/* Mobile toggle */}
         <button
           onClick={() => setSidebarOpen(true)}
           className="lg:hidden fixed bottom-6 left-6 z-40 bg-foreground text-white p-3 shadow-lg"
@@ -123,15 +176,15 @@ export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           <Menu size={20} />
         </button>
 
-        {/* Mobile sidebar overlay */}
+        {/* Mobile overlay */}
         {sidebarOpen && (
           <div className="lg:hidden fixed inset-0 z-50 flex">
-            <div className="bg-background w-72 h-full border-r border-border overflow-hidden flex flex-col relative">
+            <div className="bg-background w-64 h-full border-r border-border overflow-hidden flex flex-col relative">
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
               <SidebarContent />
             </div>
@@ -140,12 +193,11 @@ export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         )}
 
         {/* Main content */}
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 overflow-x-hidden">
           {children}
         </main>
       </div>
 
-      <PathfinderCTA />
       <Footer />
     </div>
   );
