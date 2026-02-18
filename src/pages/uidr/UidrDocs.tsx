@@ -74,43 +74,45 @@ const docCategories = [
 export default function UidrDocs() {
   return (
     <UidrLayout>
-      <div className="min-h-screen bg-secondary">
+      <div className="min-h-screen" style={{ background: "#f4f4f5" }}>
         {/* Header bar */}
-        <div className="border-b border-border bg-background px-8 py-4 flex items-center justify-between">
-          <Link to="/uidr" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <div className="border-b px-8 py-4 flex items-center justify-between" style={{ background: "#ffffff", borderColor: "#e4e4e7" }}>
+          <Link to="/uidr" className="flex items-center gap-2 text-sm transition-colors" style={{ color: "#71717a" }}>
             ← Back to Kubric UIDR
           </Link>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/contact" className="hover:text-foreground transition-colors">SUPPORT</Link>
-            <span className="text-border">|</span>
-            <Link to="/login/client" className="hover:text-foreground transition-colors">LOG IN</Link>
+          <div className="flex items-center gap-6 text-sm" style={{ color: "#71717a" }}>
+            <Link to="/contact" className="hover:opacity-70 transition-opacity">SUPPORT</Link>
+            <span style={{ color: "#d4d4d8" }}>|</span>
+            <Link to="/login/client" className="hover:opacity-70 transition-opacity">LOG IN</Link>
           </div>
         </div>
 
         {/* Main grid */}
         <div className="max-w-6xl mx-auto px-8 py-16">
           <div className="mb-12">
-            <h1 className="text-4xl font-black text-foreground mb-3">Kubric Documentation</h1>
-            <p className="text-muted-foreground text-lg">Everything you need to deploy, configure, and operate the Kubric platform.</p>
+            <h1 className="text-4xl font-black mb-3" style={{ color: "#09090b" }}>Kubric Documentation</h1>
+            <p className="text-lg" style={{ color: "#71717a" }}>Everything you need to deploy, configure, and operate the Kubric platform.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {docCategories.map((cat) => (
               <div
                 key={cat.title}
-                className="bg-background border border-border p-8 hover:shadow-md transition-shadow"
+                className="p-8 hover:shadow-md transition-shadow border"
+                style={{ background: "#ffffff", borderColor: "#e4e4e7" }}
               >
                 <div className="mb-5">
                   <cat.icon size={28} className="text-brand-orange" />
                 </div>
-                <h2 className="text-xl font-black text-foreground mb-3">{cat.title}</h2>
-                <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{cat.description}</p>
+                <h2 className="text-xl font-black mb-3" style={{ color: "#09090b" }}>{cat.title}</h2>
+                <p className="text-sm mb-5 leading-relaxed" style={{ color: "#71717a" }}>{cat.description}</p>
                 <ul className="space-y-2">
                   {cat.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         to={link.href}
-                        className="text-sm text-foreground/70 hover:text-brand-orange transition-colors"
+                        className="text-sm hover:text-brand-orange transition-colors"
+                        style={{ color: "#3f3f46" }}
                       >
                         {link.label}
                       </Link>
@@ -121,22 +123,23 @@ export default function UidrDocs() {
             ))}
           </div>
 
-          {/* Technical Docs CTA — password protected */}
-          <div className="mt-8 border border-border bg-background p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          {/* Technical Docs CTA */}
+          <div className="mt-8 border p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6" style={{ background: "#ffffff", borderColor: "#e4e4e7" }}>
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 flex items-center justify-center border border-border flex-shrink-0">
-                <Lock size={20} className="text-muted-foreground" />
+              <div className="w-12 h-12 flex items-center justify-center border flex-shrink-0" style={{ borderColor: "#e4e4e7" }}>
+                <Lock size={20} style={{ color: "#a1a1aa" }} />
               </div>
               <div>
-                <h3 className="text-xl font-black text-foreground mb-1">Technical Documentation</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="text-xl font-black mb-1" style={{ color: "#09090b" }}>Technical Documentation</h3>
+                <p className="text-sm" style={{ color: "#71717a" }}>
                   Full K-DOCS monorepo explorer — 23 documents, 120k+ detection rules, orchestration assets, and internal reference. Authorised personnel only.
                 </p>
               </div>
             </div>
             <Link
               to="/uidr/technical-docs"
-              className="flex-shrink-0 flex items-center gap-2 bg-foreground text-background px-6 py-3 text-sm font-bold uppercase tracking-wider hover:opacity-80 transition-opacity"
+              className="flex-shrink-0 flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-wider hover:opacity-80 transition-opacity"
+              style={{ background: "#09090b", color: "#ffffff" }}
             >
               Access Technical Docs
               <ExternalLink size={14} />
