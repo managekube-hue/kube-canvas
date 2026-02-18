@@ -241,6 +241,7 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/documentation" element={<Documentation />} />
+          <Route path="/docs" element={<Navigate to="/documentation" replace />} />
 
           {/* UIDR Open Source Docs Site */}
           <Route path="/uidr" element={<UidrHome />} />
