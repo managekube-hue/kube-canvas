@@ -52,13 +52,8 @@ export const PathfinderCTA = () => {
       >
         <source src={ctaBannerVideo} type="video/mp4" />
       </video>
-      {/* Dark Gradient Overlay - Black to Orange to Gray */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(135deg, rgba(10,10,10,0.88) 0%, rgba(26,26,26,0.80) 30%, hsla(24,70%,35%,0.75) 60%, rgba(74,74,74,0.82) 100%)",
-        }}
-      />
+      {/* Subtle dark scrim so text stays legible */}
+      <div className="absolute inset-0 bg-black/40" />
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
