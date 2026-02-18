@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Cjis() {
+  return <ComplianceDetailPage framework="CJIS" fullName="Criminal Justice Information Services Security Policy" audience="Law Enforcement & Government Agencies" description="CJIS solutions ensure compliance with FBI Criminal Justice Information Services Security Policy for agencies accessing criminal justice information (CJI). Includes advanced authentication controls, auditing, encryption, personnel security, and incident response requirements specific to CJIS compliance." features={["CJIS Security Policy compliance","Advanced authentication (FBI standards)","CJI data encryption and protection","Audit and accountability logging","Personnel security verification tracking","Physical security integration","Incident response for CJI breaches","State CJIS Systems Officer (CSO) coordination"]} />;
+}

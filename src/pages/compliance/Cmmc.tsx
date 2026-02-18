@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Cmmc() {
+  return <ComplianceDetailPage framework="CMMC" fullName="Cybersecurity Maturity Model Certification" audience="Defense Contractors & DoD Supply Chain" description="CMMC solutions prepare defense contractors for Cybersecurity Maturity Model Certification assessments. Includes automated control verification for CMMC Level 2 and Level 3, continuous monitoring, evidence collection, and assessment readiness reporting. Aligned with NIST 800-171 and NIST 800-53 controls." features={["CMMC Level 2 and Level 3 support","NIST 800-171 control mapping","Automated control verification","Continuous monitoring","Evidence collection and archival","Assessment readiness reporting","DFARS clause compliance","POA&M tracking and remediation"]} />;
+}

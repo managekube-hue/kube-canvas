@@ -1,0 +1,13 @@
+import { ServiceDetailPage } from "@/components/ServiceDetailPage";
+export default function ManagedSoc() {
+  return <ServiceDetailPage
+    category="Managed Services"
+    name="Managed SOC"
+    tagline="24/7 security operations center with threat hunting, incident response, and compliance reporting."
+    description="24/7 security operations center powered by Kubric XDR and staffed by expert analysts. Threat hunting, incident response, and compliance reporting delivered as a fully managed service."
+    sections={[
+      { title: "SOC Capabilities", items: ["24/7/365 security monitoring", "Real-time threat detection and triage", "Incident response and containment", "Threat hunting and proactive defense"] },
+      { title: "Reporting & Compliance", items: ["Compliance reporting across frameworks", "Executive security briefings", "Monthly threat landscape reports", "Incident post-mortems and lessons learned"] },
+    ]}
+  />;
+}

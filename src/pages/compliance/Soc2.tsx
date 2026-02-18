@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Soc2() {
+  return <ComplianceDetailPage framework="SOC 2" fullName="Service Organization Control 2" audience="SaaS Providers & Service Organizations" description="SOC 2 solutions prepare SaaS and service organizations for Type I and Type II audits. Continuous monitoring of Trust Service Criteria with automated evidence collection, control testing, and audit-ready compliance reports." features={["Trust Service Criteria monitoring (Security, Availability, Confidentiality, PI, Privacy)","Continuous control testing","Automated evidence collection","Type I and Type II readiness","Audit trail and logging","Change management tracking","Incident response documentation","Third-party service monitoring","Audit coordinator support"]} />;
+}
