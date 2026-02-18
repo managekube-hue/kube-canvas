@@ -71,7 +71,7 @@ export const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 2.5 }}
-              className="flex flex-col sm:flex-row gap-4 mb-16"
+              className="flex flex-col sm:flex-row gap-4"
             >
               <Link 
                 to="/assessment" 
@@ -85,72 +85,6 @@ export const HeroSection = () => {
               >
                 Our Methodology
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </motion.div>
-
-            {/* 3-Column Capability Matrix */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.8 }}
-              className="pt-10"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-8">
-                {/* Column 1: Assess */}
-                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    01 ASSESS
-                  </h3>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Current state agent inventory
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Risk register + remediation roadmap
-                  </p>
-                  <p className="font-mono text-sm text-white/70">
-                    4-week fixed scope output
-                  </p>
-                </div>
-
-                {/* Column 2: Remediate */}
-                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    02 REMEDIATE
-                  </h3>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Product deployment projects
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    Compliance framework implementation
-                  </p>
-                  <p className="font-mono text-sm text-white/70">
-                    90-day project execution
-                  </p>
-                </div>
-
-                {/* Column 3: Manage */}
-                <div className="bg-black/80 border border-brand-orange/30 p-6 backdrop-blur-sm">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-brand-orange mb-4">
-                    03 MANAGE
-                  </h3>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    MSP/MSSP daily operations
-                  </p>
-                  <p className="font-mono text-sm text-white/70 mb-2">
-                    NOC + service desk
-                  </p>
-                  <p className="font-mono text-sm text-white/70">
-                    SLA-backed infrastructure
-                  </p>
-                </div>
-              </div>
-
-              {/* Full-Width CTA Button */}
-              <Link
-                to="/assessment"
-                className="w-full inline-flex items-center justify-center px-8 py-4 bg-brand-orange text-white font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
-              >
-                Build My Engagement Plan
               </Link>
             </motion.div>
           </div>
