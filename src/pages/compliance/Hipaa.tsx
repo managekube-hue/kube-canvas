@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Hipaa() {
+  return <ComplianceDetailPage framework="HIPAA" fullName="Health Insurance Portability and Accountability Act" audience="Healthcare Providers, Payers & Business Associates" description="HIPAA solutions automate compliance through continuous monitoring of electronic protected health information (ePHI), automated breach detection, and BAA lifecycle management. Includes HIPAA Security Rule and Privacy Rule control verification." features={["ePHI discovery and classification","Access control monitoring","Encryption verification","Breach detection and notification workflows","BAA (Business Associate Agreement) tracking","Risk assessment automation","Audit log monitoring","HIPAA Security Rule compliance","HIPAA Privacy Rule compliance"]} />;
+}

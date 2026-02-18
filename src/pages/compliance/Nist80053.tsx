@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Nist80053() {
+  return <ComplianceDetailPage framework="NIST 800-53" fullName="Security Controls for Federal Information Systems" audience="Federal Agencies & Critical Infrastructure" description="NIST 800-53 solutions implement the security control framework for federal systems and FedRAMP compliance. Covers 1000+ controls across 20 families with automated verification, continuous monitoring, and authorization package generation for ATO processes." features={["1000+ security controls (Rev 5)","20 control families","Baseline selection (Low, Moderate, High)","Automated control verification","Continuous monitoring and diagnostics","Authorization package generation","FedRAMP compliance support","ATO (Authority to Operate) preparation"]} />;
+}

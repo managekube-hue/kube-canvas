@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Nist800171() {
+  return <ComplianceDetailPage framework="NIST 800-171" fullName="Protecting Controlled Unclassified Information" audience="Federal Contractors & Defense Industrial Base" description="NIST 800-171 solutions help federal contractors protect Controlled Unclassified Information (CUI) through the 110 security controls. Automated control verification, continuous monitoring, and POA&M tracking prepare organizations for NIST 800-171 assessments and CMMC certification." features={["110 security control verification","CUI identification and protection","Access control enforcement","System and communications protection","Continuous monitoring","POA&M tracking and remediation","Assessment readiness scoring","DFARS clause compliance","CMMC Level 2 alignment"]} />;
+}

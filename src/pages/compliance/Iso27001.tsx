@@ -1,0 +1,4 @@
+import { ComplianceDetailPage } from "@/components/ComplianceDetailPage";
+export default function Iso27001() {
+  return <ComplianceDetailPage framework="ISO 27001" fullName="International Information Security Management System" audience="Global Organizations Seeking ISMS Certification" description="ISO 27001 solutions implement the international standard for information security management systems (ISMS) certification. 114 controls across 14 domains with automated gap analysis, continuous monitoring, and certification readiness support." features={["114 controls across 14 domains","ISMS implementation and documentation","Risk assessment and treatment","Continuous control monitoring","Evidence collection and archival","Internal audit support","Certification readiness assessment","Corrective action tracking","Statement of Applicability (SoA) generation"]} />;
+}
