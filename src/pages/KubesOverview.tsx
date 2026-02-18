@@ -147,7 +147,6 @@ const KubesOverview = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

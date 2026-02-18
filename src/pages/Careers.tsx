@@ -161,7 +161,6 @@ const Careers = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };
