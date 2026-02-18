@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { UidrLayout } from "@/components/UidrLayout";
 import { TreeSidebar } from "@/components/TreeSidebar";
 import { PageViewer } from "@/components/PageViewer";
 import { useAllPages } from "@/hooks/useDocumentation";
+import { supabase } from "@/integrations/supabase/client";
 import {
-  Search, PanelLeftClose, PanelLeftOpen, BookOpen, ArrowLeft
+  Search, PanelLeftClose, PanelLeftOpen, BookOpen, ArrowLeft, RefreshCw, CheckCircle2, AlertCircle
 } from "lucide-react";
 
 // ─── Main page ────────────────────────────────────────────────────────────────
@@ -13,28 +14,73 @@ export default function UidrTechnicalDocs() {
   const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [search, setSearch] = useState("");
+  const [syncing, setSyncing] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<"idle" | "success" | "error">("idle");
+  const [lastSyncMsg, setLastSyncMsg] = useState<string>("");
 
-  const { pages, loading, error } = useAllPages();
+  const { pages, loading, error, refetch } = useAllPages() as { pages: any[], loading: boolean, error: string | null, refetch: () => void };
+
+  const triggerSync = useCallback(async () => {
+    setSyncing(true);
+    setSyncStatus("idle");
+    try {
+      // Trigger fill_content to pick up any changed pages
+      const { error: fnError } = await supabase.functions.invoke("notion-sync", {
+        body: { mode: "fill_content" },
+      });
+      if (fnError) throw fnError;
+      await refetch();
+      setSyncStatus("success");
+      setLastSyncMsg("Synced just now");
+    } catch (e) {
+      setSyncStatus("error");
+      setLastSyncMsg("Sync failed");
+    } finally {
+      setSyncing(false);
+      setTimeout(() => setSyncStatus("idle"), 4000);
+    }
+  }, [refetch]);
 
   return (
     <UidrLayout>
       {/* Back bar */}
-      <div className="border-b border-white/5 bg-[#0d0d0d] px-6 py-3 flex items-center gap-4">
+      <div className="border-b border-white/5 bg-background/80 px-6 py-3 flex items-center gap-4">
         <Link
           to="/uidr/docs"
-          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
         >
           <ArrowLeft size={14} />
           Back to Kubric Docs
         </Link>
-        <span className="text-white/20">|</span>
-        <span className="text-white/50 text-sm font-mono">K-DOCS Technical Documentation Explorer</span>
+        <span className="text-foreground/20">|</span>
+        <span className="text-foreground/50 text-sm font-mono">K-DOCS Technical Documentation Explorer</span>
         {!loading && !error && pages.length > 0 && (
           <>
-            <span className="text-white/20">|</span>
-            <span className="text-white/30 text-xs font-mono">{pages.length} pages synced from Notion</span>
+            <span className="text-foreground/20">|</span>
+            <span className="text-foreground/30 text-xs font-mono">{pages.length} pages synced from Notion</span>
           </>
         )}
+        <div className="ml-auto flex items-center gap-2">
+          {syncStatus === "success" && (
+            <span className="flex items-center gap-1 text-green-400 text-xs font-mono">
+              <CheckCircle2 size={12} /> {lastSyncMsg}
+            </span>
+          )}
+          {syncStatus === "error" && (
+            <span className="flex items-center gap-1 text-red-400 text-xs font-mono">
+              <AlertCircle size={12} /> {lastSyncMsg}
+            </span>
+          )}
+          <button
+            onClick={triggerSync}
+            disabled={syncing}
+            title="Sync from Notion now"
+            className="flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded border border-white/10 bg-white/5 text-muted-foreground hover:text-foreground hover:border-white/20 transition-all disabled:opacity-50"
+          >
+            <RefreshCw size={12} className={syncing ? "animate-spin" : ""} />
+            {syncing ? "Syncing…" : "Sync Now"}
+          </button>
+        </div>
       </div>
 
       {/* App shell */}
