@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { label: "Home", href: "/uidr" },
   { label: "Platform", href: "/uidr/platform" },
   { label: "Documentation", href: "/uidr/docs" },
+  { label: "Technical Docs", href: "/uidr/technical-docs" },
   { label: "Contributors", href: "/uidr/contributors" },
   { label: "Open Source", href: "/uidr/open-source" },
   { label: "Contact", href: "/uidr/contact" },
