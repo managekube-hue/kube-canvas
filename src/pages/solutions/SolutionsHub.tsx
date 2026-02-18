@@ -2,6 +2,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import childPageVideo from "@/assets/child-page.mp4";
 
 const bySector = [
   { name: "Manufacturing", desc: "OT/IT convergence, supply chain security, and intellectual property protection.", href: "/solutions/manufacturing" },
@@ -21,8 +22,15 @@ const bySize = [
 export default function SolutionsHub() {
   return (
     <PageLayout>
-      <section className="section-dark pt-20 pb-16">
-        <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
+      <section className="relative pt-20 pb-16 overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0">
+          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-20">
+            <source src={childPageVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+        </div>
+        <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="h-1 w-16 bg-brand-orange mb-8" />
             <h1 className="text-headline text-white mb-4">Solutions</h1>
@@ -31,6 +39,7 @@ export default function SolutionsHub() {
             </p>
           </motion.div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
       <section className="section-white py-16">

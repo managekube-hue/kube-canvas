@@ -109,6 +109,7 @@ import PartnerPortal from "./pages/login/PartnerPortal";
 import ClientPortal from "./pages/login/ClientPortal";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Documentation from "./pages/Documentation";
 
 const queryClient = new QueryClient();
 
@@ -232,6 +233,7 @@ const App = () => (
           {/* Legal */}
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/documentation" element={<Documentation />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

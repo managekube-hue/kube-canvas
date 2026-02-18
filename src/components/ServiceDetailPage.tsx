@@ -3,6 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import childPageVideo from "@/assets/child-page.mp4";
 
 interface ServiceDetailPageProps {
   category: string;
@@ -16,8 +17,16 @@ interface ServiceDetailPageProps {
 export const ServiceDetailPage = ({ category, name, tagline, description, sections, similar = [] }: ServiceDetailPageProps) => {
   return (
     <PageLayout>
-      <section className="section-dark pt-20 pb-16">
-        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+      {/* Hero */}
+      <section className="relative pt-20 pb-16 overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0">
+          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-20">
+            <source src={childPageVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+        </div>
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">{category}</span>
             <div className="h-1 w-16 bg-brand-orange my-6" />
@@ -26,6 +35,7 @@ export const ServiceDetailPage = ({ category, name, tagline, description, sectio
             <p className="text-body-lg text-white/70 max-w-2xl">{description}</p>
           </motion.div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
       <section className="section-off-white py-16">
