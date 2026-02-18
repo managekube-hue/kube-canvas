@@ -7,18 +7,19 @@ import {
   Search, PanelLeftClose, PanelLeftOpen, BookOpen, ArrowLeft
 } from "lucide-react";
 
-// ─── Ext color map ──────────────────────────────────────────────────────────
+// ─── Ext color map — white/orange only ──────────────────────────────────────
+const ORANGE = "hsl(24 95% 53%)";
 const extColor: Record<string, string> = {
-  rs: "#fb923c",
-  go: "#22d3ee",
-  py: "#a78bfa",
-  ts: "#3b82f6",
-  yaml: "#34d399",
-  sql: "#f59e0b",
-  md: "#94a3b8",
-  sh: "#86efac",
-  hcl: "#f472b6",
-  toml: "#fbbf24",
+  rs: ORANGE,
+  go: "#ffffff",
+  py: "#ffffff",
+  ts: "#ffffff",
+  yaml: ORANGE,
+  sql: "#ffffff",
+  md: "#ffffff",
+  sh: ORANGE,
+  hcl: "#ffffff",
+  toml: "#ffffff",
 };
 function extBadge(ext?: string) {
   if (!ext) return null;
@@ -240,34 +241,37 @@ function SectionRow({
 // ─── Content panel ────────────────────────────────────────────────────────────
 function ContentPanel({ selected }: { selected: SelectedNode }) {
   if (selected.kind === "welcome") {
+    const SECTIONS = [
+      { label: "K-CORE-01", desc: "Infrastructure & Platform", accent: false },
+      { label: "K-VENDOR-00", desc: "120k+ Detection Assets", accent: true },
+      { label: "K-XRO-02", desc: "Super Agent (eBPF/Rust)", accent: false },
+      { label: "K-KAI-03", desc: "AI Personas & Orchestration", accent: true },
+      { label: "K-GRC-17", desc: "Governance & Compliance", accent: false },
+      { label: "K-ITIL-10", desc: "ITIL Matrix & PSA", accent: true },
+    ];
     return (
       <div className="flex flex-col items-center justify-center h-full text-center px-16 py-24">
-        <div className="text-7xl mb-8">📁</div>
+        <Folder size={48} className="mb-8" style={{ color: "hsl(24 95% 53%)" }} />
         <h1 className="text-5xl font-bold text-white mb-6" style={{ fontFamily: "monospace" }}>
           Kubric Technical Docs
         </h1>
-        <p className="text-2xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
+        <p className="text-xl text-white/40 max-w-2xl mb-10 leading-relaxed">
           Expand any section in the left sidebar to navigate the complete K-DOCS orchestration hierarchy.
           300+ documents across infrastructure, detection engines, AI orchestration, and ITIL governance.
         </p>
-        <div className="grid grid-cols-3 gap-6 w-full max-w-3xl">
-          {[
-            { label: "K-CORE-01", desc: "Infrastructure & Platform", color: "#3b82f6" },
-            { label: "K-VENDOR-00", desc: "120k+ Detection Assets", color: "#f97316" },
-            { label: "K-XRO-02", desc: "Super Agent (eBPF/Rust)", color: "#ef4444" },
-            { label: "K-KAI-03", desc: "AI Personas & Orchestration", color: "#a855f7" },
-            { label: "K-GRC-17", desc: "Governance & Compliance", color: "#fbbf24" },
-            { label: "K-ITIL-10", desc: "ITIL Matrix & PSA", color: "#22d3ee" },
-          ].map(item => (
+        <div className="grid grid-cols-3 gap-4 w-full max-w-3xl">
+          {SECTIONS.map(item => (
             <div
               key={item.label}
-              className="rounded-xl border p-5 text-left"
-              style={{ borderColor: item.color + "40", background: item.color + "10" }}
+              className="rounded-xl border border-white/10 bg-white/[0.03] p-5 text-left"
             >
-              <div className="text-lg font-bold mb-1" style={{ color: item.color, fontFamily: "monospace" }}>
+              <div
+                className="text-base font-bold mb-1 font-mono"
+                style={{ color: item.accent ? "hsl(24 95% 53%)" : "#ffffff" }}
+              >
                 {item.label}
               </div>
-              <div className="text-slate-400" style={{ fontSize: "0.9rem" }}>{item.desc}</div>
+              <div className="text-white/40 text-sm">{item.desc}</div>
             </div>
           ))}
         </div>
