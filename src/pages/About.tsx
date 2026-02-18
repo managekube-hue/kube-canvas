@@ -163,7 +163,6 @@ const About = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

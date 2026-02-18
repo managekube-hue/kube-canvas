@@ -323,7 +323,6 @@ const Contact = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

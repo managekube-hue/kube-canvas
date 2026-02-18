@@ -151,7 +151,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

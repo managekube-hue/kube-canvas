@@ -237,7 +237,6 @@ export const IndustryPageTemplate = ({
       </div>
     </section>
 
-    <PathfinderCTA />
   </PageLayout>
 );
 

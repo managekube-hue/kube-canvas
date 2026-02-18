@@ -121,7 +121,6 @@ const Methodology = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };
