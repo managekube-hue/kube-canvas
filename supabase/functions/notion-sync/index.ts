@@ -86,7 +86,6 @@ async function blocksToMarkdown(blocks: any[]): Promise<string> {
 
   for (const block of blocks) {
     const t = block.type;
-
     const richText = (arr: any[]) => arr?.map((r: any) => r.plain_text).join('') || '';
 
     if (t === 'paragraph') {
@@ -110,10 +109,10 @@ async function blocksToMarkdown(blocks: any[]): Promise<string> {
     } else if (t === 'callout') {
       const emoji = block.callout?.icon?.emoji || '';
       md += `> ${emoji} ${richText(block.callout?.rich_text)}\n\n`;
+    } else if (t === 'toggle') {
+      md += `**${richText(block.toggle?.rich_text)}**\n\n`;
     } else if (t === 'divider') {
       md += `---\n\n`;
-    } else if (t === 'table_of_contents') {
-      // skip
     }
   }
 
@@ -163,6 +162,7 @@ async function syncPageRecursive(
   const blocks = await fetchNotionBlocks(pageId);
   const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== 'child_page'));
 
+  // Use last_synced_at to match the actual DB schema column name
   const dbId = await upsertPage({
     notion_id: pageId,
     parent_id: parentDbId,
