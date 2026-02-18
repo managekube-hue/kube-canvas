@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { SupabaseClient } from '@supabase/supabase-js';
+
+// Cast to bypass strict DB types (tables added via migration, types.ts is auto-generated/read-only)
+const db = supabase as unknown as SupabaseClient<any>;
 
 export interface DocPage {
   id: string;
@@ -18,7 +22,9 @@ export interface DocModule {
   module_code: string;
   module_name: string;
   display_name: string;
+  order_index: number;
   page_count: number;
+  last_synced: string | null;
 }
 
 export function useModules() {
@@ -26,9 +32,8 @@ export function useModules() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!supabase) { setLoading(false); return; }
     async function load() {
-      const { data } = await supabase!
+      const { data } = await db
         .from('v_module_stats')
         .select('*')
         .order('order_index');
@@ -47,15 +52,10 @@ export function useAllPages() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!supabase) {
-      setError('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are not set. Add them in Project Settings → Environment Variables.');
-      setLoading(false);
-      return;
-    }
     async function load() {
-      const { data, error: err } = await supabase!
+      const { data, error: err } = await db
         .from('pages')
-        .select('*')
+        .select('id, notion_id, parent_id, title, path, content, icon, module_code, page_type, order_index')
         .eq('is_deleted', false)
         .order('order_index');
 
@@ -77,17 +77,17 @@ export function usePageContent(pageId: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!pageId || !supabase) {
+    if (!pageId) {
       setLoading(false);
       return;
     }
     async function load() {
       setLoading(true);
-      const { data } = await supabase!
+      const { data } = await db
         .from('pages')
         .select('*')
         .eq('id', pageId)
-        .single();
+        .maybeSingle();
       setPage(data);
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export function useSearch(query: string) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (query.length < 2 || !supabase) {
+    if (query.length < 2) {
       setResults([]);
       return;
     }
@@ -111,9 +111,8 @@ export function useSearch(query: string) {
   }, [query]);
 
   async function search() {
-    if (!supabase) return;
     setLoading(true);
-    const { data } = await supabase
+    const { data } = await db
       .from('pages')
       .select('id, title, path, icon, notion_id, parent_id, content, module_code, page_type, order_index')
       .textSearch('search_vector', query, { type: 'websearch', config: 'english' })
@@ -130,9 +129,8 @@ export function useChildren(parentId: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!supabase) { setLoading(false); return; }
     async function load() {
-      const { data } = await supabase!
+      const { data } = await db
         .from('pages')
         .select('*')
         .eq('parent_id', parentId)

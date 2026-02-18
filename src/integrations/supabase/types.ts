@@ -14,13 +14,189 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      modules: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          display_name: string | null
+          icon: string | null
+          id: string
+          module_code: string
+          module_name: string
+          order_index: number | null
+          page_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          display_name?: string | null
+          icon?: string | null
+          id?: string
+          module_code: string
+          module_name: string
+          order_index?: number | null
+          page_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          display_name?: string | null
+          icon?: string | null
+          id?: string
+          module_code?: string
+          module_name?: string
+          order_index?: number | null
+          page_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modules_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pages: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          icon: string | null
+          id: string
+          is_deleted: boolean | null
+          last_synced_at: string | null
+          module_code: string | null
+          notion_created_time: string | null
+          notion_id: string
+          notion_last_edited_time: string | null
+          order_index: number | null
+          page_type: string | null
+          parent_id: string | null
+          path: string
+          search_vector: unknown
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          icon?: string | null
+          id?: string
+          is_deleted?: boolean | null
+          last_synced_at?: string | null
+          module_code?: string | null
+          notion_created_time?: string | null
+          notion_id: string
+          notion_last_edited_time?: string | null
+          order_index?: number | null
+          page_type?: string | null
+          parent_id?: string | null
+          path?: string
+          search_vector?: unknown
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          icon?: string | null
+          id?: string
+          is_deleted?: boolean | null
+          last_synced_at?: string | null
+          module_code?: string | null
+          notion_created_time?: string | null
+          notion_id?: string
+          notion_last_edited_time?: string | null
+          order_index?: number | null
+          page_type?: string | null
+          parent_id?: string | null
+          path?: string
+          search_vector?: unknown
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pages_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sync_runs: {
+        Row: {
+          completed_at: string | null
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          pages_created: number | null
+          pages_deleted: number | null
+          pages_synced: number | null
+          pages_updated: number | null
+          started_at: string | null
+          status: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          pages_created?: number | null
+          pages_deleted?: number | null
+          pages_synced?: number | null
+          pages_updated?: number | null
+          started_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          pages_created?: number | null
+          pages_deleted?: number | null
+          pages_synced?: number | null
+          pages_updated?: number | null
+          started_at?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      v_latest_sync_status: {
+        Row: {
+          completed_at: string | null
+          duration_ms: number | null
+          error_message: string | null
+          id: string | null
+          pages_created: number | null
+          pages_deleted: number | null
+          pages_synced: number | null
+          pages_updated: number | null
+          started_at: string | null
+          status: string | null
+        }
+        Relationships: []
+      }
+      v_module_stats: {
+        Row: {
+          display_name: string | null
+          last_synced: string | null
+          module_code: string | null
+          module_name: string | null
+          order_index: number | null
+          page_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
       [_ in never]: never
