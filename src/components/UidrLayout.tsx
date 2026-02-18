@@ -20,7 +20,7 @@ export const UidrLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-14 border-b border-white/5 bg-[#0a0a0a]/95 backdrop-blur-sm">
-        <Link to="/uidr" className="flex items-center gap-2">
+        <Link to="/documentation" className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-full border-2 border-blue-500 flex items-center justify-center">
             <Settings size={13} className="text-blue-500" />
           </div>

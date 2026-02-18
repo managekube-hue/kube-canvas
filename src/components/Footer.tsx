@@ -2,156 +2,158 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const kubes = [
-{ label: "CIO KUBE", href: "/kubes/cio-kube" },
-{ label: "NPM KUBE", href: "/kubes/npm-kube" },
-{ label: "ITDR KUBE", href: "/kubes/itdr-kube" },
-{ label: "NDR KUBE", href: "/kubes/ndr-kube" },
-{ label: "CDR KUBE", href: "/kubes/cdr-kube" },
-{ label: "GRC KUBE", href: "/kubes/grc-kube" },
-{ label: "VDR KUBE", href: "/kubes/vdr-kube" },
-{ label: "View All 15 Kubes →", href: "/kubes" }];
-
+  { label: "CIO Kube", href: "/kubes/cio-kube" },
+  { label: "NPM Kube", href: "/kubes/npm-kube" },
+  { label: "ITDR Kube", href: "/kubes/itdr-kube" },
+  { label: "NDR Kube", href: "/kubes/ndr-kube" },
+  { label: "CDR Kube", href: "/kubes/cdr-kube" },
+  { label: "GRC Kube", href: "/kubes/grc-kube" },
+  { label: "VDR Kube", href: "/kubes/vdr-kube" },
+  { label: "ADR Kube", href: "/kubes/adr-kube" },
+  { label: "BDR Kube", href: "/kubes/bdr-kube" },
+  { label: "DDR Kube", href: "/kubes/ddr-kube" },
+  { label: "SDR Kube", href: "/kubes/sdr-kube" },
+  { label: "TI Kube", href: "/kubes/ti-kube" },
+  { label: "APM Kube", href: "/kubes/apm-kube" },
+  { label: "MDM Kube", href: "/kubes/mdm-kube" },
+  { label: "CFDR Kube", href: "/kubes/cfdr-kube" },
+  { label: "View All Kubes →", href: "/kubes" },
+];
 
 const products = [
-{ label: "XRO — Small Business", href: "/products/xro" },
-{ label: "XMM — SME Platform", href: "/products/xmm" },
-{ label: "XME — Enterprise", href: "/products/xme" }];
-
+  { label: "XRO — Small Business", href: "/products/xro" },
+  { label: "XMM — SME Platform", href: "/products/xmm" },
+  { label: "XME — Enterprise", href: "/products/xme" },
+  { label: "Custom Product", href: "/products/custom" },
+  { label: "All Products →", href: "/products" },
+];
 
 const services = [
-{ label: "Managed NOC", href: "/services/managed-noc" },
-{ label: "Managed SOC", href: "/services/managed-soc" },
-{ label: "Security Assessments", href: "/services/security-assessments" },
-{ label: "Penetration Testing", href: "/services/penetration-testing" },
-{ label: "All Services →", href: "/services" }];
-
+  { label: "Managed NOC", href: "/services/managed-noc" },
+  { label: "Managed SOC", href: "/services/managed-soc" },
+  { label: "Managed Cloud", href: "/services/managed-cloud" },
+  { label: "Managed Compliance", href: "/services/managed-compliance" },
+  { label: "Security Assessments", href: "/services/security-assessments" },
+  { label: "Penetration Testing", href: "/services/penetration-testing" },
+  { label: "Infrastructure Audits", href: "/services/infrastructure-audits" },
+  { label: "Network Buildouts", href: "/services/network-buildouts" },
+  { label: "Physical Security", href: "/services/physical-security" },
+  { label: "Custom Automation", href: "/services/custom-automation" },
+  { label: "Legacy Integrations", href: "/services/legacy-integrations" },
+  { label: "Right Sizing", href: "/services/right-sizing" },
+  { label: "All Services →", href: "/services" },
+];
 
 const compliance = [
-{ label: "CMMC", href: "/compliance/cmmc" },
-{ label: "HIPAA", href: "/compliance/hipaa" },
-{ label: "SOC 2", href: "/compliance/soc2" },
-{ label: "NIST 800-171", href: "/compliance/nist-800-171" },
-{ label: "PCI-DSS", href: "/compliance/pci-dss" }];
+  { label: "CMMC", href: "/compliance/cmmc" },
+  { label: "HIPAA", href: "/compliance/hipaa" },
+  { label: "SOC 2", href: "/compliance/soc2" },
+  { label: "NIST 800-171", href: "/compliance/nist-800-171" },
+  { label: "NIST 800-53", href: "/compliance/nist-800-53" },
+  { label: "PCI-DSS", href: "/compliance/pci-dss" },
+  { label: "ISO 27001", href: "/compliance/iso-27001" },
+  { label: "CJIS", href: "/compliance/cjis" },
+];
 
+const solutions = [
+  { label: "Enterprise", href: "/solutions/enterprise" },
+  { label: "SME", href: "/solutions/sme" },
+  { label: "SMB", href: "/solutions/smb" },
+  { label: "Healthcare", href: "/solutions/healthcare" },
+  { label: "Financial Services", href: "/solutions/financial-services" },
+  { label: "Manufacturing", href: "/solutions/manufacturing" },
+  { label: "Public Sector", href: "/solutions/public-sector" },
+  { label: "Retail", href: "/solutions/retail" },
+  { label: "Technology", href: "/solutions/technology" },
+  { label: "All Solutions →", href: "/solutions" },
+];
+
+const industries = [
+  { label: "Energy & Utilities", href: "/industries/energy-utilities" },
+  { label: "Financial Services", href: "/industries/financial-services" },
+  { label: "Healthcare", href: "/industries/healthcare" },
+  { label: "Manufacturing", href: "/industries/manufacturing" },
+  { label: "Mining & Extraction", href: "/industries/mining-extraction" },
+  { label: "Public Sector", href: "/industries/public-sector" },
+  { label: "Retail", href: "/industries/retail" },
+  { label: "Telecommunications", href: "/industries/telecommunications" },
+  { label: "Transportation", href: "/industries/transportation" },
+  { label: "All Industries →", href: "/industries" },
+];
+
+const ourTools = [
+  { label: "How Kubric Works", href: "/our-tools/how-kubric-works" },
+  { label: "Kubric UIDR", href: "/our-tools/kubric-uidr" },
+  { label: "Kubric Data Graph", href: "/our-tools/kubric-data-graph" },
+  { label: "KubricAI", href: "/our-tools/kubric-ai" },
+  { label: "All Tools →", href: "/our-tools" },
+];
 
 const company = [
-{ label: "About", href: "/about" },
-{ label: "Methodology", href: "/methodology" },
-{ label: "Our Tools", href: "/our-tools" },
-{ label: "Pricing", href: "/pricing" },
-{ label: "Careers", href: "/careers" },
-{ label: "Contact", href: "/contact" }];
-
+  { label: "About", href: "/about" },
+  { label: "Methodology", href: "/methodology" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
+  { label: "Assessment", href: "/assessment" },
+  { label: "Find by Problem", href: "/find-by-problem" },
+  { label: "Find by Size", href: "/find-by-size" },
+];
 
 const kubricDocs = [
-{ label: "Read Kubric Docs", href: "/uidr" },
-{ label: "EDR · Endpoint", href: "/uidr/docs/edr" },
-{ label: "ITDR · Identity", href: "/uidr/docs/itdr" },
-{ label: "NDR · Network", href: "/uidr/docs/ndr" },
-{ label: "CDR · Cloud", href: "/uidr/docs/cdr" },
-{ label: "VDR · Vulnerability", href: "/uidr/docs/vdr" },
-{ label: "GRC · Governance", href: "/uidr/docs/grc" },
-{ label: "K-DOCS Full Tree →", href: "/uidr/docs" }];
+  { label: "Documentation Hub", href: "/documentation" },
+  { label: "Kubric UIDR Home", href: "/uidr" },
+  { label: "UIDR Platform", href: "/uidr/platform" },
+  { label: "UIDR Docs", href: "/uidr/docs" },
+  { label: "Technical Docs", href: "/uidr/technical-docs" },
+  { label: "Open Source", href: "/uidr/open-source" },
+  { label: "Contributors", href: "/uidr/contributors" },
+  { label: "UIDR Contact", href: "/uidr/contact" },
+];
 
+
+const FooterCol = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
+  <div>
+    <h4 className="text-label text-white mb-5">{title}</h4>
+    <ul className="space-y-2">
+      {items.map((item) => (
+        <li key={item.label}>
+          <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
+            {item.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export const Footer = () => {
   return (
     <footer className="section-dark py-20 lg:py-24">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-7 gap-10 lg:gap-6 mb-16">
-          {/* Logo & Tagline */}
-          <div className="lg:col-span-2">
-            <img src={logo} alt="ManageKube IT Services" className="h-12 w-auto mb-6 brightness-0 invert" />
-            <p className="text-body-lg text-white/60 max-w-sm">
-              Unified detection, response, and operations. 18 DR Modules. One intelligent platform.
-            </p>
-          </div>
 
-          {/* Kubes */}
+        {/* Logo & tagline */}
+        <div className="mb-12">
+          <img src={logo} alt="ManageKube IT Services" className="h-12 w-auto mb-4 brightness-0 invert" />
+          <p className="text-sm text-white/60 max-w-md">
+            Unified detection, response, and operations. 18 DR Modules. One intelligent platform.
+          </p>
+        </div>
+
+        {/* Main nav grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-8 mb-16">
+          <FooterCol title="Kubes" items={kubes} />
+          <FooterCol title="Products" items={products} />
+          <FooterCol title="Services" items={services} />
+          <FooterCol title="Compliance" items={compliance} />
+          <FooterCol title="Solutions" items={solutions} />
+          <FooterCol title="Industries" items={industries} />
+          <FooterCol title="Our Tools" items={ourTools} />
           <div>
-            <h4 className="text-label text-white mb-5">Kubes</h4>
-            
-
-
-
-
-
-
-
-
-          </div>
-
-          {/* Products */}
-          <div>
-            <h4 className="text-label text-white mb-5">Products</h4>
-            <ul className="space-y-2.5">
-              {products.map((item) =>
-              <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              )}
-            </ul>
-            <h4 className="text-label text-white mt-6 mb-5">Compliance</h4>
-            <ul className="space-y-2.5">
-              {compliance.map((item) =>
-              <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="text-label text-white mb-5">Services</h4>
-            <ul className="space-y-2.5">
-              {services.map((item) =>
-              <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="text-label text-white mb-5">Company</h4>
-            <ul className="space-y-2.5">
-              {company.map((item) =>
-              <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </div>
-
-          {/* Kubric Docs */}
-          <div>
-            <h4 className="text-label text-white mb-5">Kubric Docs</h4>
-            <ul className="space-y-2.5">
-              {kubricDocs.map((item) =>
-              <li key={item.label}>
-                  <Link
-                  to={item.href}
-                  className={`text-sm transition-colors ${
-                  item.label === "Read Kubric Docs" ?
-                  "text-brand-orange hover:text-brand-orange/80 font-semibold" :
-                  "text-white/60 hover:text-brand-orange"}`
-                  }>
-
-                    {item.label}
-                  </Link>
-                </li>
-              )}
-            </ul>
+            <FooterCol title="Company" items={company} />
+            <div className="mt-6">
+              <FooterCol title="Kubric Docs" items={kubricDocs} />
+            </div>
           </div>
         </div>
 
@@ -166,6 +168,6 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>);
-
+    </footer>
+  );
 };
