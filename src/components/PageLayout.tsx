@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
+import { PathfinderCTA } from "@/components/PathfinderCTA";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -18,7 +19,9 @@ export const PageLayout = ({ children, showBreadcrumb = true }: PageLayoutProps)
       <Header />
       {showBreadcrumb && <PageBreadcrumb />}
       <main>{children}</main>
+      <PathfinderCTA />
       <Footer />
     </div>
   );
 };
+

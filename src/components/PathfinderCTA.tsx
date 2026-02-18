@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, ClipboardList, Building2, Users, MessageSquare } from "lucide-react";
+import ctaBannerVideo from "@/assets/cta-banner.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
@@ -40,11 +41,22 @@ const pathways = [
 export const PathfinderCTA = () => {
   return (
     <section className="relative py-20 lg:py-24 overflow-hidden">
-      {/* Dark Gradient Background - Black to Orange to Gray */}
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ width: "100%", height: "100%" }}
+      >
+        <source src={ctaBannerVideo} type="video/mp4" />
+      </video>
+      {/* Dark Gradient Overlay - Black to Orange to Gray */}
       <div 
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 30%, hsl(24 70% 35%) 60%, #4A4A4A 100%)",
+          background: "linear-gradient(135deg, rgba(10,10,10,0.88) 0%, rgba(26,26,26,0.80) 30%, hsla(24,70%,35%,0.75) 60%, rgba(74,74,74,0.82) 100%)",
         }}
       />
       
