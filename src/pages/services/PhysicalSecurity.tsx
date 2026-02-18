@@ -9,5 +9,10 @@ export default function PhysicalSecurity() {
       { title: "Physical Security Services", items: ["Site surveys and design", "Video surveillance systems (cameras, NVRs, analytics)", "Access control systems (badges, biometrics, locks)", "Intrusion detection systems", "Environmental monitoring (temperature, humidity, water)"] },
       { title: "Integration", items: ["IT infrastructure integration", "SOC monitoring integration", "Mobile access and remote viewing", "Maintenance and support"] },
     ]}
+    similar={[
+      { label: "Network Infrastructure Buildouts", href: "/services/network-buildouts" },
+      { label: "MDM KUBE", href: "/kubes/mdm-kube" },
+      { label: "Managed SOC", href: "/services/managed-soc" },
+    ]}
   />;
 }

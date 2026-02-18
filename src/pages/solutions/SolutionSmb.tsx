@@ -9,5 +9,10 @@ export default function SolutionSmb() {
       { title: "SMB Package", items: ["Pre-configured security and operations", "Managed SOC and NOC services", "Simplified dashboard and alerting", "Per-user or per-device pricing"] },
       { title: "Deployment & Support", items: ["Rapid deployment (days)", "Phone and email support", "Compliance starter templates", "Growth-friendly scalability"] },
     ]}
+    similar={[
+      { label: "SME Solutions", href: "/solutions/sme" },
+      { label: "Managed Services", href: "/services" },
+      { label: "XRO Platform", href: "/products/xro" },
+    ]}
   />;
 }

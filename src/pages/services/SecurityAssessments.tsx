@@ -9,5 +9,10 @@ export default function SecurityAssessments() {
       { title: "Assessment Components", items: ["Infrastructure vulnerability assessment", "Configuration review and hardening", "Access control evaluation", "Data protection analysis", "Policy and procedure review", "Security awareness evaluation"] },
       { title: "Deliverables", items: ["Risk-prioritized findings report", "Remediation roadmap", "Executive summary and presentation", "Risk scoring and prioritization"] },
     ]}
+    similar={[
+      { label: "Penetration Testing", href: "/services/penetration-testing" },
+      { label: "IT Infrastructure Audits", href: "/services/infrastructure-audits" },
+      { label: "VDR KUBE", href: "/kubes/vdr-kube" },
+    ]}
   />;
 }

@@ -9,5 +9,10 @@ export default function NetworkBuildouts() {
       { title: "Network Buildout Services", items: ["Network architecture design", "Structured cabling installation", "Switch and router deployment", "Wireless network design and installation", "SD-WAN implementation"] },
       { title: "Security & Documentation", items: ["Firewall and security appliance deployment", "Network segmentation and VLANs", "Quality of Service (QoS) configuration", "Testing, validation, and documentation"] },
     ]}
+    similar={[
+      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+      { label: "NPM KUBE", href: "/kubes/npm-kube" },
+      { label: "Physical Security Integration", href: "/services/physical-security" },
+    ]}
   />;
 }

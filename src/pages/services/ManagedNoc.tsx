@@ -9,5 +9,10 @@ export default function ManagedNoc() {
       { title: "NOC Services", items: ["24/7/365 infrastructure monitoring", "Proactive alert response and triage", "Incident escalation and resolution", "Routine maintenance and patching"] },
       { title: "Reporting", items: ["Monthly performance reports", "Quarterly capacity planning", "SLA tracking and reporting", "Executive dashboards"] },
     ]}
+    similar={[
+      { label: "Managed SOC", href: "/services/managed-soc" },
+      { label: "NPM KUBE", href: "/kubes/npm-kube" },
+      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+    ]}
   />;
 }

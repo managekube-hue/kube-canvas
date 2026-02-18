@@ -9,5 +9,10 @@ export default function RightSizing() {
       { title: "Right-Sizing Process", items: ["Resource utilization analysis", "Performance baseline establishment", "Workload characterization", "Rightsizing recommendations (compute, storage, network)"] },
       { title: "Optimization", items: ["Reserved instance and savings plan optimization", "Application architecture review", "Migration and implementation planning", "Cost-benefit analysis and ROI projection"] },
     ]}
+    similar={[
+      { label: "Managed Cloud & FinOps", href: "/services/managed-cloud" },
+      { label: "IT Infrastructure Audits", href: "/services/infrastructure-audits" },
+      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+    ]}
   />;
 }

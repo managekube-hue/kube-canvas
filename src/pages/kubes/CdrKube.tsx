@@ -15,6 +15,7 @@ export default function CdrKube() {
     similar={[
       { label: "NDR KUBE", href: "/kubes/ndr-kube" },
       { label: "SDR KUBE", href: "/kubes/sdr-kube" },
+      { label: "Managed Cloud & FinOps", href: "/services/managed-cloud" },
     ]}
   />;
 }

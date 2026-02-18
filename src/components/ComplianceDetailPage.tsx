@@ -10,9 +10,10 @@ interface ComplianceDetailPageProps {
   audience: string;
   description: string;
   features: string[];
+  similar?: { label: string; href: string }[];
 }
 
-export const ComplianceDetailPage = ({ framework, fullName, audience, description, features }: ComplianceDetailPageProps) => {
+export const ComplianceDetailPage = ({ framework, fullName, audience, description, features, similar = [] }: ComplianceDetailPageProps) => {
   return (
     <PageLayout>
       <section className="section-dark pt-20 pb-16">
@@ -43,6 +44,26 @@ export const ComplianceDetailPage = ({ framework, fullName, audience, descriptio
         </div>
       </section>
 
+      {/* You May Also Like */}
+      {similar.length > 0 && (
+        <section className="section-white py-16 border-t border-border">
+          <div className="container mx-auto px-6 lg:px-12">
+            <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-10">You May Also Like</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+              {similar.map((s) => (
+                <Link
+                  key={s.label}
+                  to={s.href}
+                  className="group bg-white p-8 flex items-center justify-between hover:bg-secondary transition-colors"
+                >
+                  <span className="text-sm font-semibold text-foreground group-hover:text-brand-orange transition-colors">{s.label}</span>
+                  <ArrowRight size={16} className="text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </PageLayout>
   );
 };

@@ -9,5 +9,10 @@ export default function SolutionHealthcare() {
       { title: "Healthcare Security", items: ["HIPAA compliance automation", "ePHI protection and monitoring", "Medical device security", "Network segmentation (clinical/corporate)"] },
       { title: "Compliance & Operations", items: ["Breach detection and notification", "BAA (Business Associate Agreement) tracking", "Patient privacy monitoring", "EHR security and integration"] },
     ]}
+    similar={[
+      { label: "HIPAA", href: "/compliance/hipaa" },
+      { label: "Managed Compliance & GRC", href: "/services/managed-compliance" },
+      { label: "DDR KUBE", href: "/kubes/ddr-kube" },
+    ]}
   />;
 }

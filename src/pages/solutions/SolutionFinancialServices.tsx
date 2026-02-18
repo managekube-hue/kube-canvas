@@ -9,5 +9,10 @@ export default function SolutionFinancialServices() {
       { title: "Financial Compliance", items: ["PCI-DSS cardholder data protection", "SOX financial controls monitoring", "GLBA Safeguards Rule compliance", "SEC cybersecurity disclosure readiness"] },
       { title: "Security Operations", items: ["Real-time fraud detection", "Transaction monitoring", "Third-party vendor risk management", "Customer data protection"] },
     ]}
+    similar={[
+      { label: "PCI-DSS", href: "/compliance/pci-dss" },
+      { label: "SOC 2", href: "/compliance/soc2" },
+      { label: "DDR KUBE", href: "/kubes/ddr-kube" },
+    ]}
   />;
 }

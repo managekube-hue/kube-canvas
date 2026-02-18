@@ -9,5 +9,10 @@ export default function SolutionSme() {
       { title: "SME Features", items: ["Customizable Kube configurations", "Hybrid managed services (co-managed)", "Dedicated account management", "Advanced reporting and analytics"] },
       { title: "Flexibility", items: ["Compliance framework selection", "Integration with existing tools", "Quarterly business reviews", "Growth and scaling support"] },
     ]}
+    similar={[
+      { label: "SMB Solutions", href: "/solutions/smb" },
+      { label: "Enterprise Solutions", href: "/solutions/enterprise" },
+      { label: "Advisory Services", href: "/services" },
+    ]}
   />;
 }
