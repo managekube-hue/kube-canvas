@@ -48,50 +48,50 @@ const solutionCategories = [
     problems: [
       {
         problem: "We keep failing audits",
-        solution: "Compliance Kube → Gap Remediation Block",
+        solution: "GRC KUBE → Managed Compliance Service",
         whatYouGet: "Automated evidence collection, control implementation, audit liaison",
         frameworks: ["SOC 2", "HIPAA", "CMMC", "ISO 27001", "PCI DSS"],
-        cta: "Explore Compliance Kube",
-        href: "/kubes/compliance-kube"
+        cta: "Explore GRC Kube",
+        href: "/kubes/grc-kube"
       },
       {
         problem: "We got hit by ransomware",
-        solution: "MSSP Kube → Cyber Recovery Block + EDR/XDR Block",
+        solution: "BDR KUBE + Managed SOC Service",
         whatYouGet: "Immutable backups, ransomware detection, incident response",
-        tech: "PowerProtect Cyber Recovery + IBM Storage Sentinel",
-        cta: "Explore MSSP Kube",
-        href: "/kubes/mssp-kube"
+        tech: "Backup & Disaster Recovery + 24/7 SOC",
+        cta: "Explore BDR Kube",
+        href: "/kubes/bdr-kube"
       },
       {
         problem: "We don't have 24/7 security monitoring",
-        solution: "MSSP Kube → 24/7 SOC Block",
+        solution: "Managed SOC Service",
         whatYouGet: "Always-on threat detection, incident response, threat hunting",
-        tech: "IBM QRadar SIEM + X-Force Intelligence",
-        cta: "Explore MSSP Kube",
-        href: "/kubes/mssp-kube"
+        tech: "ITDR KUBE + NDR KUBE + CDR KUBE",
+        cta: "Managed SOC",
+        href: "/services/managed-soc"
       },
       {
         problem: "Employees click on phishing emails",
-        solution: "MSSP Kube → Email Security Block + Security Awareness",
+        solution: "ITDR KUBE → Identity Threat Detection",
         whatYouGet: "Email filtering, anti-phishing, simulated phishing campaigns",
-        tech: "Email Security Gateway + Training Platform",
-        cta: "Explore MSSP Kube",
-        href: "/kubes/mssp-kube"
+        tech: "Identity Threat Detection & Response",
+        cta: "Explore ITDR Kube",
+        href: "/kubes/itdr-kube"
       },
       {
         problem: "We need Zero Trust architecture",
-        solution: "MSSP Kube → Zero Trust Network Access Block",
+        solution: "ITDR KUBE + NDR KUBE",
         whatYouGet: "Identity-centric access, network segmentation, least privilege",
-        tech: "IBM Verify + Network Segmentation",
-        cta: "Explore MSSP Kube",
-        href: "/kubes/mssp-kube"
+        tech: "Identity + Network Detection & Response",
+        cta: "Explore ITDR Kube",
+        href: "/kubes/itdr-kube"
       },
       {
         problem: "We don't know our security posture",
-        solution: "Assessment Kube → Security Assessment Block",
+        solution: "Security Assessment Service",
         whatYouGet: "FREE vulnerability scan, risk scoring, remediation roadmap",
         timeline: "4 weeks",
-        cta: "Start Free Assessment",
+        cta: "Onboard Today",
         href: "/assessment"
       }
     ]
@@ -103,59 +103,51 @@ const solutionCategories = [
     problems: [
       {
         problem: "Our servers are old and failing",
-        solution: "Product Kube → Infrastructure Refresh Block",
+        solution: "CIO KUBE → Infrastructure Refresh",
         whatYouGet: "Server replacement, data migration, warranty coverage",
-        tech: "Dell PowerEdge servers + Professional installation",
-        cta: "Configure Infrastructure",
-        href: "/kubes/product-kube"
+        tech: "Infrastructure Orchestration",
+        cta: "Explore CIO Kube",
+        href: "/kubes/cio-kube"
       },
       {
         problem: "We need to move to the cloud",
-        solution: "MSP Kube → Cloud Migration Block",
+        solution: "CDR KUBE + Managed Cloud Service",
         whatYouGet: "AWS/Azure migration, hybrid cloud setup, managed operations",
-        tech: "Multi-cloud management + APEX consumption model",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        tech: "Cloud Detection & Response + Managed Cloud",
+        cta: "Managed Cloud",
+        href: "/services/managed-cloud"
       },
       {
         problem: "Our network is too slow",
-        solution: "Product Kube → Network Upgrade Block",
-        whatYouGet: "Switch replacement, WiFi upgrade, cabling services",
-        tech: "Dell PowerSwitch + NativeEdge management",
-        cta: "Configure Network",
-        href: "/kubes/product-kube"
+        solution: "NPM KUBE → Network Performance Monitoring",
+        whatYouGet: "Switch replacement, WiFi upgrade, network optimisation",
+        tech: "Network Performance Management",
+        cta: "Explore NPM Kube",
+        href: "/kubes/npm-kube"
       },
       {
         problem: "We have no disaster recovery plan",
-        solution: "MSP Kube → BCDR Block",
+        solution: "BDR KUBE → Backup & Disaster Recovery",
         whatYouGet: "Backup automation, disaster recovery testing, RTO <4hr",
-        tech: "PowerProtect Data Manager + Cyber Recovery",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        tech: "Backup & Disaster Recovery",
+        cta: "Explore BDR Kube",
+        href: "/kubes/bdr-kube"
       },
       {
         problem: "Our IT team is overwhelmed",
-        solution: "MSP Kube → Service Desk Block",
+        solution: "Managed NOC Service",
         whatYouGet: "24/7 helpdesk, ticket management, L1-L3 support",
-        pricing: "Precision Pay™ (consumption-based) or Flex Core™ (tiered)",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
-      },
-      {
-        problem: "We can't manage hybrid cloud complexity",
-        solution: "MSP Kube → Hybrid Infrastructure Block",
-        whatYouGet: "Multi-cloud management, cost optimization, unified dashboard",
-        tech: "Turbonomic + Cloud Pak for AIOps",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        pricing: "Consumption-based or tiered pricing",
+        cta: "Managed NOC",
+        href: "/services/managed-noc"
       },
       {
         problem: "Our data is growing out of control",
-        solution: "Product Kube → Storage Expansion Block",
+        solution: "CIO KUBE + BDR KUBE",
         whatYouGet: "High-capacity storage, data tiering, deduplication",
-        tech: "Dell PowerScale + ObjectScale",
-        cta: "Configure Storage",
-        href: "/kubes/product-kube"
+        tech: "Infrastructure Orchestration + Backup & DR",
+        cta: "Explore CIO Kube",
+        href: "/kubes/cio-kube"
       }
     ]
   },
@@ -166,51 +158,35 @@ const solutionCategories = [
     problems: [
       {
         problem: "Remote work is chaotic",
-        solution: "MSP Kube → Managed Workplace Block",
+        solution: "MDM KUBE + CIO KUBE",
         whatYouGet: "VDI setup, endpoint security, collaboration tools",
-        tech: "Microsoft 365 + Dell APEX PCaaS + MaaS360 UEM",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        tech: "Mobile Device Management + Infrastructure",
+        cta: "Explore MDM Kube",
+        href: "/kubes/mdm-kube"
       },
       {
         problem: "We need to upgrade to Microsoft 365",
-        solution: "Product Kube → M365 Migration Block",
+        solution: "CIO KUBE → M365 Management",
         whatYouGet: "Tenant setup, email migration, training, security policies",
-        tech: "Microsoft 365 E3/E5 + SkyKick migration",
-        cta: "Configure M365 Migration",
-        href: "/kubes/product-kube"
-      },
-      {
-        problem: "Our phone system is outdated",
-        solution: "Product Kube → UCaaS Deployment Block",
-        whatYouGet: "VoIP phones, Microsoft Teams integration, call routing",
-        tech: "RingCentral or Microsoft Teams Phone",
-        cta: "Configure UCaaS",
-        href: "/kubes/product-kube"
-      },
-      {
-        problem: "We need a contact center",
-        solution: "Product Kube → CCaaS Deployment Block",
-        whatYouGet: "Cloud contact center, call recording, analytics",
-        tech: "RingCentral Contact Center or Five9",
-        cta: "Configure CCaaS",
-        href: "/kubes/product-kube"
+        tech: "Infrastructure Orchestration Platform",
+        cta: "Explore CIO Kube",
+        href: "/kubes/cio-kube"
       },
       {
         problem: "Employees have too many devices to manage",
-        solution: "MSP Kube → Unified Endpoint Management Block",
+        solution: "MDM KUBE → Mobile Device Management",
         whatYouGet: "MDM/UEM, security policies, app deployment",
-        tech: "Microsoft Intune or IBM MaaS360",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        tech: "Mobile Device Management",
+        cta: "Explore MDM Kube",
+        href: "/kubes/mdm-kube"
       },
       {
-        problem: "We need endpoint refresh",
-        solution: "Advisory Kube → Hardware as a Service Block",
-        whatYouGet: "APEX PCaaS subscription, device lifecycle, zero CapEx",
-        tech: "Dell Latitude/OptiPlex fleet",
-        cta: "Explore Advisory Kube",
-        href: "/kubes/advisory-kube"
+        problem: "Applications are slow",
+        solution: "APM KUBE → Application Performance Monitoring",
+        whatYouGet: "Full-stack observability, distributed tracing, anomaly detection",
+        tech: "Application Performance Management",
+        cta: "Explore APM Kube",
+        href: "/kubes/apm-kube"
       }
     ]
   },
@@ -221,43 +197,43 @@ const solutionCategories = [
     problems: [
       {
         problem: "We need HIPAA compliance",
-        solution: "Compliance Kube → HIPAA Block + Healthcare H2BLOCK",
+        solution: "GRC KUBE + Managed Compliance + Healthcare Solution",
         whatYouGet: "HIPAA gap remediation, BAAs, audit support",
         frameworks: ["HIPAA Security Rule", "Privacy Rule"],
         cta: "Explore Healthcare Solutions",
-        href: "/industries/healthcare"
+        href: "/solutions/healthcare"
       },
       {
         problem: "We need SOC 2 certification",
-        solution: "Compliance Kube → SOC 2 Block",
+        solution: "GRC KUBE → SOC 2 Track",
         whatYouGet: "Control implementation, evidence automation, Type II audit",
         timeline: "12-16 weeks to audit-ready",
-        cta: "Explore Compliance Kube",
-        href: "/kubes/compliance-kube"
+        cta: "Explore GRC Kube",
+        href: "/kubes/grc-kube"
       },
       {
         problem: "We need CMMC for defense contracts",
-        solution: "Compliance Kube → CMMC Block + Manufacturing M2BLOCK",
+        solution: "GRC KUBE + Managed Compliance + Manufacturing Solution",
         whatYouGet: "CMMC Level 2/3 assessment, POA&M, CUI protection",
         frameworks: ["NIST 800-171", "CMMC 2.0"],
         cta: "Explore Manufacturing Solutions",
-        href: "/industries/manufacturing"
+        href: "/solutions/manufacturing"
       },
       {
         problem: "We need PCI DSS for credit cards",
-        solution: "Compliance Kube → PCI DSS Block + Financial F2BLOCK",
+        solution: "GRC KUBE + VDR KUBE + Financial Services Solution",
         whatYouGet: "PCI Level 1 certification, ASV scans, tokenization",
         frameworks: ["PCI DSS v4.0"],
         cta: "Explore Financial Solutions",
-        href: "/industries/financial-services"
+        href: "/solutions/financial-services"
       },
       {
         problem: "We need FedRAMP for government",
-        solution: "Compliance Kube → FedRAMP Block + Public Sector PS2KUBE",
+        solution: "GRC KUBE + Public Sector Solution",
         whatYouGet: "FedRAMP Moderate/High, 3PAO audit, continuous ATO",
-        tech: "APEX Multi-Cloud FedRAMP-authorized",
+        tech: "Multi-cloud FedRAMP-authorized",
         cta: "Explore Public Sector Solutions",
-        href: "/industries/public-sector"
+        href: "/solutions/public-sector"
       }
     ]
   },
@@ -268,31 +244,31 @@ const solutionCategories = [
     problems: [
       {
         problem: "We have no backup system",
-        solution: "MSP Kube → Backup & Recovery Block",
+        solution: "BDR KUBE → Backup & Recovery",
         whatYouGet: "Automated backups, retention policies, recovery testing",
-        tech: "PowerProtect Data Manager + Avamar",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        tech: "Backup & Disaster Recovery",
+        cta: "Explore BDR Kube",
+        href: "/kubes/bdr-kube"
       },
       {
         problem: "We need ransomware protection",
-        solution: "MSSP Kube → Cyber Recovery Block",
+        solution: "BDR KUBE + NDR KUBE",
         whatYouGet: "Immutable backups, air-gapped vault, recovery orchestration",
-        tech: "PowerProtect Cyber Recovery + Storage Sentinel",
-        cta: "Explore MSSP Kube",
-        href: "/kubes/mssp-kube"
+        tech: "Backup & DR + Network Detection",
+        cta: "Explore BDR Kube",
+        href: "/kubes/bdr-kube"
       },
       {
         problem: "Our RTO is too long",
-        solution: "MSP Kube → DRaaS Block",
+        solution: "BDR KUBE → DRaaS",
         whatYouGet: "Hot/warm DR site, failover automation, RTO <4hr",
-        tech: "PowerProtect DD + Cyber Recovery",
-        cta: "Explore MSP Kube",
-        href: "/kubes/msp-kube"
+        tech: "Backup & Disaster Recovery",
+        cta: "Explore BDR Kube",
+        href: "/kubes/bdr-kube"
       },
       {
         problem: "We lost data and can't recover it",
-        solution: "Advisory Kube → Data Recovery Services Block",
+        solution: "Emergency Recovery Services",
         whatYouGet: "Emergency recovery services, forensic analysis",
         engagement: "Fixed-fee emergency engagement",
         cta: "Contact Emergency Services",
@@ -301,49 +277,49 @@ const solutionCategories = [
     ]
   },
   {
-    id: "automation-efficiency",
-    title: "AUTOMATION & EFFICIENCY",
+    id: "threat-detection",
+    title: "THREAT DETECTION",
     icon: Bot,
     problems: [
       {
-        problem: "We waste time on manual tasks",
-        solution: "Innovation Kube → RPA Block",
-        whatYouGet: "Process mining, bot development, workflow automation",
-        tech: "IBM RPA + Process Mining + UiPath",
-        cta: "Explore Innovation Kube",
-        href: "/kubes/innovation-kube"
+        problem: "We can't see what's on our network",
+        solution: "NDR KUBE → Network Detection & Response",
+        whatYouGet: "Deep packet inspection, behavioural analytics, threat detection",
+        tech: "Network Detection & Response",
+        cta: "Explore NDR Kube",
+        href: "/kubes/ndr-kube"
       },
       {
-        problem: "We need AI capabilities",
-        solution: "Innovation Kube → AI & Analytics Block",
-        whatYouGet: "AI model training, watsonx platform, custom AI apps",
-        tech: "IBM watsonx + Dell PowerEdge XE GPU servers",
-        cta: "Explore Innovation Kube",
-        href: "/kubes/innovation-kube"
+        problem: "Our cloud is being attacked",
+        solution: "CDR KUBE → Cloud Detection & Response",
+        whatYouGet: "Multi-cloud security monitoring, CSPM, threat response",
+        tech: "Cloud Detection & Response",
+        cta: "Explore CDR Kube",
+        href: "/kubes/cdr-kube"
       },
       {
-        problem: "Our development is too slow",
-        solution: "Innovation Kube → DevSecOps Block",
-        whatYouGet: "CI/CD pipelines, GitOps, automated testing",
-        tech: "Red Hat OpenShift + IBM Continuous Delivery",
-        cta: "Explore Innovation Kube",
-        href: "/kubes/innovation-kube"
+        problem: "We're worried about software supply chain",
+        solution: "SDR KUBE → Supply Chain Detection & Response",
+        whatYouGet: "SBOM analysis, supply chain risk management",
+        tech: "Supply Chain Detection & Response",
+        cta: "Explore SDR Kube",
+        href: "/kubes/sdr-kube"
       },
       {
-        problem: "We can't integrate our systems",
-        solution: "Innovation Kube → Systems Integration Block",
-        whatYouGet: "API development, iPaaS platform, data integration",
-        tech: "IBM Cloud Pak for Integration + MQ",
-        cta: "Explore Innovation Kube",
-        href: "/kubes/innovation-kube"
+        problem: "Vulnerabilities pile up faster than we fix them",
+        solution: "VDR KUBE → Vulnerability Detection & Response",
+        whatYouGet: "Risk-prioritised vulnerability management, automated patching",
+        tech: "Vulnerability Detection & Response",
+        cta: "Explore VDR Kube",
+        href: "/kubes/vdr-kube"
       },
       {
-        problem: "We need custom software development",
-        solution: "Innovation Kube → Custom Development Block",
-        whatYouGet: "Agile development, MVP delivery, application modernization",
-        tech: "IBM watsonx Code Assistant + Cloud-native stack",
-        cta: "Explore Innovation Kube",
-        href: "/kubes/innovation-kube"
+        problem: "We need threat intelligence",
+        solution: "TI KUBE → Threat Intelligence",
+        whatYouGet: "Operationalised threat intelligence, adversary tracking",
+        tech: "Threat Intelligence",
+        cta: "Explore TI Kube",
+        href: "/kubes/ti-kube"
       }
     ]
   },
@@ -354,35 +330,27 @@ const solutionCategories = [
     problems: [
       {
         problem: "Our cloud bill is out of control",
-        solution: "Advisory Kube → FinOps Block",
-        whatYouGet: "Cost optimization, right-sizing, budget forecasting",
-        tech: "Turbonomic + IBM Cloud Pak for AIOps",
-        cta: "Explore Advisory Kube",
-        href: "/kubes/advisory-kube"
+        solution: "Managed Cloud Service + Right-Sizing",
+        whatYouGet: "Cost optimisation, right-sizing, budget forecasting",
+        tech: "Managed Cloud + Professional Services",
+        cta: "Right-Sizing Service",
+        href: "/services/right-sizing"
       },
       {
         problem: "We don't have an IT strategy",
-        solution: "Advisory Kube → vCIO Block",
+        solution: "Security Assessment + CIO KUBE",
         whatYouGet: "Technology roadmap, budget planning, vendor management",
-        engagement: "Monthly retainer or Fractional™ on-demand",
-        cta: "Explore Advisory Kube",
-        href: "/kubes/advisory-kube"
-      },
-      {
-        problem: "We don't have security leadership",
-        solution: "Advisory Kube → vCISO Block",
-        whatYouGet: "Security program governance, risk assessment, policy development",
-        engagement: "Monthly retainer or Fractional™ on-demand",
-        cta: "Explore Advisory Kube",
-        href: "/kubes/advisory-kube"
+        engagement: "Monthly retainer or on-demand",
+        cta: "Security Assessments",
+        href: "/services/security-assessments"
       },
       {
         problem: "We need M&A due diligence",
-        solution: "Advisory Kube → M&A Advisory Block",
+        solution: "Infrastructure Audit Service",
         whatYouGet: "IT assessment, integration planning, risk analysis",
         timeline: "4-6 week engagement",
-        cta: "Explore Advisory Kube",
-        href: "/kubes/advisory-kube"
+        cta: "Infrastructure Audits",
+        href: "/services/infrastructure-audits"
       }
     ]
   },
@@ -393,75 +361,35 @@ const solutionCategories = [
     problems: [
       {
         problem: "We need manufacturing OT security",
-        solution: "Manufacturing M2BLOCK",
+        solution: "Manufacturing Solution (M2BLOCK)",
         whatYouGet: "OT/IT convergence, CMMC compliance, predictive maintenance",
-        tech: "Dell PowerEdge XR + IBM Maximo",
-        cta: "Explore M2BLOCK",
-        href: "/industries/manufacturing"
+        tech: "NDR KUBE + GRC KUBE + CIO KUBE",
+        cta: "Explore Manufacturing",
+        href: "/solutions/manufacturing"
       },
       {
         problem: "We need healthcare EHR resilience",
-        solution: "Healthcare H2BLOCK",
+        solution: "Healthcare Solution (H2BLOCK)",
         whatYouGet: "HIPAA automation, ransomware immunity, clinical uptime",
-        tech: "Dell PowerMax + IBM Maximo Healthcare",
-        cta: "Explore H2BLOCK",
-        href: "/industries/healthcare"
+        tech: "BDR KUBE + ITDR KUBE + GRC KUBE",
+        cta: "Explore Healthcare",
+        href: "/solutions/healthcare"
       },
       {
         problem: "We need financial fraud detection",
-        solution: "Financial Services F2BLOCK",
-        whatYouGet: "Real-time fraud AI, SOC 2 compliance, zero-trust",
-        tech: "IBM Safer Payments + Dell PowerMax",
-        cta: "Explore F2BLOCK",
-        href: "/industries/financial-services"
-      },
-      {
-        problem: "We need retail omnichannel",
-        solution: "Retail R2BLOCK",
-        whatYouGet: "Unified commerce, inventory sync, store operations",
-        tech: "Dell NativeEdge Retail + IBM Sterling",
-        cta: "Explore R2BLOCK",
-        href: "/industries/retail"
-      },
-      {
-        problem: "We need fleet management",
-        solution: "Transportation T2BLOCK",
-        whatYouGet: "Predictive maintenance, route optimization, fleet visibility",
-        tech: "Dell PowerEdge XR Rugged + IBM Maximo",
-        cta: "Explore T2BLOCK",
-        href: "/industries/transportation"
-      },
-      {
-        problem: "We need remote mine operations",
-        solution: "Mining & Extraction ME2BLOCK",
-        whatYouGet: "OT security, asset management, environmental compliance",
-        tech: "Dell PowerEdge XR + IBM Maximo + OSDU",
-        cta: "Explore ME2BLOCK",
-        href: "/industries/mining-extraction"
-      },
-      {
-        problem: "We need grid resilience",
-        solution: "Energy & Utilities EU2BLOCK",
-        whatYouGet: "NERC-CIP compliance, smart grid, renewable integration",
-        tech: "Dell NativeEdge Energy + IBM Maximo",
-        cta: "Explore EU2BLOCK",
-        href: "/industries/energy-utilities"
-      },
-      {
-        problem: "We need 5G infrastructure",
-        solution: "Telecommunications TC2KUBE",
-        whatYouGet: "5G core network, Open RAN, edge compute",
-        tech: "Dell PowerEdge 17G + IBM Telecom Automation",
-        cta: "Explore TC2KUBE",
-        href: "/industries/telecommunications"
+        solution: "Financial Services Solution (F2BLOCK)",
+        whatYouGet: "Real-time fraud detection, SOC 2 compliance, zero-trust",
+        tech: "DDR KUBE + VDR KUBE + GRC KUBE",
+        cta: "Explore Financial Services",
+        href: "/solutions/financial-services"
       },
       {
         problem: "We need FedRAMP cloud",
-        solution: "Public Sector PS2KUBE",
-        whatYouGet: "FedRAMP infrastructure, CJIS compliance, smart city",
-        tech: "Dell APEX FedRAMP + IBM watsonx Government",
-        cta: "Explore PS2KUBE",
-        href: "/industries/public-sector"
+        solution: "Public Sector Solution",
+        whatYouGet: "FedRAMP infrastructure, CJIS compliance",
+        tech: "CDR KUBE + GRC KUBE + CIO KUBE",
+        cta: "Explore Public Sector",
+        href: "/solutions/public-sector"
       }
     ]
   }
@@ -620,7 +548,7 @@ const FindByProblem = () => {
               transition={{ delay: 0.2 }}
               className="text-lg lg:text-xl text-white/80 max-w-2xl mb-8"
             >
-              Every IT problem has a proven solution. Search or browse {totalProblems} mapped problems across 8 categories to find the right Kube, Block, and technology stack for your needs.
+              Every IT problem has a proven solution. Search or browse {totalProblems} mapped problems across 8 categories to find the right Kube, service, and technology stack for your needs.
             </motion.p>
             
             {/* Smart Search Bar */}
@@ -757,13 +685,13 @@ const FindByProblem = () => {
               </span>
             </Link>
             
-            <Link to="/kubes/industry-kube" className="group border border-border p-8 hover:border-foreground transition-all">
+            <Link to="/solutions/hub" className="group border border-border p-8 hover:border-foreground transition-all">
               <Building2 className="w-10 h-10 text-foreground mb-4" />
               <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
                 Find by Industry
               </h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Pre-configured BLOCKs for healthcare, manufacturing, finance, and 6 more industries.
+                Pre-configured solutions for healthcare, manufacturing, finance, and more.
               </p>
               <span className="text-sm font-semibold text-foreground flex items-center gap-2">
                 Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -773,10 +701,10 @@ const FindByProblem = () => {
             <Link to="/kubes" className="group border border-border p-8 hover:border-foreground transition-all">
               <Cog className="w-10 h-10 text-foreground mb-4" />
               <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
-                Explore All Kubes
+                Explore All 15 Kubes
               </h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Browse all 8 Kubes to understand our complete service portfolio.
+                Browse all 15 detection and response modules across three pillars.
               </p>
               <span className="text-sm font-semibold text-foreground flex items-center gap-2">
                 Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
