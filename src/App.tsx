@@ -2,20 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Methodology from "./pages/Methodology";
 import KubesOverview from "./pages/KubesOverview";
-import AssessmentKube from "./pages/kubes/AssessmentKube";
-import ComplianceKube from "./pages/kubes/ComplianceKube";
-import MSSPKube from "./pages/kubes/MSSPKube";
-import MSPKube from "./pages/kubes/MSPKube";
-import AdvisoryKube from "./pages/kubes/AdvisoryKube";
-import InnovationKube from "./pages/kubes/InnovationKube";
-import IndustryKube from "./pages/kubes/IndustryKube";
-import ProductKube from "./pages/kubes/ProductKube";
 
 // New 15 Kubes
 import CioKube from "./pages/kubes/CioKube";
@@ -147,18 +139,20 @@ const App = () => (
           <Route path="/our-tools/kubric-data-graph" element={<KubricDataGraph />} />
           <Route path="/our-tools/kubric-ai" element={<KubricAi />} />
 
-          {/* Legacy Kubes (kept) */}
+          {/* Kubes */}
           <Route path="/kubes" element={<KubesOverview />} />
-          <Route path="/kubes/assessment-kube" element={<AssessmentKube />} />
-          <Route path="/kubes/compliance-kube" element={<ComplianceKube />} />
-          <Route path="/kubes/mssp-kube" element={<MSSPKube />} />
-          <Route path="/kubes/msp-kube" element={<MSPKube />} />
-          <Route path="/kubes/advisory-kube" element={<AdvisoryKube />} />
-          <Route path="/kubes/innovation-kube" element={<InnovationKube />} />
-          <Route path="/kubes/industry-kube" element={<IndustryKube />} />
-          <Route path="/kubes/product-kube" element={<ProductKube />} />
 
-          {/* 15 New Kubes */}
+          {/* Legacy kube redirects → correct destinations */}
+          <Route path="/kubes/assessment-kube" element={<Navigate to="/assessment" replace />} />
+          <Route path="/kubes/compliance-kube" element={<Navigate to="/services/managed-compliance" replace />} />
+          <Route path="/kubes/mssp-kube" element={<Navigate to="/services/managed-soc" replace />} />
+          <Route path="/kubes/msp-kube" element={<Navigate to="/services/managed-noc" replace />} />
+          <Route path="/kubes/advisory-kube" element={<Navigate to="/services" replace />} />
+          <Route path="/kubes/innovation-kube" element={<Navigate to="/our-tools/kubric-ai" replace />} />
+          <Route path="/kubes/industry-kube" element={<Navigate to="/solutions/hub" replace />} />
+          <Route path="/kubes/product-kube" element={<Navigate to="/products" replace />} />
+
+          {/* 15 Active Kubes */}
           <Route path="/kubes/cio-kube" element={<CioKube />} />
           <Route path="/kubes/npm-kube" element={<NpmKube />} />
           <Route path="/kubes/mdm-kube" element={<MdmKube />} />
