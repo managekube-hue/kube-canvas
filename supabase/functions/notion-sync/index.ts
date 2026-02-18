@@ -86,7 +86,14 @@ async function blocksToMarkdown(blocks: any[]): Promise<string> {
 
   for (const block of blocks) {
     const t = block.type;
-    const richText = (arr: any[]) => arr?.map((r: any) => r.plain_text).join('') || '';
+    const richText = (arr: any[]) => arr?.map((r: any) => {
+      let text = r.plain_text || '';
+      if (r.href) text = `[${text}](${r.href})`;
+      if (r.annotations?.bold) text = `**${text}**`;
+      if (r.annotations?.italic) text = `*${text}*`;
+      if (r.annotations?.code) text = `\`${text}\``;
+      return text;
+    }).join('') || '';
 
     if (t === 'paragraph') {
       const text = richText(block.paragraph?.rich_text);
@@ -107,12 +114,42 @@ async function blocksToMarkdown(blocks: any[]): Promise<string> {
     } else if (t === 'quote') {
       md += `> ${richText(block.quote?.rich_text)}\n\n`;
     } else if (t === 'callout') {
-      const emoji = block.callout?.icon?.emoji || '';
-      md += `> ${emoji} ${richText(block.callout?.rich_text)}\n\n`;
+      const emoji = block.callout?.icon?.emoji || '💡';
+      const text = richText(block.callout?.rich_text);
+      md += `> ${emoji} **${text}**\n\n`;
     } else if (t === 'toggle') {
       md += `**${richText(block.toggle?.rich_text)}**\n\n`;
     } else if (t === 'divider') {
       md += `---\n\n`;
+    } else if (t === 'table_of_contents') {
+      // skip
+    } else if (t === 'child_page') {
+      // child pages become links using their title
+      md += `📄 **${block.child_page?.title || 'Subpage'}**\n\n`;
+    } else if (t === 'child_database') {
+      md += `🗄️ **${block.child_database?.title || 'Database'}**\n\n`;
+    } else if (t === 'bookmark') {
+      const url = block.bookmark?.url || '';
+      const caption = richText(block.bookmark?.caption) || url;
+      if (url) md += `[${caption}](${url})\n\n`;
+    } else if (t === 'link_preview') {
+      const url = block.link_preview?.url || '';
+      if (url) md += `[${url}](${url})\n\n`;
+    } else if (t === 'image') {
+      const url = block.image?.file?.url || block.image?.external?.url || '';
+      const caption = richText(block.image?.caption) || 'Image';
+      if (url) md += `![${caption}](${url})\n\n`;
+    } else if (t === 'video') {
+      const url = block.video?.file?.url || block.video?.external?.url || '';
+      const caption = richText(block.video?.caption) || 'Video';
+      if (url) md += `[▶ ${caption}](${url})\n\n`;
+    } else if (t === 'file') {
+      const url = block.file?.file?.url || block.file?.external?.url || '';
+      const name = richText(block.file?.caption) || block.file?.name || 'File';
+      if (url) md += `[📎 ${name}](${url})\n\n`;
+    } else if (t === 'pdf') {
+      const url = block.pdf?.file?.url || block.pdf?.external?.url || '';
+      if (url) md += `[📄 PDF Document](${url})\n\n`;
     }
   }
 
@@ -186,6 +223,54 @@ async function syncPageRecursive(
   }
 }
 
+// Fill content for pages that have no content yet (structure already synced)
+async function fillMissingContent(batchSize: number = 30): Promise<{ filled: number; remaining: number }> {
+  // Get pages missing content (not root/module — those rarely have inline content)
+  const { data: pendingPages, error } = await supabase
+    .from('pages')
+    .select('id, notion_id, title, path')
+    .is('content', null)
+    .eq('is_deleted', false)
+    .not('page_type', 'eq', 'root')
+    .limit(batchSize);
+
+  if (error) throw new Error(`DB query error: ${error.message}`);
+  if (!pendingPages || pendingPages.length === 0) return { filled: 0, remaining: 0 };
+
+  console.log(`📝 Filling content for ${pendingPages.length} pages...`);
+  let filled = 0;
+
+  for (const page of pendingPages) {
+    try {
+      const blocks = await fetchNotionBlocks(page.notion_id);
+      const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== 'child_page'));
+
+      await supabase
+        .from('pages')
+        .update({
+          content: content || '',  // empty string = fetched but empty, null = never fetched
+          last_synced_at: new Date().toISOString(),
+        })
+        .eq('id', page.id);
+
+      filled++;
+      console.log(`  ✅ ${page.title}`);
+      await new Promise(resolve => setTimeout(resolve, 250));
+    } catch (e) {
+      console.error(`  ❌ Failed ${page.title}: ${e.message}`);
+    }
+  }
+
+  // Count remaining
+  const { count } = await supabase
+    .from('pages')
+    .select('id', { count: 'exact', head: true })
+    .is('content', null)
+    .eq('is_deleted', false);
+
+  return { filled, remaining: count || 0 };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -196,13 +281,38 @@ serve(async (req) => {
   pagesCreated = 0;
   pagesUpdated = 0;
 
-  // Support partial sync: pass { pageId, parentDbId, depth, parentPath, orderIndex }
-  // If no pageId is given, start from root (which only syncs root + lists module child IDs)
   let body: any = {};
   try {
     const text = await req.text();
     if (text) body = JSON.parse(text);
   } catch (_) { /* no body */ }
+
+  const startTime = Date.now();
+
+  // MODE: fill_content — fetch blocks for pages missing content
+  if (body.mode === 'fill_content') {
+    const batchSize = body.batch_size || 30;
+    console.log(`📝 Content-fill mode: batch_size=${batchSize}`);
+    try {
+      const result = await fillMissingContent(batchSize);
+      const duration = Date.now() - startTime;
+      return new Response(
+        JSON.stringify({
+          success: true,
+          mode: 'fill_content',
+          pages_filled: result.filled,
+          pages_remaining: result.remaining,
+          duration_ms: duration,
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    } catch (error) {
+      return new Response(
+        JSON.stringify({ success: false, error: error.message }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+  }
 
   const startPageId: string = body.pageId || NOTION_ROOT_PAGE_ID;
   const parentDbId: string | null = body.parentDbId || null;
@@ -210,18 +320,12 @@ serve(async (req) => {
   const parentPath: string = body.parentPath || '';
   const orderIndex: number = body.orderIndex ?? 0;
 
-  const isFull = !body.pageId; // full sync starts from root
+  const isFull = !body.pageId;
 
   console.log(`🔄 Syncing page: ${startPageId} (depth=${startDepth}, full=${isFull})`);
 
-  const startTime = Date.now();
-
   try {
     if (isFull) {
-      // FULL SYNC STRATEGY:
-      // 1. Sync the root page
-      // 2. Get all module-level children
-      // 3. Return the list so the caller can invoke us once per module
       const notionPage = await fetchNotionPage(startPageId);
       const title = extractTitle(notionPage);
       const icon = extractIcon(notionPage);
@@ -243,13 +347,11 @@ serve(async (req) => {
         is_deleted: false,
       });
 
-      // Get the root's direct children (modules)
       const blocks = await fetchNotionBlocks(startPageId);
       const moduleBlocks = blocks.filter((b: any) => b.type === 'child_page');
 
-      console.log(`Root has ${moduleBlocks.length} modules. Syncing each separately.`);
+      console.log(`Root has ${moduleBlocks.length} modules.`);
 
-      // Return the module list so caller can fire once per module
       const modules = moduleBlocks.map((b: any, i: number) => ({
         pageId: b.id,
         parentDbId: rootDbId,
@@ -271,7 +373,6 @@ serve(async (req) => {
         { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     } else {
-      // MODULE SYNC: recursively sync a single subtree
       await syncPageRecursive(startPageId, parentDbId, startDepth, parentPath, orderIndex);
 
       const duration = Date.now() - startTime;

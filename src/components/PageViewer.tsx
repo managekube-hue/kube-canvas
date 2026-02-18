@@ -1,15 +1,63 @@
 import ReactMarkdown from 'react-markdown';
-import { usePageContent } from '@/hooks/useDocumentation';
-import { FileText, ChevronRight } from 'lucide-react';
+import { usePageContent, useAllPages, DocPage } from '@/hooks/useDocumentation';
+import { FileText, ChevronRight, FolderOpen, ArrowRight, RefreshCw } from 'lucide-react';
+import { useMemo } from 'react';
 
 const ORANGE = 'hsl(24 95% 53%)';
 
 interface PageViewerProps {
   pageId: string | null;
+  onPageSelect?: (pageId: string) => void;
 }
 
-export function PageViewer({ pageId }: PageViewerProps) {
+// Child page card component
+function ChildPageCard({ page, onClick }: { page: DocPage; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-3 p-4 rounded-lg border text-left transition-all group"
+      style={{
+        borderColor: 'rgba(255,255,255,0.08)',
+        background: 'rgba(255,255,255,0.03)',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.borderColor = ORANGE + '44';
+        (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+        (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)';
+      }}
+    >
+      {page.icon ? (
+        <span style={{ fontSize: '1.25rem', flexShrink: 0 }}>{page.icon}</span>
+      ) : (
+        <FileText size={16} style={{ color: '#475569', flexShrink: 0 }} />
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="font-mono text-sm font-medium truncate" style={{ color: '#e2e8f0' }}>
+          {page.title}
+        </div>
+        {page.module_code && (
+          <div className="text-xs mt-0.5" style={{ color: '#475569' }}>{page.module_code}</div>
+        )}
+      </div>
+      <ArrowRight size={14} style={{ color: '#475569', flexShrink: 0 }} className="group-hover:translate-x-0.5 transition-transform" />
+    </button>
+  );
+}
+
+export function PageViewer({ pageId, onPageSelect }: PageViewerProps) {
   const { page, loading } = usePageContent(pageId || '');
+  const { pages: allPages } = useAllPages();
+
+  // Find direct children of this page
+  const children = useMemo(() => {
+    if (!pageId || !allPages.length) return [];
+    return allPages
+      .filter(p => p.parent_id === pageId)
+      .sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
+  }, [pageId, allPages]);
 
   if (!pageId) {
     return (
@@ -80,7 +128,7 @@ export function PageViewer({ pageId }: PageViewerProps) {
       {/* Content */}
       {page.content ? (
         <div
-          className="prose prose-invert max-w-none"
+          className="prose prose-invert max-w-none mb-10"
           style={{
             '--tw-prose-body': '#94a3b8',
             '--tw-prose-headings': '#ffffff',
@@ -91,16 +139,37 @@ export function PageViewer({ pageId }: PageViewerProps) {
           <ReactMarkdown>{page.content}</ReactMarkdown>
         </div>
       ) : (
-        <div className="rounded-xl border border-white/10 bg-white/5 p-8">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-blue-500" />
-            <span className="text-slate-400 text-sm font-mono">Pending Notion sync — this page will populate after the Edge Function runs.</span>
+        <div className="rounded-xl border border-white/10 bg-white/5 p-8 mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <RefreshCw size={14} className="text-amber-500" />
+            <span className="text-amber-400/70 text-sm font-mono">Content pending — run the content-fill sync to populate this page.</span>
           </div>
-          <div className="space-y-3 text-slate-500 text-sm font-mono">
+          <div className="space-y-2 text-slate-600 text-xs font-mono">
             <div># {page.title}</div>
-            <div className="opacity-50">## Status: PENDING_SYNC</div>
-            {page.module_code && <div className="opacity-50">## Module: {page.module_code}</div>}
-            <div className="opacity-50">## Type: {page.page_type}</div>
+            <div className="opacity-60">## Status: PENDING_CONTENT</div>
+            {page.module_code && <div className="opacity-60">## Module: {page.module_code}</div>}
+            <div className="opacity-60">## Type: {page.page_type}</div>
+          </div>
+        </div>
+      )}
+
+      {/* Child pages as navigation links */}
+      {children.length > 0 && (
+        <div className="mt-2">
+          <div className="flex items-center gap-2 mb-4">
+            <FolderOpen size={14} style={{ color: ORANGE }} />
+            <span className="text-xs font-mono font-semibold tracking-wider" style={{ color: '#64748b' }}>
+              {children.length} CHILD {children.length === 1 ? 'PAGE' : 'PAGES'}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {children.map(child => (
+              <ChildPageCard
+                key={child.id}
+                page={child}
+                onClick={() => onPageSelect?.(child.id)}
+              />
+            ))}
           </div>
         </div>
       )}
