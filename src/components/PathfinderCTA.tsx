@@ -39,7 +39,7 @@ const pathways = [
     icon: BookOpen,
     title: "Read the Docs",
     description: "K-DOCS technical documentation",
-    href: "/uidr/docs",
+    href: "/documentation",
   },
 ];
 /** END DO NOT TOUCH */
