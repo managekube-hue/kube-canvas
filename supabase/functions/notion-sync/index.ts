@@ -1,22 +1,22 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const NOTION_TOKEN = Deno.env.get('NOTION_TOKEN')!;
-const NOTION_ROOT_PAGE_ID = Deno.env.get('NOTION_ROOT_PAGE_ID')!;
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
-const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const NOTION_TOKEN = Deno.env.get("NOTION_TOKEN")!;
+const NOTION_ROOT_PAGE_ID = Deno.env.get("NOTION_ROOT_PAGE_ID")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
 const NOTION_HEADERS = {
-  'Authorization': `Bearer ${NOTION_TOKEN}`,
-  'Notion-Version': '2022-06-28',
-  'Content-Type': 'application/json',
+  Authorization: `Bearer ${NOTION_TOKEN}`,
+  "Notion-Version": "2022-06-28",
+  "Content-Type": "application/json",
 };
 
 let pagesSynced = 0;
@@ -25,12 +25,12 @@ let pagesUpdated = 0;
 
 function extractTitle(page: any): string {
   const titleProp = page.properties?.title || page.properties?.Title;
-  if (!titleProp?.title?.length) return 'Untitled';
-  return titleProp.title.map((t: any) => t.plain_text).join('');
+  if (!titleProp?.title?.length) return "Untitled";
+  return titleProp.title.map((t: any) => t.plain_text).join("");
 }
 
 function extractIcon(page: any): string | null {
-  if (page.icon?.type === 'emoji') return page.icon.emoji;
+  if (page.icon?.type === "emoji") return page.icon.emoji;
   return null;
 }
 
@@ -49,11 +49,11 @@ function extractModuleCode(title: string): string | null {
 }
 
 function determinePageType(depth: number, title: string): string {
-  if (depth === 0) return 'root';
-  if (depth === 1) return 'module';
-  if (title.includes('Group Page:') || title.includes('Module Page:')) return 'group';
-  if (title.includes('Subgroup Page:')) return 'subgroup';
-  return 'leaf';
+  if (depth === 0) return "root";
+  if (depth === 1) return "module";
+  if (title.includes("Group Page:") || title.includes("Module Page:")) return "group";
+  if (title.includes("Subgroup Page:")) return "subgroup";
+  return "leaf";
 }
 
 async function fetchNotionPage(pageId: string): Promise<any> {
@@ -68,8 +68,8 @@ async function fetchNotionBlocks(blockId: string): Promise<any[]> {
 
   do {
     const url = new URL(`https://api.notion.com/v1/blocks/${blockId}/children`);
-    url.searchParams.set('page_size', '100');
-    if (cursor) url.searchParams.set('start_cursor', cursor);
+    url.searchParams.set("page_size", "100");
+    if (cursor) url.searchParams.set("start_cursor", cursor);
 
     const res = await fetch(url.toString(), { headers: NOTION_HEADERS });
     if (!res.ok) throw new Error(`Notion blocks API error ${res.status}: ${await res.text()}`);
@@ -82,73 +82,70 @@ async function fetchNotionBlocks(blockId: string): Promise<any[]> {
 }
 
 async function blocksToMarkdown(blocks: any[]): Promise<string> {
-  let md = '';
+  let md = "";
 
-  for (const block of blocks) {
-    const t = block.type;
-    const richText = (arr: any[]) => arr?.map((r: any) => {
-      let text = r.plain_text || '';
+  const richText = (arr: any[]) =>
+    arr?.map((r: any) => {
+      let text = r.plain_text || "";
       if (r.href) text = `[${text}](${r.href})`;
       if (r.annotations?.bold) text = `**${text}**`;
       if (r.annotations?.italic) text = `*${text}*`;
       if (r.annotations?.code) text = `\`${text}\``;
       return text;
-    }).join('') || '';
+    }).join("") || "";
 
-    if (t === 'paragraph') {
+  for (const block of blocks) {
+    const t = block.type;
+    if (t === "paragraph") {
       const text = richText(block.paragraph?.rich_text);
-      if (text) md += text + '\n\n';
-    } else if (t === 'heading_1') {
+      if (text) md += text + "\n\n";
+    } else if (t === "heading_1") {
       md += `# ${richText(block.heading_1?.rich_text)}\n\n`;
-    } else if (t === 'heading_2') {
+    } else if (t === "heading_2") {
       md += `## ${richText(block.heading_2?.rich_text)}\n\n`;
-    } else if (t === 'heading_3') {
+    } else if (t === "heading_3") {
       md += `### ${richText(block.heading_3?.rich_text)}\n\n`;
-    } else if (t === 'bulleted_list_item') {
+    } else if (t === "bulleted_list_item") {
       md += `- ${richText(block.bulleted_list_item?.rich_text)}\n`;
-    } else if (t === 'numbered_list_item') {
+    } else if (t === "numbered_list_item") {
       md += `1. ${richText(block.numbered_list_item?.rich_text)}\n`;
-    } else if (t === 'code') {
-      const lang = block.code?.language || '';
+    } else if (t === "code") {
+      const lang = block.code?.language || "";
       md += `\`\`\`${lang}\n${richText(block.code?.rich_text)}\n\`\`\`\n\n`;
-    } else if (t === 'quote') {
+    } else if (t === "quote") {
       md += `> ${richText(block.quote?.rich_text)}\n\n`;
-    } else if (t === 'callout') {
-      const emoji = block.callout?.icon?.emoji || '💡';
-      const text = richText(block.callout?.rich_text);
-      md += `> ${emoji} **${text}**\n\n`;
-    } else if (t === 'toggle') {
+    } else if (t === "callout") {
+      const emoji = block.callout?.icon?.emoji || "💡";
+      md += `> ${emoji} **${richText(block.callout?.rich_text)}**\n\n`;
+    } else if (t === "toggle") {
       md += `**${richText(block.toggle?.rich_text)}**\n\n`;
-    } else if (t === 'divider') {
+    } else if (t === "divider") {
       md += `---\n\n`;
-    } else if (t === 'table_of_contents') {
-      // skip
-    } else if (t === 'child_page') {
-      // child pages become links using their title
-      md += `📄 **${block.child_page?.title || 'Subpage'}**\n\n`;
-    } else if (t === 'child_database') {
-      md += `🗄️ **${block.child_database?.title || 'Database'}**\n\n`;
-    } else if (t === 'bookmark') {
-      const url = block.bookmark?.url || '';
+    } else if (t === "child_page") {
+      md += `📄 **${block.child_page?.title || "Subpage"}**\n\n`;
+    } else if (t === "child_database") {
+      md += `🗄️ **${block.child_database?.title || "Database"}**\n\n`;
+    } else if (t === "bookmark") {
+      const url = block.bookmark?.url || "";
       const caption = richText(block.bookmark?.caption) || url;
       if (url) md += `[${caption}](${url})\n\n`;
-    } else if (t === 'link_preview') {
-      const url = block.link_preview?.url || '';
+    } else if (t === "link_preview") {
+      const url = block.link_preview?.url || "";
       if (url) md += `[${url}](${url})\n\n`;
-    } else if (t === 'image') {
-      const url = block.image?.file?.url || block.image?.external?.url || '';
-      const caption = richText(block.image?.caption) || 'Image';
+    } else if (t === "image") {
+      const url = block.image?.file?.url || block.image?.external?.url || "";
+      const caption = richText(block.image?.caption) || "Image";
       if (url) md += `![${caption}](${url})\n\n`;
-    } else if (t === 'video') {
-      const url = block.video?.file?.url || block.video?.external?.url || '';
-      const caption = richText(block.video?.caption) || 'Video';
+    } else if (t === "video") {
+      const url = block.video?.file?.url || block.video?.external?.url || "";
+      const caption = richText(block.video?.caption) || "Video";
       if (url) md += `[▶ ${caption}](${url})\n\n`;
-    } else if (t === 'file') {
-      const url = block.file?.file?.url || block.file?.external?.url || '';
-      const name = richText(block.file?.caption) || block.file?.name || 'File';
+    } else if (t === "file") {
+      const url = block.file?.file?.url || block.file?.external?.url || "";
+      const name = richText(block.file?.caption) || block.file?.name || "File";
       if (url) md += `[📎 ${name}](${url})\n\n`;
-    } else if (t === 'pdf') {
-      const url = block.pdf?.file?.url || block.pdf?.external?.url || '';
+    } else if (t === "pdf") {
+      const url = block.pdf?.file?.url || block.pdf?.external?.url || "";
       if (url) md += `[📄 PDF Document](${url})\n\n`;
     }
   }
@@ -158,15 +155,15 @@ async function blocksToMarkdown(blocks: any[]): Promise<string> {
 
 async function upsertPage(data: any): Promise<string> {
   const { data: existing } = await supabase
-    .from('pages')
-    .select('id')
-    .eq('notion_id', data.notion_id)
+    .from("pages")
+    .select("id")
+    .eq("notion_id", data.notion_id)
     .maybeSingle();
 
   const { data: saved, error } = await supabase
-    .from('pages')
-    .upsert(data, { onConflict: 'notion_id' })
-    .select('id')
+    .from("pages")
+    .upsert(data, { onConflict: "notion_id" })
+    .select("id")
     .single();
 
   if (error) throw new Error(`DB upsert error: ${error.message}`);
@@ -181,11 +178,11 @@ async function upsertPage(data: any): Promise<string> {
 async function syncPageRecursive(
   pageId: string,
   parentDbId: string | null = null,
-  depth: number = 0,
-  parentPath: string = '',
-  orderIndex: number = 0
+  depth = 0,
+  parentPath = "",
+  orderIndex = 0
 ): Promise<void> {
-  const indent = '  '.repeat(depth);
+  const indent = "  ".repeat(depth);
   console.log(`${indent}[depth=${depth}] Syncing page: ${pageId}`);
 
   const notionPage = await fetchNotionPage(pageId);
@@ -196,7 +193,7 @@ async function syncPageRecursive(
   const currentPath = parentPath ? `${parentPath} / ${title}` : title;
 
   const blocks = await fetchNotionBlocks(pageId);
-  const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== 'child_page'));
+  const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== "child_page"));
 
   const dbId = await upsertPage({
     notion_id: pageId,
@@ -214,69 +211,111 @@ async function syncPageRecursive(
     is_deleted: false,
   });
 
-  const childPages = blocks.filter((b: any) => b.type === 'child_page');
+  const childPages = blocks.filter((b: any) => b.type === "child_page");
   console.log(`${indent}  → Found ${childPages.length} child pages`);
 
   for (let i = 0; i < childPages.length; i++) {
     await syncPageRecursive(childPages[i].id, dbId, depth + 1, currentPath, i);
-    await new Promise(resolve => setTimeout(resolve, 350));
+    await new Promise((resolve) => setTimeout(resolve, 350));
   }
 }
 
-// Fill content for pages that have no content yet (structure already synced)
-async function fillMissingContent(batchSize: number = 30): Promise<{ filled: number; remaining: number }> {
-  // Get pages missing content (not root/module — those rarely have inline content)
-  const { data: pendingPages, error } = await supabase
-    .from('pages')
-    .select('id, notion_id, title, path')
-    .is('content', null)
-    .eq('is_deleted', false)
-    .not('page_type', 'eq', 'root')
+// Detects pages that are NEW (null content) OR edited in Notion after last sync.
+// Strategy: fetch fresh Notion metadata for the N oldest-synced pages, compare edit times,
+// re-sync content for any that changed. This catches edits even when DB metadata is stale.
+async function syncChangedContent(batchSize = 20): Promise<{ filled: number; remaining: number }> {
+  // Fetch pages to check — prioritise: null content first, then oldest-synced (most likely stale)
+  const { data: nullPages } = await supabase
+    .from("pages")
+    .select("id, notion_id, title, last_synced_at, content")
+    .is("content", null)
+    .eq("is_deleted", false)
+    .not("page_type", "eq", "root")
     .limit(batchSize);
 
-  if (error) throw new Error(`DB query error: ${error.message}`);
-  if (!pendingPages || pendingPages.length === 0) return { filled: 0, remaining: 0 };
+  const { data: oldestSynced } = await supabase
+    .from("pages")
+    .select("id, notion_id, title, last_synced_at, content")
+    .not("content", "is", null)
+    .eq("is_deleted", false)
+    .order("last_synced_at", { ascending: true }) // least-recently-synced first
+    .limit(batchSize);
 
-  console.log(`📝 Filling content for ${pendingPages.length} pages...`);
+  // Deduplicate
+  const seen = new Set<string>();
+  const candidates: any[] = [];
+  for (const p of [...(nullPages || []), ...(oldestSynced || [])]) {
+    if (!seen.has(p.id)) {
+      seen.add(p.id);
+      candidates.push(p);
+    }
+    if (candidates.length >= batchSize) break;
+  }
+
+  if (candidates.length === 0) {
+    console.log("✅ No pages to check");
+    return { filled: 0, remaining: 0 };
+  }
+
+  console.log(`🔍 Checking ${candidates.length} pages against Notion...`);
   let filled = 0;
 
-  for (const page of pendingPages) {
+  for (const page of candidates) {
     try {
+      // Always get fresh metadata from Notion — this is the source of truth
+      const notionPage = await fetchNotionPage(page.notion_id);
+      const notionEditedTime = notionPage.last_edited_time;
+      const lastSynced = page.last_synced_at ? new Date(page.last_synced_at) : null;
+      const notionEdited = new Date(notionEditedTime);
+
+      const needsUpdate = page.content === null || !lastSynced || notionEdited > lastSynced;
+
+      if (!needsUpdate) {
+        // Still update last_synced_at so this page moves to the back of the queue
+        await supabase
+          .from("pages")
+          .update({ notion_last_edited_time: notionEditedTime, last_synced_at: new Date().toISOString() })
+          .eq("id", page.id);
+        console.log(`  ⏭ ${page.title} (up to date)`);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        continue;
+      }
+
+      console.log(`  🔄 Syncing changed page: ${page.title}`);
       const blocks = await fetchNotionBlocks(page.notion_id);
-      const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== 'child_page'));
+      const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== "child_page"));
 
       await supabase
-        .from('pages')
+        .from("pages")
         .update({
-          content: content || '',  // empty string = fetched but empty, null = never fetched
+          content: content || "",
+          notion_last_edited_time: notionEditedTime,
           last_synced_at: new Date().toISOString(),
         })
-        .eq('id', page.id);
+        .eq("id", page.id);
 
       filled++;
       console.log(`  ✅ ${page.title}`);
-      await new Promise(resolve => setTimeout(resolve, 250));
-    } catch (e) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    } catch (e: any) {
       console.error(`  ❌ Failed ${page.title}: ${e.message}`);
     }
   }
 
-  // Count remaining
-  const { count } = await supabase
-    .from('pages')
-    .select('id', { count: 'exact', head: true })
-    .is('content', null)
-    .eq('is_deleted', false);
+  const { count: nullCount } = await supabase
+    .from("pages")
+    .select("id", { count: "exact", head: true })
+    .is("content", null)
+    .eq("is_deleted", false);
 
-  return { filled, remaining: count || 0 };
+  return { filled, remaining: nullCount || 0 };
 }
 
-serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+serve(async (req: Request) => {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Reset counters per invocation
   pagesSynced = 0;
   pagesCreated = 0;
   pagesUpdated = 0;
@@ -285,41 +324,43 @@ serve(async (req) => {
   try {
     const text = await req.text();
     if (text) body = JSON.parse(text);
-  } catch (_) { /* no body */ }
+  } catch (_) {
+    // no body
+  }
 
   const startTime = Date.now();
 
-  // MODE: fill_content — fetch blocks for pages missing content
-  if (body.mode === 'fill_content') {
-    const batchSize = body.batch_size || 30;
-    console.log(`📝 Content-fill mode: batch_size=${batchSize}`);
+  // MODE: sync_changed / fill_content — re-syncs new + edited pages
+  if (body.mode === "sync_changed" || body.mode === "fill_content") {
+    const batchSize = body.batch_size || 20;
+    console.log(`🔄 Sync-changed mode: batch_size=${batchSize}`);
     try {
-      const result = await fillMissingContent(batchSize);
+      const result = await syncChangedContent(batchSize);
       const duration = Date.now() - startTime;
       return new Response(
         JSON.stringify({
           success: true,
-          mode: 'fill_content',
-          pages_filled: result.filled,
+          mode: "sync_changed",
+          pages_synced: result.filled,
           pages_remaining: result.remaining,
           duration_ms: duration,
         }),
-        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
-    } catch (error) {
+    } catch (e: any) {
       return new Response(
-        JSON.stringify({ success: false, error: error.message }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ success: false, error: e.message }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
   }
 
+  // DEFAULT MODE: full structural sync (root listing or specific module)
   const startPageId: string = body.pageId || NOTION_ROOT_PAGE_ID;
   const parentDbId: string | null = body.parentDbId || null;
   const startDepth: number = body.depth ?? 0;
-  const parentPath: string = body.parentPath || '';
+  const parentPath: string = body.parentPath || "";
   const orderIndex: number = body.orderIndex ?? 0;
-
   const isFull = !body.pageId;
 
   console.log(`🔄 Syncing page: ${startPageId} (depth=${startDepth}, full=${isFull})`);
@@ -338,7 +379,7 @@ serve(async (req) => {
         icon,
         path: currentPath,
         content: null,
-        page_type: 'root',
+        page_type: "root",
         module_code: null,
         order_index: 0,
         notion_created_time: notionPage.created_time,
@@ -348,8 +389,7 @@ serve(async (req) => {
       });
 
       const blocks = await fetchNotionBlocks(startPageId);
-      const moduleBlocks = blocks.filter((b: any) => b.type === 'child_page');
-
+      const moduleBlocks = blocks.filter((b: any) => b.type === "child_page");
       console.log(`Root has ${moduleBlocks.length} modules.`);
 
       const modules = moduleBlocks.map((b: any, i: number) => ({
@@ -364,38 +404,37 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({
           success: true,
-          mode: 'root_only',
+          mode: "root_only",
           root_synced: true,
           modules,
           module_count: modules.length,
           duration_ms: duration,
         }),
-        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     } else {
       await syncPageRecursive(startPageId, parentDbId, startDepth, parentPath, orderIndex);
-
       const duration = Date.now() - startTime;
       console.log(`✅ Module sync complete: ${pagesSynced} pages in ${duration}ms`);
 
       return new Response(
         JSON.stringify({
           success: true,
-          mode: 'module',
+          mode: "module",
           pages_synced: pagesSynced,
           pages_created: pagesCreated,
           pages_updated: pagesUpdated,
           duration_ms: duration,
         }),
-        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-  } catch (error) {
+  } catch (e: any) {
     const duration = Date.now() - startTime;
-    console.error('❌ Sync failed:', error.message);
+    console.error("❌ Sync failed:", e.message);
     return new Response(
-      JSON.stringify({ success: false, error: error.message, pages_synced: pagesSynced }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ success: false, error: e.message, pages_synced: pagesSynced }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
