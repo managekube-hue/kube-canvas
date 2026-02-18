@@ -182,18 +182,51 @@ const megaMenu = {
       },
     ],
   },
-  "Resources": {
-    href: "/resources",
-    desc: "Documentation, guides, and tools to help you get the most from ManageKube.",
-    viewAll: "View All Resources",
+  "Pricing": {
+    href: "/pricing",
+    desc: "Six flexible pricing models from consumption-based to enterprise custom. Zero lock-in, built for your business reality.",
+    viewAll: "View All Pricing Models",
     columns: [
       {
-        heading: "Learn",
+        heading: "Pricing Models",
         items: [
-          { label: "Methodology PDF", desc: "Download our complete service delivery methodology whitepaper.", href: "/methodology" },
-          { label: "Case Studies", desc: "Real-world deployments and measurable outcomes from our clients.", href: "/resources" },
+          { label: "Precision Pay™", desc: "Pay only for what you use. Ideal for variable workloads and project-based engagements.", href: "/pricing" },
+          { label: "Flex Core™", desc: "Predictable monthly pricing based on your organization's size and scope.", href: "/pricing" },
+          { label: "Fractional™", desc: "Access senior vCIO/vCISO expertise on a fractional basis without full-time cost.", href: "/pricing" },
+          { label: "APEX™ As-a-Service", desc: "Infrastructure delivered as a service. No CapEx, no depreciation.", href: "/pricing" },
+          { label: "Project-Based", desc: "Defined scope, defined timeline, defined price for discrete projects.", href: "/pricing" },
+          { label: "Enterprise Custom", desc: "Custom engagement structures for complex, multi-year transformations.", href: "/pricing" },
+        ],
+      },
+      {
+        heading: "Get Started",
+        items: [
+          { label: "Take Free Assessment", desc: "Find the pricing model that best matches your organization's size and needs.", href: "/assessment" },
+          { label: "Talk to Sales", desc: "Speak with a solutions architect about enterprise and custom pricing.", href: "/contact" },
+        ],
+      },
+    ],
+  },
+  "Resources": {
+    href: "/documentation",
+    desc: "Documentation, guides, and tools to help you get the most from ManageKube.",
+    viewAll: "View Documentation",
+    columns: [
+      {
+        heading: "Documentation",
+        items: [
+          { label: "Read the Docs", desc: "Full platform documentation covering Kubes, tools, compliance frameworks, and onboarding.", href: "/documentation" },
+          { label: "How Kubric Works", desc: "Architecture overview of the unified Kubric platform.", href: "/our-tools/how-kubric-works" },
           { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against Kube coverage.", href: "/compliance" },
           { label: "Assessment Calculator", desc: "Estimate your security maturity and identify gaps in minutes.", href: "/assessment" },
+        ],
+      },
+      {
+        heading: "Resources",
+        items: [
+          { label: "Methodology", desc: "Our proven Assess → Remediate → Manage → Optimize service delivery framework.", href: "/methodology" },
+          { label: "Case Studies", desc: "Real-world deployments and measurable outcomes from our clients.", href: "/resources" },
+          { label: "Pricing Guide", desc: "Six flexible pricing models explained — find the right fit for your business.", href: "/pricing" },
         ],
       },
     ],
