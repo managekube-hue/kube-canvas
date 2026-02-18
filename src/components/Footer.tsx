@@ -43,16 +43,27 @@ const company = [
   { label: "Contact", href: "/contact" },
 ];
 
+const kubricDocs = [
+  { label: "Read Kubric Docs", href: "/uidr" },
+  { label: "EDR · Endpoint", href: "/uidr/docs/edr" },
+  { label: "ITDR · Identity", href: "/uidr/docs/itdr" },
+  { label: "NDR · Network", href: "/uidr/docs/ndr" },
+  { label: "CDR · Cloud", href: "/uidr/docs/cdr" },
+  { label: "VDR · Vulnerability", href: "/uidr/docs/vdr" },
+  { label: "GRC · Governance", href: "/uidr/docs/grc" },
+  { label: "K-DOCS Full Tree →", href: "/uidr/docs" },
+];
+
 export const Footer = () => {
   return (
     <footer className="section-dark py-20 lg:py-24">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-6 mb-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-7 gap-10 lg:gap-6 mb-16">
           {/* Logo & Tagline */}
           <div className="lg:col-span-2">
             <img src={logo} alt="ManageKube IT Services" className="h-12 w-auto mb-6 brightness-0 invert" />
             <p className="text-body-lg text-white/60 max-w-sm">
-              Unified detection, response, and operations. 15 Kubes. One intelligent platform.
+              Unified detection, response, and operations. 18 DR Modules. One intelligent platform.
             </p>
           </div>
 
@@ -115,6 +126,27 @@ export const Footer = () => {
               {company.map((item) => (
                 <li key={item.label}>
                   <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Kubric Docs */}
+          <div>
+            <h4 className="text-label text-white mb-5">Kubric Docs</h4>
+            <ul className="space-y-2.5">
+              {kubricDocs.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.href}
+                    className={`text-sm transition-colors ${
+                      item.label === "Read Kubric Docs"
+                        ? "text-brand-orange hover:text-brand-orange/80 font-semibold"
+                        : "text-white/60 hover:text-brand-orange"
+                    }`}
+                  >
                     {item.label}
                   </Link>
                 </li>

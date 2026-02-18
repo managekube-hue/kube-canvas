@@ -64,6 +64,82 @@ const Pricing = () => {
         phase="PRICING"
       />
 
+      {/* Platform Tiers */}
+      <section className="py-20 lg:py-28 bg-foreground text-white">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <p className="text-label text-brand-orange mb-4">PLATFORMS</p>
+            <h2 className="text-headline text-white mb-4">Choose Your Platform</h2>
+            <p className="text-body-lg text-white/60 mb-14 max-w-2xl">
+              Three purpose-built platforms powered by Kubric UIDR. Each maps to the DR modules your organization needs — from 7 Kubes to all 15.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  code: "XRO",
+                  name: "Small Business Platform",
+                  audience: "1–50 Employees",
+                  desc: "7 essential Kubes. Complete security and operations for small businesses. Deploy in 48 hours.",
+                  kubes: ["CIO KUBE", "NPM KUBE", "ITDR KUBE", "NDR KUBE", "VDR KUBE", "CFDR KUBE", "GRC KUBE"],
+                  href: "/products/xro",
+                  featured: false,
+                },
+                {
+                  code: "XMM",
+                  name: "SME Platform",
+                  audience: "50–500 Employees",
+                  desc: "12 Kubes. Advanced detection, response, and compliance for growing organizations.",
+                  kubes: ["All 7 XRO Kubes", "MDM KUBE", "APM KUBE", "CDR KUBE", "ADR KUBE", "BDR KUBE"],
+                  href: "/products/xmm",
+                  featured: true,
+                },
+                {
+                  code: "XME",
+                  name: "Enterprise Platform",
+                  audience: "500+ Employees",
+                  desc: "All 15 Kubes. Full enterprise coverage with premium KAI orchestration capabilities.",
+                  kubes: ["All 12 XMM Kubes", "SDR KUBE", "DDR KUBE", "TI KUBE"],
+                  href: "/products/xme",
+                  featured: false,
+                },
+              ].map((p) => (
+                <motion.div
+                  key={p.code}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className={`relative bg-white/5 p-8 border ${p.featured ? "border-brand-orange" : "border-white/10"} hover:border-white/30 transition-colors`}
+                >
+                  {p.featured && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <span className="bg-brand-orange text-white text-xs font-bold px-4 py-1 uppercase tracking-wider">Most Popular</span>
+                    </div>
+                  )}
+                  <p className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-2">{p.audience}</p>
+                  <h3 className="text-4xl font-black text-white mb-1">{p.code}</h3>
+                  <p className="text-sm text-white/50 mb-4">{p.name}</p>
+                  <p className="text-sm text-white/60 mb-6 leading-relaxed">{p.desc}</p>
+                  <ul className="space-y-1.5 mb-8">
+                    {p.kubes.map((k) => (
+                      <li key={k} className="flex items-center gap-2 text-sm text-white/70">
+                        <Check className="w-3.5 h-3.5 text-brand-orange flex-shrink-0" />
+                        {k}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to={p.href}
+                    className={`block text-center py-3 text-sm font-bold uppercase tracking-wider transition-colors ${p.featured ? "bg-brand-orange text-white hover:bg-brand-orange/90" : "border border-white/30 text-white hover:bg-white/10"}`}
+                  >
+                    Explore {p.code} <ArrowRight size={14} className="inline ml-1" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Models */}
       <section className="py-20 lg:py-32 bg-white">
         <div className="container mx-auto px-6 lg:px-12">
