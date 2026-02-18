@@ -225,7 +225,6 @@ const FindBySize = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };

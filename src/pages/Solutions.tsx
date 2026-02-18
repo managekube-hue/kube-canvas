@@ -1500,7 +1500,6 @@ const Solutions = () => {
         </div>
       </section>
 
-      <PathfinderCTA />
     </PageLayout>
   );
 };
