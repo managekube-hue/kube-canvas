@@ -9,31 +9,35 @@ import {
 } from "lucide-react";
 
 // ─── Module Data ─────────────────────────────────────────────────────────────
+// Two colors only: white (default) and orange (accent) — minimalist
+const ICON_WHITE = "#ffffff";
+const ICON_ORANGE = "hsl(24 95% 53%)";
+
 const DR_MODULES = [
-  { id: "edr",  full: "Endpoint Detection & Response",          icon: Shield,    color: "#3b82f6", href: "/uidr/docs/edr",  code: "K-EDR-01" },
-  { id: "itdr", full: "Identity Threat Detection & Response",   icon: Fingerprint, color: "#a855f7", href: "/uidr/docs/itdr", code: "K-ITDR-02" },
-  { id: "ndr",  full: "Network Detection & Response",           icon: Network,   color: "#22c55e", href: "/uidr/docs/ndr",  code: "K-NDR-03" },
-  { id: "cdr",  full: "Cloud Detection & Response",             icon: Cloud,     color: "#06b6d4", href: "/uidr/docs/cdr",  code: "K-CDR-04" },
-  { id: "sdr",  full: "SaaS Detection & Response",              icon: Globe,     color: "#f59e0b", href: "/uidr/docs/sdr",  code: "K-SDR-05" },
-  { id: "adr",  full: "Application Detection & Response",       icon: Square,    color: "#ef4444", href: "/uidr/docs/adr",  code: "K-ADR-06" },
-  { id: "ddr",  full: "Data Detection & Response",              icon: Database,  color: "#8b5cf6", href: "/uidr/docs/ddr",  code: "K-DDR-07" },
-  { id: "vdr",  full: "Vulnerability Detection & Response",     icon: Bug,       color: "#f97316", href: "/uidr/docs/vdr",  code: "K-VDR-08" },
-  { id: "mdr",  full: "Managed Detection & Response",           icon: Headphones, color: "#64748b", href: "/uidr/docs/mdr",  code: "K-MDR-09" },
+  { id: "edr",  full: "Endpoint Detection & Response",          icon: Shield,     color: ICON_WHITE,  href: "/uidr/docs/edr",  code: "K-EDR-01" },
+  { id: "itdr", full: "Identity Threat Detection & Response",   icon: Fingerprint,color: ICON_WHITE,  href: "/uidr/docs/itdr", code: "K-ITDR-02" },
+  { id: "ndr",  full: "Network Detection & Response",           icon: Network,    color: ICON_WHITE,  href: "/uidr/docs/ndr",  code: "K-NDR-03" },
+  { id: "cdr",  full: "Cloud Detection & Response",             icon: Cloud,      color: ICON_WHITE,  href: "/uidr/docs/cdr",  code: "K-CDR-04" },
+  { id: "sdr",  full: "SaaS Detection & Response",              icon: Globe,      color: ICON_ORANGE, href: "/uidr/docs/sdr",  code: "K-SDR-05" },
+  { id: "adr",  full: "Application Detection & Response",       icon: Square,     color: ICON_WHITE,  href: "/uidr/docs/adr",  code: "K-ADR-06" },
+  { id: "ddr",  full: "Data Detection & Response",              icon: Database,   color: ICON_WHITE,  href: "/uidr/docs/ddr",  code: "K-DDR-07" },
+  { id: "vdr",  full: "Vulnerability Detection & Response",     icon: Bug,        color: ICON_ORANGE, href: "/uidr/docs/vdr",  code: "K-VDR-08" },
+  { id: "mdr",  full: "Managed Detection & Response",           icon: Headphones, color: ICON_WHITE,  href: "/uidr/docs/mdr",  code: "K-MDR-09" },
 ];
 const TI_MODULES = [
-  { id: "ti",   full: "Threat Intelligence",                    icon: Radar,     color: "#fb923c", href: "/uidr/docs/ti",   code: "K-TI-10" },
+  { id: "ti",   full: "Threat Intelligence",                    icon: Radar,      color: ICON_ORANGE, href: "/uidr/docs/ti",   code: "K-TI-10" },
 ];
 const OPS_MODULES = [
-  { id: "cfdr", full: "Configuration Drift Detection & Response", icon: Settings2, color: "#22d3ee", href: "/uidr/docs/cfdr", code: "K-CFDR-11" },
-  { id: "bdr",  full: "Backup & Disaster Recovery",             icon: HardDrive, color: "#34d399", href: "/uidr/docs/bdr",  code: "K-BDR-12" },
-  { id: "npm",  full: "Network Performance Management",         icon: Radar,     color: "#60a5fa", href: "/uidr/docs/npm",  code: "K-NPM-13" },
-  { id: "uem",  full: "Unified Endpoint Management",            icon: Settings2, color: "#a3e635", href: "/uidr/docs/uem",  code: "K-UEM-14" },
-  { id: "mdm",  full: "Mobile Device Management",               icon: Smartphone, color: "#fb923c", href: "/uidr/docs/mdm",  code: "K-MDM-15" },
-  { id: "apm",  full: "Application Performance Management",     icon: Activity,  color: "#4ade80", href: "/uidr/docs/apm",  code: "K-APM-16" },
+  { id: "cfdr", full: "Configuration Drift Detection & Response", icon: Settings2, color: ICON_WHITE, href: "/uidr/docs/cfdr", code: "K-CFDR-11" },
+  { id: "bdr",  full: "Backup & Disaster Recovery",             icon: HardDrive,  color: ICON_WHITE,  href: "/uidr/docs/bdr",  code: "K-BDR-12" },
+  { id: "npm",  full: "Network Performance Management",         icon: Radar,      color: ICON_WHITE,  href: "/uidr/docs/npm",  code: "K-NPM-13" },
+  { id: "uem",  full: "Unified Endpoint Management",            icon: Settings2,  color: ICON_ORANGE, href: "/uidr/docs/uem",  code: "K-UEM-14" },
+  { id: "mdm",  full: "Mobile Device Management",               icon: Smartphone, color: ICON_WHITE,  href: "/uidr/docs/mdm",  code: "K-MDM-15" },
+  { id: "apm",  full: "Application Performance Management",     icon: Activity,   color: ICON_WHITE,  href: "/uidr/docs/apm",  code: "K-APM-16" },
 ];
 const GOV_MODULES = [
-  { id: "grc",  full: "Governance, Risk & Compliance",          icon: Scale,     color: "#fbbf24", href: "/uidr/docs/grc",  code: "K-GRC-17" },
-  { id: "psa",  full: "Professional Services Automation",       icon: Briefcase, color: "#f472b6", href: "/uidr/docs/psa",  code: "K-PSA-18" },
+  { id: "grc",  full: "Governance, Risk & Compliance",          icon: Scale,      color: ICON_ORANGE, href: "/uidr/docs/grc",  code: "K-GRC-17" },
+  { id: "psa",  full: "Professional Services Automation",       icon: Briefcase,  color: ICON_WHITE,  href: "/uidr/docs/psa",  code: "K-PSA-18" },
 ];
 
 const INTEGRATION_TABLE = [
@@ -58,10 +62,10 @@ const ModuleGrid = ({ modules }: { modules: typeof DR_MODULES }) => (
       <Link
         key={mod.id}
         to={`/uidr/docs/${mod.id}`}
-        className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-5 hover:border-blue-500/40 hover:bg-blue-500/5 transition-all group"
+        className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-5 hover:border-white/20 hover:bg-white/5 transition-all group"
       >
-        <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${mod.color}20` }}>
-          <mod.icon size={22} style={{ color: mod.color }} />
+        <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/5 border border-white/10">
+          <mod.icon size={20} style={{ color: mod.color }} />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
@@ -70,7 +74,7 @@ const ModuleGrid = ({ modules }: { modules: typeof DR_MODULES }) => (
           </div>
           <p className="text-sm text-white/50 leading-tight">{mod.full}</p>
         </div>
-        <span className="text-white/20 group-hover:text-blue-400 transition-colors text-lg">→</span>
+        <span className="text-white/20 group-hover:text-white transition-colors text-lg">→</span>
       </Link>
     ))}
   </div>
