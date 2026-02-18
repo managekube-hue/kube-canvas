@@ -115,6 +115,8 @@ import Documentation from "./pages/Documentation";
 import UidrHome from "./pages/uidr/UidrHome";
 import UidrPlatform from "./pages/uidr/UidrPlatform";
 import UidrDocs from "./pages/uidr/UidrDocs";
+import UidrModulePage from "./pages/uidr/UidrModulePage";
+import UidrTechnicalDocs from "./pages/uidr/UidrTechnicalDocs";
 import UidrContributors from "./pages/uidr/UidrContributors";
 import UidrOpenSource from "./pages/uidr/UidrOpenSource";
 import UidrContact from "./pages/uidr/UidrContact";
@@ -248,7 +250,8 @@ const App = () => (
           <Route path="/uidr" element={<UidrHome />} />
           <Route path="/uidr/platform" element={<UidrPlatform />} />
           <Route path="/uidr/docs" element={<UidrDocs />} />
-          <Route path="/uidr/docs/:moduleId" element={<UidrDocs />} />
+          <Route path="/uidr/docs/:moduleId" element={<UidrModulePage />} />
+          <Route path="/uidr/technical-docs" element={<UidrTechnicalDocs />} />
           <Route path="/uidr/contributors" element={<UidrContributors />} />
           <Route path="/uidr/open-source" element={<UidrOpenSource />} />
           <Route path="/uidr/contact" element={<UidrContact />} />

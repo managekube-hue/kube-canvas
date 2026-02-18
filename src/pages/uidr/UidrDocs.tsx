@@ -929,16 +929,20 @@ const ModuleGrid = ({ modules }: { modules: typeof DR_MODULES }) => (
     {modules.map(mod => (
       <Link
         key={mod.id}
-        to={mod.href}
-        className="flex items-center gap-3 bg-[#1a1a1a] border border-white/10 rounded-xl p-4 hover:border-white/20 transition-colors"
+        to={`/uidr/docs/${mod.id}`}
+        className="flex items-center gap-3 bg-[#1a1a1a] border border-white/10 rounded-xl p-4 hover:border-blue-500/30 hover:bg-[#1a1a2a] transition-all group"
       >
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${mod.color}20` }}>
-          <mod.icon size={16} style={{ color: mod.color } as React.CSSProperties} />
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${mod.color}20` }}>
+          <mod.icon size={18} style={{ color: mod.color } as React.CSSProperties} />
         </div>
-        <div>
-          <p className="text-sm font-bold text-white">{mod.id}</p>
-          <p className="text-xs text-white/40 leading-tight">{mod.full}</p>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <p className="text-base font-black text-white">{mod.id}</p>
+            <span className="text-[10px] font-mono text-white/25">{mod.code}</span>
+          </div>
+          <p className="text-xs text-white/40 leading-tight truncate">{mod.full}</p>
         </div>
+        <span className="text-white/20 group-hover:text-blue-400 transition-colors text-sm">→</span>
       </Link>
     ))}
   </div>
@@ -992,11 +996,11 @@ export default function UidrDocs() {
                 {openGroups[group.label] && (
                   <div className="pb-2">
                     {group.modules.map(mod => {
-                      const isActive = location.pathname === mod.href;
+                      const isActive = location.pathname === `/uidr/docs/${mod.id}`;
                       return (
                         <Link
                           key={mod.id}
-                          to={mod.href}
+                          to={`/uidr/docs/${mod.id}`}
                           className={`flex items-center justify-between px-4 py-1.5 transition-colors ${
                             isActive ? "bg-white/10 text-white" : "text-white/60 hover:text-white"
                           }`}
@@ -1115,7 +1119,24 @@ export default function UidrDocs() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                  </table>
+              </div>
+
+              {/* Read Technical Docs CTA */}
+              <div className="mt-10 p-8 rounded-xl border border-blue-500/20 bg-[#0a0f1a] flex items-center justify-between gap-6">
+                <div>
+                  <h3 className="text-2xl font-black text-white mb-2">Ready to dive into the architecture?</h3>
+                  <p className="text-white/50 text-base leading-relaxed max-w-xl">
+                    The Technical Docs site contains the complete K-DOCS file tree — every source file, config, and detection asset across all 13 sections. Built for contributors and engineers onboarding to Kubric.
+                  </p>
+                </div>
+                <Link
+                  to="/uidr/technical-docs"
+                  className="flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-black px-8 py-4 rounded-xl text-lg transition-colors flex items-center gap-3"
+                >
+                  <span>📂</span>
+                  Read Technical Docs
+                </Link>
               </div>
             </>
           )}
