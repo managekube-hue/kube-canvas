@@ -158,11 +158,9 @@ async function syncPageRecursive(
   const pageType = determinePageType(depth, title);
   const currentPath = parentPath ? `${parentPath} / ${title}` : title;
 
-  // Fetch and convert content
   const blocks = await fetchNotionBlocks(pageId);
   const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== 'child_page'));
 
-  // Use last_synced_at to match the actual DB schema column name
   const dbId = await upsertPage({
     notion_id: pageId,
     parent_id: parentDbId,
@@ -179,13 +177,11 @@ async function syncPageRecursive(
     is_deleted: false,
   });
 
-  // Recurse into child pages
   const childPages = blocks.filter((b: any) => b.type === 'child_page');
   console.log(`${indent}  → Found ${childPages.length} child pages`);
 
   for (let i = 0; i < childPages.length; i++) {
     await syncPageRecursive(childPages[i].id, dbId, depth + 1, currentPath, i);
-    // Rate limit: ~3 req/sec
     await new Promise(resolve => setTimeout(resolve, 350));
   }
 }
@@ -195,74 +191,107 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  console.log('🔄 Starting Notion sync...');
-  console.log(`Root page: ${NOTION_ROOT_PAGE_ID}`);
-
-  // Reset counters
+  // Reset counters per invocation
   pagesSynced = 0;
   pagesCreated = 0;
   pagesUpdated = 0;
 
-  const { data: syncRun, error: syncError } = await supabase
-    .from('sync_runs')
-    .insert({ status: 'running' })
-    .select()
-    .single();
+  // Support partial sync: pass { pageId, parentDbId, depth, parentPath, orderIndex }
+  // If no pageId is given, start from root (which only syncs root + lists module child IDs)
+  let body: any = {};
+  try {
+    const text = await req.text();
+    if (text) body = JSON.parse(text);
+  } catch (_) { /* no body */ }
 
-  if (syncError) {
-    console.error('Failed to create sync run:', syncError);
-    return new Response(
-      JSON.stringify({ success: false, error: syncError.message }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-  }
+  const startPageId: string = body.pageId || NOTION_ROOT_PAGE_ID;
+  const parentDbId: string | null = body.parentDbId || null;
+  const startDepth: number = body.depth ?? 0;
+  const parentPath: string = body.parentPath || '';
+  const orderIndex: number = body.orderIndex ?? 0;
+
+  const isFull = !body.pageId; // full sync starts from root
+
+  console.log(`🔄 Syncing page: ${startPageId} (depth=${startDepth}, full=${isFull})`);
 
   const startTime = Date.now();
 
   try {
-    await syncPageRecursive(NOTION_ROOT_PAGE_ID);
+    if (isFull) {
+      // FULL SYNC STRATEGY:
+      // 1. Sync the root page
+      // 2. Get all module-level children
+      // 3. Return the list so the caller can invoke us once per module
+      const notionPage = await fetchNotionPage(startPageId);
+      const title = extractTitle(notionPage);
+      const icon = extractIcon(notionPage);
+      const currentPath = title;
 
-    const duration = Date.now() - startTime;
+      const rootDbId = await upsertPage({
+        notion_id: startPageId,
+        parent_id: null,
+        title,
+        icon,
+        path: currentPath,
+        content: null,
+        page_type: 'root',
+        module_code: null,
+        order_index: 0,
+        notion_created_time: notionPage.created_time,
+        notion_last_edited_time: notionPage.last_edited_time,
+        last_synced_at: new Date().toISOString(),
+        is_deleted: false,
+      });
 
-    await supabase
-      .from('sync_runs')
-      .update({
-        status: 'completed',
-        completed_at: new Date().toISOString(),
-        duration_ms: duration,
-        pages_synced: pagesSynced,
-        pages_created: pagesCreated,
-        pages_updated: pagesUpdated,
-      })
-      .eq('id', syncRun.id);
+      // Get the root's direct children (modules)
+      const blocks = await fetchNotionBlocks(startPageId);
+      const moduleBlocks = blocks.filter((b: any) => b.type === 'child_page');
 
-    console.log(`✅ Sync complete in ${duration}ms — ${pagesSynced} pages (${pagesCreated} new, ${pagesUpdated} updated)`);
+      console.log(`Root has ${moduleBlocks.length} modules. Syncing each separately.`);
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        duration_ms: duration,
-        pages_synced: pagesSynced,
-        pages_created: pagesCreated,
-        pages_updated: pagesUpdated,
-      }),
-      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+      // Return the module list so caller can fire once per module
+      const modules = moduleBlocks.map((b: any, i: number) => ({
+        pageId: b.id,
+        parentDbId: rootDbId,
+        depth: 1,
+        parentPath: currentPath,
+        orderIndex: i,
+      }));
+
+      const duration = Date.now() - startTime;
+      return new Response(
+        JSON.stringify({
+          success: true,
+          mode: 'root_only',
+          root_synced: true,
+          modules,
+          module_count: modules.length,
+          duration_ms: duration,
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    } else {
+      // MODULE SYNC: recursively sync a single subtree
+      await syncPageRecursive(startPageId, parentDbId, startDepth, parentPath, orderIndex);
+
+      const duration = Date.now() - startTime;
+      console.log(`✅ Module sync complete: ${pagesSynced} pages in ${duration}ms`);
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          mode: 'module',
+          pages_synced: pagesSynced,
+          pages_created: pagesCreated,
+          pages_updated: pagesUpdated,
+          duration_ms: duration,
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
   } catch (error) {
     const duration = Date.now() - startTime;
     console.error('❌ Sync failed:', error.message);
-
-    await supabase
-      .from('sync_runs')
-      .update({
-        status: 'failed',
-        error_message: error.message,
-        completed_at: new Date().toISOString(),
-        duration_ms: duration,
-        pages_synced: pagesSynced,
-      })
-      .eq('id', syncRun.id);
-
     return new Response(
       JSON.stringify({ success: false, error: error.message, pages_synced: pagesSynced }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
