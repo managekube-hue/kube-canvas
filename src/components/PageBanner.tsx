@@ -9,20 +9,20 @@ interface PageBannerProps {
 
 export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
   return (
-    <section className="relative pt-20 pb-16 lg:pt-24 lg:pb-24 overflow-hidden bg-black">
-      {/* Subtle video background */}
+    <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden bg-black min-h-[42vh] flex items-center">
+      {/* Warm video background */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          className="absolute inset-0 w-full h-full object-cover opacity-40"
         >
           <source src={childPageVideo} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
       </div>
 
       {/* Subtle grid overlay */}
