@@ -15,6 +15,7 @@ export default function SdrKube() {
     similar={[
       { label: "CDR KUBE", href: "/kubes/cdr-kube" },
       { label: "VDR KUBE", href: "/kubes/vdr-kube" },
+      { label: "Penetration Testing", href: "/services/penetration-testing" },
     ]}
   />;
 }

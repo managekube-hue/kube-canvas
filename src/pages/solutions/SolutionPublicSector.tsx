@@ -9,5 +9,10 @@ export default function SolutionPublicSector() {
       { title: "Government Compliance", items: ["CJIS Security Policy compliance", "FedRAMP moderate and high baselines", "NIST 800-53 control implementation", "NIST 800-171 for CUI protection"] },
       { title: "Security Operations", items: ["Advanced authentication (FBI standards)", "CJI data encryption and protection", "Audit and accountability logging", "State CSO coordination support"] },
     ]}
+    similar={[
+      { label: "CJIS", href: "/compliance/cjis" },
+      { label: "NIST 800-171", href: "/compliance/nist-800-171" },
+      { label: "GRC KUBE", href: "/kubes/grc-kube" },
+    ]}
   />;
 }

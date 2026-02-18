@@ -15,6 +15,7 @@ export default function MdmKube() {
     similar={[
       { label: "CIO KUBE", href: "/kubes/cio-kube" },
       { label: "ITDR KUBE", href: "/kubes/itdr-kube" },
+      { label: "Physical Security Integration", href: "/services/physical-security" },
     ]}
   />;
 }

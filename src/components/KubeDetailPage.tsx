@@ -85,16 +85,20 @@ export const KubeDetailPage = ({
         </div>
       </section>
 
-      {/* Similar / Related */}
+      {/* You May Also Like */}
       {similar.length > 0 && (
-        <section className="section-white py-12 border-t border-border">
+        <section className="section-white py-16 border-t border-border">
           <div className="container mx-auto px-6 lg:px-12">
-            <h4 className="text-label text-muted-foreground mb-6">Related Kubes</h4>
-            <div className="flex flex-wrap gap-3">
+            <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-10">You May Also Like</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
               {similar.map((s) => (
-                <Link key={s.label} to={s.href}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 border border-border text-sm font-medium hover:border-brand-orange hover:text-brand-orange transition-colors">
-                  {s.label} <ArrowRight size={12} />
+                <Link
+                  key={s.label}
+                  to={s.href}
+                  className="group bg-white p-8 flex items-center justify-between hover:bg-secondary transition-colors"
+                >
+                  <span className="text-sm font-semibold text-foreground group-hover:text-brand-orange transition-colors">{s.label}</span>
+                  <ArrowRight size={16} className="text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </Link>
               ))}
             </div>

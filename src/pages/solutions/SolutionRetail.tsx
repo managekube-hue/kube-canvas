@@ -9,5 +9,10 @@ export default function SolutionRetail() {
       { title: "Retail Security", items: ["PCI-DSS compliance automation", "Point-of-sale security monitoring", "E-commerce application protection", "Customer data privacy controls"] },
       { title: "Supply Chain & Operations", items: ["Supply chain cyber risk management", "Third-party vendor assessments", "Loss prevention integration", "Omnichannel security monitoring"] },
     ]}
+    similar={[
+      { label: "PCI-DSS", href: "/compliance/pci-dss" },
+      { label: "MDM KUBE", href: "/kubes/mdm-kube" },
+      { label: "Physical Security Integration", href: "/services/physical-security" },
+    ]}
   />;
 }

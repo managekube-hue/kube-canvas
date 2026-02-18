@@ -9,5 +9,10 @@ export default function SolutionTechnology() {
       { title: "MSP/MSSP Capabilities", items: ["Multi-tenant platform architecture", "White-label branding options", "Client portal and reporting", "Automated billing and PSA integration"] },
       { title: "Service Delivery", items: ["NOC/SOC as-a-service foundations", "Tiered service packaging tools", "SLA management and tracking", "Partner support and enablement"] },
     ]}
+    similar={[
+      { label: "Managed SOC", href: "/services/managed-soc" },
+      { label: "Managed NOC", href: "/services/managed-noc" },
+      { label: "GRC KUBE", href: "/kubes/grc-kube" },
+    ]}
   />;
 }

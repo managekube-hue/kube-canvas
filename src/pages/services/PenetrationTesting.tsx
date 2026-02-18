@@ -9,5 +9,10 @@ export default function PenetrationTesting() {
       { title: "Testing Types", items: ["External network penetration testing", "Internal network penetration testing", "Web application penetration testing", "API security testing", "Mobile application testing", "Cloud infrastructure testing"] },
       { title: "Advanced Testing", items: ["Social engineering (phishing, vishing)", "Physical security testing", "Wireless network testing", "Red team exercises", "Purple team engagements"] },
     ]}
+    similar={[
+      { label: "Security Assessments", href: "/services/security-assessments" },
+      { label: "VDR KUBE", href: "/kubes/vdr-kube" },
+      { label: "Compliance Gap Analysis", href: "/services/compliance-gap-analysis" },
+    ]}
   />;
 }

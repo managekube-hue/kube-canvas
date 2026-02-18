@@ -9,5 +9,10 @@ export default function SolutionManufacturing() {
       { title: "Manufacturing Capabilities", items: ["OT/IT network segmentation", "ICS and SCADA monitoring", "Supply chain cyber risk management", "Intellectual property protection", "ITAR and EAR compliance", "Industrial network security"] },
       { title: "Operational Technology", items: ["Predictive maintenance integration", "Manufacturing execution system (MES) security", "Historian and SCADA integration", "Plant-floor network visibility"] },
     ]}
+    similar={[
+      { label: "NPM KUBE", href: "/kubes/npm-kube" },
+      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+      { label: "IT Infrastructure Audits", href: "/services/infrastructure-audits" },
+    ]}
   />;
 }
