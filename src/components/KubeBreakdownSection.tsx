@@ -4,62 +4,36 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-const kubes = [
+const pillars = [
   {
-    id: "assessment",
-    name: "Assessment",
-    tagline: "The Free Entry Point",
-    description: "Comprehensive infrastructure, security, and compliance discovery. Generates your transformation roadmap.",
-    href: "/kubes/assessment-kube",
+    label: "INFRASTRUCTURE",
+    kubes: [
+      { id: "cio", name: "CIO KUBE", tagline: "Infrastructure Orchestration", description: "Core infrastructure lifecycle management, asset discovery, and operational oversight across your entire environment.", href: "/kubes/cio-kube" },
+      { id: "npm", name: "NPM KUBE", tagline: "Network Performance Monitoring", description: "Real-time network visibility with AI-powered capacity forecasting and traffic analysis.", href: "/kubes/npm-kube" },
+      { id: "mdm", name: "MDM KUBE", tagline: "Mobile Device Management", description: "Policy-driven mobile device governance for iOS and Android at enterprise scale.", href: "/kubes/mdm-kube" },
+      { id: "apm", name: "APM KUBE", tagline: "Application Performance Monitoring", description: "Full-stack application observability with distributed tracing and anomaly detection.", href: "/kubes/apm-kube" },
+      { id: "cfdr", name: "CFDR KUBE", tagline: "Configuration Drift Detection", description: "Continuous configuration compliance monitoring with automated drift remediation.", href: "/kubes/cfdr-kube" },
+      { id: "bdr", name: "BDR KUBE", tagline: "Backup & Disaster Recovery", description: "Backup verification and disaster recovery orchestration for guaranteed RTO/RPO compliance.", href: "/kubes/bdr-kube" },
+    ]
   },
   {
-    id: "compliance",
-    name: "Compliance",
-    tagline: "Framework Mastery",
-    description: "NIST, SOC 2, HIPAA, CMMC, ISO 27001, PCI DSS. Policy development. Evidence automation. Audit support.",
-    href: "/kubes/compliance-kube",
+    label: "DETECTION & RESPONSE",
+    kubes: [
+      { id: "itdr", name: "ITDR KUBE", tagline: "Identity Threat Detection", description: "Identity threats stopped before escalation via Active Directory and Entra ID monitoring.", href: "/kubes/itdr-kube" },
+      { id: "ndr", name: "NDR KUBE", tagline: "Network Detection & Response", description: "Network threats detected at the source with deep packet inspection and behavioural analytics.", href: "/kubes/ndr-kube" },
+      { id: "cdr", name: "CDR KUBE", tagline: "Cloud Detection & Response", description: "Multi-cloud security monitoring for AWS, Azure, and GCP with unified cloud posture management.", href: "/kubes/cdr-kube" },
+      { id: "sdr", name: "SDR KUBE", tagline: "Supply Chain Detection & Response", description: "SBOM analysis and software supply chain risk management across the development lifecycle.", href: "/kubes/sdr-kube" },
+      { id: "adr", name: "ADR KUBE", tagline: "Application Detection & Response", description: "Application-level threat containment with WAF, RASP, and runtime protection.", href: "/kubes/adr-kube" },
+      { id: "ddr", name: "DDR KUBE", tagline: "Data Detection & Response", description: "Data misuse and exfiltration prevention with DLP controls and insider threat detection.", href: "/kubes/ddr-kube" },
+    ]
   },
   {
-    id: "mssp",
-    name: "MSSP",
-    tagline: "Security Operations",
-    description: "24/7 SOC. EDR/XDR. Vulnerability management. Threat hunting. Incident response.",
-    href: "/kubes/mssp-kube",
-  },
-  {
-    id: "msp",
-    name: "MSP",
-    tagline: "IT Operations",
-    description: "Service desk L1–L3. Hybrid infrastructure. Cloud management. BCDR. End-user support.",
-    href: "/kubes/msp-kube",
-  },
-  {
-    id: "advisory",
-    name: "Advisory",
-    tagline: "Strategic Leadership",
-    description: "Virtual CISO. Virtual CIO. Cloud FinOps. Technology roadmapping. M&A due diligence.",
-    href: "/kubes/advisory-kube",
-  },
-  {
-    id: "innovation",
-    name: "Innovation",
-    tagline: "Automation & AI",
-    description: "Hyperautomation. RPA. AI agents. DevSecOps. Process intelligence.",
-    href: "/kubes/innovation-kube",
-  },
-  {
-    id: "industry",
-    name: "Industry",
-    tagline: "9 Vertical Platforms",
-    description: "Pre-built BLOCKs for manufacturing, healthcare, financial services, and 6 more regulated verticals.",
-    href: "/kubes/industry-kube",
-  },
-  {
-    id: "product",
-    name: "Product",
-    tagline: "The Configurator",
-    description: "Project scoping. BOM generation. Dell infrastructure. IBM software. Partner procurement.",
-    href: "/kubes/product-kube",
+    label: "INTELLIGENCE",
+    kubes: [
+      { id: "ti", name: "TI KUBE", tagline: "Threat Intelligence", description: "Operationalised threat intelligence via MISP, EPSS scoring, and adversary tracking.", href: "/kubes/ti-kube" },
+      { id: "vdr", name: "VDR KUBE", tagline: "Vulnerability Detection & Response", description: "Vulnerabilities prioritised by real exploitability risk, not just CVSS scores.", href: "/kubes/vdr-kube" },
+      { id: "grc", name: "GRC KUBE", tagline: "Governance, Risk & Compliance", description: "Compliance automation across 100+ frameworks with continuous control monitoring and evidence collection.", href: "/kubes/grc-kube" },
+    ]
   },
 ];
 
@@ -79,54 +53,59 @@ export const KubeBreakdownSection = () => {
         >
           <div className="accent-line mb-8" />
           <h2 className="text-headline text-foreground mb-6">
-            Eight <span className="text-brand-orange">Kubes</span>.
-            <br />Infinite Configurations.
+            Fifteen <span className="text-brand-orange">Kubes</span>.
+            <br />Three Pillars.
           </h2>
           <p className="text-body-xl text-muted-foreground">
-            Each Kube contains configurable Blocks—specific capabilities you can add, remove, or scale independently.
+            Each Kube is a targeted capability module mapping directly to OSS libraries, NATS subjects, and KAI orchestration personas.
           </p>
         </motion.div>
 
-        {/* Kubes List */}
-        <div className="space-y-0">
-          {kubes.map((kube, index) => (
-            <motion.div
-              key={kube.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.08 }}
+        {/* Pillars */}
+        {pillars.map((pillar, pi) => (
+          <div key={pillar.label} className="mb-12">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: pi * 0.1 }}
+              className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-4 font-mono"
             >
-              <Link
-                to={kube.href}
-                className="block border-t border-border py-8 lg:py-10 group"
-              >
-                <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
-                  {/* Name */}
-                  <div className="lg:col-span-3">
-                    <h3 className="text-title text-foreground group-hover:text-brand-orange transition-colors">
-                      {kube.name}
-                    </h3>
-                  </div>
-
-                  {/* Tagline */}
-                  <div className="lg:col-span-2">
-                    <span className="text-label text-brand-orange">{kube.tagline}</span>
-                  </div>
-
-                  {/* Description */}
-                  <div className="lg:col-span-6">
-                    <p className="text-body-lg text-muted-foreground">{kube.description}</p>
-                  </div>
-
-                  {/* Arrow */}
-                  <div className="lg:col-span-1 flex justify-end">
-                    <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-2 transition-all" />
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+              // {pillar.label}
+            </motion.p>
+            <div className="space-y-0">
+              {pillar.kubes.map((kube, index) => (
+                <motion.div
+                  key={kube.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 + pi * 0.1 + index * 0.05 }}
+                >
+                  <Link
+                    to={kube.href}
+                    className="block border-t border-border py-6 lg:py-8 group"
+                  >
+                    <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+                      <div className="lg:col-span-3">
+                        <h3 className="text-title text-foreground group-hover:text-brand-orange transition-colors font-mono">
+                          {kube.name}
+                        </h3>
+                      </div>
+                      <div className="lg:col-span-2">
+                        <span className="text-label text-brand-orange">{kube.tagline}</span>
+                      </div>
+                      <div className="lg:col-span-6">
+                        <p className="text-body-lg text-muted-foreground">{kube.description}</p>
+                      </div>
+                      <div className="lg:col-span-1 flex justify-end">
+                        <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-2 transition-all" />
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ))}
 
         {/* Bottom CTA */}
         <motion.div
@@ -139,7 +118,7 @@ export const KubeBreakdownSection = () => {
             to="/kubes"
             className="inline-flex items-center gap-3 text-subtitle text-foreground hover:text-brand-orange transition-colors group"
           >
-            Explore all Kubes
+            Explore all 15 Kubes
             <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Link>
         </motion.div>
