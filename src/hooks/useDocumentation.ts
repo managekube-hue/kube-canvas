@@ -50,6 +50,7 @@ export function useAllPages() {
   const [pages, setPages] = useState<DocPage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
     async function load() {
@@ -67,9 +68,11 @@ export function useAllPages() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [tick]);
 
-  return { pages, loading, error };
+  const refetch = () => setTick(t => t + 1);
+
+  return { pages, loading, error, refetch };
 }
 
 export function usePageContent(pageId: string) {
