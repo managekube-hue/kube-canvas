@@ -1,50 +1,51 @@
-/** DO NOT TOUCH - Mega Menu Header */
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Menu, X, ChevronDown, Search, ArrowRight } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+
+// ─── Brand Colors ──────────────────────────────────────────────────────────────
+const CHARCOAL = "#464648";
+const DIVIDER = "rgba(205,202,197,0.2)";
+const TEXT_MUTED = "rgba(255,255,255,0.55)";
+const TEXT_WHITE = "#ffffff";
+const ORANGE = "hsl(24 95% 53%)";
 
 // ─── Mega Menu Data ────────────────────────────────────────────────────────────
-
 const megaMenu = {
-  "OUR TOOLS": {
-    description: "Discover the unified platform that powers detection, response, and operations across your entire infrastructure.",
+  "Our Tools": {
+    href: "/our-tools",
+    desc: "Discover the unified platform that powers detection, response, and operations across your entire infrastructure.",
+    viewAll: "View Our Tools Page",
     columns: [
       {
         heading: "Platform Overview",
         items: [
-          { label: "How Kubric Works", desc: "Learn how Kubric UIDR unifies NOC, SOC, and business operations.", href: "/our-tools/how-kubric-works" },
-          { label: "Kubric UIDR Platform", desc: "The core RMM, PSA, and Microsoft 365 management platform.", href: "/our-tools/kubric-uidr" },
-          { label: "Kubric Data Graph", desc: "Real-time relationship mapping across infrastructure and security events.", href: "/our-tools/kubric-data-graph" },
+          { label: "Overview: How Kubric Works", desc: "Learn how Kubric UIDR unifies NOC, SOC, and business operations into a single orchestrated platform.", href: "/our-tools/how-kubric-works" },
+          { label: "Kubric UIDR", desc: "The core RMM, PSA, and Microsoft 365 management platform delivering unified IT operations at scale.", href: "/our-tools/kubric-uidr" },
+          { label: "Kubric Data Graph", desc: "Real-time relationship mapping across infrastructure, identities, and security events for intelligent decision-making.", href: "/our-tools/kubric-data-graph" },
         ],
       },
       {
         heading: "Intelligence & Automation",
         items: [
-          { label: "KubricAI", desc: "AI-powered orchestration using CrewAI for predictive threat detection.", href: "/our-tools/kubric-ai" },
-          { label: "Service Delivery Methodology", desc: "Our proven framework for onboarding, operations, and continuous improvement.", href: "/methodology" },
+          { label: "KubricAI", desc: "AI-powered orchestration using CrewAI for predictive threat detection, automated remediation, and intelligent prioritization.", href: "/our-tools/kubric-ai" },
+          { label: "Service Delivery Methodology", desc: "Our proven framework for onboarding, operations, and continuous improvement across managed services.", href: "/methodology" },
         ],
       },
     ],
-    rail: [
-      { label: "Automation & AI", href: "/our-tools/kubric-ai" },
-      { label: "Network Discovery", href: "/our-tools/kubric-uidr" },
-      { label: "Integrations", href: "/our-tools/kubric-uidr" },
-      { label: "Mobile App", href: "/our-tools/kubric-uidr" },
-      { label: "Security", href: "/our-tools/kubric-uidr" },
-      { label: "Roadmap", href: "/our-tools/kubric-uidr" },
-    ],
   },
-  "KUBES": {
-    description: "15 specialized detection, response, and operations modules delivering coverage across infrastructure, security, and compliance.",
+  "Kubes": {
+    href: "/kubes",
+    desc: "15 specialized detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance.",
+    viewAll: "View All Kubes",
     columns: [
       {
         heading: "Infrastructure & Operations",
         items: [
           { label: "CIO KUBE", desc: "Core infrastructure orchestration and asset lifecycle management.", href: "/kubes/cio-kube" },
-          { label: "NPM KUBE", desc: "Real-time network monitoring with AI-powered capacity forecasting.", href: "/kubes/npm-kube" },
+          { label: "NPM KUBE", desc: "Real-time network performance monitoring with AI-powered capacity forecasting.", href: "/kubes/npm-kube" },
           { label: "MDM KUBE", desc: "Policy-driven mobile device governance for iOS and Android.", href: "/kubes/mdm-kube" },
-          { label: "APM KUBE", desc: "Full-stack observability with distributed tracing and code profiling.", href: "/kubes/apm-kube" },
+          { label: "APM KUBE", desc: "Full-stack application observability with distributed tracing.", href: "/kubes/apm-kube" },
           { label: "CFDR KUBE", desc: "Configuration drift detection and automated remediation.", href: "/kubes/cfdr-kube" },
           { label: "BDR KUBE", desc: "Backup verification and disaster recovery orchestration.", href: "/kubes/bdr-kube" },
         ],
@@ -52,7 +53,7 @@ const megaMenu = {
       {
         heading: "Security Detection & Response",
         items: [
-          { label: "ITDR KUBE", desc: "Identity threats stopped before escalation via AD monitoring.", href: "/kubes/itdr-kube" },
+          { label: "ITDR KUBE", desc: "Identity threats stopped before escalation via Active Directory monitoring.", href: "/kubes/itdr-kube" },
           { label: "NDR KUBE", desc: "Network threats detected at the source with deep packet inspection.", href: "/kubes/ndr-kube" },
           { label: "CDR KUBE", desc: "Multi-cloud security monitoring for AWS, Azure, and GCP.", href: "/kubes/cdr-kube" },
           { label: "SDR KUBE", desc: "SBOM analysis and software supply chain risk management.", href: "/kubes/sdr-kube" },
@@ -64,28 +65,23 @@ const megaMenu = {
         heading: "Intelligence & Governance",
         items: [
           { label: "TI KUBE", desc: "Threat intelligence that informs action via MISP and EPSS scoring.", href: "/kubes/ti-kube" },
-          { label: "VDR KUBE", desc: "Vulnerabilities prioritized by real risk, not just CVSS.", href: "/kubes/vdr-kube" },
-          { label: "GRC KUBE", desc: "Governance, risk & compliance across 100+ frameworks.", href: "/kubes/grc-kube" },
+          { label: "VDR KUBE", desc: "Vulnerabilities prioritized by real risk, not just CVSS scores.", href: "/kubes/vdr-kube" },
+          { label: "GRC KUBE", desc: "Governance, risk & compliance automation across 100+ frameworks.", href: "/kubes/grc-kube" },
         ],
       },
     ],
-    rail: [
-      { label: "90% MITRE ATT&CK Coverage", href: "/kubes" },
-      { label: "Real-Time Correlation", href: "/kubes" },
-      { label: "Automated Response", href: "/kubes" },
-      { label: "Unified Dashboard", href: "/kubes" },
-      { label: "API Integrations", href: "/kubes" },
-    ],
   },
-  "PRODUCTS": {
-    description: "Purpose-built security and operations platforms tailored to business size.",
+  "Products": {
+    href: "/products",
+    desc: "Purpose-built security and operations platforms tailored to your business size and maturity.",
+    viewAll: "View All Products",
     columns: [
       {
         heading: "Platform Tiers",
         items: [
-          { label: "XRO — Small Business Platform", desc: "Complete security and operations for small businesses with 7 essential Kubes.", href: "/products/xro" },
+          { label: "XRO — Small Business", desc: "Complete security and operations for small businesses with 7 essential Kubes.", href: "/products/xro" },
           { label: "XMM — SME Platform", desc: "Advanced security and operations for growing organizations with 12 Kubes.", href: "/products/xmm" },
-          { label: "XME — Enterprise Platform", desc: "Complete enterprise coverage with all 15 Kubes and premium capabilities.", href: "/products/xme" },
+          { label: "XME — Enterprise", desc: "Full enterprise coverage with all 15 Kubes and premium capabilities.", href: "/products/xme" },
         ],
       },
       {
@@ -93,27 +89,23 @@ const megaMenu = {
         items: [
           { label: "Supply Chain Cyber Risk", desc: "SCDR protection for third-party and software supply chains.", href: "/products/xme" },
           { label: "External Attack Surface Management", desc: "Continuous discovery and monitoring of your attack surface.", href: "/products/xmm" },
-          { label: "STRIKE Strategic Intelligence", desc: "Advanced threat intelligence and adversary tracking.", href: "/products/xme" },
+          { label: "STRIKE Strategic Intelligence", desc: "Advanced threat intelligence and adversary tracking capabilities.", href: "/products/xme" },
           { label: "Honeypots", desc: "Deception-based threat detection and attacker profiling.", href: "/products/xme" },
-          { label: "Custom Configuration", desc: "Get exactly what you need whenever you need it.", href: "/products/custom" },
+          { label: "Custom Configuration", desc: "Get exactly the coverage you need, configured for your environment.", href: "/products/custom" },
         ],
       },
     ],
-    rail: [
-      { label: "24/7 SOC Monitoring", href: "/services/managed-soc" },
-      { label: "Threat Hunting", href: "/services/managed-soc" },
-      { label: "Purple Team Exercises", href: "/services" },
-      { label: "Custom Integrations", href: "/products/custom" },
-    ],
   },
-  "SERVICES": {
-    description: "Expert services to design, deploy, and operate your security and IT infrastructure.",
+  "Services": {
+    href: "/services",
+    desc: "Expert services to design, deploy, and operate your security and IT infrastructure.",
+    viewAll: "View All Services",
     columns: [
       {
         heading: "Managed Services",
         items: [
-          { label: "Managed NOC", desc: "24/7 network operations center with proactive monitoring.", href: "/services/managed-noc" },
-          { label: "Managed SOC", desc: "24/7 security operations center with threat hunting and incident response.", href: "/services/managed-soc" },
+          { label: "Managed NOC", desc: "24/7 network operations center with proactive monitoring and response.", href: "/services/managed-noc" },
+          { label: "Managed SOC", desc: "24/7 security operations with threat hunting and incident response.", href: "/services/managed-soc" },
           { label: "Managed Compliance & GRC", desc: "Continuous compliance monitoring across 100+ frameworks.", href: "/services/managed-compliance" },
           { label: "Managed Cloud & FinOps", desc: "Cloud cost optimization and performance management.", href: "/services/managed-cloud" },
         ],
@@ -122,8 +114,8 @@ const megaMenu = {
         heading: "Advisory Services",
         items: [
           { label: "Security Assessments", desc: "Holistic security posture evaluation with risk prioritization.", href: "/services/security-assessments" },
-          { label: "Penetration Testing", desc: "Manual penetration testing across network, app, and cloud.", href: "/services/penetration-testing" },
-          { label: "Compliance Gap Analysis", desc: "Framework-specific gap assessments with remediation plans.", href: "/services/compliance-gap-analysis" },
+          { label: "Penetration Testing", desc: "Manual penetration testing across network, application, and cloud.", href: "/services/penetration-testing" },
+          { label: "Compliance Gap Analysis", desc: "Framework-specific gap assessments with remediation roadmaps.", href: "/services/compliance-gap-analysis" },
           { label: "IT Infrastructure Audits", desc: "Architecture, performance, security, and efficiency review.", href: "/services/infrastructure-audits" },
           { label: "Right-Sizing Engagements", desc: "Eliminate waste and improve performance per dollar spent.", href: "/services/right-sizing" },
         ],
@@ -138,24 +130,20 @@ const megaMenu = {
         ],
       },
     ],
-    rail: [
-      { label: "vCISO Services", href: "/services/advisory" },
-      { label: "Purple Team Exercises", href: "/services" },
-      { label: "Security Awareness Training", href: "/services" },
-      { label: "Tabletop Exercises", href: "/services" },
-    ],
   },
-  "SOLUTIONS": {
-    description: "Industry-specific and market-tailored solutions addressing unique compliance and operational needs.",
+  "Solutions": {
+    href: "/solutions",
+    desc: "Industry-specific and market-tailored solutions addressing unique compliance and operational requirements.",
+    viewAll: "View All Solutions",
     columns: [
       {
         heading: "By Industry",
         items: [
-          { label: "Manufacturing", desc: "OT/IT convergence, supply chain security, and IP protection.", href: "/solutions/manufacturing" },
+          { label: "Manufacturing", desc: "OT/IT convergence, supply chain security, and intellectual property protection.", href: "/solutions/manufacturing" },
           { label: "Healthcare", desc: "HIPAA compliance, PHI protection, and medical device security.", href: "/solutions/healthcare" },
-          { label: "Public Sector", desc: "CJIS, FedRAMP, and government compliance for state & local.", href: "/solutions/public-sector" },
+          { label: "Public Sector", desc: "CJIS, FedRAMP, and government compliance for state and local agencies.", href: "/solutions/public-sector" },
           { label: "Financial Services", desc: "PCI-DSS, SOX compliance, and financial fraud prevention.", href: "/solutions/financial-services" },
-          { label: "Retail", desc: "PCI-DSS, supply chain risk, and customer data protection.", href: "/solutions/retail" },
+          { label: "Retail", desc: "PCI-DSS, supply chain risk management, and customer data protection.", href: "/solutions/retail" },
           { label: "Technology (MSPs/MSSPs)", desc: "Multi-tenant platforms and white-label security solutions.", href: "/solutions/technology" },
         ],
       },
@@ -168,15 +156,11 @@ const megaMenu = {
         ],
       },
     ],
-    rail: [
-      { label: "Pre-configured Kube bundles", href: "/solutions" },
-      { label: "Industry compliance templates", href: "/compliance" },
-      { label: "Vertical-specific playbooks", href: "/solutions" },
-      { label: "Reference architectures", href: "/solutions" },
-    ],
   },
-  "COMPLIANCE": {
-    description: "Pre-configured compliance frameworks with automated gap analysis and continuous monitoring.",
+  "Compliance": {
+    href: "/compliance",
+    desc: "Pre-configured compliance frameworks with automated gap analysis, evidence collection, and continuous monitoring.",
+    viewAll: "View Compliance Frameworks",
     columns: [
       {
         heading: "Government & Defense",
@@ -197,270 +181,295 @@ const megaMenu = {
         ],
       },
     ],
-    rail: [
-      { label: "Automated evidence collection", href: "/compliance" },
-      { label: "Gap analysis dashboards", href: "/compliance" },
-      { label: "Audit report generation", href: "/compliance" },
-      { label: "Control mapping matrices", href: "/compliance" },
-      { label: "Remediation tracking", href: "/compliance" },
+  },
+  "Resources": {
+    href: "/resources",
+    desc: "Documentation, guides, and tools to help you get the most from ManageKube.",
+    viewAll: "View All Resources",
+    columns: [
+      {
+        heading: "Learn",
+        items: [
+          { label: "Methodology PDF", desc: "Download our complete service delivery methodology whitepaper.", href: "/methodology" },
+          { label: "Case Studies", desc: "Real-world deployments and measurable outcomes from our clients.", href: "/resources" },
+          { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against Kube coverage.", href: "/compliance" },
+          { label: "Assessment Calculator", desc: "Estimate your security maturity and identify gaps in minutes.", href: "/assessment" },
+        ],
+      },
+    ],
+  },
+  "About": {
+    href: "/about",
+    desc: "Learn who we are, our mission, and the team behind ManageKube.",
+    viewAll: "About ManageKube",
+    columns: [
+      {
+        heading: "Company",
+        items: [
+          { label: "About Us", desc: "Our mission, values, and the team behind ManageKube.", href: "/about" },
+          { label: "Careers", desc: "Join our team and help build the future of managed security.", href: "/careers" },
+          { label: "Partners", desc: "Technology alliances and channel partner programs.", href: "/contact" },
+          { label: "Contact", desc: "Get in touch with our team for sales, support, or partnerships.", href: "/contact" },
+        ],
+      },
     ],
   },
 };
 
-const utilityLinks = [
-  { label: "SUPPORT", href: "/contact", desc: "Get expert help and technical assistance." },
-  { label: "LOG IN", href: "/login/client", desc: "Access your ManageKube dashboard." },
-];
+type MenuKey = keyof typeof megaMenu;
 
-// ─── Types ─────────────────────────────────────────────────────────────────────
-type MegaMenuKey = keyof typeof megaMenu;
-
-// ─── Component ─────────────────────────────────────────────────────────────────
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<MegaMenuKey | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [activeSection, setActiveSection] = useState<MenuKey | null>(null);
+  const location = useLocation();
 
-  // Close on outside click
+  // Close menu on route change
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-        setActiveSection(null);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
+    setMenuOpen(false);
+    setActiveSection(null);
+  }, [location.pathname]);
 
-  // Close on route change
+  // Prevent body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   const closeMenu = () => {
     setMenuOpen(false);
     setActiveSection(null);
   };
 
-  const toggleMenu = () => {
-    setMenuOpen((o) => !o);
-    if (menuOpen) setActiveSection(null);
+  const toggleSection = (key: MenuKey) => {
+    setActiveSection((prev) => (prev === key ? null : key));
   };
 
   const currentSection = activeSection ? megaMenu[activeSection] : null;
 
   return (
-    <header ref={menuRef} className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border">
-      {/* Top bar */}
-      <div className="container mx-auto h-20 lg:h-24 flex items-center justify-between px-6 lg:px-12">
-        {/* Logo */}
-        <Link to="/" onClick={closeMenu} className="flex-shrink-0">
-          <span className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            <span className="text-foreground">Manage</span>
-            <span className="text-brand-orange">Kube</span>
-          </span>
-        </Link>
+    <>
+      {/* ── Fixed header bar ──────────────────────────────────────────── */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border"
+        style={{ height: "72px" }}
+      >
+        <div className="h-full flex items-center justify-between px-6 lg:px-12">
+          {/* Logo */}
+          <Link to="/" onClick={closeMenu} className="flex-shrink-0">
+            <span className="text-3xl sm:text-4xl font-bold tracking-tight leading-none">
+              <span className="text-foreground">Manage</span>
+              <span style={{ color: ORANGE }}>Kube</span>
+            </span>
+          </Link>
 
-        {/* Right side: utility links + hamburger */}
-        <div className="flex items-center gap-6">
-          {/* Utility links — desktop only */}
-          <div className="hidden lg:flex items-center gap-4">
-            {utilityLinks.map((u) => (
-              <Link
-                key={u.label}
-                to={u.href}
-                onClick={closeMenu}
-                className="text-xs font-semibold tracking-widest text-muted-foreground hover:text-brand-orange transition-colors uppercase"
-              >
-                {u.label}
-              </Link>
-            ))}
+          {/* Right: utility + hamburger */}
+          <div className="flex items-center gap-5">
+            <Link
+              to="/contact"
+              onClick={closeMenu}
+              className="hidden sm:block text-xs font-semibold tracking-widest text-muted-foreground hover:text-foreground transition-colors uppercase"
+            >
+              Support
+            </Link>
+            <span className="hidden sm:block text-muted-foreground/40 text-sm">|</span>
+            <Link
+              to="/login/client"
+              onClick={closeMenu}
+              className="hidden sm:block text-xs font-semibold tracking-widest text-muted-foreground hover:text-foreground transition-colors uppercase"
+            >
+              Log In
+            </Link>
+            <button
+              aria-label="Search"
+              className="hidden sm:flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Search size={18} strokeWidth={1.5} />
+            </button>
+
+            {/* Hamburger / Close */}
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label="Toggle navigation"
+              className="flex items-center justify-center text-foreground hover:text-foreground/70 transition-colors"
+            >
+              {menuOpen
+                ? <X size={24} strokeWidth={1.5} />
+                : <Menu size={24} strokeWidth={1.5} />}
+            </button>
           </div>
-
-          {/* Hamburger */}
-          <button
-            onClick={toggleMenu}
-            className="p-3 text-foreground hover:text-brand-orange transition-colors"
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
-          </button>
         </div>
-      </div>
+      </header>
 
-      {/* Mega Menu Panel */}
+      {/* ── Full-page overlay menu ─────────────────────────────────────── */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="fixed left-0 right-0 top-20 lg:top-24 z-40 overflow-y-auto"
-            style={{ backgroundColor: "#464648", maxHeight: "calc(100vh - 5rem)" }}
+            key="mega-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-40 flex"
+            style={{ backgroundColor: CHARCOAL, top: "72px" }}
           >
-            {/* Primary nav — top row of section labels */}
+            {/* ── Left accordion panel ─────────────────────────────────── */}
             <div
-              className="border-b"
-              style={{ borderColor: "#CDCAC5" }}
+              className="flex-shrink-0 flex flex-col overflow-y-auto"
+              style={{
+                width: "clamp(280px, 30vw, 420px)",
+                borderRight: `1px solid ${DIVIDER}`,
+              }}
             >
-              <div className="container mx-auto px-6 lg:px-12">
-                <div className="flex flex-col lg:flex-row">
-                  {(Object.keys(megaMenu) as MegaMenuKey[]).map((key) => (
-                    <button
-                      key={key}
-                      onClick={() => setActiveSection(activeSection === key ? null : key)}
-                      className={`
-                        flex items-center gap-2 py-5 px-4 text-sm font-bold tracking-widest uppercase transition-colors border-b lg:border-b-0 lg:border-r
-                        ${activeSection === key
-                          ? "text-brand-orange border-brand-orange lg:border-r-transparent lg:border-b-2"
-                          : "text-white/80 hover:text-white border-white/10"}
-                      `}
-                      style={activeSection === key ? { borderBottomColor: "hsl(var(--brand-orange))", borderBottomWidth: "2px" } : {}}
-                    >
-                      {key}
-                      <ChevronDown
-                        size={14}
-                        className={`transition-transform ${activeSection === key ? "rotate-180" : ""}`}
-                      />
-                    </button>
-                  ))}
+              {/* Nav items */}
+              <nav className="flex-1 py-4">
+                {(Object.keys(megaMenu) as MenuKey[]).map((key, i) => {
+                  const isActive = activeSection === key;
+                  return (
+                    <div key={key}>
+                      <button
+                        onClick={() => toggleSection(key)}
+                        className="w-full flex items-center justify-between px-10 py-5 text-left transition-colors group"
+                        style={{ color: isActive ? ORANGE : TEXT_WHITE }}
+                      >
+                        <span
+                          className="text-base font-semibold tracking-wide transition-colors group-hover:text-white"
+                          style={{ color: isActive ? ORANGE : TEXT_WHITE }}
+                        >
+                          {key}
+                        </span>
+                        <ChevronDown
+                          size={16}
+                          strokeWidth={1.5}
+                          className="transition-transform duration-200"
+                          style={{
+                            transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
+                            color: isActive ? ORANGE : TEXT_MUTED,
+                          }}
+                        />
+                      </button>
+                      {/* Subtle divider — not after last item */}
+                      {i < Object.keys(megaMenu).length - 1 && (
+                        <div style={{ height: "1px", backgroundColor: DIVIDER, marginLeft: "40px", marginRight: "40px" }} />
+                      )}
+                    </div>
+                  );
+                })}
+              </nav>
 
-                  {/* Mobile utility links */}
-                  <div className="flex lg:hidden gap-4 py-4 px-4 border-t" style={{ borderColor: "#CDCAC5" }}>
-                    {utilityLinks.map((u) => (
-                      <Link key={u.label} to={u.href} onClick={closeMenu}
-                        className="text-xs font-bold tracking-widest text-white/60 hover:text-brand-orange uppercase">
-                        {u.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+              {/* CTA buttons at bottom */}
+              <div className="px-10 py-8 space-y-3">
+                <Link
+                  to="/contact"
+                  onClick={closeMenu}
+                  className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: ORANGE, color: "#fff", borderRadius: "4px" }}
+                >
+                  Onboard Today
+                </Link>
+                <Link
+                  to="/login/client"
+                  onClick={closeMenu}
+                  className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-colors hover:bg-white/10"
+                  style={{ border: `1px solid rgba(255,255,255,0.35)`, color: TEXT_WHITE, borderRadius: "4px" }}
+                >
+                  Log In
+                </Link>
               </div>
             </div>
 
-            {/* Section content */}
-            <AnimatePresence>
-              {currentSection && (
-                <motion.div
-                  key={activeSection}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="container mx-auto px-6 lg:px-12 py-10"
-                >
-                  {/* Section description */}
-                  <p className="text-sm mb-8" style={{ color: "#CDCAC5" }}>
-                    {currentSection.description}
-                  </p>
+            {/* ── Right content panel ───────────────────────────────────── */}
+            <div className="flex-1 overflow-y-auto">
+              <AnimatePresence mode="wait">
+                {currentSection ? (
+                  <motion.div
+                    key={activeSection}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 8 }}
+                    transition={{ duration: 0.18 }}
+                    className="p-10 lg:p-16 h-full"
+                  >
+                    {/* Section header */}
+                    <div className="mb-8">
+                      <p className="text-sm leading-relaxed mb-3" style={{ color: TEXT_MUTED, maxWidth: "600px" }}>
+                        {currentSection.desc}
+                      </p>
+                      <Link
+                        to={currentSection.href}
+                        onClick={closeMenu}
+                        className="inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-80"
+                        style={{ color: ORANGE }}
+                      >
+                        {currentSection.viewAll}
+                        <ArrowRight size={14} strokeWidth={2} />
+                      </Link>
+                    </div>
 
-                  <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Main columns */}
-                    <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Columns grid */}
+                    <div
+                      className="grid gap-x-12 gap-y-0"
+                      style={{
+                        gridTemplateColumns: `repeat(${Math.min(currentSection.columns.length, 3)}, 1fr)`,
+                      }}
+                    >
                       {currentSection.columns.map((col) => (
                         <div key={col.heading}>
-                          <h4
-                            className="text-xs font-bold tracking-widest uppercase mb-4 pb-3 border-b"
-                            style={{ color: "hsl(var(--brand-orange))", borderColor: "#CDCAC5" }}
+                          {/* Column heading */}
+                          <p
+                            className="text-xs font-bold tracking-widest uppercase mb-4"
+                            style={{ color: TEXT_MUTED }}
                           >
                             {col.heading}
-                          </h4>
-                          <ul className="space-y-3">
+                          </p>
+                          <div className="space-y-5">
                             {col.items.map((item) => (
-                              <li key={item.label}>
+                              <div key={item.label}>
                                 <Link
                                   to={item.href}
                                   onClick={closeMenu}
                                   className="group block"
                                 >
-                                  <span
-                                    className="block text-sm font-semibold group-hover:text-brand-orange transition-colors"
-                                    style={{ color: "white" }}
+                                  <p
+                                    className="text-sm font-semibold mb-1 transition-colors group-hover:opacity-80"
+                                    style={{ color: TEXT_WHITE }}
                                   >
                                     {item.label}
-                                  </span>
-                                  <span className="block text-xs mt-0.5 leading-relaxed" style={{ color: "#CDCAC5" }}>
+                                  </p>
+                                  <p
+                                    className="text-xs leading-relaxed"
+                                    style={{ color: TEXT_MUTED }}
+                                  >
                                     {item.desc}
-                                  </span>
+                                  </p>
                                 </Link>
-                              </li>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         </div>
                       ))}
                     </div>
-
-                    {/* Right rail */}
-                    {currentSection.rail && (
-                      <div
-                        className="lg:w-48 lg:border-l pl-0 lg:pl-8 pt-4 lg:pt-0"
-                        style={{ borderColor: "#CDCAC5" }}
-                      >
-                        <h4
-                          className="text-xs font-bold tracking-widest uppercase mb-4"
-                          style={{ color: "hsl(var(--brand-orange))" }}
-                        >
-                          Quick Links
-                        </h4>
-                        <ul className="space-y-3">
-                          {currentSection.rail.map((r) => (
-                            <li key={r.label}>
-                              <Link
-                                to={r.href}
-                                onClick={closeMenu}
-                                className="flex items-center gap-1.5 text-xs font-medium hover:text-brand-orange transition-colors"
-                                style={{ color: "#CDCAC5" }}
-                              >
-                                <ExternalLink size={10} />
-                                {r.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-
-                        {/* CTA */}
-                        <div className="mt-8">
-                          <Link
-                            to="/assessment"
-                            onClick={closeMenu}
-                            className="block text-center py-3 px-4 text-xs font-bold tracking-wider uppercase text-white transition-colors hover:opacity-90"
-                            style={{ backgroundColor: "hsl(var(--brand-orange))" }}
-                          >
-                            Free Assessment
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Bottom links */}
-                  <div className="mt-10 pt-6 border-t flex flex-wrap gap-6" style={{ borderColor: "#CDCAC5" }}>
-                    <Link to="/contact" onClick={closeMenu}
-                      className="text-xs font-semibold tracking-wider uppercase hover:text-brand-orange transition-colors"
-                      style={{ color: "#CDCAC5" }}>
-                      Contact Us
-                    </Link>
-                    <Link to="/pricing" onClick={closeMenu}
-                      className="text-xs font-semibold tracking-wider uppercase hover:text-brand-orange transition-colors"
-                      style={{ color: "#CDCAC5" }}>
-                      Pricing
-                    </Link>
-                    <Link to="/about" onClick={closeMenu}
-                      className="text-xs font-semibold tracking-wider uppercase hover:text-brand-orange transition-colors"
-                      style={{ color: "#CDCAC5" }}>
-                      About
-                    </Link>
-                    <Link to="/careers" onClick={closeMenu}
-                      className="text-xs font-semibold tracking-wider uppercase hover:text-brand-orange transition-colors"
-                      style={{ color: "#CDCAC5" }}>
-                      Careers
-                    </Link>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center h-full"
+                  >
+                    <p className="text-sm" style={{ color: TEXT_MUTED }}>
+                      Select a category to explore
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+
+      {/* Spacer so page content doesn't hide under fixed header */}
+      <div style={{ height: "72px" }} />
+    </>
   );
 };
-/** END DO NOT TOUCH */
