@@ -101,7 +101,7 @@ export default function UidrTechnicalDocs() {
 
         {/* ── RIGHT CONTENT PANEL ───────────────────────────────────── */}
         <div className="flex-1 overflow-y-auto" style={{ background: "#0a0a0a" }}>
-          <PageViewer pageId={selectedPageId} />
+          <PageViewer pageId={selectedPageId} onPageSelect={setSelectedPageId} />
         </div>
       </div>
     </UidrLayout>
