@@ -20,7 +20,7 @@ export const PathfinderCTA = () => (
     <video
       autoPlay loop muted playsInline
       className="absolute inset-0 w-full h-full object-cover"
-      style={{ opacity: 0.45 }}
+      style={{ opacity: 0.45, transform: "rotate(180deg)" }}
     >
       <source src={footerCtaVideo} type="video/mp4" />
     </video>
