@@ -139,7 +139,7 @@ export const Footer = () => (
     {/* ── Nav grid ── */}
     <div style={{ padding: "56px 0 52px" }}>
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: "0 40px" }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: 0 }}>
           {columns.map((col, i) => <Col key={col.title} {...col} last={i === columns.length - 1} />)}
         </div>
       </div>
