@@ -3,16 +3,25 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PathSwitcher } from "@/components/PathSwitcher";
 import { PathfinderCTA } from "@/components/PathfinderCTA";
-import { ArrowRight, Shield, Cloud, BarChart3, HeadphonesIcon, CheckCircle } from "lucide-react";
+import {
+  ArrowRight, Shield, Cloud, BarChart3, HeadphonesIcon, CheckCircle,
+  ChevronRight, Layers, Settings, Lock, Server, Cpu
+} from "lucide-react";
+import { motion } from "framer-motion";
+import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
 
-/** DO NOT TOUCH — Fully Managed Home */
+/** DO NOT TOUCH — Fully Managed Home — #993619 design system */
 
-const SERVICES = [
-  { icon: HeadphonesIcon, label: "Managed NOC", desc: "24/7 network operations monitoring and response.", href: "/services/managed-noc" },
-  { icon: Shield, label: "Managed SOC", desc: "Continuous threat detection, triage, and remediation.", href: "/services/managed-soc" },
-  { icon: CheckCircle, label: "Managed Compliance", desc: "Ongoing compliance posture management across all frameworks.", href: "/services/managed-compliance" },
-  { icon: Cloud, label: "Managed Cloud", desc: "Full lifecycle cloud infrastructure management.", href: "/services/managed-cloud" },
-  { icon: BarChart3, label: "Security Assessments", desc: "Scheduled vulnerability and security posture assessments.", href: "/services/security-assessments" },
+// Sub-nav per architecture doc
+const SUB_NAV = [
+  { label: "Our Tools", href: "/our-tools" },
+  { label: "What We Run For You", href: "/kubes" },
+  { label: "Services", href: "/services" },
+  { label: "Platform Stack", href: "/products" },
+  { label: "Compliance", href: "/compliance/cmmc" },
+  { label: "Industries", href: "/solutions/hub" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Onboard Today", href: "/assessment", cta: true },
 ];
 
 const OUTCOMES = [
@@ -23,63 +32,191 @@ const OUTCOMES = [
   "Continuous improvement through the Kubric framework",
 ];
 
+const SERVICES = [
+  { icon: HeadphonesIcon, label: "Managed NOC", desc: "24/7 network operations monitoring and response.", href: "/services/managed-noc" },
+  { icon: Shield, label: "Managed SOC", desc: "Continuous threat detection, triage, and remediation.", href: "/services/managed-soc" },
+  { icon: CheckCircle, label: "Managed Compliance", desc: "Ongoing compliance posture management across all frameworks.", href: "/services/managed-compliance" },
+  { icon: Cloud, label: "Managed Cloud", desc: "Full lifecycle cloud infrastructure management.", href: "/services/managed-cloud" },
+  { icon: BarChart3, label: "Security Assessments", desc: "Scheduled vulnerability and security posture assessments.", href: "/services/security-assessments" },
+  { icon: Server, label: "Infrastructure Audits", desc: "Architecture, performance, and security review by your team.", href: "/services/infrastructure-audits" },
+];
+
 export default function FullyManaged() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Path switcher strip */}
-      <div className="border-b border-border bg-background">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl py-3">
-          <PathSwitcher />
+      {/* === HERO WITH VIDEO === */}
+      <section className="relative min-h-screen flex items-center pt-20 pb-0 overflow-hidden" style={{ background: "#0C0C0C" }}>
+        {/* Video background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ opacity: 0.45 }}
+          >
+            <source src={datacenterVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.97) 35%, rgba(12,12,12,0.75) 65%, rgba(12,12,12,0.3) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,1) 0%, transparent 40%, rgba(12,12,12,0.4) 100%)" }} />
+        </div>
+
+        {/* Hero content */}
+        <div className="container mx-auto px-6 lg:px-16 relative z-10 max-w-7xl">
+          <div className="max-w-2xl">
+            {/* Eyebrow */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[11px] font-bold tracking-[0.22em] uppercase mb-6"
+              style={{ color: "#993619" }}
+            >
+              Fully Managed
+            </motion.p>
+
+            {/* Accent line */}
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 64 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="h-[2px] mb-8"
+              style={{ background: "#993619" }}
+            />
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="font-black text-white leading-[1.05] mb-4"
+              style={{ fontSize: "clamp(2.8rem, 5vw, 4.5rem)", fontFamily: "'Special Elite', serif" }}
+            >
+              One Service Provider.<br />
+              <span style={{ color: "#993619" }}>Zero Silos.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="text-xl leading-relaxed mb-3"
+              style={{ color: "rgba(255,255,255,0.75)" }}
+            >
+              Complete visibility across NOC, SOC, and business operations.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.65 }}
+              className="text-lg leading-relaxed mb-12"
+              style={{ color: "rgba(255,255,255,0.5)" }}
+            >
+              We manage your infrastructure, security, and compliance so you can focus on growth. One team. One platform. Every operation covered.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Link
+                to="/assessment"
+                className="inline-flex items-center gap-2 px-8 py-4 font-bold text-sm uppercase tracking-wider text-white transition-all hover:opacity-90"
+                style={{ background: "#993619", letterSpacing: "0.1em" }}
+              >
+                Onboard Today <ArrowRight size={15} />
+              </Link>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-2 px-8 py-4 font-bold text-sm uppercase tracking-wider transition-all"
+                style={{
+                  border: "1px solid rgba(205,202,197,0.2)",
+                  color: "rgba(205,202,197,0.7)",
+                  letterSpacing: "0.1em",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "#993619"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(205,202,197,0.2)"}
+              >
+                View Pricing
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Bottom fade to sub-nav */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 z-10" style={{ background: "linear-gradient(to top, #0C0C0C, transparent)" }} />
+      </section>
+
+      {/* === PATH SUB-NAVIGATION === */}
+      <div className="sticky top-0 z-40" style={{ background: "#1D1D1B", borderBottom: "1px solid rgba(205,202,197,0.1)" }}>
+        <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+            {/* Path switcher */}
+            <div className="flex-shrink-0 pr-4 mr-2" style={{ borderRight: "1px solid rgba(205,202,197,0.1)" }}>
+              <PathSwitcher />
+            </div>
+            {SUB_NAV.map(item => (
+              item.cta ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="flex-shrink-0 ml-auto px-5 py-3.5 text-[12px] font-bold uppercase tracking-widest text-white transition-all"
+                  style={{ background: "#993619", letterSpacing: "0.12em" }}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="flex-shrink-0 px-4 py-3.5 text-[12px] font-semibold uppercase tracking-wider transition-colors whitespace-nowrap"
+                  style={{ color: "rgba(205,202,197,0.55)", letterSpacing: "0.1em" }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.color = "#993619";
+                    (e.currentTarget as HTMLElement).style.borderBottom = "2px solid #993619";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.color = "rgba(205,202,197,0.55)";
+                    (e.currentTarget as HTMLElement).style.borderBottom = "none";
+                  }}
+                >
+                  {item.label}
+                </Link>
+              )
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Hero */}
-      <section className="bg-background py-24 lg:py-32">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-          <div className="max-w-4xl">
-            <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-brand-orange mb-6">Fully Managed</p>
-            <h1 className="text-5xl lg:text-7xl font-black text-foreground leading-tight mb-6">
-              One Service Provider.<br />
-              <span className="text-brand-orange">Zero Silos.</span>
-            </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed mb-4 max-w-2xl">
-              Complete visibility across NOC, SOC, and business operations.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-2xl">
-              We manage your infrastructure, security, and compliance so you can focus on growth. One team. One platform. Every operation covered.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/assessment" className="btn-primary flex items-center gap-2">
-                Onboard Today <ArrowRight size={16} />
-              </Link>
-              <Link to="/pricing" className="btn-secondary">
-                View Pricing
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Outcomes */}
-      <section className="section-off-white py-20">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      {/* === OUTCOMES === */}
+      <section className="py-24" style={{ background: "#141414" }}>
+        <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-brand-orange mb-4">What You Get</p>
-              <h2 className="text-4xl font-black text-foreground mb-6 leading-tight">
+              <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#993619" }}>What You Get</p>
+              <div className="w-10 h-[2px] mb-8" style={{ background: "#993619" }} />
+              <h2
+                className="font-black text-white mb-6 leading-tight"
+                style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontFamily: "'Special Elite', serif" }}
+              >
                 Outcomes you can measure.<br />Operations we own.
               </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed">
+              <p className="text-lg leading-relaxed" style={{ color: "rgba(205,202,197,0.55)" }}>
                 Every contract includes a dedicated account team, transparent reporting, and a commitment to continuous improvement across every managed service.
               </p>
             </div>
-            <ul className="space-y-4">
+            <ul className="space-y-5">
               {OUTCOMES.map(o => (
-                <li key={o} className="flex items-start gap-3">
-                  <CheckCircle size={18} className="text-brand-orange flex-shrink-0 mt-0.5" />
-                  <span className="text-foreground font-medium">{o}</span>
+                <li key={o} className="flex items-start gap-4">
+                  <div className="w-5 h-5 mt-0.5 flex-shrink-0 flex items-center justify-center" style={{ border: "1px solid #993619" }}>
+                    <CheckCircle size={11} style={{ color: "#993619" }} />
+                  </div>
+                  <span className="text-[15px] leading-relaxed" style={{ color: "rgba(205,202,197,0.8)" }}>{o}</span>
                 </li>
               ))}
             </ul>
@@ -87,52 +224,77 @@ export default function FullyManaged() {
         </div>
       </section>
 
-      {/* Services grid */}
-      <section className="bg-background py-20">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-          <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-brand-orange mb-4">What We Run For You</p>
-          <h2 className="text-4xl font-black text-foreground mb-12">
+      {/* === SERVICES GRID === */}
+      <section className="py-24" style={{ background: "#1D1D1B" }}>
+        <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
+          <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#993619" }}>What We Run For You</p>
+          <div className="w-10 h-[2px] mb-8" style={{ background: "#993619" }} />
+          <h2
+            className="font-black text-white mb-16"
+            style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontFamily: "'Special Elite', serif" }}
+          >
             Every operation. Fully covered.
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[1px]" style={{ background: "rgba(205,202,197,0.08)" }}>
             {SERVICES.map(s => (
               <Link
                 key={s.label}
                 to={s.href}
-                className="group p-8 border border-border hover:border-brand-orange transition-colors bg-background"
+                className="group p-10 transition-all"
+                style={{ background: "#1D1D1B" }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#393837"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "#1D1D1B"}
               >
-                <s.icon size={28} className="text-brand-orange mb-4" />
-                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">{s.label}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">{s.desc}</p>
-                <span className="text-brand-orange text-sm font-semibold flex items-center gap-1">
-                  Learn more <ArrowRight size={13} />
+                <s.icon size={26} style={{ color: "#993619" }} className="mb-6" />
+                <h3
+                  className="text-[18px] font-black text-white mb-3 leading-tight group-hover:text-[#993619] transition-colors"
+                  style={{ fontFamily: "'Special Elite', serif" }}
+                >
+                  {s.label}
+                </h3>
+                <p className="text-[14px] leading-relaxed mb-6" style={{ color: "rgba(205,202,197,0.5)" }}>{s.desc}</p>
+                <span className="text-[12px] font-bold flex items-center gap-2 uppercase tracking-wider transition-all group-hover:gap-3" style={{ color: "#993619", letterSpacing: "0.1em" }}>
+                  Learn more <ArrowRight size={12} />
                 </span>
               </Link>
             ))}
             {/* View all */}
             <Link
               to="/services"
-              className="group p-8 border border-dashed border-border hover:border-brand-orange transition-colors flex flex-col items-center justify-center text-center"
+              className="group p-10 flex flex-col items-center justify-center text-center transition-all"
+              style={{ background: "#141414" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#1D1D1B"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "#141414"}
             >
-              <p className="text-foreground font-bold mb-1">View All Services</p>
-              <p className="text-muted-foreground text-sm">16 specialized modules managed by our team.</p>
-              <ArrowRight size={20} className="text-brand-orange mt-4" />
+              <p className="text-[15px] font-black text-white mb-2" style={{ fontFamily: "'Special Elite', serif" }}>View All Services</p>
+              <p className="text-[13px] mb-4" style={{ color: "rgba(205,202,197,0.4)" }}>16 specialized modules managed by our team.</p>
+              <ArrowRight size={20} style={{ color: "#993619" }} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Platform CTA */}
-      <section className="section-dark py-20">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
+      {/* === PLATFORM CTA === */}
+      <section className="py-24" style={{ background: "#0C0C0C" }}>
+        <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
           <div className="max-w-3xl">
-            <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-brand-orange mb-4">The Platform Running Behind Your Managed Services</p>
-            <h2 className="text-4xl font-black text-white mb-6">Built to unify every operation we run for you.</h2>
-            <p className="text-white/60 text-lg leading-relaxed mb-8">
+            <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#993619" }}>The Platform Running Behind Your Managed Services</p>
+            <div className="w-10 h-[2px] mb-8" style={{ background: "#993619" }} />
+            <h2
+              className="font-black text-white mb-6"
+              style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontFamily: "'Special Elite', serif" }}
+            >
+              Built to unify every operation we run for you.
+            </h2>
+            <p className="text-lg leading-relaxed mb-10" style={{ color: "rgba(205,202,197,0.5)" }}>
               Kubric UIDR is the orchestration engine that gives your account team, NOC, SOC, and compliance operations a single source of operational truth.
             </p>
-            <Link to="/our-tools/how-kubric-works" className="btn-primary inline-flex items-center gap-2">
-              See What We Run For You <ArrowRight size={16} />
+            <Link
+              to="/our-tools/how-kubric-works"
+              className="inline-flex items-center gap-3 px-8 py-4 font-bold text-sm uppercase tracking-wider text-white transition-all hover:opacity-90"
+              style={{ background: "#993619", letterSpacing: "0.1em" }}
+            >
+              See What We Run For You <ArrowRight size={15} />
             </Link>
           </div>
         </div>
@@ -143,3 +305,4 @@ export default function FullyManaged() {
     </div>
   );
 }
+/** END DO NOT TOUCH */

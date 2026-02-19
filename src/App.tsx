@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { PathProvider } from "./context/PathContext";
+import { BOMCartProvider } from "./context/BOMCartContext";
+import { BOMCart } from "./components/BOMCart";
 
 import QualificationGate from "./pages/QualificationGate";
 import FullyManaged from "./pages/paths/FullyManaged";
@@ -129,7 +131,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <PathProvider>
+        <BOMCartProvider>
         <ScrollToTop />
+        <BOMCart />
         <Routes>
           {/* Qualification Gate */}
           <Route path="/" element={<QualificationGate />} />
@@ -267,6 +271,7 @@ const App = () => (
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </BOMCartProvider>
         </PathProvider>
       </BrowserRouter>
     </TooltipProvider>
