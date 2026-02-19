@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+/** DO NOT TOUCH — Footer component */
+
 const columns = [
   {
     title: "Our Tools",
@@ -113,13 +115,11 @@ const columns = [
   },
 ];
 
-const VISIBLE = 5;
-
 const FooterCol = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
   <div>
     <h4 className="text-[11px] font-bold tracking-[0.12em] uppercase text-white mb-5">{title}</h4>
     <ul className="space-y-[10px]">
-      {items.slice(0, VISIBLE).map((item) => (
+      {items.map((item) => (
         <li key={item.label}>
           <Link
             to={item.href}
@@ -129,35 +129,44 @@ const FooterCol = ({ title, items }: { title: string; items: { label: string; hr
           </Link>
         </li>
       ))}
-      {items.length > VISIBLE && (
-        <li className="pt-1 border-t border-white/[0.08]">
-          <details className="group">
-            <summary className="text-[12px] text-white/25 hover:text-white/50 transition-colors cursor-pointer list-none select-none">
-              +{items.length - VISIBLE} more
-            </summary>
-            <ul className="mt-[10px] space-y-[10px]">
-              {items.slice(VISIBLE).map((item) => (
-                <li key={item.label}>
-                  <Link
-                    to={item.href}
-                    className="text-[13px] text-white/45 hover:text-brand-orange transition-colors leading-snug"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </details>
-        </li>
-      )}
     </ul>
   </div>
 );
 
 export const Footer = () => {
   return (
-    <footer style={{ background: "hsl(0 0% 10%)" }} className="py-16 lg:py-20">
+    <footer style={{ background: "hsl(0 0% 7%)" }} className="py-16 lg:py-20">
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
+
+        {/* Path strip */}
+        <div className="mb-12 pb-10 border-b border-white/[0.08]">
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/30 mb-5">Choose Your Model</p>
+          <div className="flex flex-wrap gap-6">
+            <Link to="/fully-managed" className="group flex items-start gap-3">
+              <div className="w-1 h-full min-h-[2.5rem] bg-brand-orange mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-[13px] font-bold text-white group-hover:text-brand-orange transition-colors">Fully Managed</p>
+                <p className="text-[12px] text-white/35 mt-0.5">We run it. You own the outcomes.</p>
+              </div>
+            </Link>
+            <div className="w-px bg-white/[0.08] self-stretch" />
+            <Link to="/co-managed" className="group flex items-start gap-3">
+              <div className="w-1 h-full min-h-[2.5rem] bg-[hsl(210,70%,55%)] mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-[13px] font-bold text-white group-hover:text-[hsl(210,70%,65%)] transition-colors">Co-Managed</p>
+                <p className="text-[12px] text-white/35 mt-0.5">Your team runs it. Our platform backs you up.</p>
+              </div>
+            </Link>
+            <div className="w-px bg-white/[0.08] self-stretch" />
+            <Link to="/self-managed" className="group flex items-start gap-3">
+              <div className="w-1 h-full min-h-[2.5rem] bg-[hsl(145,60%,45%)] mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-[13px] font-bold text-white group-hover:text-[hsl(145,60%,55%)] transition-colors">Self-Managed</p>
+                <p className="text-[12px] text-white/35 mt-0.5">You run it. The platform gets out of your way.</p>
+              </div>
+            </Link>
+          </div>
+        </div>
 
         {/* Wordmark & tagline */}
         <div className="mb-14">
