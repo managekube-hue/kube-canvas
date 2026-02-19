@@ -4,7 +4,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { PathProvider } from "./context/PathContext";
 
+import QualificationGate from "./pages/QualificationGate";
+import FullyManaged from "./pages/paths/FullyManaged";
+import CoManaged from "./pages/paths/CoManaged";
+import SelfManaged from "./pages/paths/SelfManaged";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Methodology from "./pages/Methodology";
@@ -123,9 +128,16 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <PathProvider>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index />} />
+          {/* Qualification Gate */}
+          <Route path="/" element={<QualificationGate />} />
+          <Route path="/fully-managed" element={<FullyManaged />} />
+          <Route path="/co-managed" element={<CoManaged />} />
+          <Route path="/self-managed" element={<SelfManaged />} />
+          {/* Legacy home access */}
+          <Route path="/home" element={<Index />} />
           <Route path="/methodology" element={<Methodology />} />
 
           {/* Assessment & Navigation Paths */}
@@ -255,6 +267,7 @@ const App = () => (
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </PathProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
