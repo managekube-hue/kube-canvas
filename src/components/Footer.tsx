@@ -66,13 +66,11 @@ const columns: ColDef[] = [
   },
 ];
 
-const Col = ({ title, items }: ColDef) => (
-  <div>
+const Col = ({ title, items, last }: ColDef & { last?: boolean }) => (
+  <div style={{ borderRight: last ? "none" : "1px solid rgba(255,255,255,0.06)", paddingRight: last ? 0 : "32px" }}>
     <p style={{ color: "#ffffff", fontSize: "11px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "20px" }}>
       {title}
     </p>
-    {/* thin separator under column title */}
-    <div style={{ height: "1px", background: "rgba(255,255,255,0.07)", marginBottom: "18px" }} />
     <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
       {items.map((item) => (
         <li key={item.label} style={{ marginBottom: "11px" }}>
@@ -89,6 +87,7 @@ const Col = ({ title, items }: ColDef) => (
     </ul>
   </div>
 );
+
 
 export const Footer = () => (
   <footer style={{ background: "#0E0E0E" }}>
@@ -140,8 +139,8 @@ export const Footer = () => (
     {/* ── Nav grid ── */}
     <div style={{ padding: "56px 0 52px" }}>
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-10">
-          {columns.map((col) => <Col key={col.title} {...col} />)}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: 0 }}>
+          {columns.map((col, i) => <Col key={col.title} {...col} last={i === columns.length - 1} />)}
         </div>
       </div>
     </div>
