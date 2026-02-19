@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const kubes = [
@@ -111,21 +113,42 @@ const kubricDocs = [
   { label: "UIDR Contact", href: "/uidr/contact" },
 ];
 
+const VISIBLE = 5;
 
-const FooterCol = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
-  <div>
-    <h4 className="text-label text-white mb-5">{title}</h4>
-    <ul className="space-y-2">
-      {items.map((item) => (
-        <li key={item.label}>
-          <Link to={item.href} className="text-sm text-white/60 hover:text-brand-orange transition-colors">
-            {item.label}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+const FooterCol = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => {
+  const [expanded, setExpanded] = useState(false);
+  const hasMore = items.length > VISIBLE;
+  const visible = expanded ? items : items.slice(0, VISIBLE);
+
+  return (
+    <div>
+      <h4 className="text-xs font-semibold tracking-widest uppercase text-white mb-4">{title}</h4>
+      <ul className="space-y-2">
+        {visible.map((item) => (
+          <li key={item.label}>
+            <Link
+              to={item.href}
+              className="text-sm text-white/55 hover:text-brand-orange transition-colors leading-relaxed"
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      {hasMore && (
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-3 flex items-center gap-1 text-xs text-white/35 hover:text-white/60 transition-colors"
+        >
+          <ChevronDown
+            className={`h-3 w-3 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          />
+          {expanded ? "Show less" : `+${items.length - VISIBLE} more`}
+        </button>
+      )}
+    </div>
+  );
+};
 
 export const Footer = () => {
   return (
@@ -135,7 +158,7 @@ export const Footer = () => {
         {/* Logo & tagline */}
         <div className="mb-12">
           <img src={logo} alt="ManageKube IT Services" className="h-12 w-auto mb-4 brightness-0 invert" />
-          <p className="text-sm text-white/60 max-w-md">
+          <p className="text-sm text-white/50 max-w-md leading-relaxed">
             Unified detection, response, and operations. 18 DR Modules. One intelligent platform.
           </p>
         </div>
@@ -149,22 +172,20 @@ export const Footer = () => {
           <FooterCol title="Solutions" items={solutions} />
           <FooterCol title="Industries" items={industries} />
           <FooterCol title="Our Tools" items={ourTools} />
-          <div>
+          <div className="space-y-8">
             <FooterCol title="Company" items={company} />
-            <div className="mt-6">
-              <FooterCol title="Kubric Docs" items={kubricDocs} />
-            </div>
+            <FooterCol title="Kubric Docs" items={kubricDocs} />
           </div>
         </div>
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-white/40">© 2025 ManageKube. All rights reserved.</p>
+          <p className="text-sm text-white/35">© 2025 ManageKube. All rights reserved.</p>
           <div className="flex items-center gap-8">
-            <Link to="/privacy" className="text-sm text-white/40 hover:text-white transition-colors">Privacy</Link>
-            <Link to="/terms" className="text-sm text-white/40 hover:text-white transition-colors">Terms</Link>
-            <Link to="/login/client" className="text-sm text-white/40 hover:text-white transition-colors">Client Portal</Link>
-            <Link to="/login/partner" className="text-sm text-white/40 hover:text-white transition-colors">Partner Portal</Link>
+            <Link to="/privacy" className="text-sm text-white/35 hover:text-white transition-colors">Privacy</Link>
+            <Link to="/terms" className="text-sm text-white/35 hover:text-white transition-colors">Terms</Link>
+            <Link to="/login/client" className="text-sm text-white/35 hover:text-white transition-colors">Client Portal</Link>
+            <Link to="/login/partner" className="text-sm text-white/35 hover:text-white transition-colors">Partner Portal</Link>
           </div>
         </div>
       </div>
