@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, ClipboardList, Shield, LayoutGrid, Server, BookOpen, ArrowRight } from "lucide-react";
-import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
@@ -15,18 +14,7 @@ const pathways = [
 /** END DO NOT TOUCH */
 
 export const PathfinderCTA = () => (
-  <section className="relative overflow-hidden" style={{ minHeight: "480px", display: "flex", alignItems: "center" }}>
-    {/* Video background — same treatment as hero */}
-    <video
-      autoPlay loop muted playsInline
-      className="absolute inset-0 w-full h-full object-cover"
-      style={{ opacity: 0.45, transform: "rotate(180deg)" }}
-    >
-      <source src={footerCtaVideo} type="video/mp4" />
-    </video>
-    {/* gradient overlays matching hero */}
-    <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.97) 30%, rgba(12,12,12,0.72) 65%, rgba(12,12,12,0.30) 100%)" }} />
-    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,1) 0%, transparent 45%, rgba(12,12,12,0.4) 100%)" }} />
+  <section className="relative overflow-hidden" style={{ minHeight: "480px", display: "flex", alignItems: "center", background: "#0E0E0E" }}>
 
     <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 py-24">
       {/* Eyebrow + headline — hero style */}
