@@ -52,26 +52,23 @@ export const PathfinderCTA = () => (
       </motion.div>
 
       {/* Pathway cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-0">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {pathways.map((p, i) => (
           <motion.div
             key={p.title}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.06 }}
+            transition={{ delay: i * 0.07 }}
           >
             <Link
               to={p.href}
-              className="group flex flex-col p-6 h-full transition-all"
-              style={{ background: "rgba(12,12,12,0.80)", borderRight: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#993619"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "rgba(12,12,12,0.80)"}
+              className="group flex flex-col items-start p-5 bg-white/5 border border-white/10 hover:bg-brand-orange hover:border-brand-orange transition-all h-full"
             >
-              <p.icon size={22} strokeWidth={1.5} style={{ color: "#993619", marginBottom: "16px" }} />
-              <p className="font-bold text-white mb-1 leading-tight" style={{ fontSize: "14px" }}>{p.title}</p>
-              <p className="flex-1 leading-relaxed" style={{ fontSize: "12px", color: "rgba(205,202,197,0.50)" }}>{p.description}</p>
-              <ArrowRight size={14} style={{ color: "rgba(255,255,255,0.18)", marginTop: "12px" }} className="group-hover:text-white group-hover:translate-x-1 transition-all duration-200" />
+              <p.icon className="w-6 h-6 text-brand-orange group-hover:text-white mb-4 transition-colors" strokeWidth={1.5} />
+              <h3 className="text-sm font-bold text-white mb-1 leading-tight">{p.title}</h3>
+              <p className="text-xs text-white/55 group-hover:text-white/80 transition-colors leading-relaxed flex-1">{p.description}</p>
+              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white mt-3 transition-colors group-hover:translate-x-1 duration-200" />
             </Link>
           </motion.div>
         ))}
