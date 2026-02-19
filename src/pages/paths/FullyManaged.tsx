@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PathSwitcher } from "@/components/PathSwitcher";
 import { PathfinderCTA } from "@/components/PathfinderCTA";
 import {
   ArrowRight, Shield, Cloud, BarChart3, HeadphonesIcon, CheckCircle,
-  ChevronRight, Layers, Settings, Lock, Server, Cpu
+  Server
 } from "lucide-react";
 import { motion } from "framer-motion";
 import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
+
 
 /** DO NOT TOUCH — Fully Managed Home — #993619 design system */
 
@@ -152,46 +152,8 @@ export default function FullyManaged() {
         <div className="absolute bottom-0 left-0 right-0 h-24 z-10" style={{ background: "linear-gradient(to top, #0C0C0C, transparent)" }} />
       </section>
 
-      {/* === PATH SUB-NAVIGATION === */}
-      <div className="sticky top-0 z-40" style={{ background: "#1D1D1B", borderBottom: "1px solid rgba(205,202,197,0.1)" }}>
-        <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
-          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-            {/* Path switcher */}
-            <div className="flex-shrink-0 pr-4 mr-2" style={{ borderRight: "1px solid rgba(205,202,197,0.1)" }}>
-              <PathSwitcher />
-            </div>
-            {SUB_NAV.map(item => (
-              item.cta ? (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="flex-shrink-0 ml-auto px-5 py-3.5 text-[12px] font-bold uppercase tracking-widest text-white transition-all"
-                  style={{ background: "#993619", letterSpacing: "0.12em" }}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="flex-shrink-0 px-4 py-3.5 text-[12px] font-semibold uppercase tracking-wider transition-colors whitespace-nowrap"
-                  style={{ color: "rgba(205,202,197,0.55)", letterSpacing: "0.1em" }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.color = "#993619";
-                    (e.currentTarget as HTMLElement).style.borderBottom = "2px solid #993619";
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.color = "rgba(205,202,197,0.55)";
-                    (e.currentTarget as HTMLElement).style.borderBottom = "none";
-                  }}
-                >
-                  {item.label}
-                </Link>
-              )
-            ))}
-          </div>
-        </div>
-      </div>
+
+
 
       {/* === OUTCOMES === */}
       <section className="py-24" style={{ background: "#141414" }}>

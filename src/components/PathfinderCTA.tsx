@@ -5,102 +5,77 @@ import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
-  {
-    icon: ClipboardList,
-    title: "Free Assessment",
-    description: "Map your security posture in minutes",
-    href: "/assessment",
-  },
-  {
-    icon: LayoutGrid,
-    title: "Explore Kubes",
-    description: "15 detection & response modules",
-    href: "/kubes",
-  },
-  {
-    icon: Server,
-    title: "Our Products",
-    description: "XRO, XMM & XME platform tiers",
-    href: "/products",
-  },
-  {
-    icon: Shield,
-    title: "Managed Services",
-    description: "NOC, SOC, Compliance & Cloud",
-    href: "/services",
-  },
-  {
-    icon: Search,
-    title: "Find by Problem",
-    description: "Start from the challenge you face",
-    href: "/find-by-problem",
-  },
-  {
-    icon: BookOpen,
-    title: "Read the Docs",
-    description: "K-DOCS technical documentation",
-    href: "/documentation",
-  },
+  { icon: ClipboardList, title: "Free Assessment", description: "Map your security posture in minutes", href: "/assessment" },
+  { icon: LayoutGrid, title: "Explore Kubes", description: "15 detection & response modules", href: "/kubes" },
+  { icon: Server, title: "Our Products", description: "XRO, XMM & XME platform tiers", href: "/products" },
+  { icon: Shield, title: "Managed Services", description: "NOC, SOC, Compliance & Cloud", href: "/services" },
+  { icon: Search, title: "Find by Problem", description: "Start from the challenge you face", href: "/find-by-problem" },
+  { icon: BookOpen, title: "Read the Docs", description: "K-DOCS technical documentation", href: "/documentation" },
 ];
 /** END DO NOT TOUCH */
 
-export const PathfinderCTA = () => {
-  return (
-    <section className="relative py-20 lg:py-24 overflow-hidden">
-      {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+export const PathfinderCTA = () => (
+  <section className="relative overflow-hidden" style={{ minHeight: "480px", display: "flex", alignItems: "center" }}>
+    {/* Video background — same treatment as hero */}
+    <video
+      autoPlay loop muted playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+      style={{ opacity: 0.45 }}
+    >
+      <source src={footerCtaVideo} type="video/mp4" />
+    </video>
+    {/* gradient overlays matching hero */}
+    <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.97) 30%, rgba(12,12,12,0.72) 65%, rgba(12,12,12,0.30) 100%)" }} />
+    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,1) 0%, transparent 45%, rgba(12,12,12,0.4) 100%)" }} />
+
+    <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 py-24">
+      {/* Eyebrow + headline — hero style */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-14"
       >
-        <source src={footerCtaVideo} type="video/mp4" />
-      </video>
-      <div className="absolute inset-0 bg-black/50" />
-
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
+        <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>
+          Where would you like to go?
+        </p>
+        <div style={{ width: "56px", height: "2px", background: "#993619", marginBottom: "20px" }} />
+        <h2
+          className="font-black text-white"
+          style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontFamily: "'Special Elite', serif", lineHeight: 1.05, marginBottom: "8px" }}
         >
-          <p className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-3">Where would you like to go?</p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-            Find Your Path
-          </h2>
-          <p className="text-base text-white/60 max-w-xl mx-auto">
-            Every transformation starts somewhere. Choose your entry point into the Kubric platform.
-          </p>
-        </motion.div>
+          Find Your Path
+        </h2>
+        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.50)", marginTop: "10px", maxWidth: "480px", lineHeight: 1.7 }}>
+          Every transformation starts somewhere. Choose your entry point.
+        </p>
+      </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          {pathways.map((pathway, index) => (
-            <motion.div
-              key={pathway.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.07 }}
+      {/* Pathway cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-[1px]" style={{ background: "rgba(205,202,197,0.08)" }}>
+        {pathways.map((p, i) => (
+          <motion.div
+            key={p.title}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.06 }}
+          >
+            <Link
+              to={p.href}
+              className="group flex flex-col p-6 h-full transition-all"
+              style={{ background: "rgba(12,12,12,0.85)" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#993619"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "rgba(12,12,12,0.85)"}
             >
-              <Link
-                to={pathway.href}
-                className="group flex flex-col items-start p-5 bg-white/5 border border-white/10 hover:bg-brand-orange hover:border-brand-orange transition-all h-full"
-              >
-                <pathway.icon className="w-6 h-6 text-brand-orange group-hover:text-white mb-4 transition-colors" strokeWidth={1.5} />
-                <h3 className="text-sm font-bold text-white mb-1 leading-tight">
-                  {pathway.title}
-                </h3>
-                <p className="text-xs text-white/55 group-hover:text-white/80 transition-colors leading-relaxed flex-1">
-                  {pathway.description}
-                </p>
-                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white mt-3 transition-colors group-hover:translate-x-1 duration-200" />
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+              <p.icon size={22} strokeWidth={1.5} style={{ color: "#993619", marginBottom: "16px" }} />
+              <p className="font-bold text-white mb-1 leading-tight" style={{ fontSize: "14px" }}>{p.title}</p>
+              <p className="flex-1 leading-relaxed" style={{ fontSize: "12px", color: "rgba(205,202,197,0.50)" }}>{p.description}</p>
+              <ArrowRight size={14} style={{ color: "rgba(255,255,255,0.18)", marginTop: "12px" }} className="group-hover:text-white group-hover:translate-x-1 transition-all duration-200" />
+            </Link>
+          </motion.div>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
