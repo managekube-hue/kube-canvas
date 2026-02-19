@@ -205,7 +205,7 @@ export default function ComplianceLanding() {
           <p className="text-[15px] leading-relaxed mb-14 max-w-2xl" style={{ color: "#393837" }}>
             Select any framework below for detailed coverage information, capabilities, and how ManageKube delivers managed compliance for that specific regulatory requirement.
           </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[1px]" style={{ background: "#CDCAC5" }}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3" style={{ border: "1px solid #CDCAC5" }}>
             {FRAMEWORKS.map((fw, i) => (
               <motion.div
                 key={fw.id}
@@ -213,10 +213,11 @@ export default function ComplianceLanding() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04 }}
+                style={{ borderRight: "1px solid #CDCAC5", borderBottom: "1px solid #CDCAC5", marginRight: "-1px", marginBottom: "-1px" }}
               >
                 <Link
                   to={fw.href}
-                  className="group block p-8 transition-all"
+                  className="group block p-8 transition-all h-full"
                   style={{ background: "#FEFBF6" }}
                   onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#FFFCF7"}
                   onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "#FEFBF6"}
