@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePath } from "@/context/PathContext";
+import { STORAGE_KEY } from "@/context/PathContext";
 import { ArrowRight } from "lucide-react";
 
 /** DO NOT TOUCH — Qualification Gate */
@@ -12,7 +14,6 @@ const PATHS = [
     sub: "NOC. SOC. Compliance. Cloud. End-to-end.",
     detail: "Your dedicated team handles every layer of infrastructure, security, and compliance. You get outcomes — we handle operations.",
     accent: "hsl(24,95%,53%)",
-    accentDim: "hsl(24,95%,53%,0.12)",
     badge: "Most Popular",
   },
   {
@@ -22,7 +23,6 @@ const PATHS = [
     sub: "Kubes, tooling, and engineer escalation on demand.",
     detail: "You keep control of daily operations. We provide the platform, playbooks, and escalation support when your team needs backup.",
     accent: "hsl(210,70%,55%)",
-    accentDim: "hsl(210,70%,55%,0.12)",
     badge: "Best for IT Teams",
   },
   {
@@ -32,7 +32,6 @@ const PATHS = [
     sub: "Deploy, configure, and control every layer yourself.",
     detail: "Full access to Kubric UIDR, the K-DOCS library, and the open-core platform. Deploy on your terms, your infrastructure.",
     accent: "hsl(145,60%,45%)",
-    accentDim: "hsl(145,60%,45%,0.12)",
     badge: "For Engineers",
   },
 ];
@@ -40,6 +39,14 @@ const PATHS = [
 export default function QualificationGate() {
   const navigate = useNavigate();
   const { setPath } = usePath();
+
+  // Return visit logic: if mk_path exists → skip gate → push to /[path]
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === "fully-managed" || stored === "co-managed" || stored === "self-managed") {
+      navigate(`/${stored}`, { replace: true });
+    }
+  }, [navigate]);
 
   const choose = (id: typeof PATHS[0]["id"]) => {
     setPath(id);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePath, UserPath } from "@/context/PathContext";
 import { ChevronDown } from "lucide-react";
@@ -13,6 +13,18 @@ export const PathSwitcher = () => {
   const { path, setPath } = usePath();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Click-outside close
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    if (open) document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
 
   const current = PATHS.find(p => p.id === path) ?? PATHS[0];
 
@@ -23,7 +35,7 @@ export const PathSwitcher = () => {
   };
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" ref={ref}>
       <button
         onClick={() => setOpen(o => !o)}
         className="flex items-center gap-2 px-4 py-2 rounded text-[13px] font-semibold transition-colors border"
@@ -35,7 +47,10 @@ export const PathSwitcher = () => {
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full mt-2 w-72 rounded border border-white/10 z-50 overflow-hidden" style={{ background: "#111" }}>
+        <div
+          className="absolute left-0 top-full mt-2 w-72 border border-white/10 z-50 overflow-hidden shadow-xl"
+          style={{ background: "#111111" }}
+        >
           {PATHS.map(p => (
             <button
               key={p.id}
@@ -49,6 +64,14 @@ export const PathSwitcher = () => {
               </div>
             </button>
           ))}
+          <div className="border-t border-white/[0.06] px-4 py-3">
+            <button
+              onClick={() => { navigate("/"); setOpen(false); }}
+              className="text-[11px] text-white/30 hover:text-white/60 transition-colors"
+            >
+              Choose Your Path →
+            </button>
+          </div>
         </div>
       )}
     </div>

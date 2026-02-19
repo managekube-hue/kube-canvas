@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 export type UserPath = "fully-managed" | "co-managed" | "self-managed" | null;
 
@@ -9,7 +9,8 @@ interface PathContextValue {
 
 const PathContext = createContext<PathContextValue>({ path: null, setPath: () => {} });
 
-const STORAGE_KEY = "mk_user_path";
+// Architecture spec: key is "mk_path"
+export const STORAGE_KEY = "mk_path";
 
 export const PathProvider = ({ children }: { children: ReactNode }) => {
   const [path, setPathState] = useState<UserPath>(() => {
@@ -32,3 +33,4 @@ export const PathProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const usePath = () => useContext(PathContext);
+
