@@ -40,13 +40,9 @@ export default function QualificationGate() {
   const navigate = useNavigate();
   const { setPath } = usePath();
 
-  // Only redirect if stored — don't auto-redirect on page load flash
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "fully-managed" || stored === "co-managed" || stored === "self-managed") {
-      navigate(`/${stored}`, { replace: true });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // DO NOT auto-redirect — user must always see and choose their path on the gate
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {}, []);
 
   const choose = (id: typeof PATHS[0]["id"]) => {
     setPath(id);
