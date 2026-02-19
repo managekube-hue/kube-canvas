@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo.png";
 
 const columns = [
   {
@@ -10,7 +9,6 @@ const columns = [
       { label: "Kubric Data Graph", href: "/our-tools/kubric-data-graph" },
       { label: "KubricAI", href: "/our-tools/kubric-ai" },
       { label: "Service Delivery Methodology", href: "/methodology" },
-      { label: "All Tools →", href: "/our-tools" },
     ],
   },
   {
@@ -41,7 +39,6 @@ const columns = [
       { label: "XMM — SME Platform", href: "/products/xmm" },
       { label: "XME — Enterprise", href: "/products/xme" },
       { label: "Custom Product", href: "/products/custom" },
-      { label: "All Products →", href: "/products" },
     ],
   },
   {
@@ -59,7 +56,6 @@ const columns = [
       { label: "Custom Automation", href: "/services/custom-automation" },
       { label: "Legacy Integrations", href: "/services/legacy-integrations" },
       { label: "Right Sizing", href: "/services/right-sizing" },
-      { label: "All Services →", href: "/services" },
     ],
   },
   {
@@ -74,7 +70,6 @@ const columns = [
       { label: "Public Sector", href: "/solutions/public-sector" },
       { label: "Retail", href: "/solutions/retail" },
       { label: "Technology", href: "/solutions/technology" },
-      { label: "All Solutions →", href: "/solutions" },
     ],
   },
   {
@@ -100,7 +95,6 @@ const columns = [
       { label: "Public Sector", href: "/industries/public-sector" },
       { label: "Telecommunications", href: "/industries/telecommunications" },
       { label: "Transportation", href: "/industries/transportation" },
-      { label: "All Industries →", href: "/industries" },
     ],
   },
   {
@@ -119,13 +113,13 @@ const columns = [
   },
 ];
 
-const PREVIEW = 6;
+const VISIBLE = 5;
 
 const FooterCol = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
   <div>
     <h4 className="text-[11px] font-bold tracking-[0.12em] uppercase text-white mb-5">{title}</h4>
     <ul className="space-y-[10px]">
-      {items.slice(0, PREVIEW).map((item) => (
+      {items.slice(0, VISIBLE).map((item) => (
         <li key={item.label}>
           <Link
             to={item.href}
@@ -135,14 +129,25 @@ const FooterCol = ({ title, items }: { title: string; items: { label: string; hr
           </Link>
         </li>
       ))}
-      {items.length > PREVIEW && (
-        <li>
-          <Link
-            to={items[items.length - 1].href}
-            className="text-[13px] text-white/25 hover:text-white/50 transition-colors leading-snug"
-          >
-            +{items.length - PREVIEW} more →
-          </Link>
+      {items.length > VISIBLE && (
+        <li className="pt-1 border-t border-white/[0.08]">
+          <details className="group">
+            <summary className="text-[12px] text-white/25 hover:text-white/50 transition-colors cursor-pointer list-none select-none">
+              +{items.length - VISIBLE} more
+            </summary>
+            <ul className="mt-[10px] space-y-[10px]">
+              {items.slice(VISIBLE).map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.href}
+                    className="text-[13px] text-white/45 hover:text-brand-orange transition-colors leading-snug"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </details>
         </li>
       )}
     </ul>
@@ -154,9 +159,13 @@ export const Footer = () => {
     <footer style={{ background: "hsl(0 0% 10%)" }} className="py-16 lg:py-20">
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
 
-        {/* Logo & tagline */}
+        {/* Wordmark & tagline */}
         <div className="mb-14">
-          <img src={logo} alt="ManageKube" className="h-9 w-auto mb-4 brightness-0 invert" />
+          <Link to="/" className="inline-block mb-4">
+            <span className="text-[22px] font-bold tracking-tight text-white">
+              Manage<span className="text-brand-orange">Kube</span>
+            </span>
+          </Link>
           <p className="text-[13px] text-white/40 max-w-xs leading-relaxed">
             Enterprise managed MSP &amp; MSSP services. Unified infrastructure, detection, and response.
           </p>
