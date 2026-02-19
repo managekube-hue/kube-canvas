@@ -2,78 +2,185 @@
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield } from "lucide-react";
+import { ArrowRight, Shield, CheckCircle } from "lucide-react";
 import childPageVideo from "@/assets/child-page.mp4";
 
 interface ComplianceDetailPageProps {
   framework: string;
   fullName: string;
   audience: string;
+  tagline?: string;
   description: string;
   features: string[];
+  managedServices?: { title: string; items: string[] }[];
   similar?: { label: string; href: string }[];
 }
 
-export const ComplianceDetailPage = ({ framework, fullName, audience, description, features, similar = [] }: ComplianceDetailPageProps) => {
+export const ComplianceDetailPage = ({
+  framework, fullName, audience, tagline, description, features, managedServices = [], similar = []
+}: ComplianceDetailPageProps) => {
   return (
     <PageLayout>
       {/* Hero */}
-      <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden bg-black min-h-[42vh] flex items-center">
+      <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden min-h-[48vh] flex items-center" style={{ background: "#1D1D1B" }}>
         <div className="absolute inset-0 z-0">
-          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-40">
+          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.22 }}>
             <source src={childPageVideo} type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(29,29,27,0.97) 40%, rgba(29,29,27,0.65) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(29,29,27,1) 0%, transparent 55%)" }} />
         </div>
-        <div className="container mx-auto px-6 lg:px-12 max-w-4xl relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">Compliance Framework</span>
-            <div className="h-1 w-16 bg-brand-orange my-6" />
-            <h1 className="text-headline text-white mb-3">{framework}</h1>
-            <p className="text-xl text-brand-orange italic mb-4">{fullName}</p>
-            <p className="text-sm text-white/50 mb-6 uppercase tracking-wider">{audience}</p>
-            <p className="text-body-lg text-white/70 max-w-2xl">{description}</p>
+        <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <span className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "#993619" }}>Compliance Framework</span>
+            <div className="h-[2px] w-16 my-6" style={{ background: "#993619" }} />
+            <h1
+              className="font-black text-white mb-3 leading-tight"
+              style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif" }}
+            >
+              {framework}
+            </h1>
+            <p className="text-xl mb-2 italic" style={{ color: "#993619" }}>{fullName}</p>
+            {tagline && (
+              <p className="text-[15px] font-semibold mb-4" style={{ color: "rgba(205,202,197,0.65)" }}>{tagline}</p>
+            )}
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-6" style={{ color: "rgba(205,202,197,0.35)" }}>{audience}</p>
+            <p className="text-[16px] leading-relaxed max-w-2xl" style={{ color: "rgba(205,202,197,0.7)" }}>{description}</p>
           </motion.div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent z-10" />
+        <div className="absolute bottom-0 left-0 right-0 h-20 z-10" style={{ background: "linear-gradient(to top, #FEFBF6, transparent)" }} />
       </section>
 
-      <section className="section-off-white py-16">
-        <div className="container mx-auto px-6 lg:px-12">
-          <h2 className="text-title mb-10">Features & Coverage</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Features & Coverage */}
+      <section className="py-20" style={{ background: "#FEFBF6" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
+          <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: "#993619" }}>Features & Coverage</p>
+          <div className="h-[2px] w-10 mb-8" style={{ background: "#993619" }} />
+          <h2
+            className="font-black mb-12 leading-tight"
+            style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontFamily: "'Special Elite', serif", color: "#1D1D1B" }}
+          >
+            What's covered in your {framework} managed service
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[1px]" style={{ background: "#CDCAC5" }}>
             {features.map((f, i) => (
-              <motion.div key={f} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                className="bg-white p-5 flex items-start gap-3">
-                <Shield size={16} className="text-brand-orange mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">{f}</span>
+              <motion.div
+                key={f}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.04 }}
+                className="p-6 flex items-start gap-3"
+                style={{ background: "#FEFBF6" }}
+              >
+                <Shield size={14} style={{ color: "#993619", flexShrink: 0, marginTop: 2 }} />
+                <span className="text-[13px] leading-relaxed" style={{ color: "#393837" }}>{f}</span>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* You May Also Like */}
-      {similar.length > 0 && (
-        <section className="section-white py-16 border-t border-border">
-          <div className="container mx-auto px-6 lg:px-12">
-            <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-10">You May Also Like</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
-              {similar.map((s) => (
-                <Link
-                  key={s.label}
-                  to={s.href}
-                  className="group bg-white p-8 flex items-center justify-between hover:bg-secondary transition-colors"
+      {/* Managed Service Delivery (if provided) */}
+      {managedServices.length > 0 && (
+        <section className="py-20" style={{ background: "#EEE9E3" }}>
+          <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
+            <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: "#993619" }}>How We Deliver It</p>
+            <div className="h-[2px] w-10 mb-8" style={{ background: "#993619" }} />
+            <h2
+              className="font-black mb-12 leading-tight"
+              style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontFamily: "'Special Elite', serif", color: "#1D1D1B" }}
+            >
+              Managed {framework} service delivery
+            </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {managedServices.map((sec, i) => (
+                <motion.div
+                  key={sec.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.07 }}
+                  className="p-8"
+                  style={{ background: "#FEFBF6", borderTop: "2px solid #993619" }}
                 >
-                  <span className="text-sm font-semibold text-foreground group-hover:text-brand-orange transition-colors">{s.label}</span>
-                  <ArrowRight size={16} className="text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all flex-shrink-0" />
-                </Link>
+                  <h3 className="text-[16px] font-black mb-6" style={{ color: "#1D1D1B", fontFamily: "'Special Elite', serif" }}>{sec.title}</h3>
+                  <ul className="space-y-3">
+                    {sec.items.map(item => (
+                      <li key={item} className="flex items-start gap-3">
+                        <CheckCircle size={13} style={{ color: "#993619", flexShrink: 0, marginTop: 2 }} />
+                        <span className="text-[13px] leading-relaxed" style={{ color: "#393837" }}>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
       )}
+
+      {/* CTA */}
+      <section className="py-20" style={{ background: "#1D1D1B" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
+          <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: "#993619" }}>Get Started</p>
+          <div className="h-[2px] w-10 mb-8" style={{ background: "#993619" }} />
+          <div className="grid lg:grid-cols-2 gap-14 items-center">
+            <div>
+              <h2
+                className="font-black text-white mb-5 leading-tight"
+                style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontFamily: "'Special Elite', serif" }}
+              >
+                Start with a {framework} gap analysis.
+              </h2>
+              <p className="text-[15px] leading-relaxed mb-10" style={{ color: "rgba(205,202,197,0.5)" }}>
+                Our team evaluates your current posture against {framework} requirements, identifies control deficiencies, and delivers a prioritized remediation roadmap with effort and cost estimates.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/services/compliance-gap-analysis"
+                  className="inline-flex items-center gap-2 px-8 py-4 font-bold text-sm uppercase tracking-wider text-white transition-all hover:opacity-90"
+                  style={{ background: "#993619", letterSpacing: "0.1em" }}
+                >
+                  Request a Gap Analysis <ArrowRight size={14} />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 px-8 py-4 font-semibold text-sm uppercase tracking-wider transition-all"
+                  style={{ border: "1px solid rgba(205,202,197,0.15)", color: "rgba(205,202,197,0.55)", letterSpacing: "0.1em" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "#993619"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(205,202,197,0.15)"}
+                >
+                  Talk to Our GRC Team
+                </Link>
+              </div>
+            </div>
+            <div>
+              {/* You May Also Like */}
+              {similar.length > 0 && (
+                <>
+                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-5" style={{ color: "rgba(205,202,197,0.3)" }}>Related Frameworks</p>
+                  <div className="space-y-[1px]" style={{ background: "rgba(205,202,197,0.07)" }}>
+                    {similar.map(s => (
+                      <Link
+                        key={s.label}
+                        to={s.href}
+                        className="group flex items-center justify-between p-5 transition-all"
+                        style={{ background: "#393837" }}
+                        onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#464648"}
+                        onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "#393837"}
+                      >
+                        <span className="text-[14px] font-semibold text-white group-hover:text-[#993619] transition-colors">{s.label}</span>
+                        <ArrowRight size={14} style={{ color: "#993619" }} className="group-hover:translate-x-1 transition-all flex-shrink-0" />
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
     </PageLayout>
   );
 };

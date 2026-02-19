@@ -77,6 +77,7 @@ import SolutionSme from "./pages/solutions/SolutionSme";
 import SolutionEnterprise from "./pages/solutions/SolutionEnterprise";
 
 // Compliance
+import ComplianceLanding from "./pages/compliance/index";
 import Cmmc from "./pages/compliance/Cmmc";
 import Cjis from "./pages/compliance/Cjis";
 import Nist800171 from "./pages/compliance/Nist800171";
@@ -85,6 +86,10 @@ import Hipaa from "./pages/compliance/Hipaa";
 import Soc2 from "./pages/compliance/Soc2";
 import Iso27001 from "./pages/compliance/Iso27001";
 import PciDss from "./pages/compliance/PciDss";
+import FedRamp from "./pages/compliance/FedRamp";
+import NistCsf from "./pages/compliance/NistCsf";
+import CisControls from "./pages/compliance/CisControls";
+import Fisma from "./pages/compliance/Fisma";
 
 // Industries
 import Manufacturing from "./pages/industries/Manufacturing";
@@ -223,6 +228,7 @@ const App = () => (
           <Route path="/solutions/enterprise" element={<SolutionEnterprise />} />
 
           {/* Compliance */}
+          <Route path="/compliance" element={<ComplianceLanding />} />
           <Route path="/compliance/cmmc" element={<Cmmc />} />
           <Route path="/compliance/cjis" element={<Cjis />} />
           <Route path="/compliance/nist-800-171" element={<Nist800171 />} />
@@ -231,6 +237,10 @@ const App = () => (
           <Route path="/compliance/soc2" element={<Soc2 />} />
           <Route path="/compliance/iso-27001" element={<Iso27001 />} />
           <Route path="/compliance/pci-dss" element={<PciDss />} />
+          <Route path="/compliance/fedramp" element={<FedRamp />} />
+          <Route path="/compliance/nist-csf" element={<NistCsf />} />
+          <Route path="/compliance/cis-controls" element={<CisControls />} />
+          <Route path="/compliance/fisma" element={<Fisma />} />
 
           {/* Industries */}
           <Route path="/industries/manufacturing" element={<Manufacturing />} />

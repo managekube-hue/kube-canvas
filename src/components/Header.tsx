@@ -159,8 +159,8 @@ const megaMenu = {
   },
   "Compliance": {
     href: "/compliance",
-    desc: "Pre-configured compliance frameworks with automated gap analysis, evidence collection, and continuous monitoring.",
-    viewAll: "View Compliance Frameworks",
+    desc: "Managed compliance services across 12 frameworks — continuous monitoring, evidence collection, and audit-ready reporting.",
+    viewAll: "View All Compliance Frameworks",
     columns: [
       {
         heading: "Government & Defense",
@@ -169,15 +169,19 @@ const megaMenu = {
           { label: "CJIS", desc: "Criminal Justice Information Services Security Policy compliance.", href: "/compliance/cjis" },
           { label: "NIST 800-171", desc: "Protecting Controlled Unclassified Information for federal contractors.", href: "/compliance/nist-800-171" },
           { label: "NIST 800-53", desc: "Security controls for federal information systems and critical infrastructure.", href: "/compliance/nist-800-53" },
+          { label: "FedRAMP", desc: "Federal Risk and Authorization Management Program for cloud service providers.", href: "/compliance/fedramp" },
+          { label: "FISMA", desc: "Federal Information Security Modernization Act compliance for federal agencies.", href: "/compliance/fisma" },
         ],
       },
       {
         heading: "Industry Standards",
         items: [
-          { label: "HIPAA", desc: "HIPAA compliance automation with PHI protection and breach notification.", href: "/compliance/hipaa" },
-          { label: "SOC 2", desc: "SOC 2 Type II audit readiness with continuous control monitoring.", href: "/compliance/soc2" },
-          { label: "ISO 27001", desc: "International ISMS certification with 114 controls across 14 domains.", href: "/compliance/iso-27001" },
+          { label: "HIPAA", desc: "HIPAA Security Rule and Privacy Rule compliance for healthcare organizations.", href: "/compliance/hipaa" },
+          { label: "SOC 2", desc: "SOC 2 Type I and Type II audit readiness with continuous control monitoring.", href: "/compliance/soc2" },
+          { label: "ISO 27001", desc: "International ISMS certification — 93 controls across 4 themes.", href: "/compliance/iso-27001" },
           { label: "PCI-DSS", desc: "Payment card data security and cardholder data environment protection.", href: "/compliance/pci-dss" },
+          { label: "NIST CSF", desc: "NIST Cybersecurity Framework 2.0 — risk-based security program development.", href: "/compliance/nist-csf" },
+          { label: "CIS Controls v8.1", desc: "18 Controls, 153 Safeguards — prioritized and actionable security controls.", href: "/compliance/cis-controls" },
         ],
       },
     ],
