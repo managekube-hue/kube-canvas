@@ -67,7 +67,7 @@ const columns: ColDef[] = [
 ];
 
 const Col = ({ title, items, last }: ColDef & { last?: boolean }) => (
-  <div style={{ borderRight: last ? "none" : "1px solid rgba(255,255,255,0.06)", paddingRight: last ? 0 : "32px" }}>
+  <div style={{ borderRight: last ? "none" : "1px solid rgba(255,255,255,0.06)", paddingRight: "0" }}>
     <p style={{ color: "#ffffff", fontSize: "11px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "20px" }}>
       {title}
     </p>
@@ -139,7 +139,7 @@ export const Footer = () => (
     {/* ── Nav grid ── */}
     <div style={{ padding: "56px 0 52px" }}>
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: 0 }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: "0 40px" }}>
           {columns.map((col, i) => <Col key={col.title} {...col} last={i === columns.length - 1} />)}
         </div>
       </div>
