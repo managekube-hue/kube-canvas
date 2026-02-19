@@ -117,13 +117,19 @@ const columns = [
 
 const FooterCol = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
   <div>
-    <h4 className="text-[11px] font-bold tracking-[0.12em] uppercase text-white mb-5">{title}</h4>
+    <h4
+      style={{ color: "#ffffff", fontSize: "11px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "20px" }}
+    >
+      {title}
+    </h4>
     <ul className="space-y-[10px]">
       {items.map((item) => (
         <li key={item.label}>
           <Link
             to={item.href}
-            className="text-[13px] text-white/45 hover:text-brand-orange transition-colors leading-snug"
+            style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", lineHeight: "1.4", display: "block" }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "hsl(15 67% 36%)"}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.45)"}
           >
             {item.label}
           </Link>
@@ -135,68 +141,86 @@ const FooterCol = ({ title, items }: { title: string; items: { label: string; hr
 
 export const Footer = () => {
   return (
-    <footer style={{ background: "hsl(0 0% 7%)" }} className="py-16 lg:py-20">
+    <footer style={{ background: "#121212", paddingTop: "80px", paddingBottom: "80px" }}>
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
 
         {/* Path strip */}
-        <div className="mb-12 pb-10 border-b border-white/[0.08]">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/30 mb-5">Choose Your Model</p>
+        <div style={{ marginBottom: "48px", paddingBottom: "40px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "20px" }}>Choose Your Model</p>
           <div className="flex flex-wrap gap-6">
             <Link to="/fully-managed" className="group flex items-start gap-3">
-              <div className="w-1 h-full min-h-[2.5rem] bg-brand-orange mt-0.5 flex-shrink-0" />
+              <div style={{ width: "4px", minHeight: "2.5rem", background: "hsl(15 67% 36%)", marginTop: "2px", flexShrink: 0 }} />
               <div>
-                <p className="text-[13px] font-bold text-white group-hover:text-brand-orange transition-colors">Fully Managed</p>
-                <p className="text-[12px] text-white/35 mt-0.5">We run it. You own the outcomes.</p>
+                <p style={{ fontSize: "13px", fontWeight: 700, color: "#ffffff", transition: "color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "hsl(15 67% 36%)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#ffffff"}
+                >Fully Managed</p>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)", marginTop: "2px" }}>We run it. You own the outcomes.</p>
               </div>
             </Link>
-            <div className="w-px bg-white/[0.08] self-stretch" />
+            <div style={{ width: "1px", background: "rgba(255,255,255,0.08)", alignSelf: "stretch" }} />
             <Link to="/co-managed" className="group flex items-start gap-3">
-              <div className="w-1 h-full min-h-[2.5rem] bg-[hsl(210,70%,55%)] mt-0.5 flex-shrink-0" />
+              <div style={{ width: "4px", minHeight: "2.5rem", background: "hsl(210,70%,55%)", marginTop: "2px", flexShrink: 0 }} />
               <div>
-                <p className="text-[13px] font-bold text-white group-hover:text-[hsl(210,70%,65%)] transition-colors">Co-Managed</p>
-                <p className="text-[12px] text-white/35 mt-0.5">Your team runs it. Our platform backs you up.</p>
+                <p style={{ fontSize: "13px", fontWeight: 700, color: "#ffffff", transition: "color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "hsl(210,70%,65%)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#ffffff"}
+                >Co-Managed</p>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)", marginTop: "2px" }}>Your team runs it. Our engineers back you up.</p>
               </div>
             </Link>
-            <div className="w-px bg-white/[0.08] self-stretch" />
+            <div style={{ width: "1px", background: "rgba(255,255,255,0.08)", alignSelf: "stretch" }} />
             <Link to="/self-managed" className="group flex items-start gap-3">
-              <div className="w-1 h-full min-h-[2.5rem] bg-[hsl(145,60%,45%)] mt-0.5 flex-shrink-0" />
+              <div style={{ width: "4px", minHeight: "2.5rem", background: "hsl(145,60%,45%)", marginTop: "2px", flexShrink: 0 }} />
               <div>
-                <p className="text-[13px] font-bold text-white group-hover:text-[hsl(145,60%,55%)] transition-colors">Self-Managed</p>
-                <p className="text-[12px] text-white/35 mt-0.5">You run it. The platform gets out of your way.</p>
+                <p style={{ fontSize: "13px", fontWeight: 700, color: "#ffffff", transition: "color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "hsl(145,60%,55%)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#ffffff"}
+                >Self-Managed</p>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)", marginTop: "2px" }}>You run it. The platform gets out of your way.</p>
               </div>
             </Link>
           </div>
         </div>
 
         {/* Wordmark & tagline */}
-        <div className="mb-14">
-          <Link to="/" className="inline-block mb-4">
-            <span className="text-[22px] font-bold tracking-tight text-white">
-              Manage<span className="text-brand-orange">Kube</span>
+        <div style={{ marginBottom: "56px" }}>
+          <Link to="/" style={{ display: "inline-block", marginBottom: "16px", textDecoration: "none" }}>
+            <span style={{ fontSize: "22px", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
+              Manage<span style={{ color: "hsl(15 67% 36%)" }}>Kube</span>
             </span>
           </Link>
-          <p className="text-[13px] text-white/40 max-w-xs leading-relaxed">
+          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.40)", maxWidth: "280px", lineHeight: "1.7" }}>
             Enterprise managed MSP &amp; MSSP services. Unified infrastructure, detection, and response.
           </p>
         </div>
 
         {/* Nav grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-x-6 gap-y-10 mb-14">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-x-6 gap-y-10" style={{ marginBottom: "56px" }}>
           {columns.map((col) => (
             <FooterCol key={col.title} title={col.title} items={col.items} />
           ))}
         </div>
 
         {/* Thin separator */}
-        <div className="border-t border-white/[0.08] mb-7" />
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", marginBottom: "28px" }} />
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-[12px] text-white/25">© 2026 ManageKube. All rights reserved.</p>
+          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>© 2026 ManageKube. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link to="/privacy" className="text-[12px] text-white/30 hover:text-white/60 transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="text-[12px] text-white/30 hover:text-white/60 transition-colors">Terms of Service</Link>
-            <Link to="/contact" className="text-[12px] text-white/30 hover:text-white/60 transition-colors">Contact</Link>
+            <Link to="/privacy" style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.60)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.30)"}
+            >Privacy Policy</Link>
+            <Link to="/terms" style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.60)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.30)"}
+            >Terms of Service</Link>
+            <Link to="/contact" style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.60)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.30)"}
+            >Contact</Link>
           </div>
         </div>
 
