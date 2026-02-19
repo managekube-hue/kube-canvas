@@ -15,6 +15,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        display: ["Special Elite", "serif"],
+        mono: ["Roboto Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,18 +53,24 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         brand: {
-          black: "hsl(var(--brand-black))",
-          "black-secondary": "hsl(var(--brand-black-secondary))",
-          white: "hsl(var(--brand-white))",
-          "off-white": "hsl(var(--brand-off-white))",
-          divider: "hsl(var(--brand-divider))",
-          "text-gray": "hsl(var(--brand-text-gray))",
-          orange: "hsl(var(--brand-orange))",
-        },
-        led: {
-          green: "hsl(var(--led-green))",
-          amber: "hsl(var(--led-amber))",
-          red: "hsl(var(--led-red))",
+          /* Dark backgrounds */
+          black:          "hsl(var(--brand-black))",           /* #1D1D1B */
+          "black-secondary": "hsl(var(--brand-black-secondary))", /* #393837 */
+          charcoal:       "hsl(var(--brand-charcoal))",        /* #464648 */
+          /* Light backgrounds */
+          white:          "hsl(var(--brand-white))",
+          "off-white":    "hsl(var(--brand-off-white))",       /* #FEFBF6 */
+          cream:          "hsl(var(--brand-cream))",           /* #FFFCF7 */
+          "warm-gray":    "hsl(var(--brand-warm-gray))",       /* #EEE9E3 */
+          /* Borders */
+          divider:        "hsl(var(--brand-divider))",         /* #CDCAC5 */
+          /* Text */
+          "text-header":  "hsl(var(--brand-text-header))",    /* #1D1D1B */
+          "text-body":    "hsl(var(--brand-text-body))",      /* #393837 */
+          "text-gray":    "hsl(var(--brand-text-gray))",      /* #5A5A5B */
+          /* Accent */
+          orange:         "hsl(var(--brand-orange))",          /* #993619 */
+          "blue-gray":    "hsl(var(--brand-blue-gray))",       /* #798498 */
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

@@ -11,46 +11,64 @@
 
 @layer base {
   :root {
-    /* ManageKube Brand Colors - Derived from logo */
-    --brand-black: 0 0% 8%;             /* Deep black from logo */
-    --brand-orange: 24 95% 53%;         /* Exact orange from "Kube" in logo */
-    --brand-white: 0 0% 100%;
-    --brand-off-white: 0 0% 98%;
-    --brand-gray: 0 0% 45%;
-    --brand-light-gray: 0 0% 92%;
-    
-    /* Semantic tokens */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
+    /* ── ManageKube Design System ──────────────────────────────────── */
+    /* Primary brand orange: #993619 → HSL(15, 67%, 36%) */
+    --brand-orange: 15 67% 36%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    /* Dark backgrounds: #1D1D1B #393837 #464648 */
+    --brand-black: 60 2% 11%;           /* #1D1D1B */
+    --brand-black-secondary: 30 2% 22%; /* #393837 */
+    --brand-charcoal: 240 1% 28%;       /* #464648 */
+
+    /* Light backgrounds: #FEFBF6 #FFFCF7 #EEE9E3 */
+    --brand-white: 0 0% 100%;
+    --brand-off-white: 40 60% 98%;      /* #FEFBF6 */
+    --brand-cream: 40 100% 99%;         /* #FFFCF7 */
+    --brand-warm-gray: 36 17% 90%;      /* #EEE9E3 */
+
+    /* Borders/Dividers: #CDCAC5 */
+    --brand-divider: 39 8% 79%;         /* #CDCAC5 */
+
+    /* Text: #1D1D1B headers, #393837 body, #5A5A5B supporting */
+    --brand-text-header: 60 2% 11%;     /* #1D1D1B */
+    --brand-text-body: 30 2% 22%;       /* #393837 */
+    --brand-text-gray: 0 0% 36%;        /* #5A5A5B */
+
+    /* Accent blue-gray: #798498 for icons/highlights */
+    --brand-blue-gray: 214 10% 54%;     /* #798498 */
+
+    /* Semantic tokens */
+    --background: 40 60% 98%;           /* #FEFBF6 warm off-white */
+    --foreground: 60 2% 11%;            /* #1D1D1B */
+
+    --card: 40 100% 99%;                /* #FFFCF7 */
+    --card-foreground: 60 2% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover-foreground: 60 2% 11%;
 
-    --primary: 24 95% 53%;
+    --primary: 15 67% 36%;              /* #993619 brand orange */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 8%;
+    --secondary: 36 17% 90%;            /* #EEE9E3 */
+    --secondary-foreground: 60 2% 11%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 36 17% 90%;
+    --muted-foreground: 0 0% 36%;       /* #5A5A5B */
 
-    --accent: 24 95% 53%;
+    --accent: 15 67% 36%;              /* #993619 */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 96%;
-    --ring: 24 95% 53%;
+    --border: 39 8% 79%;               /* #CDCAC5 */
+    --input: 36 17% 90%;
+    --ring: 15 67% 36%;
 
     --radius: 0px;
 
-    /* Typography - Clean modern sans-serif */
+    /* Typography */
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     /* Shadows */
@@ -59,14 +77,14 @@
     --shadow-lg: 0 12px 40px hsl(0 0% 0% / 0.12);
 
     /* Sidebar/Footer dark */
-    --sidebar-background: 0 0% 6%;
+    --sidebar-background: 60 2% 11%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 24 95% 53%;
+    --sidebar-primary: 15 67% 36%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent: 30 2% 22%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 24 95% 53%;
+    --sidebar-border: 39 8% 79%;
+    --sidebar-ring: 15 67% 36%;
   }
 }
 
@@ -176,55 +194,70 @@
     color: hsl(var(--brand-orange));
   }
 
-  /* Buttons - Clean, professional */
+  .text-brand-blue-gray {
+    color: hsl(var(--brand-blue-gray));
+  }
+
+  /* Buttons — unified brand orange #993619 */
   .btn-primary {
     @apply inline-flex items-center justify-center px-8 py-4 transition-all duration-200;
     background: hsl(var(--brand-orange));
-    color: hsl(var(--brand-white));
+    color: #ffffff;
     font-family: var(--font-sans);
     font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .btn-primary:hover {
-    background: hsl(24 95% 48%);
+    background: hsl(15 67% 30%);
     transform: translateY(-1px);
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center px-8 py-4 border-2 transition-all duration-200;
-    border-color: hsl(var(--foreground));
+    border-color: hsl(var(--brand-divider));
     color: hsl(var(--foreground));
     font-family: var(--font-sans);
     font-size: 0.9375rem;
     font-weight: 600;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .btn-secondary:hover {
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
+    border-color: hsl(var(--brand-orange));
+    color: hsl(var(--brand-orange));
   }
 
-  /* Sections */
+  /* Sections — warm light palette */
   .section-white {
-    @apply bg-background;
+    background: hsl(var(--brand-cream));         /* #FFFCF7 */
   }
 
   .section-off-white {
-    background: hsl(var(--brand-off-white));
+    background: hsl(var(--brand-off-white));      /* #FEFBF6 */
+  }
+
+  .section-warm-gray {
+    background: hsl(var(--brand-warm-gray));      /* #EEE9E3 */
   }
 
   .section-dark {
-    background: hsl(var(--brand-black));
-    color: hsl(var(--brand-white));
+    background: hsl(var(--brand-black));           /* #1D1D1B */
+    color: #ffffff;
+  }
+
+  .section-charcoal {
+    background: hsl(var(--brand-black-secondary)); /* #393837 */
+    color: #ffffff;
   }
 
   /* Divider line */
   .divider {
     @apply w-full h-px;
-    background: hsl(var(--border));
+    background: hsl(var(--border));               /* #CDCAC5 */
   }
 
   /* Orange accent line */
