@@ -52,7 +52,7 @@ export const PathfinderCTA = () => (
       </motion.div>
 
       {/* Pathway cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-[1px]" style={{ background: "rgba(205,202,197,0.08)" }}>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-0">
         {pathways.map((p, i) => (
           <motion.div
             key={p.title}
@@ -64,9 +64,9 @@ export const PathfinderCTA = () => (
             <Link
               to={p.href}
               className="group flex flex-col p-6 h-full transition-all"
-              style={{ background: "rgba(12,12,12,0.85)" }}
+              style={{ background: "rgba(12,12,12,0.80)", borderRight: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#993619"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "rgba(12,12,12,0.85)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "rgba(12,12,12,0.80)"}
             >
               <p.icon size={22} strokeWidth={1.5} style={{ color: "#993619", marginBottom: "16px" }} />
               <p className="font-bold text-white mb-1 leading-tight" style={{ fontSize: "14px" }}>{p.title}</p>
