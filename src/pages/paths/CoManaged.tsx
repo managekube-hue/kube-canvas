@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PathSwitcher } from "@/components/PathSwitcher";
 import { PathfinderCTA } from "@/components/PathfinderCTA";
 import {
   ArrowRight, Shield, Layers, Users, BookOpen, CheckCircle,
@@ -9,6 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import childPageVideo from "@/assets/child-page.mp4";
+
 
 /** DO NOT TOUCH — Co-Managed Home — per architecture doc page 18/15 */
 
@@ -196,42 +196,8 @@ export default function CoManaged() {
         <div className="absolute bottom-0 left-0 right-0 h-24 z-10" style={{ background: "linear-gradient(to top, #0C0C0C, transparent)" }} />
       </section>
 
-      {/* ── PATH SUB-NAVIGATION (below hero, sticky) ─────────────────── */}
-      {/* Doc: "Location: Below hero. Sticky. Path switcher left side." */}
-      <div className="sticky top-0 z-40" style={{ background: CM.bg, borderBottom: `1px solid ${CM.border}` }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-16">
-          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-            {/* Path switcher — left side */}
-            <div className="flex-shrink-0 pr-4 mr-1" style={{ borderRight: `1px solid ${CM.border}` }}>
-              <PathSwitcher />
-            </div>
 
-            {SUB_NAV.map(item =>
-              item.cta ? (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="flex-shrink-0 ml-auto px-5 py-3.5 text-[11px] font-bold uppercase tracking-widest text-white whitespace-nowrap"
-                  style={{ background: CM.accent, letterSpacing: "0.12em" }}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="flex-shrink-0 px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider whitespace-nowrap transition-colors"
-                  style={{ color: "rgba(205,202,197,0.45)", letterSpacing: "0.1em" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = CM.accent}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(205,202,197,0.45)"}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </div>
-        </div>
-      </div>
+
 
       {/* ══ SECTION 1: What Your Team Controls ══════════════════════════ */}
       {/* Doc page 18: Section 1 — What Your Team Controls */}

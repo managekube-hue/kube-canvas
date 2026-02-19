@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PathSwitcher } from "@/components/PathSwitcher";
+import { PathfinderCTA } from "@/components/PathfinderCTA";
 import {
   ArrowRight, Terminal, BookOpen, GitBranch, Cpu, Code2, Database,
   Layers, Lock, Zap, Server, Activity, Shield
 } from "lucide-react";
 import { motion } from "framer-motion";
+
+
 
 /** DO NOT TOUCH — Self-Managed Home — per architecture doc page 27/23 */
 
@@ -232,42 +234,8 @@ export default function SelfManaged() {
         </div>
       </section>
 
-      {/* ── PATH SUB-NAVIGATION (below hero, per architecture spec) ───── */}
-      {/* Doc: Location: Below hero. Sticky. Path switcher left side. */}
-      <div className="sticky top-0 z-40" style={{ background: BG3, borderBottom: `1px solid ${BORDER}` }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-16">
-          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-            {/* Path switcher — left side */}
-            <div className="flex-shrink-0 pr-4 mr-1" style={{ borderRight: `1px solid ${BORDER}` }}>
-              <PathSwitcher />
-            </div>
 
-            {SUB_NAV.map(item =>
-              item.cta ? (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="flex-shrink-0 ml-auto px-5 py-3.5 text-[11px] font-bold uppercase tracking-widest text-white whitespace-nowrap"
-                  style={{ background: ORANGE, letterSpacing: "0.12em" }}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="flex-shrink-0 px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider whitespace-nowrap transition-colors"
-                  style={{ color: TEXT_DIM, letterSpacing: "0.1em" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = ORANGE}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = TEXT_DIM}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </div>
-        </div>
-      </div>
+
 
       {/* ── STATS BAR ───────────────────────────────────────────────────── */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, background: BG2 }}>
@@ -574,8 +542,10 @@ export default function SelfManaged() {
         </div>
       </section>
 
+      <PathfinderCTA />
       <Footer />
     </div>
   );
 }
 /** END DO NOT TOUCH */
+
