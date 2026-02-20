@@ -224,7 +224,65 @@ async function syncPageRecursive(
 // Strategy: fetch fresh Notion metadata for the N oldest-synced pages, compare edit times,
 // re-sync content for any that changed. This catches edits even when DB metadata is stale.
 async function syncChangedContent(batchSize = 20): Promise<{ filled: number; remaining: number }> {
-  // Fetch pages to check — prioritise: null content first, then oldest-synced (most likely stale)
+  // Strategy: check ALL non-root pages, prioritising:
+  // 1. Null content (never synced body)
+  // 2. Oldest last_synced_at (most stale)
+  // But ALSO always include a "recent edits" sweep using Notion's search API
+  // to catch edits on pages that were recently synced (not yet due for rotation).
+
+  // ── PHASE 1: Use Notion search API to find recently edited pages ──
+  const recentlyEdited: any[] = [];
+  try {
+    const searchRes = await fetch("https://api.notion.com/v1/search", {
+      method: "POST",
+      headers: NOTION_HEADERS,
+      body: JSON.stringify({
+        sort: { direction: "descending", timestamp: "last_edited_time" },
+        page_size: 20,
+      }),
+    });
+    if (searchRes.ok) {
+      const searchData = await searchRes.json();
+      for (const result of searchData.results || []) {
+        if (result.object === "page") {
+          recentlyEdited.push({
+            notion_id: result.id.replace(/-/g, ""),
+            notion_id_dashed: result.id,
+            last_edited_time: result.last_edited_time,
+          });
+        }
+      }
+    }
+  } catch (e: any) {
+    console.error("Notion search failed (non-fatal):", e.message);
+  }
+
+  // Look up DB records for these recently-edited Notion pages
+  const recentNotionIds = recentlyEdited.map(r => r.notion_id_dashed);
+  let recentDbPages: any[] = [];
+  if (recentNotionIds.length > 0) {
+    const { data } = await supabase
+      .from("pages")
+      .select("id, notion_id, title, last_synced_at, content, notion_last_edited_time")
+      .in("notion_id", recentNotionIds)
+      .eq("is_deleted", false);
+    recentDbPages = data || [];
+  }
+
+  // Filter to only those where Notion edit > our stored edit time
+  const needsCheckFromSearch: any[] = [];
+  for (const dbPage of recentDbPages) {
+    const notionInfo = recentlyEdited.find(r => r.notion_id_dashed === dbPage.notion_id);
+    if (notionInfo) {
+      const notionEdited = new Date(notionInfo.last_edited_time);
+      const storedEdited = dbPage.notion_last_edited_time ? new Date(dbPage.notion_last_edited_time) : null;
+      if (!storedEdited || notionEdited > storedEdited) {
+        needsCheckFromSearch.push({ ...dbPage, _fresh_edited: notionInfo.last_edited_time });
+      }
+    }
+  }
+
+  // ── PHASE 2: Standard rotation (null content + oldest synced) ──
   const { data: nullPages } = await supabase
     .from("pages")
     .select("id, notion_id, title, last_synced_at, content")
@@ -233,23 +291,24 @@ async function syncChangedContent(batchSize = 20): Promise<{ filled: number; rem
     .not("page_type", "eq", "root")
     .limit(batchSize);
 
+  const remainingSlots = Math.max(0, batchSize - (nullPages?.length || 0) - needsCheckFromSearch.length);
   const { data: oldestSynced } = await supabase
     .from("pages")
     .select("id, notion_id, title, last_synced_at, content")
     .not("content", "is", null)
     .eq("is_deleted", false)
-    .order("last_synced_at", { ascending: true }) // least-recently-synced first
-    .limit(batchSize);
+    .order("last_synced_at", { ascending: true })
+    .limit(remainingSlots > 0 ? remainingSlots : 5);
 
-  // Deduplicate
+  // Deduplicate — recently-edited pages get priority
   const seen = new Set<string>();
   const candidates: any[] = [];
-  for (const p of [...(nullPages || []), ...(oldestSynced || [])]) {
+  for (const p of [...needsCheckFromSearch, ...(nullPages || []), ...(oldestSynced || [])]) {
     if (!seen.has(p.id)) {
       seen.add(p.id);
       candidates.push(p);
     }
-    if (candidates.length >= batchSize) break;
+    if (candidates.length >= batchSize + needsCheckFromSearch.length) break;
   }
 
   if (candidates.length === 0) {
@@ -257,21 +316,26 @@ async function syncChangedContent(batchSize = 20): Promise<{ filled: number; rem
     return { filled: 0, remaining: 0 };
   }
 
-  console.log(`🔍 Checking ${candidates.length} pages against Notion...`);
+  console.log(`🔍 Checking ${candidates.length} pages (${needsCheckFromSearch.length} from Notion search, ${(nullPages || []).length} null, rest rotation)`);
   let filled = 0;
 
   for (const page of candidates) {
     try {
-      // Always get fresh metadata from Notion — this is the source of truth
-      const notionPage = await fetchNotionPage(page.notion_id);
-      const notionEditedTime = notionPage.last_edited_time;
+      // If we already have fresh edit time from search, use it; otherwise fetch from Notion
+      let notionEditedTime: string;
+      if (page._fresh_edited) {
+        notionEditedTime = page._fresh_edited;
+      } else {
+        const notionPage = await fetchNotionPage(page.notion_id);
+        notionEditedTime = notionPage.last_edited_time;
+      }
+
       const lastSynced = page.last_synced_at ? new Date(page.last_synced_at) : null;
       const notionEdited = new Date(notionEditedTime);
 
       const needsUpdate = page.content === null || !lastSynced || notionEdited > lastSynced;
 
       if (!needsUpdate) {
-        // Still update last_synced_at so this page moves to the back of the queue
         await supabase
           .from("pages")
           .update({ notion_last_edited_time: notionEditedTime, last_synced_at: new Date().toISOString() })
