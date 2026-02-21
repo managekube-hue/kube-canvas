@@ -3,6 +3,7 @@ import { UidrLayout } from "@/components/UidrLayout";
 import { TreeSidebar } from "@/components/TreeSidebar";
 import { PageViewer } from "@/components/PageViewer";
 import { useAllPages } from "@/hooks/useDocumentation";
+import { SyncHealthWidget } from "@/components/SyncHealthWidget";
 import { Search, PanelLeftClose, PanelLeftOpen, BookOpen } from "lucide-react";
 
 export default function UidrTechnicalDocs() {
@@ -32,6 +33,7 @@ export default function UidrTechnicalDocs() {
               <div className="flex items-center gap-2">
                 <BookOpen size={14} className="text-blue-400" />
                 <span className="text-white text-xs font-semibold tracking-wider">K-DOCS TREE</span>
+                <SyncHealthWidget />
               </div>
             )}
             <button
