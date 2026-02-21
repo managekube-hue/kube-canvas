@@ -1,0 +1,17 @@
+{
+  "name": "ManageKube",
+  "short_name": "ManageKube",
+  "description": "IT Transformation. Methodically Delivered.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0c0c",
+  "theme_color": "#993619",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
