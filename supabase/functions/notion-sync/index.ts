@@ -220,159 +220,224 @@ async function syncPageRecursive(
   }
 }
 
-// Detects pages that are NEW (null content) OR edited in Notion after last sync.
-// Strategy: fetch fresh Notion metadata for the N oldest-synced pages, compare edit times,
-// re-sync content for any that changed. This catches edits even when DB metadata is stale.
-async function syncChangedContent(batchSize = 20): Promise<{ filled: number; remaining: number }> {
-  // Strategy: check ALL non-root pages, prioritising:
-  // 1. Null content (never synced body)
-  // 2. Oldest last_synced_at (most stale)
-  // But ALSO always include a "recent edits" sweep using Notion's search API
-  // to catch edits on pages that were recently synced (not yet due for rotation).
+// ─── NOTION SEARCH: get ALL pages with edit times via paginated search ───────
+// Returns a Map of notion_id (dashed) → last_edited_time for every page
+// the integration can see. Uses pagination to get ALL results.
+async function fetchAllNotionEditTimes(): Promise<Map<string, string>> {
+  const editTimes = new Map<string, string>();
+  let cursor: string | undefined;
+  let pageNum = 0;
 
-  // ── PHASE 1: Use Notion search API to find recently edited pages ──
-  const recentlyEdited: any[] = [];
-  try {
-    const searchRes = await fetch("https://api.notion.com/v1/search", {
+  do {
+    pageNum++;
+    const body: any = {
+      filter: { property: "object", value: "page" },
+      page_size: 100,
+      sort: { direction: "descending", timestamp: "last_edited_time" },
+    };
+    if (cursor) body.start_cursor = cursor;
+
+    const res = await fetch("https://api.notion.com/v1/search", {
       method: "POST",
       headers: NOTION_HEADERS,
-      body: JSON.stringify({
-        sort: { direction: "descending", timestamp: "last_edited_time" },
-        page_size: 20,
-      }),
+      body: JSON.stringify(body),
     });
-    if (searchRes.ok) {
-      const searchData = await searchRes.json();
-      for (const result of searchData.results || []) {
-        if (result.object === "page") {
-          recentlyEdited.push({
-            notion_id: result.id.replace(/-/g, ""),
-            notion_id_dashed: result.id,
-            last_edited_time: result.last_edited_time,
-          });
-        }
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error(`Notion search page ${pageNum} failed: ${res.status} ${errText}`);
+      break;
+    }
+
+    const data = await res.json();
+    for (const result of data.results || []) {
+      if (result.object === "page") {
+        editTimes.set(result.id, result.last_edited_time);
       }
     }
-  } catch (e: any) {
-    console.error("Notion search failed (non-fatal):", e.message);
+
+    console.log(`  📡 Search page ${pageNum}: got ${data.results?.length || 0} results (total: ${editTimes.size})`);
+    cursor = data.has_more ? data.next_cursor : undefined;
+
+    // Small delay between search pages
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  } while (cursor);
+
+  console.log(`📡 Notion search complete: ${editTimes.size} pages found`);
+  return editTimes;
+}
+
+// ─── SYNC CHANGED CONTENT ───────────────────────────────────────────────────
+// Strategy:
+// 1. Use Notion Search API (paginated) to get ALL pages and their edit times
+//    — This is ~5 API calls for 442 pages (100 per page), taking ~1-2 seconds
+// 2. Load ALL DB pages
+// 3. Compare timestamps: find pages where Notion edit time > stored edit time
+// 4. Re-fetch content ONLY for changed pages + null-content pages
+// No batch limits. No rotation. Every changed page gets synced every cycle.
+async function syncChangedContent(): Promise<{ synced: number; checked: number; errors: number; notionTotal: number }> {
+  const startTime = Date.now();
+  const MAX_RUNTIME_MS = 50_000; // stay well under edge function timeout
+
+  // STEP 1: Get ALL edit times from Notion in bulk (fast, paginated)
+  const notionEditTimes = await fetchAllNotionEditTimes();
+
+  if (notionEditTimes.size === 0) {
+    console.log("⚠️ Notion search returned 0 pages — check integration token permissions");
+    // Fallback: fetch ALL DB pages and check individually
+    return await syncChangedContentFallback(MAX_RUNTIME_MS - (Date.now() - startTime));
   }
 
-  // Look up DB records for these recently-edited Notion pages
-  const recentNotionIds = recentlyEdited.map(r => r.notion_id_dashed);
-  let recentDbPages: any[] = [];
-  if (recentNotionIds.length > 0) {
-    const { data } = await supabase
+  // STEP 2: Get ALL DB pages
+  const { data: allPages, error: dbErr } = await supabase
+    .from("pages")
+    .select("id, notion_id, title, content, notion_last_edited_time")
+    .eq("is_deleted", false)
+    .not("page_type", "eq", "root");
+
+  if (dbErr) throw new Error(`DB query error: ${dbErr.message}`);
+  if (!allPages || allPages.length === 0) {
+    return { synced: 0, checked: 0, errors: 0, notionTotal: notionEditTimes.size };
+  }
+
+  // STEP 3: Find pages that need updating
+  const needsSync: typeof allPages = [];
+
+  for (const page of allPages) {
+    const notionEditTime = notionEditTimes.get(page.notion_id);
+    if (!notionEditTime) continue; // page not found in Notion search
+
+    const notionEdited = new Date(notionEditTime);
+    const storedEdited = page.notion_last_edited_time ? new Date(page.notion_last_edited_time) : null;
+
+    // Sync if: never had a stored edit time, OR Notion edit is strictly newer
+    if (!storedEdited || notionEdited.getTime() > storedEdited.getTime()) {
+      needsSync.push(page);
+    }
+  }
+
+  console.log(`📋 DB pages: ${allPages.length}, Notion pages: ${notionEditTimes.size}, Need sync: ${needsSync.length}`);
+
+  if (needsSync.length === 0) {
+    // Mark all pages as freshly checked
+    const now = new Date().toISOString();
+    await supabase
       .from("pages")
-      .select("id, notion_id, title, last_synced_at, content, notion_last_edited_time")
-      .in("notion_id", recentNotionIds)
-      .eq("is_deleted", false);
-    recentDbPages = data || [];
+      .update({ last_synced_at: now })
+      .eq("is_deleted", false)
+      .not("page_type", "eq", "root");
+    console.log("✅ All pages up to date");
+    return { synced: 0, checked: allPages.length, errors: 0, notionTotal: notionEditTimes.size };
   }
 
-  // Filter to only those where Notion edit > our stored edit time
-  const needsCheckFromSearch: any[] = [];
-  for (const dbPage of recentDbPages) {
-    const notionInfo = recentlyEdited.find(r => r.notion_id_dashed === dbPage.notion_id);
-    if (notionInfo) {
-      const notionEdited = new Date(notionInfo.last_edited_time);
-      const storedEdited = dbPage.notion_last_edited_time ? new Date(dbPage.notion_last_edited_time) : null;
-      if (!storedEdited || notionEdited > storedEdited) {
-        needsCheckFromSearch.push({ ...dbPage, _fresh_edited: notionInfo.last_edited_time });
-      }
+  // STEP 4: Sync changed pages (fetch blocks + update content)
+  let synced = 0;
+  let errors = 0;
+
+  for (const page of needsSync) {
+    if (Date.now() - startTime > MAX_RUNTIME_MS) {
+      console.log(`⏱ Runtime limit — synced ${synced}/${needsSync.length} changed pages`);
+      break;
     }
-  }
 
-  // ── PHASE 2: Standard rotation (null content + oldest synced) ──
-  const { data: nullPages } = await supabase
-    .from("pages")
-    .select("id, notion_id, title, last_synced_at, content")
-    .is("content", null)
-    .eq("is_deleted", false)
-    .not("page_type", "eq", "root")
-    .limit(batchSize);
-
-  const remainingSlots = Math.max(0, batchSize - (nullPages?.length || 0) - needsCheckFromSearch.length);
-  const { data: oldestSynced } = await supabase
-    .from("pages")
-    .select("id, notion_id, title, last_synced_at, content")
-    .not("content", "is", null)
-    .eq("is_deleted", false)
-    .order("last_synced_at", { ascending: true })
-    .limit(remainingSlots > 0 ? remainingSlots : 5);
-
-  // Deduplicate — recently-edited pages get priority
-  const seen = new Set<string>();
-  const candidates: any[] = [];
-  for (const p of [...needsCheckFromSearch, ...(nullPages || []), ...(oldestSynced || [])]) {
-    if (!seen.has(p.id)) {
-      seen.add(p.id);
-      candidates.push(p);
-    }
-    if (candidates.length >= batchSize + needsCheckFromSearch.length) break;
-  }
-
-  if (candidates.length === 0) {
-    console.log("✅ No pages to check");
-    return { filled: 0, remaining: 0 };
-  }
-
-  console.log(`🔍 Checking ${candidates.length} pages (${needsCheckFromSearch.length} from Notion search, ${(nullPages || []).length} null, rest rotation)`);
-  let filled = 0;
-
-  for (const page of candidates) {
     try {
-      // If we already have fresh edit time from search, use it; otherwise fetch from Notion
-      let notionEditedTime: string;
-      if (page._fresh_edited) {
-        notionEditedTime = page._fresh_edited;
-      } else {
-        const notionPage = await fetchNotionPage(page.notion_id);
-        notionEditedTime = notionPage.last_edited_time;
-      }
+      const notionEditTime = notionEditTimes.get(page.notion_id)!;
+      console.log(`  🔄 ${page.title} (notion: ${notionEditTime} vs stored: ${page.notion_last_edited_time})`);
 
-      const lastSynced = page.last_synced_at ? new Date(page.last_synced_at) : null;
-      const notionEdited = new Date(notionEditedTime);
-
-      const needsUpdate = page.content === null || !lastSynced || notionEdited > lastSynced;
-
-      if (!needsUpdate) {
-        await supabase
-          .from("pages")
-          .update({ notion_last_edited_time: notionEditedTime, last_synced_at: new Date().toISOString() })
-          .eq("id", page.id);
-        console.log(`  ⏭ ${page.title} (up to date)`);
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        continue;
-      }
-
-      console.log(`  🔄 Syncing changed page: ${page.title}`);
       const blocks = await fetchNotionBlocks(page.notion_id);
       const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== "child_page"));
+
+      // Also fetch fresh page metadata for title/icon updates
+      const notionPage = await fetchNotionPage(page.notion_id);
+      const title = extractTitle(notionPage);
+      const icon = extractIcon(notionPage);
 
       await supabase
         .from("pages")
         .update({
           content: content || "",
-          notion_last_edited_time: notionEditedTime,
+          title,
+          icon,
+          notion_last_edited_time: notionEditTime,
           last_synced_at: new Date().toISOString(),
         })
         .eq("id", page.id);
 
-      filled++;
+      synced++;
       console.log(`  ✅ ${page.title}`);
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     } catch (e: any) {
-      console.error(`  ❌ Failed ${page.title}: ${e.message}`);
+      errors++;
+      console.error(`  ❌ ${page.title}: ${e.message}`);
     }
   }
 
-  const { count: nullCount } = await supabase
-    .from("pages")
-    .select("id", { count: "exact", head: true })
-    .is("content", null)
-    .eq("is_deleted", false);
+  return { synced, checked: allPages.length, errors, notionTotal: notionEditTimes.size };
+}
 
-  return { filled, remaining: nullCount || 0 };
+// Fallback if Notion Search API fails — check pages one by one
+async function syncChangedContentFallback(remainingMs: number): Promise<{ synced: number; checked: number; errors: number; notionTotal: number }> {
+  const startTime = Date.now();
+  console.log("🔄 Fallback mode: checking pages individually");
+
+  const { data: allPages } = await supabase
+    .from("pages")
+    .select("id, notion_id, title, content, notion_last_edited_time")
+    .eq("is_deleted", false)
+    .not("page_type", "eq", "root")
+    .order("last_synced_at", { ascending: true, nullsFirst: true });
+
+  if (!allPages || allPages.length === 0) {
+    return { synced: 0, checked: 0, errors: 0, notionTotal: 0 };
+  }
+
+  let synced = 0;
+  let checked = 0;
+  let errors = 0;
+
+  for (const page of allPages) {
+    if (Date.now() - startTime > remainingMs) {
+      console.log(`⏱ Fallback runtime limit after ${checked} pages`);
+      break;
+    }
+
+    checked++;
+    try {
+      const notionPage = await fetchNotionPage(page.notion_id);
+      const notionEditedTime = notionPage.last_edited_time;
+      const storedEdited = page.notion_last_edited_time ? new Date(page.notion_last_edited_time) : null;
+      const notionEdited = new Date(notionEditedTime);
+      const needsUpdate = !storedEdited || notionEdited.getTime() > storedEdited.getTime();
+
+      if (!needsUpdate) {
+        await supabase.from("pages").update({ last_synced_at: new Date().toISOString() }).eq("id", page.id);
+        await new Promise((resolve) => setTimeout(resolve, 80));
+        continue;
+      }
+
+      const blocks = await fetchNotionBlocks(page.notion_id);
+      const content = await blocksToMarkdown(blocks.filter((b: any) => b.type !== "child_page"));
+      const title = extractTitle(notionPage);
+      const icon = extractIcon(notionPage);
+
+      await supabase.from("pages").update({
+        content: content || "",
+        title,
+        icon,
+        notion_last_edited_time: notionEditedTime,
+        last_synced_at: new Date().toISOString(),
+      }).eq("id", page.id);
+
+      synced++;
+      console.log(`  ✅ ${page.title}`);
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    } catch (e: any) {
+      errors++;
+      console.error(`  ❌ ${page.title}: ${e.message}`);
+    }
+  }
+
+  return { synced, checked, errors, notionTotal: 0 };
 }
 
 serve(async (req: Request) => {
@@ -394,19 +459,20 @@ serve(async (req: Request) => {
 
   const startTime = Date.now();
 
-  // MODE: sync_changed / fill_content — re-syncs new + edited pages
+  // MODE: sync_changed / fill_content — checks ALL pages for edits
   if (body.mode === "sync_changed" || body.mode === "fill_content") {
-    const batchSize = body.batch_size || 20;
-    console.log(`🔄 Sync-changed mode: batch_size=${batchSize}`);
+    console.log(`🔄 Sync-changed mode: checking ALL pages via Notion Search API`);
     try {
-      const result = await syncChangedContent(batchSize);
+      const result = await syncChangedContent();
       const duration = Date.now() - startTime;
       return new Response(
         JSON.stringify({
           success: true,
           mode: "sync_changed",
-          pages_synced: result.filled,
-          pages_remaining: result.remaining,
+          notion_pages_found: result.notionTotal,
+          db_pages_checked: result.checked,
+          pages_synced: result.synced,
+          pages_errors: result.errors,
           duration_ms: duration,
         }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
