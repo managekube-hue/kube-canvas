@@ -19,14 +19,6 @@ const purgeLovableArtifacts = () => {
 	document
 		.querySelectorAll('meta[content*="lovable.app"], meta[content*="lovable.dev"]')
 		.forEach((meta) => meta.remove());
-
-	document
-		.querySelectorAll("style")
-		.forEach((styleTag) => {
-			if (styleTag.textContent?.includes("#lovable-badge")) {
-				styleTag.remove();
-			}
-		});
 };
 
 purgeLovableArtifacts();
