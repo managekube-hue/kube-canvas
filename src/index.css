@@ -273,9 +273,14 @@
 
 @layer utilities {
   #lovable-badge,
+  [id*="lovable"],
+  [class*="lovable"],
   [aria-label="Edit with Lovable"],
+  [aria-label*="Lovable"],
   a[href*="lovable.dev/projects"],
-  a[href*="utm_source=lovable-badge"] {
+  a[href*="utm_source=lovable-badge"],
+  a[href*="lovable"],
+  iframe[src*="lovable"] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
