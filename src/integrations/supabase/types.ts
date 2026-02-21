@@ -195,6 +195,7 @@ export type Database = {
       }
     }
     Functions: {
+      guard_notion_sync_cron: { Args: never; Returns: undefined }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
