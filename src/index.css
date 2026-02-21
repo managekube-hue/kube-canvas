@@ -93,6 +93,10 @@
     @apply border-border;
   }
 
+  #lovable-badge {
+    display: none !important;
+  }
+
   html {
     scroll-behavior: smooth;
   }
