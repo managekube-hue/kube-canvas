@@ -146,3 +146,38 @@ export function useChildren(parentId: string) {
 
   return { children, loading };
 }
+
+export interface SyncStatus {
+  id: string;
+  status: string;
+  started_at: string | null;
+  completed_at: string | null;
+  pages_synced: number | null;
+  pages_updated: number | null;
+  duration_ms: number | null;
+  error_message: string | null;
+}
+
+export function useSyncStatus() {
+  const [status, setStatus] = useState<SyncStatus | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await db
+        .from('sync_runs')
+        .select('*')
+        .in('status', ['completed', 'completed_with_errors', 'failed', 'running'])
+        .order('started_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setStatus(data);
+      setLoading(false);
+    }
+    load();
+    const interval = setInterval(load, 60_000); // refresh every minute
+    return () => clearInterval(interval);
+  }, []);
+
+  return { status, loading };
+}
