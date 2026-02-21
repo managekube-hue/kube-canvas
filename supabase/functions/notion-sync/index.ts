@@ -462,9 +462,31 @@ serve(async (req: Request) => {
   // MODE: sync_changed / fill_content — checks ALL pages for edits
   if (body.mode === "sync_changed" || body.mode === "fill_content") {
     console.log(`🔄 Sync-changed mode: checking ALL pages via Notion Search API`);
+
+    // Create sync_run record
+    const { data: syncRun } = await supabase
+      .from("sync_runs")
+      .insert({ status: "running", started_at: new Date().toISOString() })
+      .select("id")
+      .single();
+    const runId = syncRun?.id;
+
     try {
       const result = await syncChangedContent();
       const duration = Date.now() - startTime;
+
+      // Log completed run
+      if (runId) {
+        await supabase.from("sync_runs").update({
+          status: result.errors > 0 ? "completed_with_errors" : "completed",
+          completed_at: new Date().toISOString(),
+          duration_ms: duration,
+          pages_synced: result.synced,
+          pages_updated: result.checked,
+          error_message: result.errors > 0 ? `${result.errors} page(s) failed` : null,
+        }).eq("id", runId);
+      }
+
       return new Response(
         JSON.stringify({
           success: true,
@@ -478,6 +500,17 @@ serve(async (req: Request) => {
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     } catch (e: any) {
+      const duration = Date.now() - startTime;
+      // Log failed run
+      if (runId) {
+        await supabase.from("sync_runs").update({
+          status: "failed",
+          completed_at: new Date().toISOString(),
+          duration_ms: duration,
+          error_message: e.message,
+        }).eq("id", runId);
+      }
+
       return new Response(
         JSON.stringify({ success: false, error: e.message }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
