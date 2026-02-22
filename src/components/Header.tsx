@@ -243,7 +243,7 @@ const megaMenu = {
       {
         heading: "Resources",
         items: [
-          { label: "Methodology", desc: "Our proven Assess → Remediate → Manage → Optimise service delivery framework.", href: "/methodology" },
+          { label: "Methodology", desc: "Eight-stage closed lifecycle — Hunt through Close. No gaps, no shortcuts.", href: "/methodology" },
           { label: "Pricing Guide", desc: "Six flexible pricing models explained — find the right fit for your business.", href: "/pricing" },
           { label: "ThreatAI — CVE Lookup", desc: "Free CVE & EPSS vulnerability search with downloadable threat reports.", href: "/tools/threat-ai" },
         ],
