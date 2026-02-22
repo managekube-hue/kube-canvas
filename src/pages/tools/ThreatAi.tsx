@@ -46,8 +46,18 @@ async function fetchThreatApi(body: Record<string, any>) {
 
 /* ── Threat Card — per spec design ──────────────────────── */
 
+// Helper to make URLs in text clickable
+const linkifyText = (text: string) => {
+  const urlRegex = /(https?:\/\/[^\s;,]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) =>
+    urlRegex.test(part) ? (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{part}</a>
+    ) : <span key={i}>{part}</span>
+  );
+};
+
 const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
-  // Calculate days overdue for CISA KEV
   const dueDate = cve.cisaDueDate ? new Date(cve.cisaDueDate) : null;
   const today = new Date();
   const daysOverdue = dueDate && dueDate < today
@@ -57,16 +67,30 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
     ? Math.ceil((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
     : 0;
 
-  // Derive severity from CVSS if not provided
   const effectiveSeverity = cve.severity && cve.severity !== "UNKNOWN"
     ? cve.severity
     : cve.cvss >= 9 ? "CRITICAL" : cve.cvss >= 7 ? "HIGH" : cve.cvss >= 4 ? "MEDIUM" : cve.cvss > 0 ? "LOW" : "UNKNOWN";
 
+  const isCritical = effectiveSeverity === "CRITICAL";
+  const isHigh = effectiveSeverity === "HIGH";
+  const epssPercent = cve.epss > 0 ? cve.epss * 100 : 0;
+
+  // Card border color based on severity
+  const cardBorder = isCritical
+    ? "border-destructive/60 bg-destructive/[0.03]"
+    : isHigh
+    ? "border-orange-500/40 bg-orange-500/[0.02]"
+    : "border-border bg-card";
+
   return (
-    <div className="bg-card border border-border p-6 hover:border-primary/30 transition-colors">
+    <div className={`border p-6 hover:border-primary/30 transition-colors ${cardBorder}`}>
       {/* Header: CVE ID + badges */}
       <div className="flex items-start justify-between gap-4 mb-3">
-        <h3 className="font-mono font-bold text-foreground text-lg">{cve.id}</h3>
+        <div className="flex items-center gap-3">
+          {isCritical && <span className="text-destructive text-lg">🔴</span>}
+          {isHigh && <span className="text-lg">🟠</span>}
+          <h3 className="font-mono font-bold text-foreground text-lg">{cve.id}</h3>
+        </div>
         <div className="flex gap-2 flex-wrap justify-end">
           {cve.cisaKev && (
             <span className="text-xs font-semibold px-2.5 py-1 border border-destructive/40 bg-destructive/10 text-destructive">
@@ -88,7 +112,7 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
         </span>
         {cve.published && (
           <span className="text-xs text-muted-foreground">
-            📅 Published: {new Date(cve.published).toLocaleDateString()}
+            📅 Published: {cve.published}
           </span>
         )}
       </div>
@@ -107,19 +131,27 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
 
       {/* Three-column metrics: EPSS / CVSS / CISA KEV */}
       <div className="grid grid-cols-3 gap-3 mb-4">
-        {/* EPSS */}
+        {/* EPSS with progress bar */}
         <div className="bg-muted/50 border border-border p-3">
           <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">EPSS</div>
           <div className="text-xl font-bold text-foreground font-mono">
-            {cve.epss > 0 ? `${(cve.epss * 100).toFixed(2)}%` : "N/A"}
+            {epssPercent > 0 ? `${epssPercent.toFixed(2)}%` : "N/A"}
           </div>
-          <div className="text-[10px] text-muted-foreground">Attack probability</div>
+          {epssPercent > 0 && (
+            <div className="w-full h-1.5 bg-muted mt-1.5 overflow-hidden">
+              <div
+                className={`h-full transition-all ${epssPercent >= 70 ? "bg-destructive" : epssPercent >= 40 ? "bg-orange-500" : "bg-yellow-500"}`}
+                style={{ width: `${Math.min(epssPercent, 100)}%` }}
+              />
+            </div>
+          )}
+          <div className="text-[10px] text-muted-foreground mt-1">Attack probability</div>
         </div>
 
         {/* CVSS */}
         <div className="bg-muted/50 border border-border p-3">
           <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">CVSS</div>
-          <div className="text-xl font-bold text-foreground font-mono">
+          <div className={`text-xl font-bold font-mono ${isCritical ? "text-destructive" : isHigh ? "text-orange-500" : "text-foreground"}`}>
             {cve.cvss > 0 ? cve.cvss.toFixed(1) : "N/A"}
           </div>
           <div className="text-[10px] text-muted-foreground">{effectiveSeverity} severity</div>
@@ -131,7 +163,7 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
             <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">CISA KEV</div>
             {dueDate && (
               <div className="text-sm font-medium text-foreground">
-                Due: {dueDate.toLocaleDateString()}
+                Due: {cve.cisaDueDate}
               </div>
             )}
             {daysOverdue > 0 ? (
@@ -166,6 +198,16 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
 
       {/* Action Buttons */}
       <div className="flex gap-3 flex-wrap">
+        {(isCritical || isHigh || cve.cisaKev) && (
+          <a
+            href={`https://nvd.nist.gov/vuln/detail/${cve.id}#vulnCurrentDescriptionTitle`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-destructive text-destructive-foreground text-xs font-bold hover:bg-destructive/90 transition-colors"
+          >
+            🚨 Patch Now
+          </a>
+        )}
         <a
           href={`https://nvd.nist.gov/vuln/detail/${cve.id}`}
           target="_blank"
@@ -186,10 +228,11 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
         )}
       </div>
 
-      {/* CISA Notes */}
+      {/* CISA Notes — with clickable URLs */}
       {cve.cisaNotes && (
         <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-3">
-          <span className="font-medium text-foreground">CISA Note:</span> {cve.cisaNotes}
+          <span className="font-medium text-foreground">CISA Note:</span>{" "}
+          {linkifyText(cve.cisaNotes)}
         </div>
       )}
     </div>

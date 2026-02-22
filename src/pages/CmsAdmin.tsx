@@ -1,7 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { PageBanner } from "@/components/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Users, Briefcase, Plus, Trash2, Eye, EyeOff, Loader2, RefreshCw,
   Search, Download, ChevronDown, ChevronUp, FileText, ShieldCheck,
-  ClipboardList, BarChart3,
+  ClipboardList, BarChart3, ToggleLeft, ToggleRight,
 } from "lucide-react";
 
 /* ── helpers ── */
@@ -17,6 +14,17 @@ const fmt = (d: string | null) => d ? new Date(d).toLocaleString() : "—";
 const fmtDate = (d: string | null) => d ? new Date(d).toLocaleDateString() : "—";
 const badge = (text: string, color = "border-border bg-muted text-muted-foreground") =>
   <span className={`text-xs px-2 py-0.5 border whitespace-nowrap ${color}`}>{text}</span>;
+
+const statusBadge = (status: string) => {
+  switch (status) {
+    case "active": return badge("Active", "border-green-700 bg-green-950/30 text-green-400");
+    case "inactive": return badge("Inactive", "border-border bg-muted text-muted-foreground");
+    case "qualified": return badge("Qualified", "border-blue-700 bg-blue-950/30 text-blue-400");
+    case "disqualified": return badge("Disqualified", "border-red-700 bg-red-950/30 text-red-400");
+    case "converted": return badge("Converted", "border-purple-700 bg-purple-950/30 text-purple-400");
+    default: return badge(status || "active");
+  }
+};
 
 function downloadCsv(rows: Record<string, any>[], filename: string) {
   if (!rows.length) return;
@@ -46,6 +54,7 @@ const ContactsTab = () => {
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState("all");
   const pageSize = 25;
 
   const load = useCallback(async (p = 0) => {
@@ -60,14 +69,22 @@ const ContactsTab = () => {
         `email.ilike.%${search.trim()}%,first_name.ilike.%${search.trim()}%,last_name.ilike.%${search.trim()}%,company.ilike.%${search.trim()}%`
       );
     }
+    if (statusFilter !== "all") {
+      query = query.eq("lifecycle_stage", statusFilter);
+    }
     const { data, count } = await query;
     setContacts(data || []);
     setTotal(count || 0);
     setPage(p);
     setLoading(false);
-  }, [search]);
+  }, [search, statusFilter]);
 
-  useEffect(() => { load(0); }, []);
+  useEffect(() => { load(0); }, [statusFilter]);
+
+  const updateLifecycle = async (id: string, stage: string) => {
+    await supabase.from("cms_contacts").update({ lifecycle_stage: stage }).eq("id", id);
+    load(page);
+  };
 
   const exportAll = async () => {
     const { data } = await supabase.from("cms_contacts").select("*").order("created_at", { ascending: false }).limit(1000);
@@ -84,6 +101,14 @@ const ContactsTab = () => {
         <Button variant="outline" size="sm" onClick={exportAll} className="gap-2 ml-auto"><Download className="w-4 h-4" />Export CSV</Button>
       </div>
 
+      {/* Status filter */}
+      <div className="flex gap-2 flex-wrap">
+        {["all", "lead", "mql", "sql", "opportunity", "customer", "subscriber"].map(s => (
+          <Button key={s} variant={statusFilter === s ? "default" : "outline"} size="sm" className="text-xs capitalize"
+            onClick={() => setStatusFilter(s)}>{s === "all" ? "All" : s.toUpperCase()}</Button>
+        ))}
+      </div>
+
       {loading ? (
         <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
       ) : contacts.length === 0 ? (
@@ -93,7 +118,7 @@ const ContactsTab = () => {
           <table className="w-full text-sm">
             <thead className="bg-muted/50">
               <tr>
-                {["", "Name", "Email", "Company", "Phone", "Source", "Lifecycle", "Tier", "EMS", "Urgency", "Risk", "Price", "HubSpot", "Created"].map(h => (
+                {["", "Name", "Email", "Company", "Phone", "Source", "Lifecycle", "Tier", "EMS", "Urgency", "Risk", "Price", "HubSpot", "Created", "Actions"].map(h => (
                   <th key={h} className="text-left px-3 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
               </tr>
@@ -108,7 +133,7 @@ const ContactsTab = () => {
                     <td className="px-3 py-3 text-muted-foreground">{c.company || "—"}</td>
                     <td className="px-3 py-3 text-muted-foreground">{c.phone || "—"}</td>
                     <td className="px-3 py-3">{badge(c.source || "website")}</td>
-                    <td className="px-3 py-3">{badge(c.lifecycle_stage || "lead")}</td>
+                    <td className="px-3 py-3">{statusBadge(c.lifecycle_stage || "lead")}</td>
                     <td className="px-3 py-3 text-muted-foreground">{c.mk_recommended_tier || "—"}</td>
                     <td className="px-3 py-3 font-mono text-foreground">{c.mk_ems_score ?? "—"}</td>
                     <td className="px-3 py-3 font-mono text-foreground">{c.mk_onb_urgency_score ?? "—"}</td>
@@ -120,10 +145,22 @@ const ContactsTab = () => {
                         : badge("Pending", "border-yellow-700 bg-yellow-950/30 text-yellow-400")}
                     </td>
                     <td className="px-3 py-3 text-xs text-muted-foreground whitespace-nowrap">{fmt(c.created_at)}</td>
+                    <td className="px-3 py-3" onClick={e => e.stopPropagation()}>
+                      <select className="text-xs bg-background border border-border px-2 py-1"
+                        value={c.lifecycle_stage || "lead"}
+                        onChange={e => updateLifecycle(c.id, e.target.value)}>
+                        <option value="lead">Lead</option>
+                        <option value="mql">MQL</option>
+                        <option value="sql">SQL</option>
+                        <option value="opportunity">Opportunity</option>
+                        <option value="customer">Customer</option>
+                        <option value="subscriber">Subscriber</option>
+                      </select>
+                    </td>
                   </tr>
                   {expandedId === c.id && (
                     <tr key={`${c.id}-detail`}>
-                      <td colSpan={14} className="px-6 py-4 bg-muted/20 border-t-0">
+                      <td colSpan={15} className="px-6 py-4 bg-muted/20 border-t-0">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
                           <div><strong className="text-muted-foreground">Job Title:</strong> <span className="text-foreground">{c.job_title || "—"}</span></div>
                           <div><strong className="text-muted-foreground">Website:</strong> <span className="text-foreground">{c.website || "—"}</span></div>
@@ -206,19 +243,34 @@ const ContactsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Leads Tab — simple leads from get-started / threat-ai
+   Leads Tab — with active/inactive status toggles
    ════════════════════════════════════════════════════════ */
 const LeadsTab = () => {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState("all");
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(200);
-      setLeads(data || []);
-      setLoading(false);
-    })();
-  }, []);
+  const load = useCallback(async () => {
+    setLoading(true);
+    let query = supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(200);
+    if (statusFilter !== "all") query = query.eq("status", statusFilter);
+    const { data } = await query;
+    setLeads(data || []);
+    setLoading(false);
+  }, [statusFilter]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const toggleStatus = async (id: string, current: string) => {
+    const next = current === "active" ? "inactive" : current === "inactive" ? "qualified" : current === "qualified" ? "disqualified" : "active";
+    await supabase.from("leads").update({ status: next }).eq("id", id);
+    load();
+  };
+
+  const updateStatus = async (id: string, status: string) => {
+    await supabase.from("leads").update({ status }).eq("id", id);
+    load();
+  };
 
   const exportAll = () => { if (leads.length) downloadCsv(leads, `leads_${new Date().toISOString().split("T")[0]}.csv`); };
 
@@ -226,8 +278,13 @@ const LeadsTab = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <p className="text-sm text-muted-foreground">{leads.length} leads</p>
+      <div className="flex justify-between items-center flex-wrap gap-3">
+        <div className="flex gap-2 flex-wrap">
+          {["all", "active", "inactive", "qualified", "disqualified", "converted"].map(s => (
+            <Button key={s} variant={statusFilter === s ? "default" : "outline"} size="sm" className="text-xs capitalize"
+              onClick={() => setStatusFilter(s)}>{s === "all" ? `All (${leads.length})` : s}</Button>
+          ))}
+        </div>
         <Button variant="outline" size="sm" onClick={exportAll} className="gap-2"><Download className="w-4 h-4" />Export CSV</Button>
       </div>
       {leads.length === 0 ? <p className="text-muted-foreground text-center py-12">No leads yet.</p> : (
@@ -235,7 +292,7 @@ const LeadsTab = () => {
           <table className="w-full text-sm">
             <thead className="bg-muted/50">
               <tr>
-                {["Name", "Email", "Company", "Phone", "Industry", "Org Size", "Source", "Tier", "Created"].map(h => (
+                {["Name", "Email", "Company", "Phone", "Industry", "Org Size", "Source", "Tier", "Status", "Created", "Actions"].map(h => (
                   <th key={h} className="text-left px-3 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
               </tr>
@@ -251,7 +308,19 @@ const LeadsTab = () => {
                   <td className="px-3 py-3 text-muted-foreground">{l.org_size || "—"}</td>
                   <td className="px-3 py-3">{badge(l.source || "—")}</td>
                   <td className="px-3 py-3 text-muted-foreground">{l.recommended_tier || "—"}</td>
+                  <td className="px-3 py-3">{statusBadge(l.status || "active")}</td>
                   <td className="px-3 py-3 text-xs text-muted-foreground whitespace-nowrap">{fmt(l.created_at)}</td>
+                  <td className="px-3 py-3">
+                    <select className="text-xs bg-background border border-border px-2 py-1"
+                      value={l.status || "active"}
+                      onChange={e => updateStatus(l.id, e.target.value)}>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="qualified">Qualified</option>
+                      <option value="disqualified">Disqualified</option>
+                      <option value="converted">Converted</option>
+                    </select>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -317,7 +386,7 @@ const LeadExportsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Assessments Tab — assessment_sessions
+   Assessments Tab — with Q&A answers display
    ════════════════════════════════════════════════════════ */
 const AssessmentsTab = () => {
   const [sessions, setSessions] = useState<any[]>([]);
@@ -340,6 +409,25 @@ const AssessmentsTab = () => {
     if (s === "completed") return "border-green-700 bg-green-950/30 text-green-400";
     if (s === "in_progress") return "border-yellow-700 bg-yellow-950/30 text-yellow-400";
     return "border-border bg-muted text-muted-foreground";
+  };
+
+  // Render answers JSON as readable Q&A
+  const renderAnswers = (answers: any) => {
+    if (!answers || typeof answers !== "object") return <p className="text-muted-foreground">No answers recorded.</p>;
+    const entries = Object.entries(answers);
+    if (entries.length === 0) return <p className="text-muted-foreground">No answers recorded.</p>;
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {entries.map(([key, val]) => (
+          <div key={key} className="flex gap-2">
+            <span className="text-muted-foreground font-mono text-[11px] min-w-[140px]">{key}:</span>
+            <span className="text-foreground text-[11px] break-all">
+              {Array.isArray(val) ? val.join(", ") : typeof val === "object" && val !== null ? JSON.stringify(val) : String(val ?? "—")}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -383,7 +471,7 @@ const AssessmentsTab = () => {
                   {expandedId === s.id && (
                     <tr key={`${s.id}-detail`}>
                       <td colSpan={13} className="px-6 py-4 bg-muted/20">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-4">
                           <div><strong className="text-muted-foreground">Role:</strong> <span className="text-foreground">{s.role || "—"}</span></div>
                           <div><strong className="text-muted-foreground">Org Stage:</strong> <span className="text-foreground">{s.org_stage || "—"}</span></div>
                           <div><strong className="text-muted-foreground">IT Situation:</strong> <span className="text-foreground">{s.it_situation || "—"}</span></div>
@@ -424,6 +512,12 @@ const AssessmentsTab = () => {
                           <div><strong className="text-muted-foreground">Key Gaps:</strong> <span className="text-foreground">{(s.key_gap_flags || []).join(", ") || "—"}</span></div>
                           <div><strong className="text-muted-foreground">MSP Issues:</strong> <span className="text-foreground">{(s.msp_issues || []).join(", ") || "—"}</span></div>
                         </div>
+
+                        {/* Q&A Answers */}
+                        <div className="pt-3 border-t border-border">
+                          <strong className="text-muted-foreground block mb-2 text-xs uppercase tracking-wider">Assessment Questions & Answers</strong>
+                          {renderAnswers(s.answers)}
+                        </div>
                       </td>
                     </tr>
                   )}
@@ -438,7 +532,7 @@ const AssessmentsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Careers Tab (existing)
+   Careers Tab
    ════════════════════════════════════════════════════════ */
 const CareersTab = () => {
   const [postings, setPostings] = useState<any[]>([]);
@@ -589,37 +683,40 @@ const ApplicationsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Main CMS Page
+   Main CMS Page — NO Header/Footer/Banner
    ════════════════════════════════════════════════════════ */
 const CmsAdmin = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      <PageBanner title="CRM / Content Management" subtitle="Unified dashboard — contacts, leads, assessments, careers, and exports" />
-
-      <section className="py-12 lg:py-20">
-        <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
-          <Tabs defaultValue="contacts" className="w-full">
-            <TabsList className="w-full justify-start bg-card border border-border mb-8 h-auto flex-wrap">
-              <TabsTrigger value="contacts" className="gap-2"><Users className="w-4 h-4" />Contacts</TabsTrigger>
-              <TabsTrigger value="leads" className="gap-2"><ClipboardList className="w-4 h-4" />Leads</TabsTrigger>
-              <TabsTrigger value="assessments" className="gap-2"><BarChart3 className="w-4 h-4" />Assessments</TabsTrigger>
-              <TabsTrigger value="exports" className="gap-2"><FileText className="w-4 h-4" />Threat Exports</TabsTrigger>
-              <TabsTrigger value="careers" className="gap-2"><Briefcase className="w-4 h-4" />Careers</TabsTrigger>
-              <TabsTrigger value="applications" className="gap-2"><Plus className="w-4 h-4" />Applications</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="contacts"><ContactsTab /></TabsContent>
-            <TabsContent value="leads"><LeadsTab /></TabsContent>
-            <TabsContent value="assessments"><AssessmentsTab /></TabsContent>
-            <TabsContent value="exports"><LeadExportsTab /></TabsContent>
-            <TabsContent value="careers"><CareersTab /></TabsContent>
-            <TabsContent value="applications"><ApplicationsTab /></TabsContent>
-          </Tabs>
+      {/* Simple admin header */}
+      <div className="border-b border-border bg-card px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="w-6 h-6 text-primary" />
+          <h1 className="text-lg font-bold text-foreground">ManageKube CRM</h1>
+          <span className="text-xs text-muted-foreground">Admin Dashboard</span>
         </div>
-      </section>
+        <a href="/home" className="text-xs text-muted-foreground hover:text-foreground">← Back to Site</a>
+      </div>
 
-      <Footer />
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-6">
+        <Tabs defaultValue="contacts" className="w-full">
+          <TabsList className="w-full justify-start bg-card border border-border mb-6 h-auto flex-wrap">
+            <TabsTrigger value="contacts" className="gap-2"><Users className="w-4 h-4" />Contacts</TabsTrigger>
+            <TabsTrigger value="leads" className="gap-2"><ClipboardList className="w-4 h-4" />Leads</TabsTrigger>
+            <TabsTrigger value="assessments" className="gap-2"><BarChart3 className="w-4 h-4" />Assessments</TabsTrigger>
+            <TabsTrigger value="exports" className="gap-2"><FileText className="w-4 h-4" />Threat Exports</TabsTrigger>
+            <TabsTrigger value="careers" className="gap-2"><Briefcase className="w-4 h-4" />Careers</TabsTrigger>
+            <TabsTrigger value="applications" className="gap-2"><Plus className="w-4 h-4" />Applications</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="contacts"><ContactsTab /></TabsContent>
+          <TabsContent value="leads"><LeadsTab /></TabsContent>
+          <TabsContent value="assessments"><AssessmentsTab /></TabsContent>
+          <TabsContent value="exports"><LeadExportsTab /></TabsContent>
+          <TabsContent value="careers"><CareersTab /></TabsContent>
+          <TabsContent value="applications"><ApplicationsTab /></TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
