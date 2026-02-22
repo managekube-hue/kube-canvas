@@ -7,7 +7,7 @@ const AssessmentKube = () => {
       tagline="FREE Entry Point"
       phase="ASSESS"
       description="The first step in every engagement. Map your current state, identify gaps, and build your transformation roadmap."
-      narrative="The Assessment Kube is the gateway to the ManageKube methodology. We deploy discovery tools to inventory your entire environment—every server, switch, endpoint, and cloud resource documented and categorized. Our multi-tenant discovery spans 10 infrastructure layers, mapping to control frameworks and generating your personalized remediation roadmap. This assessment is FREE and results in a detailed engagement plan within 24 hours."
+      narrative="The Assessment Kube is the gateway to the ManageKube methodology. We deploy discovery tools to inventory your entire environment: every server, switch, endpoint, and cloud resource documented and categorized. Our multi-tenant discovery spans 10 infrastructure layers, mapping to control frameworks and generating your personalized remediation roadmap. This assessment is FREE and results in a detailed engagement plan within 24 hours."
       blocks={[
         {
           id: "infrastructure-inventory",

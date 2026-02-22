@@ -1,4 +1,4 @@
-/** Service Layer module template — compliance-matched design */
+/** Service Layer module template: compliance-matched design */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";

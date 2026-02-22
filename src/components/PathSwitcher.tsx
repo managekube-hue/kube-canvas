@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { usePath, UserPath } from "@/context/PathContext";
 import { ChevronDown } from "lucide-react";
 
-/** DO NOT TOUCH — PathSwitcher — #993619 only, no green */
+/** DO NOT TOUCH: PathSwitcher: #993619 only, no green */
 
 const ORANGE = "#993619";
 

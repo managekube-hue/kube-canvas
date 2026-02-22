@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy */
+/** DO NOT TOUCH: v2.0 spec copy */
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
 import { motion } from "framer-motion";
@@ -39,10 +39,10 @@ export default function Xmm() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
           <div className="inline-block bg-brand-orange text-white text-xs font-bold px-4 py-1 uppercase tracking-wider mb-6">Most Popular</div>
-          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">SME — 100 to 500 users</p>
+          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">SME: 100 to 500 users</p>
           <h2 className="text-headline text-foreground mb-4">Full-spectrum security operations with real-time detection and response</h2>
           <p className="text-muted-foreground mb-12 max-w-3xl">
-            The Advanced tier is the most popular — it justifies the step up from Essentials and communicates the security depth that SMEs actually need. Methodology: Hunt → Identify → Alert → Triage → Diagnose → Remediate.
+            The Advanced tier is the most popular. It justifies the step up from Essentials and communicates the security depth that SMEs actually need. Methodology: Hunt, Identify, Alert, Triage, Diagnose, Remediate.
           </p>
 
           <div className="mb-12">

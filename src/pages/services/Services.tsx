@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Services hub page (Services.docx) */
+/** v2.0 spec copy: Services hub page (Services.docx) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -6,9 +6,9 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import childPageVideo from "@/assets/child-page.mp4";
 
 const whatWeDeliver = [
-  "Managed Services: 24/7 operations across your entire environment — NOC, SOC, help desk, IT, compliance, and cloud — monitored and managed continuously.",
-  "Advisory Services: Expert guidance when you need it — assessments, testing, audits, and planning from practitioners who know your environment.",
-  "Deployment & Integration: Project services that bridge the gap between legacy and modern — physical security, network buildouts, automation, and legacy integration.",
+  "Managed Services: 24/7 operations across your entire environment. NOC, SOC, help desk, IT, compliance, and cloud, monitored and managed continuously.",
+  "Advisory Services: Expert guidance when you need it. Assessments, testing, audits, and planning from practitioners who know your environment.",
+  "Deployment & Integration: Project services that bridge the gap between legacy and modern. Physical security, network buildouts, automation, and legacy integration.",
 ];
 
 const serviceGroups = [
@@ -30,7 +30,7 @@ const serviceGroups = [
     desc: "Assessments, testing, audits, and planning from security and infrastructure practitioners.",
     items: [
       { name: "Security Assessments", desc: "Holistic security posture evaluation with risk prioritization and remediation roadmaps.", href: "/services/security-assessments" },
-      { name: "Penetration Testing", desc: "Manual penetration testing across network, application, and cloud — finding what automated scanners miss.", href: "/services/penetration-testing" },
+      { name: "Penetration Testing", desc: "Manual penetration testing across network, application, and cloud, finding what automated scanners miss.", href: "/services/penetration-testing" },
       { name: "Compliance Gap Analysis", desc: "Framework-specific gap assessments with remediation roadmaps and evidence requirements.", href: "/services/compliance-gap-analysis" },
       { name: "IT Infrastructure Audits", desc: "Architecture, performance, security, and efficiency review with actionable recommendations.", href: "/services/infrastructure-audits" },
       { name: "Right-Sizing Engagements", desc: "Eliminate waste and improve performance per dollar spent across infrastructure and cloud.", href: "/services/right-sizing" },

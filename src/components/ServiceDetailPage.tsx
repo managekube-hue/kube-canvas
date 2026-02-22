@@ -1,4 +1,4 @@
-/** Shared template for all Service detail pages — compliance-matched design */
+/** Shared template for all Service detail pages: compliance-matched design */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";

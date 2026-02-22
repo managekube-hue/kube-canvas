@@ -5,7 +5,7 @@ import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
-  { icon: ClipboardList, title: "Onboard Today", description: "Full assessment — score, tier, and pricing", href: "/assessment/start" },
+  { icon: ClipboardList, title: "Onboard Today", description: "Full assessment: score, tier, and pricing", href: "/assessment/start" },
   { icon: LayoutGrid, title: "Service Layer", description: "18 detection & response modules", href: "/service-layer" },
   { icon: Server, title: "Service Tiers", description: "XRO, XMX & XME service tiers", href: "/service-tiers" },
   { icon: Shield, title: "Managed Services", description: "NOC, SOC, Compliance & Cloud", href: "/services" },
@@ -27,7 +27,7 @@ export const PathfinderCTA = () => (
     <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,1) 0%, transparent 45%, rgba(12,12,12,0.4) 100%)" }} />
 
     <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 py-24">
-      {/* Eyebrow + headline — hero style */}
+      {/* Eyebrow + headline */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

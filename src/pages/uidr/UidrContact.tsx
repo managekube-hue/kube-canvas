@@ -10,7 +10,7 @@ export default function UidrContact() {
           <p className="text-xs font-bold tracking-widest text-blue-500 uppercase mb-4">CONTACT</p>
           <h1 className="text-4xl lg:text-5xl font-black text-white mb-4">Get in touch.</h1>
           <p className="text-white/60 text-base leading-relaxed max-w-xl">
-            Questions about the platform, partnership inquiries, or just want to say hello — we'd love to hear from you.
+            Questions about the platform, partnership inquiries, or just want to say hello? We'd love to hear from you.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function UidrContact() {
             </div>
           </div>
 
-          {/* Right — Form */}
+          {/* Right: Form */}
           <div>
             <form className="space-y-5" onSubmit={e => e.preventDefault()}>
               <div className="grid grid-cols-2 gap-4">

@@ -4,7 +4,7 @@ export default function CustomAutomation() {
     category="Deployment & Integration"
     name="Custom Automation Development"
     tagline="Bespoke automation, scripting, and workflow development for unique operational requirements."
-    description="Custom Automation Development creates tailored automation solutions for unique business processes, security workflows, and operational tasks. From SOAR playbooks and API integrations to infrastructure-as-code and CI/CD pipelines — our engineers build the automation your organization needs to eliminate manual toil and accelerate operations."
+    description="Custom Automation Development creates tailored automation solutions for unique business processes, security workflows, and operational tasks. From SOAR playbooks and API integrations to infrastructure-as-code and CI/CD pipelines, our engineers build the automation your organization needs to eliminate manual toil and accelerate operations."
     sections={[
       {
         title: "Security Automation",
