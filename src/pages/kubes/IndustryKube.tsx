@@ -98,7 +98,7 @@ const IndustryKube = () => {
               viewport={{ once: true }}
               className="text-body-xl text-foreground leading-relaxed"
             >
-              Organizations engage these platforms to achieve specific business results rather than purchasing and integrating technology components independently. A manufacturing organization does not procure servers, storage systems, and software licenses separately—instead, they engage the Manufacturing M2BLOCK platform to establish predictive maintenance capabilities, automated quality control, and production optimization. The underlying technology stack operates transparently while delivering measurable operational improvements.
+              Organizations engage these platforms to achieve specific business results rather than purchasing and integrating technology components independently. A manufacturing organization does not procure servers, storage systems, and software licenses separately. Instead, they engage the Manufacturing M2BLOCK platform to establish predictive maintenance capabilities, automated quality control, and production optimization. The underlying technology stack operates transparently while delivering measurable operational improvements.
             </motion.p>
           </div>
         </div>

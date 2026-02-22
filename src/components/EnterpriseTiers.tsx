@@ -21,7 +21,7 @@ const tiers = [
     color: "gray",
     tagline: "Infrastructure Foundation",
     description:
-      "Real infrastructure—VxRail clusters, PowerStore arrays, managed endpoints through APEX PCaaS—plus 24x7 NOC monitoring, security operations, and compliance framework implementation.",
+      "Real infrastructure: VxRail clusters, PowerStore arrays, managed endpoints through APEX PCaaS, plus 24x7 NOC monitoring, security operations, and compliance framework implementation.",
     scenarios: "50-500 employees, multiple locations, regulatory compliance requirements, business-critical applications.",
   },
   {

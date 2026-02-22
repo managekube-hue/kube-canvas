@@ -3,7 +3,7 @@ import { ShoppingCart, X, Trash2 } from "lucide-react";
 import { useBOMCart } from "@/context/BOMCartContext";
 import { Link } from "react-router-dom";
 
-/** DO NOT TOUCH — Floating BOM Cart Button */
+/** DO NOT TOUCH: Floating BOM Cart Button */
 
 export const BOMCart = () => {
   const { items, removeItem, clearCart, count } = useBOMCart();

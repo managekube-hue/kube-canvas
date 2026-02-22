@@ -142,7 +142,7 @@ export function PageViewer({ pageId, onPageSelect }: PageViewerProps) {
         <div className="rounded-xl border border-white/10 bg-white/5 p-8 mb-10">
           <div className="flex items-center gap-2 mb-4">
             <RefreshCw size={14} className="text-amber-500" />
-            <span className="text-amber-400/70 text-sm font-mono">Content pending — run the content-fill sync to populate this page.</span>
+            <span className="text-amber-400/70 text-sm font-mono">Content pending: run the content-fill sync to populate this page.</span>
           </div>
           <div className="space-y-2 text-slate-600 text-xs font-mono">
             <div># {page.title}</div>

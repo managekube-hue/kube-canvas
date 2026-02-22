@@ -14,13 +14,13 @@ const ORANGE = "hsl(24 95% 53%)";
 const megaMenu = {
   "How It Works": {
     href: "/how-it-works",
-    desc: "The technology platform that delivers the Service Layer capabilities — orchestration, correlation, and AI-assisted detection.",
+    desc: "The technology engine that delivers the Service Layer capabilities: orchestration, correlation, and AI-assisted detection.",
     viewAll: "View How It Works",
     columns: [
       {
-        heading: "Platform Components",
+        heading: "Service Components",
         items: [
-          { label: "Platform Overview", desc: "Full platform architecture — ingestion, correlation, detection, and response orchestration.", href: "/how-it-works/platform-overview" },
+          { label: "Service Overview", desc: "Full service architecture: ingestion, correlation, detection, and response orchestration.", href: "/how-it-works/platform-overview" },
           { label: "Kubric UIDR", desc: "The orchestration and management layer unifying detection signals across the Service Layer.", href: "/how-it-works/kubric-uidr" },
           { label: "Kubric Data Graph", desc: "The correlation engine connecting telemetry across all Service Layer capabilities.", href: "/how-it-works/kubric-data-graph" },
         ],
@@ -76,15 +76,15 @@ const megaMenu = {
   },
   "Service Tiers": {
     href: "/service-tiers",
-    desc: "Purpose-built security and operations platforms tailored to your business size and maturity.",
+    desc: "Purpose-built security and operations tiers tailored to your business size and maturity.",
     viewAll: "View All Tiers",
     columns: [
       {
-        heading: "Platform Tiers",
+        heading: "Service Tiers",
         items: [
-          { label: "XRO — Essentials", desc: "Complete security and operations for small businesses with essential coverage.", href: "/service-tiers/xro-essentials" },
-          { label: "XMX — Advanced", desc: "Advanced security and operations for growing organisations.", href: "/service-tiers/xmx-advanced" },
-          { label: "XME — Enterprise", desc: "Full enterprise coverage with all modules and premium capabilities.", href: "/service-tiers/xme-enterprise" },
+          { label: "XRO Essentials", desc: "Complete security and operations for small businesses with essential coverage.", href: "/service-tiers/xro-essentials" },
+          { label: "XMX Advanced", desc: "Advanced security and operations for growing organisations.", href: "/service-tiers/xmx-advanced" },
+          { label: "XME Enterprise", desc: "Full enterprise coverage with all modules and premium capabilities.", href: "/service-tiers/xme-enterprise" },
         ],
       },
       {
@@ -115,7 +115,7 @@ const megaMenu = {
       {
         heading: "Professional Services: BOM Add-Ons",
         items: [
-          { label: "Help Desk", desc: "Tier 1–3 end-user support with Mac support, warranty services, and SLA-backed resolution.", href: "/services/help-desk" },
+          { label: "Help Desk", desc: "Tier 1-3 end-user support with Mac support, warranty services, and SLA-backed resolution.", href: "/services/help-desk" },
           { label: "Managed IT", desc: "Full-spectrum IT operations: endpoints, IoT, print, O365, data centre, and vCIO advisory.", href: "/services/managed-it" },
           { label: "Smart Hands", desc: "On-site field technicians for rack-and-stack, cabling, and multi-site rollouts.", href: "/services/smart-hands" },
         ],
@@ -164,7 +164,7 @@ const megaMenu = {
   },
   "Compliance": {
     href: "/compliance",
-    desc: "Managed compliance services across 12 frameworks — continuous monitoring, evidence collection, and audit-ready reporting.",
+    desc: "Managed compliance services across 12 frameworks: continuous monitoring, evidence collection, and audit-ready reporting.",
     viewAll: "View All Compliance Frameworks",
     columns: [
       {
@@ -183,25 +183,25 @@ const megaMenu = {
         items: [
           { label: "HIPAA", desc: "HIPAA Security Rule and Privacy Rule compliance for healthcare organisations.", href: "/compliance/hipaa" },
           { label: "SOC 2", desc: "SOC 2 Type I and Type II audit readiness with continuous control monitoring.", href: "/compliance/soc2" },
-          { label: "ISO 27001", desc: "International ISMS certification — 93 controls across 4 themes.", href: "/compliance/iso-27001" },
+          { label: "ISO 27001", desc: "International ISMS certification: 93 controls across 4 themes.", href: "/compliance/iso-27001" },
           { label: "PCI-DSS", desc: "Payment card data security and cardholder data environment protection.", href: "/compliance/pci-dss" },
-          { label: "NIST CSF", desc: "NIST Cybersecurity Framework 2.0 — risk-based security programme development.", href: "/compliance/nist-csf" },
-          { label: "CIS Controls v8.1", desc: "18 Controls, 153 Safeguards — prioritised and actionable security controls.", href: "/compliance/cis-controls" },
+          { label: "NIST CSF", desc: "NIST Cybersecurity Framework 2.0: risk-based security programme development.", href: "/compliance/nist-csf" },
+          { label: "CIS Controls v8.1", desc: "18 Controls, 153 Safeguards: prioritised and actionable security controls.", href: "/compliance/cis-controls" },
         ],
       },
     ],
   },
   "Pricing": {
     href: "/pricing",
-    desc: "Six flexible pricing models and three platform tiers. Zero lock-in, built for your business reality.",
+    desc: "Six flexible pricing models and three service tiers. Zero lock-in, built for your business reality.",
     viewAll: "View All Pricing & Tiers",
     columns: [
       {
-        heading: "Platform Tiers",
+        heading: "Service Tiers",
         items: [
-          { label: "XRO — Essentials", desc: "7 essential modules for small businesses. Deploy in 48 hours.", href: "/service-tiers/xro-essentials" },
-          { label: "XMX — Advanced", desc: "12 modules for growing organisations with advanced detection.", href: "/service-tiers/xmx-advanced" },
-          { label: "XME — Enterprise", desc: "All 18 modules with premium KubricAI orchestration.", href: "/service-tiers/xme-enterprise" },
+          { label: "XRO Essentials", desc: "7 essential modules for small businesses. Deploy in 48 hours.", href: "/service-tiers/xro-essentials" },
+          { label: "XMX Advanced", desc: "12 modules for growing organisations with advanced detection.", href: "/service-tiers/xmx-advanced" },
+          { label: "XME Enterprise", desc: "All 18 modules with premium KubricAI orchestration.", href: "/service-tiers/xme-enterprise" },
           { label: "Custom Configuration", desc: "Get exactly the coverage you need, configured for your environment.", href: "/service-tiers/custom" },
         ],
       },
@@ -219,7 +219,7 @@ const megaMenu = {
       {
         heading: "Get Started",
         items: [
-          { label: "Onboard Today", desc: "96-question assessment → instant EMS score, tier, and pricing.", href: "/assessment/start" },
+          { label: "Onboard Today", desc: "96-question assessment: instant EMS score, tier, and pricing.", href: "/assessment/start" },
           { label: "Get Started / Contact", desc: "Choose your path: full assessment, quick contact, or talk to sales.", href: "/get-started" },
         ],
       },
@@ -227,13 +227,13 @@ const megaMenu = {
   },
   "Resources": {
     href: "/documentation",
-    desc: "Technical documentation for Kubric UIDR — infrastructure, orchestration, security, and compliance.",
+    desc: "Technical documentation for Kubric UIDR: infrastructure, orchestration, security, and compliance.",
     viewAll: "View Documentation",
     columns: [
       {
         heading: "Documentation",
         items: [
-          { label: "Read the Docs", desc: "All Kubric documentation — modules, compliance, tools, services, and pricing guides.", href: "/documentation" },
+          { label: "Read the Docs", desc: "All Kubric documentation: modules, compliance, tools, services, and pricing guides.", href: "/documentation" },
           { label: "How Kubric Works", desc: "Architecture overview of the unified Kubric platform.", href: "/our-tools/how-kubric-works" },
           { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against module coverage.", href: "/compliance" },
           { label: "Onboard Today", desc: "Complete the full assessment for custom scoring and pricing.", href: "/assessment/start" },
@@ -242,9 +242,9 @@ const megaMenu = {
       {
         heading: "Resources",
         items: [
-          { label: "Methodology", desc: "Eight-stage closed lifecycle — Hunt through Close. No gaps, no shortcuts.", href: "/methodology" },
-          { label: "Pricing Guide", desc: "Six flexible pricing models explained — find the right fit for your business.", href: "/pricing" },
-          { label: "ThreatAI — CVE Lookup", desc: "Free CVE & EPSS vulnerability search with downloadable threat reports.", href: "/tools/threat-ai" },
+          { label: "Methodology", desc: "Eight-stage closed lifecycle: Hunt through Close. No gaps, no shortcuts.", href: "/methodology" },
+          { label: "Pricing Guide", desc: "Six flexible pricing models explained. Find the right fit for your business.", href: "/pricing" },
+          { label: "ThreatAI: CVE Lookup", desc: "Free CVE & EPSS vulnerability search with downloadable threat reports.", href: "/tools/threat-ai" },
         ],
       },
     ],

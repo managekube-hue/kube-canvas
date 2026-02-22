@@ -51,6 +51,30 @@ const Contact = () => {
         subtitle="Get in Touch. Let's Talk About Your Needs."
       />
 
+      {/* You May Also Like */}
+      <section className="py-16 border-t border-border bg-secondary">
+        <div className="container mx-auto px-6 lg:px-12">
+          <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-10">You May Also Like</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
+            {[
+              { label: "About ManageKube", href: "/about" },
+              { label: "Partners", href: "/about/partners" },
+              { label: "Careers", href: "/careers" },
+              { label: "Get Started", href: "/get-started" },
+            ].map((s) => (
+              <Link
+                key={s.label}
+                to={s.href}
+                className="group bg-background p-8 flex items-center justify-between hover:bg-secondary transition-colors"
+              >
+                <span className="text-sm font-semibold text-foreground group-hover:text-brand-orange transition-colors">{s.label}</span>
+                <ArrowRight size={16} className="text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all flex-shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contact Grid */}
       <section className="py-20 lg:py-32 bg-background">
         <div className="container mx-auto px-6 lg:px-12">

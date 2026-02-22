@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy — TI merged into VDR/STRIKE per v2.0 spec */
+/** DO NOT TOUCH: v2.0 spec copy: TI merged into VDR/STRIKE per v2.0 spec */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function TiKube() {
   return <ServiceLayerPage
@@ -7,7 +7,7 @@ export default function TiKube() {
     headline="Know Your Adversary. Before They Move Against You."
     narrative={[
       "Threat intelligence exists in abundance. IOC feeds, threat actor profiles, dark web monitoring, vulnerability disclosures the volume of raw intelligence available to security teams has never been higher. The problem is not access to information. The problem is the gap between generic threat data and actionable knowledge about the specific threats targeting your organization, your industry, and your infrastructure.",
-      "Threat Intelligence aggregates, analyzes, and operationalizes threat intelligence from global feeds, industry sources, and internal telemetry. MISP provides threat actor tracking, IOC correlation, and campaign attribution. EPSS scoring ensures your team focuses on vulnerabilities with the highest real-world exploitation probability — not just the highest CVSS scores.",
+      "Threat Intelligence aggregates, analyzes, and operationalizes threat intelligence from global feeds, industry sources, and internal telemetry. MISP provides threat actor tracking, IOC correlation, and campaign attribution. EPSS scoring ensures your team focuses on vulnerabilities with the highest real-world exploitation probability, not just the highest CVSS scores.",
     ]}
     capabilities={[
       "MISP threat sharing platform for IOC correlation and enrichment",

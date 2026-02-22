@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.44-46) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.44-46) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function HoneypotModule() {
   return <ServiceLayerPage
@@ -7,7 +7,7 @@ export default function HoneypotModule() {
     headline="If They Touch the Decoy, You Know They Are Already Inside."
     narrative={[
       "Behavioral detection is operationally powerful. It is also probabilistic comparing current activity against baselines and flagging deviations that exceed configured thresholds. Sophisticated adversaries who move deliberately, blend with normal traffic patterns, and operate within the boundaries of legitimate access can maintain a presence in your environment for extended periods before their behavioral signature accumulates to a detectable level.",
-      "Deception technology eliminates the probabilistic element for a specific and critical category of adversary activity. A honeypot—a fake credential placed in a location adversaries search during lateral movement, a decoy file share with a plausible name, a non-existent database with realistic-appearing data—has no legitimate users and no legitimate access pattern. Any interaction with deception infrastructure is unambiguously malicious. No false positives. No threshold calibration. No baseline comparison. The detection is categorical.",
+      "Deception technology eliminates the probabilistic element for a specific and critical category of adversary activity. A honeypot, a fake credential placed in a location adversaries search during lateral movement, a decoy file share with a plausible name, a non-existent database with realistic-appearing data, has no legitimate users and no legitimate access pattern. Any interaction with deception infrastructure is unambiguously malicious. No false positives. No threshold calibration. No baseline comparison. The detection is categorical.",
       "The Honeypot and Deception Network deploys decoy infrastructure across your environment that legitimate users will never encounter in normal operations so that when an adversary does encounter it, you know immediately, with certainty, that an adversary is operating in your environment.",
     ]}
     capabilities={[

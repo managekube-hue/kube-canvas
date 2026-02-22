@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-/** Footer — 5-column professional layout */
+/** Footer: 5-column professional layout */
 
 const ORANGE = "#993619";
 const DIM = "rgba(255,255,255,0.38)";
@@ -13,7 +13,7 @@ const columns: ColDef[] = [
   {
     title: "How It Works",
     items: [
-      { label: "Platform Overview", href: "/how-it-works/platform-overview" },
+      { label: "Service Overview", href: "/how-it-works/platform-overview" },
       { label: "Kubric UIDR", href: "/how-it-works/kubric-uidr" },
       { label: "Kubric Data Graph", href: "/how-it-works/kubric-data-graph" },
       { label: "KubricAI", href: "/how-it-works/kubricai" },
@@ -36,9 +36,9 @@ const columns: ColDef[] = [
     title: "Pricing & Tiers",
     items: [
       { label: "Pricing Models", href: "/pricing" },
-      { label: "XRO — Essentials", href: "/service-tiers/xro-essentials" },
-      { label: "XMX — Advanced", href: "/service-tiers/xmx-advanced" },
-      { label: "XME — Enterprise", href: "/service-tiers/xme-enterprise" },
+      { label: "XRO Essentials", href: "/service-tiers/xro-essentials" },
+      { label: "XMX Advanced", href: "/service-tiers/xmx-advanced" },
+      { label: "XME Enterprise", href: "/service-tiers/xme-enterprise" },
       { label: "Custom Configuration", href: "/service-tiers/custom" },
     ],
   },

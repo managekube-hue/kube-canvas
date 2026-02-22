@@ -7,6 +7,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
 import { motion } from "framer-motion";
 import { ArrowRight, Users, Briefcase, Code, Handshake } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const programs = [
   {
@@ -101,6 +102,31 @@ export default function Partners() {
                   <h3 className="text-base font-bold text-foreground mb-3">{b.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* You May Also Like */}
+      <section style={{ background: "#FEFBF6" }} className="py-16 border-t border-border">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-10">You May Also Like</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+              {[
+                { label: "About ManageKube", href: "/about" },
+                { label: "Roadmap", href: "/about/roadmap" },
+                { label: "Careers", href: "/careers" },
+              ].map((s) => (
+                <Link
+                  key={s.label}
+                  to={s.href}
+                  className="group bg-background p-8 flex items-center justify-between hover:bg-secondary transition-colors"
+                >
+                  <span className="text-sm font-semibold text-foreground group-hover:text-brand-orange transition-colors">{s.label}</span>
+                  <ArrowRight size={16} className="text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </Link>
               ))}
             </div>
           </div>

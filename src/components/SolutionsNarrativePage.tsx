@@ -1,4 +1,4 @@
-/** Shared template for Solutions narrative pages — matches ComplianceDetailPage design */
+/** Shared template for Solutions narrative pages: matches ComplianceDetailPage design */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
