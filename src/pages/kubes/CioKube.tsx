@@ -1,21 +1,36 @@
-import { KubeDetailPage } from "@/components/KubeDetailPage";
+/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.12-13) */
+import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function CioKube() {
-  return <KubeDetailPage
-    code="CIO"
-    name="Core Infrastructure Orchestration"
-    tagline="Unified orchestration for configuration drift, backup & disaster recovery, and infrastructure lifecycle."
+  return <ServiceLayerPage
     category="Infrastructure & Operations"
-    description="The CIO KUBE serves as the central orchestration layer for infrastructure operations. It manages asset lifecycle, automates provisioning and deprovisioning, enforces configuration standards, and coordinates backup and recovery operations across your entire technology estate."
-    fullDescription="CIO KUBE is the foundation of the ManageKube platform. It manages the full infrastructure lifecycle from automated provisioning through decommission, enforcing configuration baselines and coordinating with CFDR and BDR Kubes. Multi-cloud infrastructure support ensures complete coverage regardless of where workloads run."
+    name="Core Infrastructure Orchestration"
+    headline="You Cannot Defend What You Have Not Mapped."
+    narrative={[
+      "Infrastructure security begins with a complete, accurate, and continuously updated picture of everything present in your environment. Not the inventory from last quarter. Not the asset list from the most recent audit. What is connected right now how it is configured, and whether it matches your approved baseline.",
+      "Most organizations operate with infrastructure visibility gaps they are unaware exist. Shadow IT. Forgotten legacy systems. Cloud resources provisioned outside the change management process. Network segments that drifted out of monitoring scope. These are not edge cases they are standard conditions in environments that have scaled over time without a unified orchestration layer. Every unknown asset is a potential unmonitored entry point.",
+      "Core Infrastructure Orchestration eliminates those gaps. Every asset, every connection, every configuration state continuously discovered, continuously monitored, continuously reconciled against the baseline your organization approved.",
+    ]}
     capabilities={[
-      { title: "Infrastructure Lifecycle", items: ["Automated infrastructure provisioning", "Asset lifecycle management", "Multi-cloud infrastructure support", "Network and endpoint coordination"] },
-      { title: "Configuration Management", items: ["Configuration management and drift detection", "Patch and update orchestration", "Baseline enforcement", "Change tracking and audit trails"] },
-      { title: "Integration Points", items: ["Integration with CFDR and BDR Kubes", "API gateway connectivity", "ITSM ticketing integration", "RMM platform coordination"] },
+      "Automated asset discovery across on-premises, cloud, and hybrid environments continuously updated, no manual inventories",
+      "Configuration baseline definition and continuous enforcement against approved standards",
+      "Change detection with immediate alerting when infrastructure deviates from approved state unauthorized changes surface in hours, not at the next audit",
+      "Dependency mapping which systems depend on which, and how failure propagates enabling precise rather than blunt response",
+      "Lifecycle management visibility: assets approaching end-of-life, unpatched systems, decommission candidates",
+      "Inventory reporting for compliance frameworks with asset management documentation requirements, generated automatically",
+    ]}
+    methodology={[
+      { stage: "Hunt", desc: "Proactive discovery of undocumented assets and configuration anomalies." },
+      { stage: "Identify", desc: "Signal validation and asset context enrichment." },
+      { stage: "Alert", desc: "Prioritized notification of configuration drift and unauthorized changes." },
+      { stage: "Triage", desc: "Analyst review and escalation determination." },
+    ]}
+    architectureNotes={[
+      "Note: Every other Service Layer capability performs with greater precision when Core Infrastructure Orchestration is in place. Detection capabilities identify threats faster against accurate asset context. Response actions are more surgical when dependencies are mapped.",
     ]}
     similar={[
-      { label: "NPM", href: "/service-layer/npm" },
-      { label: "CFDR", href: "/service-layer/cfdr" },
-      { label: "BDR", href: "/service-layer/bdr" },
+      { label: "Network Performance Monitoring", href: "/service-layer/npm" },
+      { label: "Configuration Drift Detection & Correction", href: "/service-layer/cfdr" },
+      { label: "Backup & Disaster Recovery", href: "/service-layer/bdr" },
     ]}
   />;
 }
