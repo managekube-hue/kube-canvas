@@ -160,7 +160,74 @@ Deno.serve(async (req) => {
     totalUpserted += nvdCount
 
     // ========================================
-    // STEP 3: Enrich with EPSS scores (bulk)
+    // STEP 3: Backfill CVSS for KEV entries missing scores
+    // ========================================
+    console.log('📥 Backfilling CVSS for KEV entries missing scores...')
+    let cvssBackfillCount = 0
+    try {
+      const { data: missingCvss } = await supabase
+        .from('threat_intel')
+        .select('cve_id')
+        .eq('is_kev', true)
+        .is('cvss_v3_score', null)
+        .limit(100)
+
+      if (missingCvss && missingCvss.length > 0) {
+        console.log(`  Found ${missingCvss.length} KEV entries missing CVSS`)
+        for (const row of missingCvss) {
+          try {
+            const nvdRes = await fetch(`${NVD_API}?cveId=${row.cve_id}`)
+            if (nvdRes.ok) {
+              const nvdData = await nvdRes.json()
+              const vuln = nvdData.vulnerabilities?.[0]?.cve
+              if (vuln) {
+                let cvssV3 = null, cvssV2 = null, severity = 'UNKNOWN'
+                const metrics = vuln.metrics
+                if (metrics?.cvssMetricV31?.[0]) {
+                  cvssV3 = metrics.cvssMetricV31[0].cvssData?.baseScore
+                  severity = metrics.cvssMetricV31[0].cvssData?.baseSeverity || 'UNKNOWN'
+                } else if (metrics?.cvssMetricV30?.[0]) {
+                  cvssV3 = metrics.cvssMetricV30[0].cvssData?.baseScore
+                  severity = metrics.cvssMetricV30[0].cvssData?.baseSeverity || 'UNKNOWN'
+                } else if (metrics?.cvssMetricV2?.[0]) {
+                  cvssV2 = metrics.cvssMetricV2[0].cvssData?.baseScore
+                  const s = cvssV2 || 0
+                  if (s >= 7) severity = 'HIGH'
+                  else if (s >= 4) severity = 'MEDIUM'
+                  else if (s > 0) severity = 'LOW'
+                }
+
+                // Also grab the proper NVD description
+                const desc = vuln.descriptions?.find((d: any) => d.lang === 'en')?.value || ''
+
+                const updateData: any = {}
+                if (cvssV3) { updateData.cvss_v3_score = cvssV3; updateData.cvss_severity = severity.toUpperCase() }
+                if (cvssV2 && !cvssV3) { updateData.cvss_v2_score = cvssV2; updateData.cvss_severity = severity.toUpperCase() }
+                if (desc) updateData.description = desc
+
+                if (Object.keys(updateData).length > 0) {
+                  await supabase.from('threat_intel').update(updateData).eq('cve_id', row.cve_id)
+                  cvssBackfillCount++
+                }
+              }
+            } else {
+              await nvdRes.text() // consume body
+            }
+          } catch (e) {
+            console.error(`  CVSS backfill error for ${row.cve_id}:`, e.message)
+          }
+          // NVD rate limit: 5 req / 30s without API key
+          await new Promise(r => setTimeout(r, 6500))
+        }
+      }
+      console.log(`  ✅ CVSS backfill: ${cvssBackfillCount} entries updated`)
+    } catch (e) {
+      console.error('  ❌ CVSS backfill failed:', e.message)
+    }
+    totalUpserted += cvssBackfillCount
+
+    // ========================================
+    // STEP 4: Enrich with EPSS scores (bulk)
     // ========================================
     console.log('📥 Syncing EPSS scores...')
     let epssCount = 0
@@ -290,7 +357,7 @@ Deno.serve(async (req) => {
     totalUpserted += epssCount
 
     // ========================================
-    // STEP 4: Update sync metadata
+    // STEP 5: Update sync metadata
     // ========================================
     const duration = Date.now() - startTime
     await supabase
