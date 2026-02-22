@@ -29,9 +29,9 @@ const TEXT_DIMMER = "rgba(205,202,197,0.28)";
 // Per architecture doc page 27: Self-Managed sub-nav
 const SUB_NAV = [
   { label: "Platform Architecture", href: "/our-tools/how-kubric-works" },
-  { label: "Kube Catalog",          href: "/kubes" },
+  { label: "Module Catalog",          href: "/service-layer" },
   { label: "Platform Mechanics",    href: "/uidr/platform" },
-  { label: "Compliance Automation", href: "/compliance/cmmc" },
+  { label: "Compliance Automation", href: "/compliance" },
   { label: "K-DOCS",                href: "/uidr/docs" },
   { label: "Open Source",           href: "/uidr/open-source" },
   { label: "Book a Demo",           href: "/contact", cta: true },

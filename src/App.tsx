@@ -218,7 +218,7 @@ const App = () => (
           <Route path="/kubes/ti-kube" element={<Navigate to="/service-layer/ti" replace />} />
           <Route path="/kubes/vdr-kube" element={<Navigate to="/service-layer/vdr" replace />} />
           <Route path="/kubes/grc-kube" element={<Navigate to="/service-layer/grc" replace />} />
-          <Route path="/kubes/assessment-kube" element={<Navigate to="/assessment" replace />} />
+          <Route path="/kubes/assessment-kube" element={<Navigate to="/get-started" replace />} />
           <Route path="/kubes/compliance-kube" element={<Navigate to="/services/managed-compliance" replace />} />
           <Route path="/kubes/mssp-kube" element={<Navigate to="/services/managed-soc" replace />} />
           <Route path="/kubes/msp-kube" element={<Navigate to="/services/managed-noc" replace />} />
