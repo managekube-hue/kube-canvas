@@ -396,6 +396,36 @@ export type Database = {
           },
         ]
       }
+      sync_metadata: {
+        Row: {
+          created_at: string | null
+          error_message: string | null
+          id: number
+          last_sync: string | null
+          records_updated: number | null
+          sync_duration_ms: number | null
+          sync_status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          error_message?: string | null
+          id?: number
+          last_sync?: string | null
+          records_updated?: number | null
+          sync_duration_ms?: number | null
+          sync_status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          error_message?: string | null
+          id?: number
+          last_sync?: string | null
+          records_updated?: number | null
+          sync_duration_ms?: number | null
+          sync_status?: string | null
+        }
+        Relationships: []
+      }
       sync_runs: {
         Row: {
           completed_at: string | null
@@ -432,6 +462,87 @@ export type Database = {
           pages_updated?: number | null
           started_at?: string | null
           status?: string | null
+        }
+        Relationships: []
+      }
+      threat_intel: {
+        Row: {
+          created_at: string | null
+          cve_id: string
+          cvss_severity: string | null
+          cvss_v2_score: number | null
+          cvss_v3_score: number | null
+          description: string | null
+          epss_percentile: number | null
+          epss_score: number | null
+          epss_updated_date: string | null
+          id: string
+          is_kev: boolean | null
+          kev_added_date: string | null
+          kev_due_date: string | null
+          kev_known_ransomware: boolean | null
+          kev_notes: string | null
+          last_modified_date: string | null
+          plain_english_summary: string | null
+          product: string | null
+          published_date: string | null
+          risk_score: number | null
+          search_vector: unknown
+          updated_at: string | null
+          urgency_level: string | null
+          vendor: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          cve_id: string
+          cvss_severity?: string | null
+          cvss_v2_score?: number | null
+          cvss_v3_score?: number | null
+          description?: string | null
+          epss_percentile?: number | null
+          epss_score?: number | null
+          epss_updated_date?: string | null
+          id?: string
+          is_kev?: boolean | null
+          kev_added_date?: string | null
+          kev_due_date?: string | null
+          kev_known_ransomware?: boolean | null
+          kev_notes?: string | null
+          last_modified_date?: string | null
+          plain_english_summary?: string | null
+          product?: string | null
+          published_date?: string | null
+          risk_score?: number | null
+          search_vector?: unknown
+          updated_at?: string | null
+          urgency_level?: string | null
+          vendor?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          cve_id?: string
+          cvss_severity?: string | null
+          cvss_v2_score?: number | null
+          cvss_v3_score?: number | null
+          description?: string | null
+          epss_percentile?: number | null
+          epss_score?: number | null
+          epss_updated_date?: string | null
+          id?: string
+          is_kev?: boolean | null
+          kev_added_date?: string | null
+          kev_due_date?: string | null
+          kev_known_ransomware?: boolean | null
+          kev_notes?: string | null
+          last_modified_date?: string | null
+          plain_english_summary?: string | null
+          product?: string | null
+          published_date?: string | null
+          risk_score?: number | null
+          search_vector?: unknown
+          updated_at?: string | null
+          urgency_level?: string | null
+          vendor?: string | null
         }
         Relationships: []
       }
