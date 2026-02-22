@@ -328,7 +328,7 @@ const App = () => (
           <Route path="/industries/telecommunications" element={<Telecommunications />} />
 
           {/* Company */}
-          <Route path="/pricing" element={<Navigate to="/service-tiers#pricing" replace />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
