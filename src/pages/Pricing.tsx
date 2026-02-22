@@ -68,37 +68,37 @@ const Pricing = () => {
       <section className="py-20 lg:py-28 bg-foreground text-white">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <p className="text-label text-brand-orange mb-4">PLATFORMS</p>
-            <h2 className="text-headline text-white mb-4">Choose Your Platform</h2>
+            <p className="text-label text-brand-orange mb-4">SERVICE TIERS</p>
+            <h2 className="text-headline text-white mb-4">Choose Your Service Tier</h2>
             <p className="text-body-lg text-white/60 mb-14 max-w-2xl">
-              Three purpose-built platforms powered by the Kubric platform. Each maps to the modules your organisation needs, from 7 to all 18.
+              Three service tiers powered by the Kubric engine. Each maps to the capabilities your organisation needs, from 9 to all 23.
             </p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
                   code: "XRO",
-                  name: "Small Business Platform",
-                  audience: "1–50 Employees",
-                  desc: "7 essential modules. Complete security and operations for small businesses. Deploy in 48 hours.",
-                  kubes: ["CIO", "NPM", "ITDR", "NDR", "VDR", "CFDR", "GRC"],
+                  name: "Essentials",
+                  audience: "10 to 100 Users",
+                  desc: "9 capabilities. Your foundation for managed IT and security visibility. Deploy in 48 hours.",
+                  kubes: ["Managed NOC", "Help Desk", "MDM", "M365", "NPM", "ITDR", "VDR", "CFDR", "Portal + Ticketing"],
                   href: "/service-tiers/xro-essentials",
                   featured: false,
                 },
                 {
                   code: "XMX",
-                  name: "Advanced Platform",
-                  audience: "50–500 Employees",
-                  desc: "12 modules. Advanced detection, response, and compliance for growing organizations.",
-                  kubes: ["All 7 XRO Modules", "MDM", "APM", "CDR", "ADR", "BDR"],
+                  name: "Advanced",
+                  audience: "100 to 500 Users",
+                  desc: "16 capabilities. Full-spectrum security operations with real-time detection and response.",
+                  kubes: ["All 9 Essentials", "Managed SOC", "CDR", "APM", "BDR", "Compliance Mgmt", "Real-Time Dashboard", "App Threat Containment"],
                   href: "/service-tiers/xmx-advanced",
                   featured: true,
                 },
                 {
                   code: "XME",
-                  name: "Enterprise Platform",
-                  audience: "500+ Employees",
-                  desc: "All 18 modules. Full enterprise coverage with premium KubricAI orchestration capabilities.",
-                  kubes: ["All 12 XMX Modules", "SDR", "DDR", "TI", "STRIKE", "EASM", "HONEYPOT"],
+                  name: "Enterprise",
+                  audience: "500+ Users / Regulated Industries",
+                  desc: "All 23 capabilities. Complete coverage with threat intelligence, deception, and supply chain defense.",
+                  kubes: ["All 16 Advanced", "SCDR", "DDR", "TI (STRIKE)", "EASM", "Honeypot", "FinOps", "vCISO"],
                   href: "/service-tiers/xme-enterprise",
                   featured: false,
                 },

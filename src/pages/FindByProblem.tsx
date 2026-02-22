@@ -20,8 +20,8 @@ const problems = [
   },
   {
     title: "Tool Sprawl and Integration Debt",
-    desc: "Tools have accumulated over time. They do not share data. Analysts move between consoles rather than investigating threats. Integration projects start and stall. The platform promised never materializes.",
-    solution: "Kubric platform with a unified data graph and 20 integrated capabilities — one schema, one graph, one methodology.",
+    desc: "Tools have accumulated over time. They do not share data. Analysts move between consoles rather than investigating threats. Integration projects start and stall. The consolidation promised never materializes.",
+    solution: "Kubric engine with a unified data graph and 23 integrated capabilities: one schema, one graph, one methodology.",
     href: "/how-it-works/platform-overview",
   },
   {

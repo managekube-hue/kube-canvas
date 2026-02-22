@@ -13,7 +13,7 @@ const openPositions = [
   {
     title: "Security Operations Center (SOC) Analyst",
     location: "Remote / Multiple Shifts",
-    description: "Monitor security alerts across 20 detection capabilities. Triage incidents. Escalate when needed. Document everything. 24/7 coverage means shift work, but your team has your back.",
+    description: "Monitor security alerts across 23 detection capabilities. Triage incidents. Escalate when needed. Document everything. 24/7 coverage means shift work, but your team has your back.",
     requirements: "2+ years SOC experience. Familiarity with SIEM, EDR, NDR. Willingness to work nights/weekends as part of rotation.",
     email: "careers@managekube.com",
     subject: "SOC Analyst",
@@ -62,7 +62,7 @@ const openPositions = [
 
 const whyJoin = [
   { title: "Mission-driven work", desc: "You will protect organisations that keep the world running. Manufacturing. Healthcare. Public sector. Energy. Finance. Your work matters." },
-  { title: "Technical depth", desc: "You will work on the Kubric platform: 20 integrated capabilities, a unified data graph, AI-driven detection. You will never stop learning." },
+  { title: "Technical depth", desc: "You will work on the Kubric engine: 23 integrated capabilities, a unified data graph, AI-driven detection. You will never stop learning." },
   { title: "Career growth", desc: "We are growing fast. Your role can grow with us." },
   { title: "Great team", desc: "You will work with people who are smart, collaborative, and committed to doing things right." },
   { title: "Competitive compensation", desc: "Salary, benefits, equity, and professional development." },

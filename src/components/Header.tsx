@@ -199,9 +199,9 @@ const megaMenu = {
       {
         heading: "Service Tiers",
         items: [
-          { label: "XRO Essentials", desc: "7 essential modules for small businesses. Deploy in 48 hours.", href: "/service-tiers/xro-essentials" },
-          { label: "XMX Advanced", desc: "12 modules for growing organisations with advanced detection.", href: "/service-tiers/xmx-advanced" },
-          { label: "XME Enterprise", desc: "All 18 modules with premium KubricAI orchestration.", href: "/service-tiers/xme-enterprise" },
+          { label: "XRO Essentials", desc: "9 capabilities for small businesses. Deploy in 48 hours.", href: "/service-tiers/xro-essentials" },
+          { label: "XMX Advanced", desc: "16 capabilities for growing organisations with advanced detection.", href: "/service-tiers/xmx-advanced" },
+          { label: "XME Enterprise", desc: "All 23 capabilities with premium KubricAI orchestration.", href: "/service-tiers/xme-enterprise" },
           { label: "Custom Configuration", desc: "Get exactly the coverage you need, configured for your environment.", href: "/service-tiers/custom" },
         ],
       },

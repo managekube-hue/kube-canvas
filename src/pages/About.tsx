@@ -141,7 +141,7 @@ const About = () => {
               One partner. Every layer. Built different.
             </h2>
             <p className="text-body text-muted-foreground mb-12 max-w-2xl">
-              ManageKube delivers security and IT services through the Kubric platform, a unified detection and response architecture with 20 integrated capabilities.
+              ManageKube delivers security and IT services through the Kubric engine, a unified detection and response architecture with 23 capabilities across three service tiers.
             </p>
             <div className="grid sm:grid-cols-3 gap-6">
               {whatWeDo.map((s) => (

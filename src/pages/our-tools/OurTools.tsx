@@ -23,7 +23,7 @@ const whatYouReceive = [
 
 const inThisSection = [
   { name: "Service Overview", desc: "How ManageKube delivers: what we do, how we do it, and why it is different.", href: "/how-it-works/platform-overview" },
-  { name: "Kubric UIDR", desc: "Unified Intelligent Detection & Response: the 20-capability detection engine that powers everything.", href: "/how-it-works/kubric-uidr" },
+  { name: "Kubric UIDR", desc: "Unified Intelligent Detection & Response: the 23-capability detection engine that powers everything.", href: "/how-it-works/kubric-uidr" },
   { name: "Kubric Data Graph", desc: "The correlation layer: how signals from different domains become a single attack chain.", href: "/how-it-works/kubric-data-graph" },
   { name: "KubricAI", desc: "The intelligence layer: how we reduce noise, prioritize what matters, and recommend actions.", href: "/how-it-works/kubricai" },
 ];
