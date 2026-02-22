@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signInWithGitHub = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
-      options: { redirectTo: window.location.origin + "/uidr/technical-docs" },
+      options: { redirectTo: `${window.location.origin}/uidr/technical-docs` },
     });
   };
 
