@@ -9,7 +9,7 @@ interface PageBannerProps {
 
 export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
   return (
-    <section className="relative pt-40 pb-36 lg:pt-56 lg:pb-52 overflow-hidden bg-black min-h-[80vh] flex items-center">
+    <section className="relative pt-40 pb-36 lg:pt-56 lg:pb-52 overflow-hidden bg-black min-h-screen flex items-center">
       {/* Video background */}
       <div className="absolute inset-0 z-0">
         <video
