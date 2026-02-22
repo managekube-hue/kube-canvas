@@ -32,6 +32,11 @@ export interface ScoringResult {
   key_gap_flags: string[];
   deep_dive_flow: string;
   industry_multiplier: number;
+  monthly_price: number;
+  base_rate: number;
+  per_endpoint_rate: number;
+  endpoint_count: number;
+  estimated_deal_size: string;
 }
 
 const CF_FIELDS = [
@@ -136,11 +141,20 @@ export function calculateScores(
   if (ems_score > 700) recommended_tier = "XME";
   else if (ems_score > 400) recommended_tier = "XMX";
 
-  // Profile type based on endpoint count
+  // Profile type based on endpoint count and employee count
   const endpoints = answers["P0-Q0E_ENDPOINTS"];
+  const employees = answers["P0-Q5_EMPLOYEE_COUNT"];
+  const revenue = answers["P0-Q6_REVENUE"];
   let profile_type: "smb" | "mid_market" | "enterprise" = "smb";
-  if (endpoints === "5000" || endpoints === "5000+") profile_type = "enterprise";
-  else if (endpoints === "500" || endpoints === "1000") profile_type = "mid_market";
+  
+  // Employee-based: <50 SMB, 50-200 mid_market, >200 enterprise
+  const empNum = parseInt(employees) || 0;
+  if (empNum > 200 || endpoints === "5000" || endpoints === "5000+") profile_type = "enterprise";
+  else if (empNum > 50 || endpoints === "500" || endpoints === "1000") profile_type = "mid_market";
+  
+  // Revenue override: $25M+ = enterprise, $5M-$25M = mid_market
+  if (revenue === "25m_100m" || revenue === "100m_500m" || revenue === "500m_plus") profile_type = "enterprise";
+  else if (revenue === "5m_25m" && profile_type === "smb") profile_type = "mid_market";
 
   // Upsell trigger: EMS > 350 (from XRO) or > 650 (from XMX)
   const upsell_ready = (recommended_tier === "XRO" && ems_score > 350) ||
@@ -149,6 +163,23 @@ export function calculateScores(
   // Deep-dive flow routing
   const priority = answers["P0-Q4_PRIMARY_PRIORITY"];
   const deep_dive_flow = priority ? (PRIORITY_TO_FLOW[priority] || "SR") : "SR";
+
+  // ── Pricing Calculation ──
+  // Base rates: XRO $2,800 | XMX $7,500 | XME $18,000
+  // Per-endpoint: XRO $18 | XMX $12 | XME $8
+  const TIER_PRICING: Record<string, { base: number; perEndpoint: number }> = {
+    XRO: { base: 2800, perEndpoint: 18 },
+    XMX: { base: 7500, perEndpoint: 12 },
+    XME: { base: 18000, perEndpoint: 8 },
+  };
+  const tierPricing = TIER_PRICING[recommended_tier];
+  const endpointNum = parseInt(endpoints) || 50;
+  const monthly_price = tierPricing.base + (endpointNum * tierPricing.perEndpoint);
+
+  // Deal size classification
+  let estimated_deal_size = "smb";
+  if (profile_type === "enterprise") estimated_deal_size = "enterprise";
+  else if (profile_type === "mid_market") estimated_deal_size = "mid_market";
 
   return {
     ems_score,
@@ -172,6 +203,11 @@ export function calculateScores(
     key_gap_flags: gapFlags,
     deep_dive_flow,
     industry_multiplier,
+    monthly_price,
+    base_rate: tierPricing.base,
+    per_endpoint_rate: tierPricing.perEndpoint,
+    endpoint_count: endpointNum,
+    estimated_deal_size,
   };
 }
 
