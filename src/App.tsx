@@ -136,6 +136,7 @@ import Notice from "./pages/Notice";
 import Documentation from "./pages/Documentation";
 import Support from "./pages/Support";
 import ThreatAi from "./pages/tools/ThreatAi";
+import CmsAdmin from "./pages/CmsAdmin";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -343,6 +344,9 @@ const App = () => (
 
           {/* Tools (Lead Magnets) */}
           <Route path="/tools/threat-ai" element={<ThreatAi />} />
+
+          {/* CMS Admin */}
+          <Route path="/cms" element={<CmsAdmin />} />
 
           {/* Login Portals */}
           <Route path="/login/partner" element={<PartnerPortal />} />

@@ -5,10 +5,10 @@ export interface ThreatCve {
   id: string;
   name: string;
   description: string;
-  plainEnglish: string; // What it actually means in human language
+  plainEnglish: string;
   cvss: number;
   epss: number;
-  severity: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+  severity: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | string;
   published: string;
   activelyExploited: boolean;
   cisaKev: boolean;
@@ -17,6 +17,7 @@ export interface ThreatCve {
   ransomwareUse: boolean;
   vendor: string;
   product: string;
+  riskScore?: number;
   patchUrl?: string;
 }
 
