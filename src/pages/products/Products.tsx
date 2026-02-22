@@ -10,8 +10,8 @@ const tiers = [
     name: "Essentials",
     market: "SMB — 10 to 100 users",
     tagline: "Your foundation for managed IT and security visibility",
-    price: "From $2,500",
-    priceUnit: "/mo",
+    price: "Scored by Assessment",
+    priceUnit: "",
     methodology: "Hunt → Identify → Alert → Triage",
     capabilities: [
       "Managed NOC (24/7)", "Help Desk & Desktop Support", "Mobile Device Management",
@@ -28,8 +28,8 @@ const tiers = [
     name: "Advanced",
     market: "SME — 100 to 500 users",
     tagline: "Full-spectrum security operations with real-time detection and response",
-    price: "From $12,500",
-    priceUnit: "/mo",
+    price: "Scored by Assessment",
+    priceUnit: "",
     methodology: "Hunt → Identify → Alert → Triage → Diagnose → Remediate",
     capabilities: [
       "Everything in Essentials", "Managed SOC (24/7)", "Cloud Detection & Response",
@@ -45,7 +45,7 @@ const tiers = [
     name: "Enterprise",
     market: "Enterprise — 500+ users / regulated industries",
     tagline: "Complete coverage with threat intelligence, deception, and supply chain defense",
-    price: "Custom",
+    price: "Scored by Assessment",
     priceUnit: "",
     methodology: "Full lifecycle: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close",
     capabilities: [

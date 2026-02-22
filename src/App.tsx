@@ -128,6 +128,9 @@ import PartnerPortal from "./pages/login/PartnerPortal";
 import ClientPortal from "./pages/login/ClientPortal";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Accessibility from "./pages/Accessibility";
+import OpenSourceLicensing from "./pages/OpenSourceLicensing";
+import Notice from "./pages/Notice";
 import Documentation from "./pages/Documentation";
 import Support from "./pages/Support";
 import ThreatAi from "./pages/tools/ThreatAi";
@@ -344,6 +347,9 @@ const App = () => (
           {/* Legal */}
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/open-source-licensing" element={<OpenSourceLicensing />} />
+          <Route path="/notice" element={<Notice />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/docs" element={<Navigate to="/documentation" replace />} />
 
