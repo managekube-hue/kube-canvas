@@ -9,8 +9,8 @@ const ORANGE = "#993619";
 
 const PATHS: { id: UserPath; label: string; desc: string }[] = [
   { id: "fully-managed",  label: "Fully Managed",  desc: "We run it. You own the outcomes." },
-  { id: "co-managed",     label: "Co-Managed",     desc: "Your team runs it. Our platform backs you." },
-  { id: "self-managed",   label: "Self-Managed",   desc: "You run it. The platform stays out of the way." },
+  { id: "co-managed",     label: "Co-Managed",     desc: "Your team runs it. Our engineers back you." },
+  { id: "self-managed",   label: "Self-Managed",   desc: "You run it. We stay out of the way." },
 ];
 
 export const PathSwitcher = () => {

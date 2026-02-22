@@ -14,7 +14,7 @@ const stats = [
 ];
 
 const whatYouReceive = [
-  "One platform. Not five tools duct-taped together.",
+  "One service provider. Not five tools duct-taped together.",
   "One data graph. Correlation happens at ingestion, not investigation.",
   "One methodology. Every detection follows the same eight-stage lifecycle.",
   "One team. The same analysts who tune your detection respond to your incidents.",
@@ -22,7 +22,7 @@ const whatYouReceive = [
 ];
 
 const inThisSection = [
-  { name: "Platform Overview", desc: "The Kubric platform explained: what it is, what it does, and why it is different.", href: "/how-it-works/platform-overview" },
+  { name: "Service Overview", desc: "How ManageKube delivers: what we do, how we do it, and why it is different.", href: "/how-it-works/platform-overview" },
   { name: "Kubric UIDR", desc: "Unified Intelligent Detection & Response: the 20-capability detection engine that powers everything.", href: "/how-it-works/kubric-uidr" },
   { name: "Kubric Data Graph", desc: "The correlation layer: how signals from different domains become a single attack chain.", href: "/how-it-works/kubric-data-graph" },
   { name: "KubricAI", desc: "The intelligence layer: how we reduce noise, prioritize what matters, and recommend actions.", href: "/how-it-works/kubricai" },
@@ -48,7 +48,7 @@ export default function OurTools() {
               className="font-black text-white leading-tight"
               style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif", marginBottom: "12px" }}
             >The Architecture That Makes Managed Security Actually Work</h1>
-            <p style={{ fontSize: "18px", fontWeight: 600, color: "#993619", marginBottom: "12px" }}>Most Security Platforms Are Built by Acquisition. This One Was Built Different.</p>
+            <p style={{ fontSize: "18px", fontWeight: 600, color: "#993619", marginBottom: "12px" }}>Most Security Providers Are Built by Acquisition. This One Was Built Different.</p>
             <p style={{ fontSize: "16px", lineHeight: 1.7, color: "rgba(205,202,197,0.70)", maxWidth: "640px" }}>
               Look under the hood of most managed security providers and you will find a collection of tools bolted together. A SIEM here. An EDR there. A ticketing system somewhere else. They are integrated via API calls and hope. The data lives in separate places. Alerts fire in separate consoles. Your analyst spends the first hour of every investigation determining which three alerts constitute the same incident.
             </p>

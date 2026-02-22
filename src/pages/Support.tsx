@@ -41,7 +41,7 @@ const supportChannels = [
 ];
 
 const resources = [
-  { icon: BookOpen, title: "Documentation", desc: "Technical guides, module references, and platform architecture.", href: "/documentation" },
+  { icon: BookOpen, title: "Documentation", desc: "Technical guides, module references, and service architecture.", href: "/documentation" },
   { icon: Shield, title: "Compliance Frameworks", desc: "Framework-specific documentation across 12 compliance standards.", href: "/compliance" },
   { icon: Headphones, title: "Managed Services", desc: "Learn about our 24/7 NOC, SOC, and compliance management.", href: "/services" },
   { icon: FileText, title: "Assessment Tool", desc: "Evaluate your security posture and identify coverage gaps.", href: "/assessment" },
