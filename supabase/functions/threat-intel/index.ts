@@ -6,15 +6,11 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-// CISA Known Exploited Vulnerabilities feed (free, no key)
 const CISA_KEV_URL =
   "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json";
-
-// FIRST EPSS API (free, no key)
 const EPSS_API_URL = "https://api.first.org/data/v1/epss";
-
-// NVD CVE API 2.0 (free, rate-limited to ~5 req/30s without key)
 const NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0";
+const CVE_ORG_API = "https://cveawg.mitre.org/api/cve";
 
 interface ThreatCve {
   id: string;
@@ -41,6 +37,85 @@ function cvssToSeverity(score: number): "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" {
   return "LOW";
 }
 
+/** Extract CVSS from NVD metrics object */
+function extractNvdCvss(metrics: any): number {
+  if (metrics?.cvssMetricV31?.[0]) return metrics.cvssMetricV31[0].cvssData?.baseScore || 0;
+  if (metrics?.cvssMetricV30?.[0]) return metrics.cvssMetricV30[0].cvssData?.baseScore || 0;
+  if (metrics?.cvssMetricV2?.[0]) return metrics.cvssMetricV2[0].cvssData?.baseScore || 0;
+  return 0;
+}
+
+/** Search CVE.org (MITRE) API — has the latest CVEs before NVD indexes them */
+async function searchCveOrg(query: string): Promise<ThreatCve[]> {
+  const results: ThreatCve[] = [];
+  const isCveId = /^CVE-\d{4}-\d+$/i.test(query.trim());
+
+  if (isCveId) {
+    // Direct lookup
+    try {
+      const res = await fetch(`${CVE_ORG_API}/${query.trim().toUpperCase()}`);
+      if (res.ok) {
+        const data = await res.json();
+        const cve = parseCveOrgEntry(data);
+        if (cve) results.push(cve);
+      }
+    } catch (e) {
+      console.error("CVE.org lookup error:", e);
+    }
+  } else {
+    // Keyword search — CVE.org doesn't support keyword search well,
+    // so we skip for non-CVE-ID queries
+  }
+
+  return results;
+}
+
+/** Parse a CVE.org (MITRE CNA) response into our ThreatCve format */
+function parseCveOrgEntry(data: any): ThreatCve | null {
+  try {
+    const meta = data.cveMetadata;
+    const cna = data.containers?.cna;
+    if (!meta?.cveId || !cna) return null;
+
+    const id = meta.cveId;
+    const desc = cna.descriptions?.find((d: any) => d.lang === "en")?.value || "";
+
+    // Extract CVSS from CNA metrics
+    let cvss = 0;
+    for (const m of cna.metrics || []) {
+      if (m.cvssV3_1?.baseScore) { cvss = m.cvssV3_1.baseScore; break; }
+      if (m.cvssV3_0?.baseScore) { cvss = m.cvssV3_0.baseScore; break; }
+      if (m.cvssV4_0?.baseScore) { cvss = m.cvssV4_0.baseScore; break; }
+    }
+
+    // Extract vendor/product from affected
+    const affected = cna.affected?.[0];
+    const vendor = affected?.vendor || "See description";
+    const product = affected?.product || "See description";
+
+    const published = meta.datePublished?.split("T")[0] || meta.dateUpdated?.split("T")[0] || "";
+
+    return {
+      id,
+      name: id,
+      description: desc,
+      plainEnglish: desc.length > 200 ? desc.substring(0, 200) + "..." : desc,
+      cvss,
+      epss: 0,
+      severity: cvss > 0 ? cvssToSeverity(cvss) : "MEDIUM",
+      published,
+      activelyExploited: false,
+      cisaKev: false,
+      ransomwareUse: false,
+      vendor,
+      product,
+    };
+  } catch (e) {
+    console.error("Parse CVE.org error:", e);
+    return null;
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -48,38 +123,29 @@ serve(async (req) => {
 
   try {
     const { tab, query } = await req.json().catch(() => ({ tab: "trend", query: "" }));
-
     console.log(`Threat intel request: tab=${tab}, query=${query}`);
 
-    // 1. Fetch CISA KEV (always needed for trend + exploits tabs)
+    // 1. Fetch CISA KEV
     let kevVulns: any[] = [];
     try {
       const kevRes = await fetch(CISA_KEV_URL);
       if (kevRes.ok) {
         const kevData = await kevRes.json();
-        // Get the most recent 30 KEV entries
         kevVulns = (kevData.vulnerabilities || [])
           .sort((a: any, b: any) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime())
           .slice(0, 30);
         console.log(`Fetched ${kevVulns.length} KEV entries`);
-      } else {
-        console.error("CISA KEV fetch failed:", kevRes.status);
       }
     } catch (e) {
       console.error("CISA KEV error:", e);
     }
 
-    // 2. Get CVE IDs for EPSS lookup
+    // 2. EPSS for KEV CVEs
     const cveIds = kevVulns.map((v: any) => v.cveID);
-
-    // 3. Fetch EPSS scores for these CVEs
     let epssMap: Record<string, number> = {};
     if (cveIds.length > 0) {
       try {
-        // EPSS API accepts comma-separated CVE IDs
-        const epssRes = await fetch(
-          `${EPSS_API_URL}?cve=${cveIds.join(",")}`
-        );
+        const epssRes = await fetch(`${EPSS_API_URL}?cve=${cveIds.join(",")}`);
         if (epssRes.ok) {
           const epssData = await epssRes.json();
           for (const entry of epssData.data || []) {
@@ -92,11 +158,9 @@ serve(async (req) => {
       }
     }
 
-    // 4. Fetch NVD details for top CVEs (rate-limited, so batch carefully)
-    // We'll fetch details for the top 15 to stay within rate limits
+    // 3. NVD details for top 15 KEV CVEs
     const topCveIds = cveIds.slice(0, 15);
     let nvdMap: Record<string, { description: string; cvss: number }> = {};
-
     for (const cveId of topCveIds) {
       try {
         const nvdRes = await fetch(`${NVD_API_URL}?cveId=${cveId}`);
@@ -104,45 +168,26 @@ serve(async (req) => {
           const nvdData = await nvdRes.json();
           const vuln = nvdData.vulnerabilities?.[0]?.cve;
           if (vuln) {
-            const desc =
-              vuln.descriptions?.find((d: any) => d.lang === "en")?.value || "";
-
-            // Extract CVSS score (try v3.1 first, then v3.0, then v2)
-            let cvss = 0;
-            const metrics = vuln.metrics;
-            if (metrics?.cvssMetricV31?.[0]) {
-              cvss = metrics.cvssMetricV31[0].cvssData?.baseScore || 0;
-            } else if (metrics?.cvssMetricV30?.[0]) {
-              cvss = metrics.cvssMetricV30[0].cvssData?.baseScore || 0;
-            } else if (metrics?.cvssMetricV2?.[0]) {
-              cvss = metrics.cvssMetricV2[0].cvssData?.baseScore || 0;
-            }
-
+            const desc = vuln.descriptions?.find((d: any) => d.lang === "en")?.value || "";
+            const cvss = extractNvdCvss(vuln.metrics);
             nvdMap[cveId] = { description: desc, cvss };
           }
         }
-        // Small delay to respect NVD rate limits
         await new Promise((r) => setTimeout(r, 400));
       } catch (e) {
         console.error(`NVD error for ${cveId}:`, e);
       }
     }
-
     console.log(`Fetched NVD details for ${Object.keys(nvdMap).length} CVEs`);
 
-    // 5. Combine into ThreatCve objects
+    // 4. Build threat objects
     const threats: ThreatCve[] = kevVulns.map((kev: any) => {
       const cveId = kev.cveID;
       const nvd = nvdMap[cveId];
       const epss = epssMap[cveId] || 0;
       const cvss = nvd?.cvss || 0;
       const description = nvd?.description || kev.shortDescription || "";
-
-      // Generate a plain-English summary from the KEV data
-      const action = kev.requiredAction || "Apply vendor patches";
-      const plainEnglish = kev.shortDescription
-        ? kev.shortDescription
-        : `${kev.vulnerabilityName} — ${action}`;
+      const plainEnglish = kev.shortDescription || `${kev.vulnerabilityName} — ${kev.requiredAction || "Apply vendor patches"}`;
 
       return {
         id: cveId,
@@ -153,7 +198,7 @@ serve(async (req) => {
         epss,
         severity: cvssToSeverity(cvss),
         published: kev.dateAdded || "",
-        activelyExploited: true, // All KEV entries are actively exploited
+        activelyExploited: true,
         cisaKev: true,
         cisaDateAdded: kev.dateAdded,
         cisaDueDate: kev.dueDate,
@@ -163,13 +208,14 @@ serve(async (req) => {
       };
     });
 
-    // 6. Handle search tab — query NVD directly
+    // 5. Handle search — try NVD first, then CVE.org as fallback
     let searchResults: ThreatCve[] = [];
     if (tab === "search" && query) {
+      const isCveId = /^CVE-\d{4}-\d+$/i.test(query.trim());
+
+      // Try NVD first
       try {
-        // Check if query is a CVE ID
-        const isCveId = /^CVE-\d{4}-\d+$/i.test(query.trim());
-        let nvdUrl = isCveId
+        const nvdUrl = isCveId
           ? `${NVD_API_URL}?cveId=${query.trim().toUpperCase()}`
           : `${NVD_API_URL}?keywordSearch=${encodeURIComponent(query)}&resultsPerPage=10`;
 
@@ -182,23 +228,10 @@ serve(async (req) => {
             const vuln = v.cve;
             const id = vuln.id;
             searchCveIds.push(id);
-
-            const desc =
-              vuln.descriptions?.find((d: any) => d.lang === "en")?.value || "";
-            let cvss = 0;
-            const metrics = vuln.metrics;
-            if (metrics?.cvssMetricV31?.[0]) {
-              cvss = metrics.cvssMetricV31[0].cvssData?.baseScore || 0;
-            } else if (metrics?.cvssMetricV30?.[0]) {
-              cvss = metrics.cvssMetricV30[0].cvssData?.baseScore || 0;
-            } else if (metrics?.cvssMetricV2?.[0]) {
-              cvss = metrics.cvssMetricV2[0].cvssData?.baseScore || 0;
-            }
-
+            const desc = vuln.descriptions?.find((d: any) => d.lang === "en")?.value || "";
+            const cvss = extractNvdCvss(vuln.metrics);
             const isKev = cveIds.includes(id);
-            const kevEntry = isKev
-              ? kevVulns.find((k: any) => k.cveID === id)
-              : null;
+            const kevEntry = isKev ? kevVulns.find((k: any) => k.cveID === id) : null;
 
             searchResults.push({
               id,
@@ -206,7 +239,7 @@ serve(async (req) => {
               description: desc,
               plainEnglish: desc.length > 150 ? desc.substring(0, 150) + "..." : desc,
               cvss,
-              epss: 0, // will fill below
+              epss: 0,
               severity: cvssToSeverity(cvss),
               published: vuln.published?.split("T")[0] || "",
               activelyExploited: isKev,
@@ -222,9 +255,7 @@ serve(async (req) => {
           // Fetch EPSS for search results
           if (searchCveIds.length > 0) {
             try {
-              const epssRes2 = await fetch(
-                `${EPSS_API_URL}?cve=${searchCveIds.join(",")}`
-              );
+              const epssRes2 = await fetch(`${EPSS_API_URL}?cve=${searchCveIds.join(",")}`);
               if (epssRes2.ok) {
                 const epssData2 = await epssRes2.json();
                 for (const entry of epssData2.data || []) {
@@ -240,9 +271,47 @@ serve(async (req) => {
       } catch (e) {
         console.error("NVD search error:", e);
       }
+
+      // If NVD returned nothing, try CVE.org (MITRE) as fallback
+      if (searchResults.length === 0) {
+        console.log("NVD returned no results, trying CVE.org...");
+        const cveOrgResults = await searchCveOrg(query);
+
+        // Enrich with EPSS
+        if (cveOrgResults.length > 0) {
+          const ids = cveOrgResults.map(r => r.id);
+          try {
+            const epssRes = await fetch(`${EPSS_API_URL}?cve=${ids.join(",")}`);
+            if (epssRes.ok) {
+              const epssData = await epssRes.json();
+              for (const entry of epssData.data || []) {
+                const found = cveOrgResults.find(r => r.id === entry.cve);
+                if (found) found.epss = parseFloat(entry.epss);
+              }
+            }
+          } catch (e) {
+            console.error("EPSS fallback error:", e);
+          }
+
+          // Check if in KEV
+          for (const r of cveOrgResults) {
+            const kevEntry = kevVulns.find((k: any) => k.cveID === r.id);
+            if (kevEntry) {
+              r.activelyExploited = true;
+              r.cisaKev = true;
+              r.cisaDateAdded = kevEntry.dateAdded;
+              r.cisaDueDate = kevEntry.dueDate;
+              r.ransomwareUse = kevEntry.knownRansomwareCampaignUse === "Known";
+            }
+          }
+
+          searchResults = cveOrgResults;
+          console.log(`CVE.org returned ${searchResults.length} results`);
+        }
+      }
     }
 
-    // 7. Compute stats
+    // 6. Stats
     const stats = {
       totalActiveExploits: kevVulns.length > 30 ? kevVulns.length : threats.length,
       newCritical: threats.filter((t) => t.severity === "CRITICAL").length,
@@ -252,25 +321,14 @@ serve(async (req) => {
     };
 
     return new Response(
-      JSON.stringify({
-        threats,
-        searchResults,
-        stats,
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ threats, searchResults, stats }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Threat intel error:", error);
     return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : "Unknown error",
-      }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
