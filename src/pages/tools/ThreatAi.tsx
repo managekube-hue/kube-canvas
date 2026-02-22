@@ -64,6 +64,27 @@ const CveTableRow = ({ cve }: { cve: ThreatCve }) => {
     : cve.cvss >= 9 ? "CRITICAL" : cve.cvss >= 7 ? "HIGH" : cve.cvss >= 4 ? "MEDIUM" : cve.cvss > 0 ? "LOW" : "UNKNOWN";
   const epssPercent = cve.epss > 0 ? (cve.epss * 100).toFixed(2) : "—";
 
+  const downloadSingleCve = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const row = {
+      CVE: cve.id,
+      Description: (cve.description || "").replace(/"/g, '""'),
+      CVSS: cve.cvss,
+      EPSS: cve.epss,
+      Severity: effectiveSeverity,
+      Published: cve.published || "",
+      Vendor: cve.vendor || "",
+      KEV: cve.cisaKev ? "Yes" : "No",
+    };
+    const keys = Object.keys(row);
+    const csv = [keys.join(","), keys.map(k => `"${String((row as any)[k])}"`).join(",")].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `${cve.id}.csv`; a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <tr
       className="border-b border-border hover:bg-muted/30 cursor-pointer transition-colors"
@@ -97,6 +118,15 @@ const CveTableRow = ({ cve }: { cve: ThreatCve }) => {
       <td className="px-4 py-3 text-center">
         {cve.cisaKev && <span className="text-xs font-semibold text-destructive">🚨</span>}
       </td>
+      <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
+        <button
+          onClick={downloadSingleCve}
+          className="text-muted-foreground hover:text-foreground transition-colors"
+          title="Download CSV"
+        >
+          <Download className="w-3.5 h-3.5" />
+        </button>
+      </td>
     </tr>
   );
 };
@@ -120,6 +150,7 @@ const CveTable = ({ threats, loading }: { threats: ThreatCve[]; loading: boolean
             <th className="text-left px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">Published</th>
             <th className="text-left px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">Vendor</th>
             <th className="text-center px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">KEV</th>
+            <th className="text-center px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider w-10">⬇</th>
           </tr>
         </thead>
         <tbody>
@@ -555,10 +586,7 @@ const ThreatAi = () => {
                 )}
               </Button>
             </div>
-            <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setShowExportModal(true)}>
-              <Download className="w-3.5 h-3.5" />
-              Export CSV
-            </Button>
+            {/* Individual downloads available per row */}
           </div>
 
           {syncing && !dbReady && (

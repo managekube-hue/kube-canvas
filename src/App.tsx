@@ -7,6 +7,8 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { PathProvider } from "./context/PathContext";
 import { BOMCartProvider } from "./context/BOMCartContext";
 import { BOMCart } from "./components/BOMCart";
+import { AuthProvider } from "./hooks/useAuth";
+import { AuthGate } from "./components/AuthGate";
 
 import QualificationGate from "./pages/QualificationGate";
 import FullyManaged from "./pages/paths/FullyManaged";
@@ -138,6 +140,7 @@ import Support from "./pages/Support";
 import ThreatAi from "./pages/tools/ThreatAi";
 import CVEDetailPage from "./pages/tools/CVEDetailPage";
 import CmsAdmin from "./pages/CmsAdmin";
+import Login from "./pages/auth/Login";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -158,6 +161,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <AuthProvider>
         <PathProvider>
         <BOMCartProvider>
         <ScrollToTop />
@@ -363,20 +367,24 @@ const App = () => (
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/docs" element={<Navigate to="/documentation" replace />} />
 
+          {/* Auth */}
+          <Route path="/auth/login" element={<Login />} />
+
           {/* UIDR Open Source Docs Site */}
           <Route path="/uidr" element={<UidrHome />} />
           <Route path="/uidr/platform" element={<UidrPlatform />} />
           <Route path="/uidr/docs" element={<UidrDocs />} />
           <Route path="/uidr/docs/:moduleId" element={<UidrModulePage />} />
-          <Route path="/uidr/technical-docs" element={<UidrTechnicalDocs />} />
+          <Route path="/uidr/technical-docs" element={<AuthGate><UidrTechnicalDocs /></AuthGate>} />
           <Route path="/uidr/contributors" element={<UidrContributors />} />
-          <Route path="/uidr/open-source" element={<UidrOpenSource />} />
+          <Route path="/uidr/open-source" element={<AuthGate><UidrOpenSource /></AuthGate>} />
           <Route path="/uidr/contact" element={<UidrContact />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
         </BOMCartProvider>
         </PathProvider>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

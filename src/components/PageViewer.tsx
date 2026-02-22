@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import { usePageContent, useAllPages, DocPage } from '@/hooks/useDocumentation';
-import { FileText, ChevronRight, FolderOpen, ArrowRight, RefreshCw } from 'lucide-react';
+import { FileText, ChevronRight, FolderOpen, ArrowRight, RefreshCw, Code2, ExternalLink } from 'lucide-react';
 import { useMemo } from 'react';
 
 const ORANGE = 'hsl(24 95% 53%)';
@@ -110,14 +110,32 @@ export function PageViewer({ pageId, onPageSelect }: PageViewerProps) {
         </div>
       )}
 
-      {/* Title */}
-      <div className="flex items-center gap-4 mb-8">
-        {page.icon && (
-          <span style={{ fontSize: '2.5rem' }}>{page.icon}</span>
-        )}
-        <h1 className="text-5xl font-bold text-white leading-tight" style={{ fontFamily: 'monospace' }}>
-          {page.title}
-        </h1>
+      {/* Title + Open in Editor CTA */}
+      <div className="flex items-start justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
+          {page.icon && (
+            <span style={{ fontSize: '2.5rem' }}>{page.icon}</span>
+          )}
+          <h1 className="text-5xl font-bold text-white leading-tight" style={{ fontFamily: 'monospace' }}>
+            {page.title}
+          </h1>
+        </div>
+        <button
+          onClick={() => {
+            // Open in editor - placeholder for Monaco integration
+            window.dispatchEvent(new CustomEvent('open-in-editor', { detail: { pageId, title: page.title, content: page.content } }));
+          }}
+          className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono border rounded transition-all shrink-0 mt-2"
+          style={{
+            borderColor: ORANGE + '60',
+            color: ORANGE,
+            background: ORANGE + '10',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = ORANGE + '20'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = ORANGE + '10'; }}
+        >
+          <Code2 size={12} /> Open in Editor
+        </button>
       </div>
 
       {/* Module code */}

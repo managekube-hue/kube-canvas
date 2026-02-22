@@ -705,43 +705,85 @@ const ApplicationsTab = () => {
    Team Members Tab — manage access to docs/CMS
    ════════════════════════════════════════════════════════ */
 const TeamMembersTab = () => {
-  const [members, setMembers] = useState<{ id: string; name: string; email: string; role: string; access: string[]; addedAt: string }[]>(() => {
+  const [members, setMembers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState({ name: "", email: "", password: "", role: "viewer", access: { docs: true, cms: false } });
+  const [adding, setAdding] = useState(false);
+  const [error, setError] = useState("");
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    // Get all profiles + roles
+    const { data: profiles } = await supabase.from("profiles").select("*").order("created_at", { ascending: false });
+    if (profiles) {
+      // Fetch roles for each
+      const enriched = await Promise.all(
+        profiles.map(async (p: any) => {
+          const { data: roleData } = await supabase.from("user_roles").select("role").eq("user_id", p.user_id).maybeSingle();
+          return { ...p, role: roleData?.role || "viewer" };
+        })
+      );
+      setMembers(enriched);
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const addMember = async () => {
+    if (!form.email.trim() || !form.password.trim()) return;
+    setAdding(true);
+    setError("");
+
     try {
-      const saved = localStorage.getItem("mk_team_members");
-      return saved ? JSON.parse(saved) : [];
-    } catch { return []; }
-  });
-  const [form, setForm] = useState({ name: "", email: "", role: "viewer", access: { docs: true, cms: false } });
+      // Create user via Supabase Auth admin (client-side signUp)
+      const { data, error: signUpErr } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+        options: {
+          data: { full_name: form.name || form.email.split("@")[0] },
+          emailRedirectTo: window.location.origin + "/auth/login",
+        },
+      });
 
-  const save = (next: typeof members) => {
-    setMembers(next);
-    localStorage.setItem("mk_team_members", JSON.stringify(next));
+      if (signUpErr) {
+        setError(signUpErr.message);
+        setAdding(false);
+        return;
+      }
+
+      if (data.user) {
+        // Set role
+        await supabase.from("user_roles").upsert({
+          user_id: data.user.id,
+          role: form.role as any,
+        }, { onConflict: "user_id,role" });
+
+        // Set access areas on profile
+        const access = [];
+        if (form.access.docs) access.push("technical-docs");
+        if (form.access.cms) access.push("cms-admin");
+        await supabase.from("profiles").update({ access_areas: access }).eq("user_id", data.user.id);
+      }
+
+      setForm({ name: "", email: "", password: "", role: "viewer", access: { docs: true, cms: false } });
+      await load();
+    } catch (e: any) {
+      setError(e.message || "Failed to add member");
+    }
+    setAdding(false);
   };
 
-  const addMember = () => {
-    if (!form.email.trim()) return;
-    const access = [];
-    if (form.access.docs) access.push("technical-docs");
-    if (form.access.cms) access.push("cms-admin");
-    const member = {
-      id: crypto.randomUUID(),
-      name: form.name || form.email.split("@")[0],
-      email: form.email,
-      role: form.role,
-      access,
-      addedAt: new Date().toISOString(),
-    };
-    save([...members, member]);
-    setForm({ name: "", email: "", role: "viewer", access: { docs: true, cms: false } });
+  const updateRole = async (userId: string, role: string) => {
+    await supabase.from("user_roles").upsert({ user_id: userId, role: role as any }, { onConflict: "user_id,role" });
+    load();
   };
 
-  const removeMember = (id: string) => {
-    if (!confirm("Remove this team member?")) return;
-    save(members.filter(m => m.id !== id));
-  };
-
-  const updateRole = (id: string, role: string) => {
-    save(members.map(m => m.id === id ? { ...m, role } : m));
+  const removeMember = async (userId: string) => {
+    if (!confirm("Remove this team member? This does not delete their auth account.")) return;
+    await supabase.from("user_roles").delete().eq("user_id", userId);
+    await supabase.from("profiles").delete().eq("user_id", userId);
+    load();
   };
 
   return (
@@ -749,11 +791,12 @@ const TeamMembersTab = () => {
       <div className="border border-border p-6 bg-card space-y-4">
         <h3 className="font-bold text-foreground flex items-center gap-2"><UserPlus className="w-5 h-5" /> Add Team Member</h3>
         <p className="text-xs text-muted-foreground">
-          Grant team members access to Technical Documentation and/or the CMS Admin dashboard.
+          Creates a Supabase Auth account. The member will receive a confirmation email. Access is controlled via roles.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <Input placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
           <Input placeholder="Email *" type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+          <Input placeholder="Password *" type="password" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} />
           <select className="px-3 py-2 border border-border bg-background text-foreground text-sm"
             value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}>
             <option value="viewer">Viewer</option>
@@ -771,19 +814,23 @@ const TeamMembersTab = () => {
             <span className="text-sm text-foreground">CMS Admin</span>
           </label>
         </div>
-        <Button onClick={addMember} disabled={!form.email.trim()} className="gap-2">
-          <UserPlus className="w-4 h-4" /> Add Member
+        {error && <p className="text-sm text-destructive">{error}</p>}
+        <Button onClick={addMember} disabled={!form.email.trim() || !form.password.trim() || adding} className="gap-2">
+          {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
+          {adding ? "Creating..." : "Add Member"}
         </Button>
       </div>
 
-      {members.length === 0 ? (
-        <p className="text-muted-foreground text-center py-12">No team members added yet. Add your first team member above.</p>
+      {loading ? (
+        <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
+      ) : members.length === 0 ? (
+        <p className="text-muted-foreground text-center py-12">No team members added yet.</p>
       ) : (
         <div className="overflow-x-auto border border-border">
           <table className="w-full text-sm">
             <thead className="bg-muted/50">
               <tr>
-                {["Name", "Email", "Role", "Access", "Added", "Actions"].map(h => (
+                {["Name", "Email", "Role", "Access", "Created", "Actions"].map(h => (
                   <th key={h} className="text-left px-3 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
               </tr>
@@ -791,11 +838,11 @@ const TeamMembersTab = () => {
             <tbody className="divide-y divide-border">
               {members.map(m => (
                 <tr key={m.id} className="hover:bg-muted/30">
-                  <td className="px-3 py-3 font-medium text-foreground">{m.name}</td>
+                  <td className="px-3 py-3 font-medium text-foreground">{m.display_name || "—"}</td>
                   <td className="px-3 py-3 text-muted-foreground">{m.email}</td>
                   <td className="px-3 py-3">
                     <select className="text-xs bg-background border border-border px-2 py-1"
-                      value={m.role} onChange={e => updateRole(m.id, e.target.value)}>
+                      value={m.role} onChange={e => updateRole(m.user_id, e.target.value)}>
                       <option value="viewer">Viewer</option>
                       <option value="editor">Editor</option>
                       <option value="admin">Admin</option>
@@ -803,13 +850,13 @@ const TeamMembersTab = () => {
                   </td>
                   <td className="px-3 py-3">
                     <div className="flex gap-1">
-                      {m.access.includes("technical-docs") && badge("Docs", "border-blue-700 bg-blue-950/30 text-blue-400")}
-                      {m.access.includes("cms-admin") && badge("CMS", "border-purple-700 bg-purple-950/30 text-purple-400")}
+                      {(m.access_areas || []).includes("technical-docs") && badge("Docs", "border-blue-700 bg-blue-950/30 text-blue-400")}
+                      {(m.access_areas || []).includes("cms-admin") && badge("CMS", "border-purple-700 bg-purple-950/30 text-purple-400")}
                     </div>
                   </td>
-                  <td className="px-3 py-3 text-xs text-muted-foreground whitespace-nowrap">{fmtDate(m.addedAt)}</td>
+                  <td className="px-3 py-3 text-xs text-muted-foreground whitespace-nowrap">{fmtDate(m.created_at)}</td>
                   <td className="px-3 py-3">
-                    <Button variant="ghost" size="sm" onClick={() => removeMember(m.id)} className="text-destructive hover:text-destructive h-7 w-7 p-0">
+                    <Button variant="ghost" size="sm" onClick={() => removeMember(m.user_id)} className="text-destructive hover:text-destructive h-7 w-7 p-0">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </td>
