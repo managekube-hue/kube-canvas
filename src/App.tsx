@@ -124,6 +124,8 @@ import ClientPortal from "./pages/login/ClientPortal";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Documentation from "./pages/Documentation";
+import Support from "./pages/Support";
+import ThreatAi from "./pages/tools/ThreatAi";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -304,6 +306,10 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/support" element={<Support />} />
+
+          {/* Tools (Lead Magnets) */}
+          <Route path="/tools/threat-ai" element={<ThreatAi />} />
 
           {/* Login Portals */}
           <Route path="/login/partner" element={<PartnerPortal />} />

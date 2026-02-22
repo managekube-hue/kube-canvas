@@ -232,6 +232,7 @@ const megaMenu = {
         items: [
           { label: "Methodology", desc: "Our proven Assess → Remediate → Manage → Optimise service delivery framework.", href: "/methodology" },
           { label: "Pricing Guide", desc: "Six flexible pricing models explained — find the right fit for your business.", href: "/pricing" },
+          { label: "ThreatAI — CVE Lookup", desc: "Free CVE & EPSS vulnerability search with downloadable threat reports.", href: "/tools/threat-ai" },
         ],
       },
     ],
@@ -303,7 +304,7 @@ export const Header = () => {
           {/* Right: utility + hamburger */}
           <div className="flex items-center gap-5">
             <Link
-              to="/contact"
+              to="/support"
               onClick={closeMenu}
               className="hidden sm:block text-xs font-semibold tracking-widest text-muted-foreground hover:text-foreground transition-colors uppercase"
             >
