@@ -68,7 +68,7 @@ const megaMenu = {
         items: [
           { label: "TI", desc: "Threat intelligence that informs action via MISP and EPSS scoring.", href: "/service-layer/ti" },
           { label: "VDR", desc: "Vulnerabilities prioritised by real risk, not just CVSS scores.", href: "/service-layer/vdr" },
-          { label: "GRC", desc: "Governance, risk & compliance automation across 100+ frameworks.", href: "/service-layer/grc" },
+          { label: "GRC", desc: "Governance, risk & compliance automation across 100+ frameworks.", href: "/compliance" },
           { label: "STRIKE", desc: "Advanced adversary tracking and kill-chain intelligence.", href: "/service-layer/strike" },
         ],
       },
@@ -262,7 +262,7 @@ const megaMenu = {
           { label: "Careers", desc: "Build the future of managed security and IT.", href: "/careers" },
           { label: "Partners", desc: "MSP, MSSP, consulting, technology, and referral partner programs.", href: "/about/partners" },
           { label: "Roadmap", desc: "Where we are going. What we are building.", href: "/about/roadmap" },
-          { label: "Contact", desc: "Get in touch with our team for sales, support, or partnerships.", href: "/contact" },
+          { label: "Get Started", desc: "Assessment, contact form, and sales inquiries in one place.", href: "/get-started" },
         ],
       },
     ],
