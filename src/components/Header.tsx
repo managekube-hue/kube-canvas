@@ -113,10 +113,10 @@ const megaMenu = {
         ],
       },
       {
-        heading: "Professional Services — BOM Add-Ons",
+        heading: "Professional Services: BOM Add-Ons",
         items: [
           { label: "Help Desk", desc: "Tier 1–3 end-user support with Mac support, warranty services, and SLA-backed resolution.", href: "/services/help-desk" },
-          { label: "Managed IT", desc: "Full-spectrum IT operations — endpoints, IoT, print, O365, data center, and vCIO advisory.", href: "/services/managed-it" },
+          { label: "Managed IT", desc: "Full-spectrum IT operations: endpoints, IoT, print, O365, data centre, and vCIO advisory.", href: "/services/managed-it" },
           { label: "Smart Hands", desc: "On-site field technicians for rack-and-stack, cabling, and multi-site rollouts.", href: "/services/smart-hands" },
         ],
       },
@@ -251,15 +251,17 @@ const megaMenu = {
   },
   "About": {
     href: "/about",
-    desc: "Learn who we are, our mission, and the team behind ManageKube.",
+    desc: "Learn who we are, our mission, leadership, partnerships, and career opportunities at ManageKube.",
     viewAll: "About ManageKube",
     columns: [
       {
         heading: "Company",
         items: [
           { label: "About Us", desc: "Our mission, values, and the team behind ManageKube.", href: "/about" },
-          { label: "Careers", desc: "Join our team and help build the future of managed security.", href: "/careers" },
-          { label: "Partners", desc: "Technology alliances and channel partner programmes.", href: "/contact" },
+          { label: "Leadership", desc: "Meet the founders: Sunny, Hildman, Hamza, and Ali.", href: "/about" },
+          { label: "Careers", desc: "Build the future of managed security and IT.", href: "/careers" },
+          { label: "Partners", desc: "MSP, MSSP, consulting, technology, and referral partner programs.", href: "/about/partners" },
+          { label: "Roadmap", desc: "Where we are going. What we are building.", href: "/about/roadmap" },
           { label: "Contact", desc: "Get in touch with our team for sales, support, or partnerships.", href: "/contact" },
         ],
       },

@@ -121,6 +121,8 @@ import Pricing from "./pages/Pricing";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
+import Partners from "./pages/about/Partners";
+import Roadmap from "./pages/about/Roadmap";
 import Assessment from "./pages/Assessment";
 import AssessmentEngine from "./pages/AssessmentEngine";
 import FindByProblem from "./pages/FindByProblem";
@@ -333,6 +335,8 @@ const App = () => (
           {/* Company */}
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<About />} />
+          <Route path="/about/partners" element={<Partners />} />
+          <Route path="/about/roadmap" element={<Roadmap />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/support" element={<Support />} />

@@ -240,10 +240,10 @@ export default function GetStarted() {
                 ))}
               </ul>
               <div className="space-y-3">
-                <a href="tel:+19019077447"
+                <a href="tel:+12402572029"
                   className="flex items-center justify-center gap-2 py-3 text-sm font-bold text-white transition-colors hover:bg-white/10"
                   style={{ border: "1px solid rgba(255,255,255,0.2)" }}>
-                  <Phone size={14} /> (901) 907-7447
+                  <Phone size={14} /> (240) 257-2029
                 </a>
                 <a href="mailto:sales@managekube.com"
                   className="flex items-center justify-center gap-2 py-3 text-sm font-bold text-white transition-colors hover:bg-white/10"
@@ -290,9 +290,9 @@ export default function GetStarted() {
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
           <div className="grid sm:grid-cols-3 gap-6 text-center">
             {[
-              { icon: Phone, label: "(901) 907-7447", sub: "Mon-Fri 8AM-6PM CST" },
+              { icon: Phone, label: "(240) 257-2029", sub: "Mon-Fri 8AM-6PM EST" },
               { icon: Mail, label: "sales@managekube.com", sub: "24-hour response" },
-              { icon: Clock, label: "Memphis, TN", sub: "US-based operations" },
+              { icon: Clock, label: "Alexandria, VA", sub: "US-based operations" },
             ].map(c => (
               <div key={c.label} className="p-5" style={{ background: "rgba(205,202,197,0.03)", border: "1px solid rgba(205,202,197,0.08)" }}>
                 <c.icon size={18} className="mx-auto mb-3" style={{ color: ORANGE }} />

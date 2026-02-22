@@ -1,51 +1,71 @@
 /**
- * DO NOT TOUCH - Careers Page with Global Design Standards
- * Uses PageBanner for consistent header styling
+ * Careers Page: ManageKube
+ * Build the Future of Managed Security and IT.
  */
 
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
-import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin, Clock, Briefcase } from "lucide-react";
+import { ArrowRight, MapPin, Clock, Briefcase, Mail } from "lucide-react";
 
 const openPositions = [
   {
-    title: "Senior Security Engineer",
-    department: "MSSP Operations",
-    location: "Memphis, TN / Remote",
-    type: "Full-time",
+    title: "Security Operations Center (SOC) Analyst",
+    location: "Remote / Multiple Shifts",
+    description: "Monitor security alerts across 20 detection capabilities. Triage incidents. Escalate when needed. Document everything. 24/7 coverage means shift work, but your team has your back.",
+    requirements: "2+ years SOC experience. Familiarity with SIEM, EDR, NDR. Willingness to work nights/weekends as part of rotation.",
+    email: "careers@managekube.com",
+    subject: "SOC Analyst",
   },
   {
-    title: "Cloud Solutions Architect",
-    department: "Advisory Services",
-    location: "Remote",
-    type: "Full-time",
+    title: "Network Operations Center (NOC) Engineer",
+    location: "Remote / Multiple Shifts",
+    description: "Monitor network performance across client environments. Detect anomalies before users report them. Escalate to engineering when needed. Keep the network running.",
+    requirements: "3+ years network engineering or NOC experience. Familiarity with routing, switching, SD-WAN. Industry certifications preferred.",
+    email: "careers@managekube.com",
+    subject: "NOC Engineer",
   },
   {
-    title: "Compliance Analyst",
-    department: "Compliance & GRC",
-    location: "Memphis, TN / Remote",
-    type: "Full-time",
+    title: "Detection Engineer",
+    location: "Remote / Day Shift",
+    description: "Build and tune detection logic across the Kubric platform. Create new detections. Improve existing ones. Stay ahead of adversaries.",
+    requirements: "3+ years detection engineering. Experience with Sigma, YARA, or custom detection logic. Scripting proficiency.",
+    email: "careers@managekube.com",
+    subject: "Detection Engineer",
   },
   {
-    title: "IT Service Desk Lead",
-    department: "MSP Operations",
-    location: "Memphis, TN",
-    type: "Full-time",
+    title: "Platform Engineer",
+    location: "Remote / Day Shift",
+    description: "Build and maintain the Kubric platform. Work across the stack: ingestion, graph, API, automation. Make the platform faster, more reliable, more capable.",
+    requirements: "5+ years software engineering. Experience with distributed systems, databases, or security platforms. Go/Python proficiency.",
+    email: "careers@managekube.com",
+    subject: "Platform Engineer",
+  },
+  {
+    title: "Customer Success Manager",
+    location: "Remote / Day Shift",
+    description: "Own the relationship with assigned clients. Ensure they are getting value. Identify expansion opportunities. Be the voice of the customer internally.",
+    requirements: "3+ years customer success or account management. Experience in security/IT services preferred.",
+    email: "careers@managekube.com",
+    subject: "Customer Success Manager",
+  },
+  {
+    title: "Sales Development Representative",
+    location: "Remote / Day Shift",
+    description: "Generate and qualify leads. Set meetings for the sales team. Build pipeline. Learn the business from the ground up.",
+    requirements: "1+ years sales or business development. Strong communication skills. Hunger to learn.",
+    email: "careers@managekube.com",
+    subject: "SDR",
   },
 ];
 
-const benefits = [
-  "Competitive salary and equity",
-  "100% remote-friendly positions",
-  "Unlimited PTO policy",
-  "401(k) with company match",
-  "Comprehensive health benefits",
-  "Professional development budget",
-  "Industry certifications covered",
-  "Modern equipment provided",
+const whyJoin = [
+  { title: "Mission-driven work", desc: "You will protect organisations that keep the world running. Manufacturing. Healthcare. Public sector. Energy. Finance. Your work matters." },
+  { title: "Technical depth", desc: "You will work on the Kubric platform: 20 integrated capabilities, a unified data graph, AI-driven detection. You will never stop learning." },
+  { title: "Career growth", desc: "We are growing fast. Your role can grow with us." },
+  { title: "Great team", desc: "You will work with people who are smart, collaborative, and committed to doing things right." },
+  { title: "Competitive compensation", desc: "Salary, benefits, equity, and professional development." },
 ];
 
 const Careers = () => {
@@ -53,114 +73,100 @@ const Careers = () => {
     <PageLayout>
       <PageBanner
         title="Careers at ManageKube"
-        subtitle="Join the team making complex IT understandable. Build enterprise solutions that matter."
+        subtitle="Build the Future of Managed Security and IT."
       />
 
-      {/* Intro Section */}
-      <section className="py-20 lg:py-32 bg-white">
+      {/* Intro */}
+      <section className="py-20 lg:py-32 bg-background">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-label text-muted-foreground mb-4">WHY JOIN US</p>
-              <h2 className="text-headline text-foreground mb-6">
-                Work on challenging problems
-              </h2>
-              <p className="text-body-lg text-muted-foreground mb-6">
-                At ManageKube, you'll work with enterprise clients on complex IT 
-                transformations. From securing critical infrastructure to implementing 
-                AI-powered automation, every project pushes boundaries.
-              </p>
-              <p className="text-body-lg text-muted-foreground">
-                We're building a team of experts who can think strategically and 
-                execute precisely. If you want to make a real impact, this is the place.
-              </p>
-            </div>
-            <div className="bg-secondary p-8 lg:p-12">
-              <p className="text-label text-muted-foreground mb-6">BENEFITS & PERKS</p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-center gap-3 text-foreground">
-                    <div className="w-2 h-2 bg-brand-orange flex-shrink-0" />
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
+          <div className="max-w-6xl mx-auto">
+            <p className="text-label text-brand-orange mb-4">WHY JOIN US</p>
+            <div className="h-[2px] w-10 bg-brand-orange mb-6" />
+            <h2 className="text-headline text-foreground mb-6" style={{ fontFamily: "'Special Elite', serif" }}>
+              We are building something different. Join us.
+            </h2>
+            <p className="text-body-lg text-muted-foreground mb-12 max-w-2xl">
+              ManageKube is redefining what managed security and IT can be. One platform. One team. One partner for every layer. We are looking for people who want to build something better.
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {whyJoin.map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="bg-secondary border border-border p-8"
+                >
+                  <h3 className="text-sm font-bold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Open Positions */}
-      <section className="py-20 lg:py-32 bg-secondary">
+      <section id="openings" className="py-20 lg:py-32 bg-secondary">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl mb-16">
-            <p className="text-label text-muted-foreground mb-4">OPEN POSITIONS</p>
-            <h2 className="text-headline text-foreground">
-              Current opportunities
+          <div className="max-w-6xl mx-auto">
+            <p className="text-label text-brand-orange mb-4">OPEN POSITIONS</p>
+            <div className="h-[2px] w-10 bg-brand-orange mb-6" />
+            <h2 className="text-headline text-foreground mb-12" style={{ fontFamily: "'Special Elite', serif" }}>
+              Current Opportunities
             </h2>
-          </div>
-          <div className="space-y-4">
-            {openPositions.map((position, index) => (
-              <motion.div
-                key={position.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link
-                  to="/contact"
-                  className="block bg-white p-6 lg:p-8 border border-border hover:border-foreground transition-colors group"
+            <div className="space-y-6">
+              {openPositions.map((pos, i) => (
+                <motion.div
+                  key={pos.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-background border border-border p-8"
                 >
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
-                        {position.title}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Briefcase className="w-4 h-4" />
-                          {position.department}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
-                          {position.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {position.type}
-                        </span>
-                      </div>
+                      <h3 className="text-lg font-bold text-foreground mb-2">{pos.title}</h3>
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {pos.location}
+                      </p>
                     </div>
-                    <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-2 transition-all" />
                   </div>
-                </Link>
-              </motion.div>
-            ))}
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">{pos.description}</p>
+                  <p className="text-xs text-muted-foreground mb-4"><strong className="text-foreground">Requirements:</strong> {pos.requirements}</p>
+                  <a
+                    href={`mailto:${pos.email}?subject=${encodeURIComponent(pos.subject)}`}
+                    className="inline-flex items-center gap-2 text-xs font-bold text-brand-orange hover:opacity-80 transition-opacity"
+                  >
+                    <Mail className="w-3 h-3" /> Apply: {pos.email}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 lg:py-32 bg-white">
+      <section className="py-20 lg:py-32 bg-background">
         <div className="container mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-headline text-foreground mb-6">
+          <h2 className="text-headline text-foreground mb-6" style={{ fontFamily: "'Special Elite', serif" }}>
             Don't see your role?
           </h2>
           <p className="text-body-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            We're always looking for talented people. Send us your resume and 
-            tell us how you'd contribute to the ManageKube mission.
+            We are always looking for talented people. Send us your resume and tell us how you would contribute to the ManageKube mission.
           </p>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
+          <a
+            href="mailto:careers@managekube.com"
+            className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:opacity-90 transition-opacity"
           >
-            Get In Touch
+            careers@managekube.com
             <ArrowRight className="w-5 h-5" />
-          </Link>
+          </a>
         </div>
       </section>
-
     </PageLayout>
   );
 };
