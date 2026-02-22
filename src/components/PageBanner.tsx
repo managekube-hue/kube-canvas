@@ -9,8 +9,8 @@ interface PageBannerProps {
 
 export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
   return (
-    <section className="relative pt-32 pb-28 lg:pt-44 lg:pb-40 overflow-hidden bg-black min-h-[60vh] flex items-center">
-      {/* Warm video background */}
+    <section className="relative pt-40 pb-36 lg:pt-56 lg:pb-52 overflow-hidden bg-black min-h-[80vh] flex items-center">
+      {/* Video background */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -44,10 +44,10 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-6"
+              className="mb-8"
             >
-              <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm text-white/80 text-label tracking-widest">
-                {phase} PHASE
+              <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>
+                {phase}
               </span>
             </motion.div>
           )}
@@ -56,14 +56,21 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
             initial={{ width: 0 }}
             animate={{ width: 64 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="h-1 bg-brand-orange mb-8"
+            className="h-1 mb-10"
+            style={{ background: "#993619" }}
           />
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-hero text-white mb-6"
+            className="text-white mb-8"
+            style={{
+              fontSize: "clamp(2.8rem, 6vw, 5rem)",
+              fontWeight: 900,
+              fontFamily: "'Special Elite', serif",
+              lineHeight: 1.05,
+            }}
           >
             {title}
           </motion.h1>
@@ -72,7 +79,8 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="text-body-xl text-white/75 max-w-3xl"
+            className="max-w-3xl"
+            style={{ fontSize: "17px", lineHeight: 1.7, color: "rgba(255,255,255,0.65)" }}
           >
             {subtitle}
           </motion.p>

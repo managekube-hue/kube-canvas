@@ -22,14 +22,14 @@ const contactMethods = [
   {
     icon: Phone,
     title: "Call Us",
-    value: "(901) 555-1212",
-    href: "tel:+19015551212",
+    value: "(901) 907-7447",
+    href: "tel:+19019077447",
   },
   {
     icon: MapPin,
     title: "Visit Us",
-    value: "123 Main Street, Memphis, TN 38103",
-    href: "https://maps.google.com",
+    value: "Memphis, TN 38103",
+    href: "https://maps.google.com/?q=Memphis+TN+38103",
   },
   {
     icon: Clock,
