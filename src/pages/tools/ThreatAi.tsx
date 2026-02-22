@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Search, ShieldAlert, AlertTriangle, Download, TrendingUp,
-  Flame, Map, Target, Clock, Filter, Loader2, RefreshCw,
+  Search, AlertTriangle, Download, TrendingUp,
+  Map, Clock, Loader2, RefreshCw,
   ChevronLeft, ChevronRight, Database,
 } from "lucide-react";
 import { ExportLeadModal } from "@/components/ExportLeadModal";
@@ -21,17 +21,20 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const severityColor = (sev: string) => {
   switch (sev) {
-    case "CRITICAL": return "text-red-600 bg-red-950/40 border-red-800";
-    case "HIGH": return "text-orange-500 bg-orange-950/40 border-orange-800";
-    case "MEDIUM": return "text-yellow-500 bg-yellow-950/40 border-yellow-700";
+    case "CRITICAL": return "text-destructive bg-destructive/10 border-destructive/30";
+    case "HIGH": return "text-orange-600 dark:text-orange-400 bg-orange-500/10 border-orange-500/30";
+    case "MEDIUM": return "text-yellow-600 dark:text-yellow-400 bg-yellow-500/10 border-yellow-500/30";
+    case "LOW": return "text-muted-foreground bg-muted border-border";
     default: return "text-muted-foreground bg-muted border-border";
   }
 };
 
-const riskLabel = (epss: number) => {
-  if (epss >= 0.7) return { text: "PATCH NOW", cls: "text-red-500" };
-  if (epss >= 0.4) return { text: "Schedule ASAP", cls: "text-orange-500" };
-  return { text: "Next Maintenance", cls: "text-yellow-500" };
+const sourceIndicators = (cve: ThreatCve) => {
+  const sources: string[] = [];
+  if (cve.cisaKev || cve.activelyExploited) sources.push("CISA KEV");
+  if (cve.cvss > 0) sources.push("NVD");
+  if (cve.epss > 0) sources.push("EPSS");
+  return sources;
 };
 
 const isOverdue = (dueDate?: string) => {
@@ -56,88 +59,95 @@ async function fetchThreatApi(body: Record<string, any>) {
 
 /* ── Threat Card ───────────────────────────────────────── */
 
-const ThreatCard = ({ cve, compact }: { cve: ThreatCve; compact?: boolean }) => (
-  <div className="bg-card border border-border p-6 hover:border-brand-orange/40 transition-colors">
-    <div className="flex items-start justify-between gap-4 mb-3">
-      <div className="flex items-center gap-3 flex-wrap">
-        <ShieldAlert className="w-5 h-5 text-brand-orange flex-shrink-0" />
-        <h3 className="font-bold text-foreground">{cve.id}</h3>
-        <span className={`text-xs font-bold px-2 py-0.5 border ${severityColor(cve.severity)}`}>
-          {cve.severity}
-        </span>
+const ThreatCard = ({ cve, compact }: { cve: ThreatCve; compact?: boolean }) => {
+  const sources = sourceIndicators(cve);
+
+  return (
+    <div className="bg-card border border-border p-5 hover:border-primary/30 transition-colors">
+      <div className="flex items-start justify-between gap-4 mb-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          <h3 className="font-mono font-bold text-foreground text-sm">{cve.id}</h3>
+          <span className={`text-xs font-semibold px-2 py-0.5 border ${severityColor(cve.severity)}`}>
+            {cve.severity}
+          </span>
+          {sources.map(s => (
+            <span key={s} className="text-[10px] font-medium px-1.5 py-0.5 border border-border bg-muted text-muted-foreground uppercase tracking-wider">
+              {s}
+            </span>
+          ))}
+        </div>
+        <span className="text-xs text-muted-foreground whitespace-nowrap">{cve.published}</span>
       </div>
-      <span className="text-xs text-muted-foreground whitespace-nowrap">{cve.published}</span>
+
+      {cve.activelyExploited && (
+        <div className="flex items-center gap-2 mb-2">
+          <AlertTriangle className="w-3.5 h-3.5 text-destructive" />
+          <span className="text-xs font-semibold text-destructive uppercase tracking-wider">
+            Known exploited vulnerability
+          </span>
+        </div>
+      )}
+
+      <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
+        {cve.plainEnglish}
+      </p>
+
+      {!compact && cve.description && cve.description !== cve.plainEnglish && (
+        <p className="text-xs text-muted-foreground/70 mb-3">{cve.description.substring(0, 300)}{cve.description.length > 300 ? '...' : ''}</p>
+      )}
+
+      <div className="flex flex-wrap gap-x-6 gap-y-1.5 text-xs mt-3 pt-3 border-t border-border">
+        {cve.cvss > 0 && (
+          <div>
+            <span className="text-muted-foreground">CVSS </span>
+            <span className="font-semibold text-foreground">{cve.cvss}</span>
+          </div>
+        )}
+        {cve.epss > 0 && (
+          <div>
+            <span className="text-muted-foreground">EPSS </span>
+            <span className="font-semibold text-foreground">{(cve.epss * 100).toFixed(2)}%</span>
+          </div>
+        )}
+        {cve.riskScore > 0 && (
+          <div>
+            <span className="text-muted-foreground">Risk Score </span>
+            <span className="font-semibold text-foreground">{cve.riskScore.toFixed(1)}</span>
+          </div>
+        )}
+        {cve.vendor && cve.vendor !== "Unknown" && (
+          <div>
+            <span className="text-muted-foreground">Vendor </span>
+            <span className="font-semibold text-foreground">{cve.vendor}</span>
+          </div>
+        )}
+        {cve.product && cve.product !== "Unknown" && (
+          <div>
+            <span className="text-muted-foreground">Product </span>
+            <span className="font-semibold text-foreground">{cve.product}</span>
+          </div>
+        )}
+        {cve.ransomwareUse && (
+          <span className="text-xs font-semibold text-destructive">
+            Known ransomware use
+          </span>
+        )}
+      </div>
+
+      {cve.cisaKev && cve.cisaDueDate && (
+        <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+          <Clock className="w-3 h-3" />
+          <span>
+            Remediation due: {cve.cisaDueDate}
+            {isOverdue(cve.cisaDueDate) && (
+              <span className="text-destructive font-semibold ml-2">Overdue</span>
+            )}
+          </span>
+        </div>
+      )}
     </div>
-
-    {cve.activelyExploited && (
-      <div className="flex items-center gap-2 mb-3">
-        <Flame className="w-4 h-4 text-red-500" />
-        <span className="text-xs font-bold text-red-500 uppercase tracking-wider">
-          Actively exploited in the wild
-        </span>
-      </div>
-    )}
-
-    <p className="text-sm text-muted-foreground mb-2">
-      <Target className="w-3.5 h-3.5 inline mr-1.5 text-brand-orange" />
-      {cve.plainEnglish}
-    </p>
-
-    {!compact && cve.description && cve.description !== cve.plainEnglish && (
-      <p className="text-xs text-muted-foreground/70 mb-4">{cve.description.substring(0, 300)}{cve.description.length > 300 ? '...' : ''}</p>
-    )}
-
-    <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mt-4">
-      {cve.cvss > 0 && (
-        <div>
-          <span className="text-muted-foreground">CVSS:</span>{" "}
-          <span className="font-bold text-foreground">{cve.cvss}</span>
-        </div>
-      )}
-      {cve.epss > 0 && (
-        <div>
-          <span className="text-muted-foreground">EPSS:</span>{" "}
-          <span className="font-bold text-foreground">{(cve.epss * 100).toFixed(2)}%</span>
-        </div>
-      )}
-      {cve.vendor && cve.vendor !== "Unknown" && (
-        <div>
-          <span className="text-muted-foreground">Vendor:</span>{" "}
-          <span className="font-bold text-foreground">{cve.vendor}</span>
-        </div>
-      )}
-      {cve.product && cve.product !== "Unknown" && (
-        <div>
-          <span className="text-muted-foreground">Product:</span>{" "}
-          <span className="font-bold text-foreground">{cve.product}</span>
-        </div>
-      )}
-      {cve.epss >= 0.4 && (
-        <div className={riskLabel(cve.epss).cls}>
-          <AlertTriangle className="w-3.5 h-3.5 inline mr-1" />
-          <span className="font-bold">{riskLabel(cve.epss).text}</span>
-        </div>
-      )}
-      {cve.ransomwareUse && (
-        <span className="text-xs font-bold text-red-500 border border-red-800 px-2 py-0.5 bg-red-950/40">
-          RANSOMWARE
-        </span>
-      )}
-    </div>
-
-    {cve.cisaKev && cve.cisaDueDate && (
-      <div className="flex items-center gap-2 mt-3 text-xs">
-        <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-        <span className="text-muted-foreground">
-          CISA Due: {cve.cisaDueDate}
-          {isOverdue(cve.cisaDueDate) && (
-            <span className="text-red-500 font-bold ml-2">OVERDUE</span>
-          )}
-        </span>
-      </div>
-    )}
-  </div>
-);
+  );
+};
 
 /* ── Pagination ────────────────────────────────────────── */
 
@@ -498,6 +508,17 @@ const ThreatAi = () => {
   const [loading, setLoading] = useState(true);
   const [dbReady, setDbReady] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [exportData, setExportData] = useState<any[]>([]);
+
+  // Fetch export data (all current threats for CSV)
+  const loadExportData = useCallback(async () => {
+    try {
+      const data = await fetchThreatApi({ tab: "trend", page: 0, pageSize: 100 });
+      setExportData(data.threats || []);
+    } catch (e) {
+      console.error("Export data load error:", e);
+    }
+  }, []);
 
   const fetchStats = useCallback(async () => {
     setLoading(true);
@@ -536,7 +557,8 @@ const ThreatAi = () => {
 
   useEffect(() => {
     fetchStats();
-  }, [fetchStats]);
+    loadExportData();
+  }, [fetchStats, loadExportData]);
 
   // Auto-trigger sync if DB is empty
   useEffect(() => {
@@ -613,12 +635,12 @@ const ThreatAi = () => {
 
           <Tabs defaultValue="trend" className="w-full">
             <TabsList className="w-full justify-start bg-card border border-border mb-8 h-auto flex-wrap">
-              <TabsTrigger value="trend" className="gap-2 data-[state=active]:bg-brand-orange/10 data-[state=active]:text-brand-orange">
+              <TabsTrigger value="trend" className="gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
                 <TrendingUp className="w-4 h-4" />
                 Trend Watch
               </TabsTrigger>
-              <TabsTrigger value="exploits" className="gap-2 data-[state=active]:bg-red-500/10 data-[state=active]:text-red-500">
-                <Flame className="w-4 h-4" />
+              <TabsTrigger value="exploits" className="gap-2 data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive">
+                <AlertTriangle className="w-4 h-4" />
                 Active Exploits
               </TabsTrigger>
               <TabsTrigger value="map" className="gap-2 data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-500">
@@ -659,7 +681,7 @@ const ThreatAi = () => {
       <ExportLeadModal
         isOpen={showExportModal}
         onClose={() => setShowExportModal(false)}
-        data={[]}
+        data={exportData}
       />
 
       <Footer />
