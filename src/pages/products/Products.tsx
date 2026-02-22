@@ -10,6 +10,8 @@ const tiers = [
     name: "Essentials",
     market: "SMB — 10 to 100 users",
     tagline: "Your foundation for managed IT and security visibility",
+    price: "From $2,500",
+    priceUnit: "/mo",
     methodology: "Hunt → Identify → Alert → Triage",
     capabilities: [
       "Managed NOC (24/7)", "Help Desk & Desktop Support", "Mobile Device Management",
@@ -26,6 +28,8 @@ const tiers = [
     name: "Advanced",
     market: "SME — 100 to 500 users",
     tagline: "Full-spectrum security operations with real-time detection and response",
+    price: "From $12,500",
+    priceUnit: "/mo",
     methodology: "Hunt → Identify → Alert → Triage → Diagnose → Remediate",
     capabilities: [
       "Everything in Essentials", "Managed SOC (24/7)", "Cloud Detection & Response",
@@ -41,6 +45,8 @@ const tiers = [
     name: "Enterprise",
     market: "Enterprise — 500+ users / regulated industries",
     tagline: "Complete coverage with threat intelligence, deception, and supply chain defense",
+    price: "Custom",
+    priceUnit: "",
     methodology: "Full lifecycle: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close",
     capabilities: [
       "Everything in Advanced", "Software Supply Chain Detection & Response",
@@ -98,6 +104,7 @@ export default function Products() {
                 <div className="mb-4">
                   <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">{t.market}</span>
                   <h2 className="text-2xl font-black mt-2 mb-1">{t.name}</h2>
+                  <p className="text-2xl font-black mt-2" style={{ color: "#993619" }}>{t.price}<span className="text-sm font-normal text-muted-foreground">{t.priceUnit}</span></p>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">{t.tagline}</p>
                 <p className="text-xs text-muted-foreground/60 mb-6">{t.methodology}</p>

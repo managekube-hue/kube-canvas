@@ -201,7 +201,7 @@ export default function QualificationGate() {
         >
           Not sure which model fits?{" "}
           <Link
-            to="/methodology"
+            to="/solutions/by-service-type"
             className="transition-colors underline underline-offset-4"
             style={{ color: "rgba(205,202,197,0.5)" }}
             onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = ORANGE}
