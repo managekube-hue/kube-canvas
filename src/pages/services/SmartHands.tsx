@@ -1,7 +1,7 @@
 import { ServiceDetailPage } from "@/components/ServiceDetailPage";
 export default function SmartHands() {
   return <ServiceDetailPage
-    category="Deployment & Integration"
+    category="Professional Services — BOM Add-On"
     name="Smart Hands"
     tagline="On-site technical resources for hardware installation, cabling, and physical infrastructure tasks."
     description="Smart Hands delivers certified field technicians for on-site work that remote teams can't handle. From rack-and-stack deployments and cable management to hardware swaps and site surveys, our technicians serve as your physical presence in data centers and branch offices nationwide."

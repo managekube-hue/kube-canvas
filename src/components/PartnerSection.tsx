@@ -24,9 +24,9 @@ const partners = [
 
 const alliances = [
   { name: "Microsoft", service: "Managed Workplace", description: "Optimization and management of Microsoft 365, Azure, and Intune." },
-  { name: "Google", service: "Cloud & Collaboration", description: "Management of Google Workspace, Google Cloud Platform." },
+  { name: "Pax8", service: "Cloud Distribution", description: "Streamlined cloud marketplace procurement, licensing, and provisioning." },
+  { name: "TD SYNNEX", service: "Supply Chain & Procurement", description: "Enterprise hardware sourcing, configuration, and logistics fulfillment." },
   { name: "Cisco Meraki", service: "Network & Edge", description: "SD-WAN, network administration, switches, firewalls, and Wi-Fi." },
-  { name: "RingCentral", service: "Unified Comms", description: "UCaaS and CCaaS platforms for telephony and contact center." },
 ];
 
 export const PartnerSection = () => {

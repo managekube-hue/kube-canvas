@@ -10,8 +10,8 @@ const serviceGroups = [
     items: [
       { name: "Managed NOC", desc: "24/7 network operations center with proactive monitoring, alerting, and incident response.", href: "/services/managed-noc" },
       { name: "Managed SOC", desc: "24/7 security operations center with threat hunting, incident response, and compliance reporting.", href: "/services/managed-soc" },
-      { name: "Managed IT", desc: "Full-spectrum IT operations management — endpoints to infrastructure — delivered as a service.", href: "/services/managed-it" },
-      { name: "Help Desk", desc: "White-glove Tier 1–3 user support with SLA-backed resolution and tiered escalation.", href: "/services/help-desk" },
+      { name: "Managed IT", desc: "Full-spectrum IT operations — endpoints, IoT, print, O365, data center, and strategic planning.", href: "/services/managed-it" },
+      { name: "Help Desk", desc: "White-glove Tier 1–3 user support with SLA-backed resolution, Mac support, and warranty services.", href: "/services/help-desk" },
       { name: "Managed Compliance & GRC", desc: "Continuous compliance monitoring and evidence collection across 100+ frameworks.", href: "/services/managed-compliance" },
       { name: "Managed Cloud & FinOps", desc: "Cloud cost optimization, performance management, and FinOps reporting.", href: "/services/managed-cloud" },
     ],
@@ -29,7 +29,7 @@ const serviceGroups = [
   {
     category: "Deployment & Integration",
     items: [
-      { name: "Smart Hands", desc: "On-site technicians for rack-and-stack, cabling, hardware swaps, and field deployments.", href: "/services/smart-hands" },
+      { name: "Smart Hands", desc: "On-site field technicians for rack-and-stack, cabling, hardware swaps, and multi-site rollouts.", href: "/services/smart-hands" },
       { name: "Physical Security Integration", desc: "Design, installation, and integration of video surveillance, access control, and intrusion detection.", href: "/services/physical-security" },
       { name: "Network Infrastructure Buildouts", desc: "Enterprise network design, deployment, and migration for wired, wireless, and SD-WAN.", href: "/services/network-buildouts" },
       { name: "Custom Automation Development", desc: "Bespoke automation, scripting, and SOAR playbook development.", href: "/services/custom-automation" },

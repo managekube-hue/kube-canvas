@@ -199,6 +199,55 @@ const Pricing = () => {
         </div>
       </section>
 
+      {/* BOM Add-On Services */}
+      <section className="py-20 lg:py-28 bg-secondary">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <p className="text-label text-brand-orange mb-4">ADD-ONS</p>
+            <h2 className="text-headline text-foreground mb-4">Professional Services — BOM Add-Ons</h2>
+            <p className="text-body-lg text-muted-foreground mb-14 max-w-2xl">
+              Standalone services available as add-ons to any Service Tier. Build your Bill of Materials with exactly what you need.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  name: "Help Desk",
+                  desc: "Tier 1–3 end-user support with SLA-backed resolution, Mac support, and warranty services.",
+                  href: "/services/help-desk",
+                },
+                {
+                  name: "Managed IT",
+                  desc: "Full-spectrum IT operations — endpoints, IoT, print, O365, data center, and strategic planning.",
+                  href: "/services/managed-it",
+                },
+                {
+                  name: "Smart Hands",
+                  desc: "On-site field technicians for rack-and-stack, cabling, hardware swaps, and multi-site rollouts.",
+                  href: "/services/smart-hands",
+                },
+              ].map((svc) => (
+                <motion.div
+                  key={svc.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-8 border border-border hover:border-brand-orange transition-colors"
+                >
+                  <h3 className="text-xl font-bold text-foreground mb-3">{svc.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{svc.desc}</p>
+                  <Link
+                    to={svc.href}
+                    className="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-brand-orange hover:opacity-80 transition-opacity"
+                  >
+                    Learn More <ArrowRight size={13} />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 lg:py-32 bg-white">
         <div className="container mx-auto px-6 lg:px-12 text-center">
@@ -206,8 +255,8 @@ const Pricing = () => {
             Not sure which model fits?
           </h2>
           <p className="text-body-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Take our free assessment and we'll recommend the pricing model that 
-            best matches your organization's size, needs, and budget preferences.
+            Tell us about your organization and we'll recommend the right Service Tier, 
+            pricing model, and add-ons for your needs.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

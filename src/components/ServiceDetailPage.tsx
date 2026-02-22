@@ -87,11 +87,11 @@ export const ServiceDetailPage = ({ category, name, tagline, description, sectio
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/assessment"
+                to="/get-started"
                 className="inline-flex items-center gap-2 font-bold text-white transition-all hover:opacity-90"
                 style={{ background: "#993619", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
               >
-                Request Assessment <ArrowRight size={14} />
+                Get Started <ArrowRight size={14} />
               </Link>
               <Link
                 to="/contact"
