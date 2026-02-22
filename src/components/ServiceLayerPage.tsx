@@ -153,7 +153,7 @@ export const ServiceLayerPage = ({
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to="/get-started"
+                  to="/assessment/start"
                   className="inline-flex items-center gap-2 font-bold text-white transition-all hover:opacity-90"
                   style={{ background: "#993619", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
                 >

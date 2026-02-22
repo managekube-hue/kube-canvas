@@ -23,7 +23,7 @@ interface ServiceDetailPageProps {
 export const ServiceDetailPage = ({
   category, name, tagline, description, narrative, includes, howItWorks, whatYouReceive,
   sections = [], similar = [],
-  primaryCta = { label: "Get Started", href: "/get-started" },
+  primaryCta = { label: "Onboard Today", href: "/assessment/start" },
   secondaryCta = { label: "View Service Tiers", href: "/service-tiers" },
 }: ServiceDetailPageProps) => (
   <PageLayout>
