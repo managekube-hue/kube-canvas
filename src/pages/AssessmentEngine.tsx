@@ -38,7 +38,7 @@ export default function AssessmentEngine() {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [flags, setFlags] = useState<Record<string, any>>({});
   const [capture, setCapture] = useState<Record<string, string>>({
-    first_name: "", last_name: "", email: "", company: "", phone: "",
+    first_name: "", last_name: "", email: "", company: "", phone: "", job_title: "", website: "",
   });
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [currentFlow, setCurrentFlow] = useState<string>("P0");
@@ -84,7 +84,7 @@ export default function AssessmentEngine() {
           phone: capture.phone.trim() || null,
           status: "in_progress",
           current_flow: "P0",
-          current_question: "P0-Q0C_INDUSTRY",
+          current_question: "P0-Q1_ROLE",
         })
         .select("id")
         .single();
@@ -144,10 +144,10 @@ export default function AssessmentEngine() {
           flags,
           current_flow: currentFlow,
           current_question: currentQuestion?.code || null,
-          industry: answers["P0-Q0C_INDUSTRY"] || null,
-          endpoint_count: parseInt(answers["P0-Q0E_ENDPOINTS"]) || null,
-          remote_workforce_pct: answers["P0-Q0F_WORKFORCE_REMOTE"] || null,
-          email_platform: answers["P0-Q0G_EMAIL_PLATFORM"] || null,
+          industry: answers["P0-Q7_INDUSTRY"] || null,
+          endpoint_count: parseInt(answers["P0-Q9_ENDPOINTS"]) || null,
+          remote_workforce_pct: answers["P0-Q10_REMOTE"] || null,
+          email_platform: answers["P0-Q11_EMAIL"] || null,
           role: answers["P0-Q1_ROLE"] || null,
           org_stage: answers["P0-Q2_ORG_STAGE"] || null,
           it_situation: answers["P0-Q3_IT_SITUATION"] || null,
@@ -156,7 +156,7 @@ export default function AssessmentEngine() {
           compliance_deadline: answers["P0-Q4A_DEADLINE"] || null,
           incident_type: answers["P0-Q4B_INCIDENT_TYPE"] || null,
           incident_age: answers["P0-Q4B_INCIDENT_AGE"] || null,
-          timeline: answers["P0-Q7_TIMELINE"] || answers["P0-Q5_TIMELINE"] || null,
+          timeline: answers["P0-Q12_TIMELINE"] || null,
           msp_issues: answers["P0-Q3B_MSP_ISSUES"] || null,
           ems_score: scoring.ems_score,
           complexity_score: scoring.complexity_score,
