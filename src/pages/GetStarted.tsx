@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PageLayout } from "@/components/PageLayout";
+import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, CheckCircle, Building2, Shield, Users, Zap } from "lucide-react";
 
@@ -68,10 +69,33 @@ export default function GetStarted() {
     return false;
   };
 
-  const handleSubmit = () => {
-    // TODO: Wire to Supabase + Resend + HubSpot
-    console.log("Onboarding submission:", form);
-    setStep(4);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      const recommendedTier = ORG_SIZES.find(s => s.label === form.orgSize)?.tier || null;
+      const { error } = await supabase.from("leads").insert({
+        first_name: form.firstName.trim(),
+        last_name: form.lastName.trim(),
+        email: form.email.trim(),
+        company: form.company.trim(),
+        phone: form.phone.trim() || null,
+        industry: form.industry,
+        org_size: form.orgSize,
+        challenges: form.challenges,
+        message: form.message.trim() || null,
+        source: "get-started",
+        recommended_tier: recommendedTier,
+      });
+      if (error) throw error;
+      setStep(4);
+    } catch (err) {
+      console.error("Lead submission error:", err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -278,11 +302,11 @@ export default function GetStarted() {
               </button>
               <button
                 onClick={() => step === 3 ? handleSubmit() : setStep(s => s + 1)}
-                disabled={!canProceed()}
+                disabled={!canProceed() || submitting}
                 className="flex items-center gap-2 px-8 py-3 text-sm font-bold uppercase tracking-wider text-white transition-all disabled:opacity-30"
-                style={{ background: canProceed() ? ORANGE : "rgba(153,54,25,0.3)" }}
+                style={{ background: canProceed() && !submitting ? ORANGE : "rgba(153,54,25,0.3)" }}
               >
-                {step === 3 ? "Submit" : "Continue"} <ArrowRight size={14} />
+                {submitting ? "Submitting..." : step === 3 ? "Submit" : "Continue"} <ArrowRight size={14} />
               </button>
             </div>
           )}

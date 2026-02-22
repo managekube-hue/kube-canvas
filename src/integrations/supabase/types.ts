@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      leads: {
+        Row: {
+          challenges: string[] | null
+          company: string
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          industry: string | null
+          last_name: string | null
+          message: string | null
+          org_size: string | null
+          phone: string | null
+          recommended_tier: string | null
+          source: string
+        }
+        Insert: {
+          challenges?: string[] | null
+          company: string
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id?: string
+          industry?: string | null
+          last_name?: string | null
+          message?: string | null
+          org_size?: string | null
+          phone?: string | null
+          recommended_tier?: string | null
+          source?: string
+        }
+        Update: {
+          challenges?: string[] | null
+          company?: string
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          industry?: string | null
+          last_name?: string | null
+          message?: string | null
+          org_size?: string | null
+          phone?: string | null
+          recommended_tier?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
       modules: {
         Row: {
           created_at: string | null

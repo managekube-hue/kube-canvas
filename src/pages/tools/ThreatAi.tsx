@@ -5,6 +5,7 @@ import { PageBanner } from "@/components/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, ShieldAlert, AlertTriangle, Download, Lock } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LeadForm {
   name: string;
@@ -29,11 +30,20 @@ const ThreatAi = () => {
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (leadForm.name && leadForm.email && leadForm.company) {
+      try {
+        await supabase.from("leads").insert({
+          first_name: leadForm.name.trim(),
+          email: leadForm.email.trim(),
+          company: leadForm.company.trim(),
+          source: "threat-ai",
+        });
+      } catch (err) {
+        console.error("Lead capture error:", err);
+      }
       setGateUnlocked(true);
-      // TODO: Send lead to HubSpot / Supabase
     }
   };
 
