@@ -9,25 +9,27 @@ interface PageBannerProps {
 
 export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
   return (
-    <section className="relative pt-40 pb-36 lg:pt-56 lg:pb-52 overflow-hidden bg-black min-h-screen flex items-center">
-      {/* Video background */}
+    <section className="relative overflow-hidden bg-black min-h-screen flex items-center justify-center">
+      {/* Video background — higher visibility */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 0.55 }}
         >
           <source src={childPageVideo} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+        {/* Lighter gradient overlays so video shows through */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.80) 25%, rgba(12,12,12,0.45) 60%, rgba(12,12,12,0.25) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,0.90) 0%, transparent 40%, rgba(12,12,12,0.35) 100%)" }} />
       </div>
 
       {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 opacity-5 z-0"
+        className="absolute inset-0 opacity-[0.03] z-0"
         style={{
           backgroundImage: `
             linear-gradient(hsl(0 0% 100% / 0.1) 1px, transparent 1px),
@@ -37,7 +39,7 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
         }}
       />
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+      <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 py-32 lg:py-40">
         <div className="max-w-5xl">
           {phase && (
             <motion.div
@@ -56,7 +58,7 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
             initial={{ width: 0 }}
             animate={{ width: 64 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="h-1 mb-10"
+            className="h-1 mb-12"
             style={{ background: "#993619" }}
           />
 
@@ -64,12 +66,13 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-white mb-8"
+            className="text-white mb-10"
             style={{
               fontSize: "clamp(2.8rem, 6vw, 5rem)",
               fontWeight: 900,
               fontFamily: "'Special Elite', serif",
-              lineHeight: 1.05,
+              lineHeight: 1.1,
+              letterSpacing: "-0.01em",
             }}
           >
             {title}
@@ -80,15 +83,15 @@ export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
             className="max-w-3xl"
-            style={{ fontSize: "17px", lineHeight: 1.7, color: "rgba(255,255,255,0.65)" }}
+            style={{ fontSize: "18px", lineHeight: 1.8, color: "rgba(255,255,255,0.70)" }}
           >
             {subtitle}
           </motion.p>
         </div>
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent z-10" />
+      {/* Bottom fade into page content */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 };

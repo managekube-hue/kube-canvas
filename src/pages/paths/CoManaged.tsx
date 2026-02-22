@@ -96,12 +96,12 @@ export default function CoManaged() {
             muted
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            style={{ opacity: 0.35 }}
+            style={{ opacity: 0.55 }}
           >
             <source src={childPageVideo} type="video/mp4" />
           </video>
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.97) 35%, rgba(12,12,12,0.75) 65%, rgba(12,12,12,0.3) 100%)" }} />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,1) 0%, transparent 40%, rgba(12,12,12,0.4) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.80) 25%, rgba(12,12,12,0.45) 60%, rgba(12,12,12,0.25) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,0.90) 0%, transparent 40%, rgba(12,12,12,0.35) 100%)" }} />
         </div>
 
         {/* Hero content */}
