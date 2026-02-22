@@ -219,9 +219,8 @@ const megaMenu = {
       {
         heading: "Get Started",
         items: [
-          { label: "Onboard Today", desc: "Complete the full assessment to get your custom score, tier, and pricing.", href: "/assessment/start" },
-          { label: "Quick Contact", desc: "Tell us about your organisation and we'll reach out within 24 hours.", href: "/get-started" },
-          { label: "Talk to Sales", desc: "Speak with a solutions architect about enterprise pricing.", href: "/contact" },
+          { label: "Onboard Today", desc: "96-question assessment → instant EMS score, tier, and pricing.", href: "/assessment/start" },
+          { label: "Get Started / Contact", desc: "Choose your path: full assessment, quick contact, or talk to sales.", href: "/get-started" },
         ],
       },
     ],
@@ -418,13 +417,13 @@ export const Header = () => {
                 >
                   Onboard Today
                 </Link>
-                <Link
+              <Link
                   to="/get-started"
                   onClick={closeMenu}
                   className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-colors hover:bg-white/10"
                   style={{ border: `1px solid rgba(255,255,255,0.35)`, color: TEXT_WHITE, borderRadius: "4px" }}
                 >
-                  Get Started
+                  Get Started / Contact
                 </Link>
                 <Link
                   to="/login/client"
