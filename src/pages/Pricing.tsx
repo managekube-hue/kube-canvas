@@ -71,7 +71,7 @@ const Pricing = () => {
             <p className="text-label text-brand-orange mb-4">PLATFORMS</p>
             <h2 className="text-headline text-white mb-4">Choose Your Platform</h2>
             <p className="text-body-lg text-white/60 mb-14 max-w-2xl">
-              Three purpose-built platforms powered by the Kubric platform. Each maps to the modules your organisation needs — from 7 to all 18.
+              Three purpose-built platforms powered by the Kubric platform. Each maps to the modules your organisation needs, from 7 to all 18.
             </p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -147,7 +147,7 @@ const Pricing = () => {
             <p className="text-label text-brand-orange mb-4">PRICING MODELS</p>
             <h2 className="text-headline text-foreground mb-4">Six Ways to Pay</h2>
             <p className="text-body-lg text-muted-foreground max-w-2xl">
-              From consumption-based to enterprise custom. Choose the model that matches your business reality — combine with any Service Tier above.
+              From consumption-based to enterprise custom. Choose the model that matches your business reality. Combine with any Service Tier above.
             </p>
           </div>
         <div className="container mx-auto px-6 lg:px-12">
@@ -195,8 +195,8 @@ const Pricing = () => {
               Zero lock-in. Ever.
             </h2>
             <p className="text-body-lg text-white/70 mb-8">
-              We don't believe in trapping clients with long-term contracts and exit penalties. 
-              Our agreements are designed for flexibility—because if we're not delivering value, 
+              We do not believe in trapping clients with long-term contracts and exit penalties. 
+              Our agreements are designed for flexibility, because if we are not delivering value, 
               you should be able to walk away.
             </p>
             <div className="flex flex-wrap justify-center gap-8 text-white/60">
@@ -213,7 +213,7 @@ const Pricing = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
             <p className="text-label text-brand-orange mb-4">ADD-ONS</p>
-            <h2 className="text-headline text-foreground mb-4">Professional Services — BOM Add-Ons</h2>
+            <h2 className="text-headline text-foreground mb-4">Professional Services: BOM Add-Ons</h2>
             <p className="text-body-lg text-muted-foreground mb-14 max-w-2xl">
               Standalone services available as add-ons to any Service Tier. Build your Bill of Materials with exactly what you need.
             </p>
@@ -226,7 +226,7 @@ const Pricing = () => {
                 },
                 {
                   name: "Managed IT",
-                  desc: "Full-spectrum IT operations — endpoints, IoT, print, O365, data center, and strategic planning.",
+                  desc: "Full-spectrum IT operations: endpoints, IoT, print, O365, data centre, and strategic planning.",
                   href: "/services/managed-it",
                 },
                 {

@@ -53,7 +53,7 @@ const Support = () => {
       <Header />
       <PageBanner
         title="Support"
-        subtitle="We're here to help — by phone, email, or portal."
+        subtitle="We are here to help. By phone, email, or portal."
       />
 
       {/* Support Channels */}
@@ -99,10 +99,10 @@ const Support = () => {
                 </tr>
               </thead>
               <tbody className="text-muted-foreground">
-                <tr><td className="p-4 border-b border-border font-medium text-foreground">P1 — Critical</td><td className="p-4 border-b border-border">60 min</td><td className="p-4 border-b border-border">30 min</td><td className="p-4 border-b border-border">15 min</td></tr>
-                <tr><td className="p-4 border-b border-border font-medium text-foreground">P2 — High</td><td className="p-4 border-b border-border">4 hrs</td><td className="p-4 border-b border-border">2 hrs</td><td className="p-4 border-b border-border">1 hr</td></tr>
-                <tr><td className="p-4 border-b border-border font-medium text-foreground">P3 — Medium</td><td className="p-4 border-b border-border">8 hrs</td><td className="p-4 border-b border-border">4 hrs</td><td className="p-4 border-b border-border">2 hrs</td></tr>
-                <tr><td className="p-4 border-b border-border font-medium text-foreground">P4 — Low</td><td className="p-4 border-b border-border">24 hrs</td><td className="p-4 border-b border-border">12 hrs</td><td className="p-4 border-b border-border">4 hrs</td></tr>
+                <tr><td className="p-4 border-b border-border font-medium text-foreground">P1: Critical</td><td className="p-4 border-b border-border">60 min</td><td className="p-4 border-b border-border">30 min</td><td className="p-4 border-b border-border">15 min</td></tr>
+                <tr><td className="p-4 border-b border-border font-medium text-foreground">P2: High</td><td className="p-4 border-b border-border">4 hrs</td><td className="p-4 border-b border-border">2 hrs</td><td className="p-4 border-b border-border">1 hr</td></tr>
+                <tr><td className="p-4 border-b border-border font-medium text-foreground">P3: Medium</td><td className="p-4 border-b border-border">8 hrs</td><td className="p-4 border-b border-border">4 hrs</td><td className="p-4 border-b border-border">2 hrs</td></tr>
+                <tr><td className="p-4 border-b border-border font-medium text-foreground">P4: Low</td><td className="p-4 border-b border-border">24 hrs</td><td className="p-4 border-b border-border">12 hrs</td><td className="p-4 border-b border-border">4 hrs</td></tr>
               </tbody>
             </table>
           </div>

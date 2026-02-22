@@ -13,7 +13,7 @@ const PATHS = [
     label: "FULLY MANAGED",
     headline: "We run it.\nYou own the outcomes.",
     sub: "NOC. SOC. Compliance. Cloud. End-to-end.",
-    detail: "Your dedicated team handles every layer of infrastructure, security, and compliance. You get outcomes — we handle operations.",
+    detail: "Your dedicated team handles every layer of infrastructure, security, and compliance. You get outcomes. We handle operations.",
     badge: "Most Popular",
   },
   {

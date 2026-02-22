@@ -1,5 +1,5 @@
 /**
- * Assessment / Onboarding — Smart Pricing Simulator
+ * Assessment / Onboarding Assessment
  */
 
 import { PageLayout } from "@/components/PageLayout";
@@ -51,16 +51,16 @@ const Assessment = () => {
   return (
     <PageLayout>
       <PageBanner
-        title="See Where You Stand. Get a Personalized Recommendation."
-        subtitle="Answer a few questions about your environment, your team, and your challenges. Our Smart Pricing Simulator analyzes your responses, computes your Environment Maturity Score (EMS), and delivers a recommended service tier, monthly price, and prioritized remediation roadmap."
-        phase="SMART PRICING SIMULATOR"
+        title="See Where You Stand. Get a Personalised Recommendation."
+        subtitle="Answer a few questions about your environment, your team, and your challenges. Our Onboarding Assessment analyses your responses, computes your Environment Maturity Score (EMS), and delivers a recommended service tier, monthly price, and prioritised remediation roadmap."
+        phase="ONBOARDING ASSESSMENT"
       />
 
       {/* CTA Section */}
       <section className="py-12 bg-white border-b border-border">
         <div className="container mx-auto px-6 lg:px-12 text-center">
           <p className="text-muted-foreground mb-6 text-lg">
-            The assessment takes 10–20 minutes. Your personalized proposal is generated immediately.
+            The assessment takes 10 to 20 minutes. Your personalised proposal is generated immediately.
           </p>
           <Link
             to="/assessment/start"

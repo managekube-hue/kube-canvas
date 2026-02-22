@@ -15,7 +15,7 @@ const steps = [
     number: "01",
     label: "HUNT",
     summary: "Proactive threat hunting before automated detection fires.",
-    description: "Continuous search for indicators adversaries leave behind — identifying attacker presence before tooling catches it.",
+    description: "Continuous search for indicators adversaries leave behind, identifying attacker presence before tooling catches it.",
   },
   {
     number: "02",
@@ -115,7 +115,7 @@ const Methodology = () => {
                 An attacker who is detected but not fully remediated retains their foothold. An incident that is remediated but not documented cannot be learned from. A posture that is assessed but not continuously monitored will drift.
               </p>
               <p>
-                The ManageKube methodology closes every stage of that gap — from the moment a threat is hunted to the moment the incident is verified closed and the prevention recommendation is filed.
+                The ManageKube methodology closes every stage of that gap, from the moment a threat is hunted to the moment the incident is verified closed and the prevention recommendation is filed.
               </p>
             </div>
           </div>
@@ -181,10 +181,10 @@ const Methodology = () => {
             </h2>
             <div className="space-y-5" style={{ fontSize: "15px", lineHeight: 1.75, color: "#393837" }}>
               <p>
-                Your team receives outcomes at every stage — not just an alert and a ticket number. Triage decisions are explained. Remediation steps are documented. Evidence is packaged automatically. The incident closes with a verified resolution, not an assumption.
+                Your team receives outcomes at every stage, not just an alert and a ticket number. Triage decisions are explained. Remediation steps are documented. Evidence is packaged automatically. The incident closes with a verified resolution, not an assumption.
               </p>
               <p>
-                Compliance auditors receive evidence packages without your team scrambling. Post-incident reviews happen because the documentation already exists. Prevention recommendations are filed because root cause analysis happened as part of the methodology — not as an afterthought.
+                Compliance auditors receive evidence packages without your team scrambling. Post-incident reviews happen because the documentation already exists. Prevention recommendations are filed because root cause analysis happened as part of the methodology, not as an afterthought.
               </p>
               <p style={{ fontWeight: 700, color: "#1D1D1B" }}>
                 The methodology is why ManageKube produces fewer repeat incidents over time. Every closed incident makes the next one less likely.
@@ -260,12 +260,12 @@ const Methodology = () => {
             </h2>
             <div className="space-y-5" style={{ fontSize: "15px", lineHeight: 1.75, color: "#393837" }}>
               <p>
-                A security capability that detects without remediating leaves an adversary in your environment. A remediation without documentation leaves your compliance team exposed. ManageKube defines SLAs around incident closure — a materially different commitment than the alert response time SLAs that characterize most MSSP engagements.
+                A security capability that detects without remediating leaves an adversary in your environment. A remediation without documentation leaves your compliance team exposed. ManageKube defines SLAs around incident closure, a materially different commitment than the alert response time SLAs that characterise most MSSP engagements.
               </p>
               <ul className="space-y-3" style={{ paddingLeft: "20px" }}>
-                <li>The Hunt stage proactively searches for threats automated detection misses — reducing mean time to detect for sophisticated, low-signal attacks</li>
-                <li>Post-incident prevention recommendations are filed as standard — not offered as a separate advisory engagement</li>
-                <li>Evidence collected during the methodology lifecycle satisfies audit requirements for CMMC, HIPAA, SOC 2, FedRAMP, and additional frameworks without separate evidence-gathering programs</li>
+                <li>The Hunt stage proactively searches for threats automated detection misses, reducing mean time to detect for sophisticated, low-signal attacks</li>
+                <li>Post-incident prevention recommendations are filed as standard, not offered as a separate advisory engagement</li>
+                <li>Evidence collected during the methodology lifecycle satisfies audit requirements for CMMC, HIPAA, SOC 2, FedRAMP, and additional frameworks without separate evidence-gathering programmes</li>
               </ul>
             </div>
           </div>

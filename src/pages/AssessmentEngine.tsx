@@ -1,5 +1,5 @@
 /**
- * ManageKube Smart Pricing Simulator — Full Assessment Engine
+ * ManageKube Onboarding Assessment Engine
  * Implements the Unified Question Set v2.0 with:
  * - P0 Universal capture + routing
  * - 6 deep-dive flows (SR, IA, CM, GE, CO, compliance)
@@ -271,10 +271,10 @@ export default function AssessmentEngine() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="h-[2px] w-12 mb-6" style={{ background: ORANGE }} />
             <h1 className="text-3xl md:text-4xl font-black text-white mb-3" style={{ fontFamily: "'Special Elite', serif" }}>
-              Smart Pricing Simulator
+              Onboarding Assessment
             </h1>
             <p className="text-sm text-white/40 max-w-xl">
-              Answer questions about your environment. We calculate your risk score, maturity levels, and recommended service tier — with real scoring weights.
+              Answer questions about your environment. We calculate your risk score, maturity levels, and recommended service tier with real scoring weights.
             </p>
           </motion.div>
         </div>
@@ -291,7 +291,7 @@ export default function AssessmentEngine() {
                   return <Icon size={14} style={{ color: ORANGE }} />;
                 })()}
                 <span className="text-xs font-bold uppercase tracking-wider" style={{ color: ORANGE }}>
-                  {FLOW_LABELS[currentFlow]} — Q{currentQIndex + 1} of {visibleQuestions.length}
+                  {FLOW_LABELS[currentFlow]} · Q{currentQIndex + 1} of {visibleQuestions.length}
                 </span>
               </div>
               <span className="text-xs text-white/30">{progressPct}% complete</span>
@@ -319,7 +319,7 @@ export default function AssessmentEngine() {
             {/* ── CAPTURE ── */}
             {phase === "capture" && (
               <motion.div key="capture" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
-                <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: ORANGE }}>Step 1 — Contact Information</p>
+                <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: ORANGE }}>Step 1: Contact Information</p>
                 <h2 className="text-2xl font-black text-white mb-2" style={{ fontFamily: "'Special Elite', serif" }}>Let's start with your details</h2>
                 <p className="text-sm text-white/40 mb-8">Your information is used to create your assessment session and deliver results.</p>
                 <div className="grid md:grid-cols-2 gap-4">
