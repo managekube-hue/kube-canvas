@@ -108,7 +108,7 @@ const Pricing = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className={`relative bg-white/5 p-8 border ${p.featured ? "border-brand-orange" : "border-white/10"} hover:border-white/30 transition-colors`}
+                  className={`relative bg-white/5 p-8 border flex flex-col ${p.featured ? "border-brand-orange" : "border-white/10"} hover:border-white/30 transition-colors`}
                 >
                   {p.featured && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -119,7 +119,7 @@ const Pricing = () => {
                   <h3 className="text-4xl font-black text-white mb-1">{p.code}</h3>
                   <p className="text-sm text-white/50 mb-4">{p.name}</p>
                   <p className="text-sm text-white/60 mb-6 leading-relaxed">{p.desc}</p>
-                  <ul className="space-y-1.5 mb-8">
+                  <ul className="space-y-1.5 mb-8 flex-1">
                     {p.kubes.map((k) => (
                       <li key={k} className="flex items-center gap-2 text-sm text-white/70">
                         <Check className="w-3.5 h-3.5 text-brand-orange flex-shrink-0" />
