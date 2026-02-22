@@ -616,6 +616,126 @@ export type Database = {
         }
         Relationships: []
       }
+      cve_exploits: {
+        Row: {
+          cve_id: string
+          discovered_at: string | null
+          exploit_type: string
+          id: string
+          source_url: string | null
+          title: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          cve_id: string
+          discovered_at?: string | null
+          exploit_type?: string
+          id?: string
+          source_url?: string | null
+          title?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          cve_id?: string
+          discovered_at?: string | null
+          exploit_type?: string
+          id?: string
+          source_url?: string | null
+          title?: string | null
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      cve_github: {
+        Row: {
+          cve_id: string
+          discovered_at: string | null
+          has_exploit: boolean | null
+          has_poc: boolean | null
+          id: string
+          repo_name: string
+          repo_url: string
+          stars: number | null
+        }
+        Insert: {
+          cve_id: string
+          discovered_at?: string | null
+          has_exploit?: boolean | null
+          has_poc?: boolean | null
+          id?: string
+          repo_name: string
+          repo_url: string
+          stars?: number | null
+        }
+        Update: {
+          cve_id?: string
+          discovered_at?: string | null
+          has_exploit?: boolean | null
+          has_poc?: boolean | null
+          id?: string
+          repo_name?: string
+          repo_url?: string
+          stars?: number | null
+        }
+        Relationships: []
+      }
+      cve_history: {
+        Row: {
+          cve_id: string
+          id: string
+          recorded_at: string | null
+          score_type: string
+          score_value: number | null
+        }
+        Insert: {
+          cve_id: string
+          id?: string
+          recorded_at?: string | null
+          score_type: string
+          score_value?: number | null
+        }
+        Update: {
+          cve_id?: string
+          id?: string
+          recorded_at?: string | null
+          score_type?: string
+          score_value?: number | null
+        }
+        Relationships: []
+      }
+      cve_social: {
+        Row: {
+          author: string | null
+          content: string | null
+          cve_id: string
+          discovered_at: string | null
+          id: string
+          platform: string
+          posted_at: string | null
+          url: string | null
+        }
+        Insert: {
+          author?: string | null
+          content?: string | null
+          cve_id: string
+          discovered_at?: string | null
+          id?: string
+          platform?: string
+          posted_at?: string | null
+          url?: string | null
+        }
+        Update: {
+          author?: string | null
+          content?: string | null
+          cve_id?: string
+          discovered_at?: string | null
+          id?: string
+          platform?: string
+          posted_at?: string | null
+          url?: string | null
+        }
+        Relationships: []
+      }
       lead_exports: {
         Row: {
           business_name: string
@@ -836,6 +956,39 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          access_areas: string[] | null
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_areas?: string[] | null
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_areas?: string[] | null
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sync_metadata: {
         Row: {
           created_at: string | null
@@ -912,10 +1065,13 @@ export type Database = {
           cvss_severity: string | null
           cvss_v2_score: number | null
           cvss_v3_score: number | null
+          cvss_vector: string | null
           description: string | null
           epss_percentile: number | null
           epss_score: number | null
           epss_updated_date: string | null
+          exploit_count: number | null
+          exploit_maturity: string | null
           id: string
           is_kev: boolean | null
           kev_added_date: string | null
@@ -924,6 +1080,7 @@ export type Database = {
           kev_notes: string | null
           last_modified_date: string | null
           plain_english_summary: string | null
+          poc_count: number | null
           product: string | null
           published_date: string | null
           risk_score: number | null
@@ -938,10 +1095,13 @@ export type Database = {
           cvss_severity?: string | null
           cvss_v2_score?: number | null
           cvss_v3_score?: number | null
+          cvss_vector?: string | null
           description?: string | null
           epss_percentile?: number | null
           epss_score?: number | null
           epss_updated_date?: string | null
+          exploit_count?: number | null
+          exploit_maturity?: string | null
           id?: string
           is_kev?: boolean | null
           kev_added_date?: string | null
@@ -950,6 +1110,7 @@ export type Database = {
           kev_notes?: string | null
           last_modified_date?: string | null
           plain_english_summary?: string | null
+          poc_count?: number | null
           product?: string | null
           published_date?: string | null
           risk_score?: number | null
@@ -964,10 +1125,13 @@ export type Database = {
           cvss_severity?: string | null
           cvss_v2_score?: number | null
           cvss_v3_score?: number | null
+          cvss_vector?: string | null
           description?: string | null
           epss_percentile?: number | null
           epss_score?: number | null
           epss_updated_date?: string | null
+          exploit_count?: number | null
+          exploit_maturity?: string | null
           id?: string
           is_kev?: boolean | null
           kev_added_date?: string | null
@@ -976,6 +1140,7 @@ export type Database = {
           kev_notes?: string | null
           last_modified_date?: string | null
           plain_english_summary?: string | null
+          poc_count?: number | null
           product?: string | null
           published_date?: string | null
           risk_score?: number | null
@@ -983,6 +1148,24 @@ export type Database = {
           updated_at?: string | null
           urgency_level?: string | null
           vendor?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -1017,11 +1200,18 @@ export type Database = {
     }
     Functions: {
       guard_notion_sync_cron: { Args: never; Returns: undefined }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1148,6 +1338,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor", "viewer"],
+    },
   },
 } as const
