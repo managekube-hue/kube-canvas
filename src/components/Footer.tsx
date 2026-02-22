@@ -11,13 +11,13 @@ interface ColDef { title: string; items: NavItem[] }
 
 const columns: ColDef[] = [
   {
-    title: "Our Tools",
+    title: "How It Works",
     items: [
-      { label: "Overview: How Kubric Works", href: "/our-tools/how-kubric-works" },
-      { label: "Kubric UIDR", href: "/our-tools/kubric-uidr" },
-      { label: "Kubric Data Graph", href: "/our-tools/kubric-data-graph" },
-      { label: "KubricAI", href: "/our-tools/kubric-ai" },
-      { label: "Service Delivery Methodology", href: "/methodology" },
+      { label: "Platform Overview", href: "/how-it-works/platform-overview" },
+      { label: "Kubric UIDR", href: "/how-it-works/kubric-uidr" },
+      { label: "Kubric Data Graph", href: "/how-it-works/kubric-data-graph" },
+      { label: "KubricAI", href: "/how-it-works/kubricai" },
+      { label: "Our Methodology", href: "/methodology" },
     ],
   },
   {

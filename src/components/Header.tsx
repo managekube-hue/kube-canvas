@@ -12,24 +12,24 @@ const ORANGE = "hsl(24 95% 53%)";
 
 // ─── Mega Menu Data ────────────────────────────────────────────────────────────
 const megaMenu = {
-  "Our Tools": {
-    href: "/our-tools",
-    desc: "Discover the unified platform that powers detection, response, and operations across your entire infrastructure.",
-    viewAll: "View Our Tools Page",
+  "How It Works": {
+    href: "/how-it-works",
+    desc: "The technology platform that delivers the Service Layer capabilities — orchestration, correlation, and AI-assisted detection.",
+    viewAll: "View How It Works",
     columns: [
       {
-        heading: "Platform Overview",
+        heading: "Platform Components",
         items: [
-          { label: "Overview: How Kubric Works", desc: "Learn how Kubric UIDR unifies NOC, SOC, and business operations into a single orchestrated platform.", href: "/our-tools/how-kubric-works" },
-          { label: "Kubric UIDR", desc: "The core RMM, PSA, and Microsoft 365 management platform delivering unified IT operations at scale.", href: "/our-tools/kubric-uidr" },
-          { label: "Kubric Data Graph", desc: "Real-time relationship mapping across infrastructure, identities, and security events for intelligent decision-making.", href: "/our-tools/kubric-data-graph" },
+          { label: "Platform Overview", desc: "Full platform architecture — ingestion, correlation, detection, and response orchestration.", href: "/how-it-works/platform-overview" },
+          { label: "Kubric UIDR", desc: "The orchestration and management layer unifying detection signals across the Service Layer.", href: "/how-it-works/kubric-uidr" },
+          { label: "Kubric Data Graph", desc: "The correlation engine connecting telemetry across all Service Layer capabilities.", href: "/how-it-works/kubric-data-graph" },
         ],
       },
       {
-        heading: "Intelligence & Automation",
+        heading: "Intelligence & Methodology",
         items: [
-          { label: "KubricAI", desc: "AI-powered orchestration using CrewAI for predictive threat detection, automated remediation, and intelligent prioritisation.", href: "/our-tools/kubric-ai" },
-          { label: "Service Delivery Methodology", desc: "Our proven framework for onboarding, operations, and continuous improvement across managed services.", href: "/methodology" },
+          { label: "KubricAI", desc: "ML-driven detection prioritization, automated triage, and intelligent response recommendations.", href: "/how-it-works/kubricai" },
+          { label: "Our Methodology", desc: "Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close.", href: "/methodology" },
         ],
       },
     ],

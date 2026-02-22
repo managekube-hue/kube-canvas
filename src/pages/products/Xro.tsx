@@ -1,83 +1,81 @@
+/** DO NOT TOUCH — v2.0 spec copy */
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 
-const MODULES = [
-  { code: "CIO", name: "Core Infrastructure Orchestration & asset lifecycle management" },
-  { code: "NPM", name: "Network Performance Monitoring with AI-powered capacity forecasting" },
-  { code: "ITDR", name: "Identity Threat Detection & Response via Active Directory monitoring" },
-  { code: "NDR", name: "Network Threat Detection & Response with deep packet inspection" },
-  { code: "VDR", name: "Vulnerability Detection & Response prioritized by real risk, not CVSS" },
-  { code: "CFDR", name: "Configuration Drift Detection & automated remediation" },
-  { code: "GRC", name: "Governance, Risk & Compliance automation across 100+ frameworks" },
+const CAPABILITIES = [
+  { name: "Managed NOC (24/7)", href: "/services/managed-noc" },
+  { name: "Help Desk & Desktop Support", href: "/services/help-desk" },
+  { name: "Mobile Device Management", href: "/service-layer/mdm" },
+  { name: "Microsoft 365 Management", href: "/service-layer/cio" },
+  { name: "Network Performance Monitoring", href: "/service-layer/npm" },
+  { name: "Identity Threat Detection & Response", href: "/service-layer/itdr" },
+  { name: "Vulnerability Detection & Prioritization", href: "/service-layer/vdr" },
+  { name: "Configuration Drift Detection & Correction", href: "/service-layer/cfdr" },
+  { name: "Customer Portal + Ticketing", href: "/support" },
 ];
 
-const CAPABILITIES = [
-  "Unified detection and response across all infrastructure",
-  "Real-time threat correlation via Kubric Data Graph",
-  "Infrastructure lifecycle management",
-  "Network performance monitoring and capacity forecasting",
-  "Single-framework compliance support (NIST, CIS, SOC 2)",
-  "Third-party risk management (basic tier)",
-  ">90% MITRE ATT&CK coverage",
-  "KubricAI automated triage and remediation",
+const NOT_INCLUDED = [
+  "Managed SOC (24/7)",
+  "Cloud Detection & Response",
+  "Application Performance Monitoring",
+  "Application Threat Containment",
+  "Backup & Disaster Recovery",
+  "Compliance Management",
+  "Real-Time Visibility Dashboard",
 ];
 
 export default function Xro() {
   return (
     <PageLayout>
       <PageBanner
-        title="XRO — Essentials"
-        subtitle="Complete security and operations for small businesses. 7 essential modules delivering unified detection, response, infrastructure management, and compliance monitoring."
-        phase="XRO"
+        title="Essentials"
+        subtitle="Your foundation for managed IT and security visibility"
+        phase="Service Tiers"
       />
 
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-5xl mx-auto">
-            <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">Included Modules — 7 Core</p>
-            <h2 className="text-headline text-foreground mb-12">Everything a small business needs</h2>
-            <div className="grid md:grid-cols-2 gap-4 mb-16">
-              {MODULES.map((k, i) => (
-                <motion.div key={k.code} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
-                  className="flex items-start gap-4 p-6 border border-border bg-secondary">
-                  <Check size={18} className="text-brand-orange flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-black text-foreground mb-1">{k.code}</p>
-                    <p className="text-sm text-muted-foreground">{k.name}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+        <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
+          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">SMB — 10 to 100 users</p>
+          <h2 className="text-headline text-foreground mb-4">Your foundation for managed IT and security visibility</h2>
+          <p className="text-muted-foreground mb-12 max-w-3xl">
+            Essentials is the foundation tier covering the Hunt → Identify → Alert → Triage methodology steps. The entry point — it communicates what's included, why it's enough, and why it's the right starting point without underselling the depth.
+          </p>
 
-            <p className="text-label text-muted-foreground uppercase tracking-widest mb-6">Core Capabilities</p>
-            <div className="grid md:grid-cols-2 gap-3">
-              {CAPABILITIES.map((cap) => (
-                <div key={cap} className="flex items-start gap-3 text-sm text-muted-foreground">
-                  <span className="text-brand-orange font-bold mt-0.5">▸</span>
-                  {cap}
-                </div>
+          <p className="text-label text-brand-orange uppercase tracking-widest mb-6">Included Capabilities</p>
+          <div className="grid md:grid-cols-2 gap-3 mb-16">
+            {CAPABILITIES.map((cap, i) => (
+              <motion.div key={cap.name} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                <Link to={cap.href} className="flex items-start gap-3 p-5 border border-border hover:border-brand-orange transition-colors group">
+                  <Check size={16} className="text-brand-orange flex-shrink-0 mt-0.5" />
+                  <span className="text-sm font-medium text-foreground group-hover:text-brand-orange transition-colors">{cap.name}</span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          <p className="text-label text-muted-foreground uppercase tracking-widest mb-4">Methodology Coverage</p>
+          <p className="text-foreground font-bold mb-12">Hunt → Identify → Alert → Triage</p>
+
+          <div className="p-8 bg-secondary border border-border mb-12">
+            <p className="text-sm font-bold text-foreground mb-3">Available in Advanced & Enterprise</p>
+            <div className="grid md:grid-cols-2 gap-2">
+              {NOT_INCLUDED.map((item) => (
+                <p key={item} className="text-sm text-muted-foreground flex items-center gap-2">
+                  <span className="text-muted-foreground/40">—</span> {item}
+                </p>
               ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="py-20 bg-foreground text-white">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
-          <p className="text-label text-brand-orange uppercase tracking-widest mb-4">Pricing</p>
-          <h2 className="text-headline text-white mb-4">Six ways to pay. Zero lock-in.</h2>
-          <p className="text-body-lg text-white/70 mb-10 max-w-2xl mx-auto">
-            Choose from Precision Pay™, Flex Core™, Fractional™, APEX™, Project-Based, or Enterprise Custom — all designed around your business reality.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/pricing" className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors">
-              View Pricing Models <ArrowRight className="w-5 h-5" />
+          <div className="flex flex-wrap gap-4">
+            <Link to="/get-started?tier=essentials" className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors">
+              Get Started <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/get-started" className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-8 py-4 font-semibold hover:bg-white/20 transition-colors">
-              Get Started
+            <Link to="/service-tiers" className="inline-flex items-center gap-2 border border-foreground text-foreground px-8 py-4 font-semibold hover:bg-foreground hover:text-white transition-colors">
+              Compare Tiers
             </Link>
           </div>
         </div>

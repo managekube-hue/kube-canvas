@@ -1,3 +1,4 @@
+/** DO NOT TOUCH — v2.0 spec copy */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -5,10 +6,10 @@ import { ArrowRight } from "lucide-react";
 import childPageVideo from "@/assets/child-page.mp4";
 
 const tools = [
-  { name: "How Kubric Works", desc: "Understand the architecture behind Kubric's unified infrastructure, operations, detection, and response platform. See how RMM, PSA, SIEM, and XDR capabilities work together to eliminate silos.", href: "/our-tools/how-kubric-works" },
-  { name: "Kubric UIDR Platform", desc: "The core RMM, PSA, and Microsoft 365 management platform delivering unified IT operations at scale.", href: "/our-tools/kubric-uidr" },
-  { name: "Kubric Data Graph", desc: "Real-time relationship mapping across infrastructure, identities, and security events for intelligent decision-making.", href: "/our-tools/kubric-data-graph" },
-  { name: "KubricAI", desc: "AI-powered orchestration using CrewAI for predictive threat detection, automated remediation, and intelligent prioritization.", href: "/our-tools/kubric-ai" },
+  { name: "Platform Overview", desc: "Full platform architecture overview. How telemetry from all Service Layer capabilities flows into Kubric, how the Data Graph correlates signals, and how KubricAI surfaces prioritized detections.", href: "/how-it-works/platform-overview" },
+  { name: "Kubric UIDR", desc: "The orchestration and management layer. It unifies detection signals from across the Service Layer, manages response workflows, and provides the operational interface for NOC/SOC teams.", href: "/how-it-works/kubric-uidr" },
+  { name: "Kubric Data Graph", desc: "The correlation engine that connects telemetry across all Service Layer capabilities and surfaces the relationships that individual tools miss.", href: "/how-it-works/kubric-data-graph" },
+  { name: "KubricAI", desc: "The machine learning and AI layer that drives detection prioritization, automated triage, and intelligent response recommendations across the Service Layer.", href: "/how-it-works/kubricai" },
 ];
 
 export default function OurTools() {
@@ -25,9 +26,9 @@ export default function OurTools() {
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="h-1 w-16 bg-brand-orange mb-8" />
-            <h1 className="text-headline text-white mb-6">Our Tools</h1>
+            <h1 className="text-headline text-white mb-6">How It Works</h1>
             <p className="text-body-xl text-white/70 max-w-2xl">
-              Discover the unified platform that powers detection, response, and operations across your entire infrastructure.
+              The technology platform that delivers the Service Layer capabilities. This is how ManageKube actually does it — orchestration, correlation, and AI-assisted detection.
             </p>
           </motion.div>
         </div>
@@ -48,6 +49,18 @@ export default function OurTools() {
                 </Link>
               </motion.div>
             ))}
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-muted-foreground mb-6">ManageKube is backed by a real platform — not a patchwork of third-party tools. The Service Layer runs on Kubric.</p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/get-started" className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors">
+                See It In Your Environment <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link to="/service-layer" className="inline-flex items-center gap-2 border border-foreground text-foreground px-8 py-4 font-semibold hover:bg-foreground hover:text-white transition-colors">
+                View Service Layer
+              </Link>
+            </div>
           </div>
         </div>
       </section>

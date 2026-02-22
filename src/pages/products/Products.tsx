@@ -1,65 +1,57 @@
+/** DO NOT TOUCH — v2.0 spec copy */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import childPageVideo from "@/assets/child-page.mp4";
 
-const platforms = [
+const tiers = [
   {
-    code: "XRO",
-    name: "Essentials Platform",
-    audience: "Small Business",
-    tagline: "Complete security and operations with 7 essential modules. Deploy in 48 hours.",
-    modules: ["CIO", "NPM", "ITDR", "NDR", "VDR", "CFDR", "GRC"],
+    name: "Essentials",
+    market: "SMB — 10 to 100 users",
+    tagline: "Your foundation for managed IT and security visibility",
+    methodology: "Hunt → Identify → Alert → Triage",
+    capabilities: [
+      "Managed NOC (24/7)", "Help Desk & Desktop Support", "Mobile Device Management",
+      "Microsoft 365 Management", "Network Performance Monitoring",
+      "Identity Threat Detection & Response", "Vulnerability Detection & Prioritization",
+      "Configuration Drift Detection", "Customer Portal + Ticketing",
+    ],
     href: "/service-tiers/xro-essentials",
+    cta: "Start with Essentials",
+    ctaHref: "/get-started?tier=essentials",
     featured: false,
   },
   {
-    code: "XMX",
-    name: "Advanced Platform",
-    audience: "Small / Medium Enterprise",
-    tagline: "Advanced detection, response, and compliance with 12 modules for growing organisations.",
-    modules: ["All 7 XRO Modules", "MDM", "APM", "CDR", "ADR", "BDR"],
+    name: "Advanced",
+    market: "SME — 100 to 500 users",
+    tagline: "Full-spectrum security operations with real-time detection and response",
+    methodology: "Hunt → Identify → Alert → Triage → Diagnose → Remediate",
+    capabilities: [
+      "Everything in Essentials", "Managed SOC (24/7)", "Cloud Detection & Response",
+      "Application Performance Monitoring", "Application Threat Containment",
+      "Backup & Disaster Recovery", "Compliance Management", "Real-Time Visibility Dashboard",
+    ],
     href: "/service-tiers/xmx-advanced",
+    cta: "Get Advanced",
+    ctaHref: "/get-started?tier=advanced",
     featured: true,
   },
   {
-    code: "XME",
-    name: "Enterprise Platform",
-    audience: "Enterprise",
-    tagline: "Complete enterprise coverage with all 18 modules and premium capabilities.",
-    modules: ["All 12 XMX Modules", "SDR", "DDR", "TI", "STRIKE", "EASM", "HONEYPOT"],
+    name: "Enterprise",
+    market: "Enterprise — 500+ users / regulated industries",
+    tagline: "Complete coverage with threat intelligence, deception, and supply chain defense",
+    methodology: "Full lifecycle: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close",
+    capabilities: [
+      "Everything in Advanced", "Software Supply Chain Detection & Response",
+      "Data Exfiltration Detection & Response", "STRIKE Strategic Intelligence",
+      "External Attack Surface Management", "Honeypot & Deception Network",
+      "FinOps & Cloud Cost Governance", "Dedicated Advisory / vCISO Access",
+    ],
     href: "/service-tiers/xme-enterprise",
+    cta: "Talk to Enterprise Team",
+    ctaHref: "/get-started?tier=enterprise",
     featured: false,
-  },
-];
-
-const services = [
-  {
-    category: "MANAGED SERVICES",
-    items: [
-      { label: "Managed NOC", description: "24/7 network operations centre monitoring and response", href: "/services/managed-noc" },
-      { label: "Managed SOC", description: "24/7 security operations centre with threat hunting and IR", href: "/services/managed-soc" },
-      { label: "Managed IT", description: "Full-spectrum IT operations — endpoints to infrastructure", href: "/services/managed-it" },
-      { label: "Help Desk", description: "Tier 1–3 user support with SLA-backed resolution", href: "/services/help-desk" },
-      { label: "Managed Compliance", description: "Continuous compliance management across 100+ frameworks", href: "/services/managed-compliance" },
-      { label: "Managed Cloud", description: "Multi-cloud management for AWS, Azure, and GCP", href: "/services/managed-cloud" },
-    ],
-  },
-  {
-    category: "PROFESSIONAL SERVICES",
-    items: [
-      { label: "Security Assessments", description: "Comprehensive security posture analysis and roadmap", href: "/services/security-assessments" },
-      { label: "Penetration Testing", description: "Adversarial testing by certified ethical hackers", href: "/services/penetration-testing" },
-      { label: "Compliance Gap Analysis", description: "Identify gaps against CMMC, HIPAA, SOC 2, and more", href: "/services/compliance-gap-analysis" },
-      { label: "Infrastructure Audits", description: "Full infrastructure review with remediation planning", href: "/services/infrastructure-audits" },
-      { label: "Right-Sizing", description: "Cloud and infrastructure cost optimisation", href: "/services/right-sizing" },
-      { label: "Smart Hands", description: "On-site technicians for rack-and-stack and field deployments", href: "/services/smart-hands" },
-      { label: "Network Buildouts", description: "Enterprise network design, deployment, and documentation", href: "/services/network-buildouts" },
-      { label: "Physical Security", description: "Physical access control, CCTV, and site hardening", href: "/services/physical-security" },
-      { label: "Custom Automation", description: "Bespoke workflow and process automation development", href: "/services/custom-automation" },
-      { label: "Legacy Integrations", description: "Connect legacy systems to modern security infrastructure", href: "/services/legacy-integrations" },
-    ],
   },
 ];
 
@@ -80,81 +72,55 @@ export default function Products() {
             <div className="h-1 w-16 bg-brand-orange mb-8" />
             <h1 className="text-headline text-white mb-4">Service Tiers</h1>
             <p className="text-body-xl text-white/70 max-w-2xl">
-              Purpose-built security and operations platforms. &gt;90% MITRE ATT&CK coverage. Unified threat detection, correlation, and automated response powered by the Kubric Data Graph and KubricAI.
+              The commercial gateway. Each tier is defined by the capabilities active in the Service Layer, not by module codes. Tier comparison, capability mapping, and a clear path forward.
             </p>
           </motion.div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
-      {/* Platform Packages */}
-      <section className="section-off-white py-16">
+      {/* Tier Comparison */}
+      <section id="pricing" className="py-16 bg-white">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="mb-10">
-            <p className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-2 font-mono">// PLATFORM PACKAGES</p>
-            <h2 className="text-3xl font-black text-foreground">Choose What's Right For You</h2>
+            <p className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-2">Tier Comparison</p>
+            <h2 className="text-3xl font-black text-foreground">Choose Your Tier</h2>
           </div>
           <div className="grid lg:grid-cols-3 gap-6">
-            {platforms.map((p, i) => (
-              <motion.div key={p.code} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className={`relative bg-white p-8 ${p.featured ? "ring-2 ring-brand-orange" : "border border-border"}`}>
-                {p.featured && (
+            {tiers.map((t, i) => (
+              <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className={`relative bg-white p-8 ${t.featured ? "ring-2 ring-brand-orange" : "border border-border"}`}>
+                {t.featured && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="bg-brand-orange text-white text-xs font-bold px-4 py-1 uppercase tracking-wider">Most Popular</span>
                   </div>
                 )}
-                <div className="mb-6">
-                  <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">{p.audience}</span>
-                  <h2 className="text-3xl font-black mt-2 mb-1">{p.code}</h2>
-                  <p className="text-sm font-semibold text-muted-foreground">{p.name}</p>
+                <div className="mb-4">
+                  <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">{t.market}</span>
+                  <h2 className="text-2xl font-black mt-2 mb-1">{t.name}</h2>
                 </div>
-                <p className="text-sm text-muted-foreground mb-6">{p.tagline}</p>
-                <div className="mb-8">
-                  <h4 className="text-xs font-bold uppercase tracking-wider mb-3">Included Modules</h4>
-                  <ul className="space-y-2">
-                    {p.modules.map((k) => (
-                      <li key={k} className="flex items-center gap-2 text-sm">
-                        <Check size={14} className="text-brand-orange flex-shrink-0" />
-                        {k}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Link to={p.href} className={`block text-center py-3 text-sm font-bold uppercase tracking-wider transition-colors ${p.featured ? "bg-brand-orange text-white hover:bg-brand-orange/90" : "border border-foreground hover:bg-foreground hover:text-white"}`}>
-                  Learn More <ArrowRight size={14} className="inline ml-1" />
+                <p className="text-sm text-muted-foreground mb-4">{t.tagline}</p>
+                <p className="text-xs text-muted-foreground/60 mb-6">{t.methodology}</p>
+                <ul className="space-y-2 mb-8">
+                  {t.capabilities.map((cap) => (
+                    <li key={cap} className="flex items-center gap-2 text-sm">
+                      <Check size={14} className="text-brand-orange flex-shrink-0" /> {cap}
+                    </li>
+                  ))}
+                </ul>
+                <Link to={t.ctaHref} className={`block text-center py-3 text-sm font-bold uppercase tracking-wider transition-colors ${t.featured ? "bg-brand-orange text-white hover:bg-brand-orange/90" : "border border-foreground hover:bg-foreground hover:text-white"}`}>
+                  {t.cta} <ArrowRight size={14} className="inline ml-1" />
                 </Link>
               </motion.div>
             ))}
           </div>
           <div className="mt-8 text-center">
             <Link to="/service-tiers/custom" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-orange transition-colors border border-border px-6 py-3">
-              Custom Configuration <ArrowRight size={14} />
+              Custom Tier <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
-
-      {/* Services */}
-      {services.map((group) => (
-        <section key={group.category} className="py-16 border-t border-border">
-          <div className="container mx-auto px-6 lg:px-12">
-            <p className="text-xs font-bold tracking-widest uppercase text-brand-orange mb-8 font-mono">// {group.category}</p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {group.items.map((item, i) => (
-                <motion.div key={item.label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Link to={item.href} className="block p-6 border border-border bg-white hover:border-brand-orange group transition-colors">
-                    <h3 className="font-bold text-foreground group-hover:text-brand-orange transition-colors mb-2">{item.label}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                    <div className="mt-4 flex items-center gap-1 text-xs text-brand-orange font-semibold">
-                      Learn more <ArrowRight size={12} />
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ))}
 
       {/* CTA */}
       <section className="py-20 bg-white border-t border-border">
@@ -163,12 +129,8 @@ export default function Products() {
           <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
             Run a free assessment and we'll build your transformation roadmap — scoped to your size, budget, and compliance requirements.
           </p>
-          <Link
-            to="/get-started"
-            className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
-          >
-            Get Started
-            <ArrowRight className="w-5 h-5" />
+          <Link to="/get-started" className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors">
+            Get Started <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </section>

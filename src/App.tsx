@@ -38,9 +38,9 @@ import StrikeModule from "./pages/service-layer/StrikeModule";
 import EasmModule from "./pages/service-layer/EasmModule";
 import HoneypotModule from "./pages/service-layer/HoneypotModule";
 
-// Our Tools
-import OurTools from "./pages/our-tools/OurTools";
-import HowKubricWorks from "./pages/our-tools/HowKubricWorks";
+// How It Works (was: Our Tools)
+import HowItWorksOverview from "./pages/our-tools/OurTools";
+import PlatformOverview from "./pages/our-tools/HowKubricWorks";
 import KubricUidr from "./pages/our-tools/KubricUidr";
 import KubricDataGraph from "./pages/our-tools/KubricDataGraph";
 import KubricAi from "./pages/our-tools/KubricAi";
@@ -167,12 +167,19 @@ const App = () => (
           <Route path="/find-by-size" element={<FindBySize />} />
           <Route path="/solutions" element={<Solutions />} />
 
-          {/* Our Tools */}
-          <Route path="/our-tools" element={<OurTools />} />
-          <Route path="/our-tools/how-kubric-works" element={<HowKubricWorks />} />
-          <Route path="/our-tools/kubric-uidr" element={<KubricUidr />} />
-          <Route path="/our-tools/kubric-data-graph" element={<KubricDataGraph />} />
-          <Route path="/our-tools/kubric-ai" element={<KubricAi />} />
+          {/* How It Works (was: Our Tools) */}
+          <Route path="/how-it-works" element={<HowItWorksOverview />} />
+          <Route path="/how-it-works/platform-overview" element={<PlatformOverview />} />
+          <Route path="/how-it-works/kubric-uidr" element={<KubricUidr />} />
+          <Route path="/how-it-works/kubric-data-graph" element={<KubricDataGraph />} />
+          <Route path="/how-it-works/kubricai" element={<KubricAi />} />
+
+          {/* Legacy /our-tools/* redirects → /how-it-works/* */}
+          <Route path="/our-tools" element={<Navigate to="/how-it-works" replace />} />
+          <Route path="/our-tools/how-kubric-works" element={<Navigate to="/how-it-works/platform-overview" replace />} />
+          <Route path="/our-tools/kubric-uidr" element={<Navigate to="/how-it-works/kubric-uidr" replace />} />
+          <Route path="/our-tools/kubric-data-graph" element={<Navigate to="/how-it-works/kubric-data-graph" replace />} />
+          <Route path="/our-tools/kubric-ai" element={<Navigate to="/how-it-works/kubricai" replace />} />
 
           {/* ═══════════════════════════════════════════════════════════
               SERVICE LAYER (new canonical routes)
@@ -223,7 +230,7 @@ const App = () => (
           <Route path="/kubes/mssp-kube" element={<Navigate to="/services/managed-soc" replace />} />
           <Route path="/kubes/msp-kube" element={<Navigate to="/services/managed-noc" replace />} />
           <Route path="/kubes/advisory-kube" element={<Navigate to="/services" replace />} />
-          <Route path="/kubes/innovation-kube" element={<Navigate to="/our-tools/kubric-ai" replace />} />
+          <Route path="/kubes/innovation-kube" element={<Navigate to="/how-it-works/kubricai" replace />} />
           <Route path="/kubes/industry-kube" element={<Navigate to="/solutions/hub" replace />} />
           <Route path="/kubes/product-kube" element={<Navigate to="/service-tiers" replace />} />
 
@@ -302,7 +309,7 @@ const App = () => (
           <Route path="/industries/telecommunications" element={<Telecommunications />} />
 
           {/* Company */}
-          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/pricing" element={<Navigate to="/service-tiers#pricing" replace />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
