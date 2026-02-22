@@ -82,6 +82,12 @@ import SolutionTechnology from "./pages/solutions/SolutionTechnology";
 import SolutionSmb from "./pages/solutions/SolutionSmb";
 import SolutionSme from "./pages/solutions/SolutionSme";
 import SolutionEnterprise from "./pages/solutions/SolutionEnterprise";
+import ByMarketSize from "./pages/solutions/ByMarketSize";
+import ByIndustry from "./pages/solutions/ByIndustry";
+import ByServiceType from "./pages/solutions/ByServiceType";
+import FullyManagedSolution from "./pages/solutions/FullyManagedSolution";
+import CoManagedSolution from "./pages/solutions/CoManagedSolution";
+import SelfManagedSolution from "./pages/solutions/SelfManagedSolution";
 
 // Compliance
 import ComplianceLanding from "./pages/compliance/index";
@@ -117,8 +123,6 @@ import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import Assessment from "./pages/Assessment";
 import FindByProblem from "./pages/FindByProblem";
-import FindBySize from "./pages/FindBySize";
-import Solutions from "./pages/Solutions";
 import PartnerPortal from "./pages/login/PartnerPortal";
 import ClientPortal from "./pages/login/ClientPortal";
 import Privacy from "./pages/Privacy";
@@ -164,8 +168,8 @@ const App = () => (
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/find-by-problem" element={<FindByProblem />} />
-          <Route path="/find-by-size" element={<FindBySize />} />
-          <Route path="/solutions" element={<Solutions />} />
+          <Route path="/find-by-size" element={<Navigate to="/solutions/by-market-size" replace />} />
+          <Route path="/solutions" element={<SolutionsHub />} />
 
           {/* How It Works (was: Our Tools) */}
           <Route path="/how-it-works" element={<HowItWorksOverview />} />
@@ -270,16 +274,29 @@ const App = () => (
           <Route path="/services/smart-hands" element={<SmartHands />} />
 
           {/* Solutions Hub */}
-          <Route path="/solutions/hub" element={<SolutionsHub />} />
+          <Route path="/solutions/hub" element={<Navigate to="/solutions" replace />} />
           <Route path="/solutions/manufacturing" element={<SolutionManufacturing />} />
           <Route path="/solutions/healthcare" element={<SolutionHealthcare />} />
           <Route path="/solutions/public-sector" element={<SolutionPublicSector />} />
           <Route path="/solutions/financial-services" element={<SolutionFinancialServices />} />
           <Route path="/solutions/retail" element={<SolutionRetail />} />
           <Route path="/solutions/technology" element={<SolutionTechnology />} />
-          <Route path="/solutions/smb" element={<SolutionSmb />} />
-          <Route path="/solutions/sme" element={<SolutionSme />} />
-          <Route path="/solutions/enterprise" element={<SolutionEnterprise />} />
+          {/* By Market Size */}
+          <Route path="/solutions/by-market-size" element={<ByMarketSize />} />
+          <Route path="/solutions/by-market-size/smb" element={<SolutionSmb />} />
+          <Route path="/solutions/by-market-size/sme" element={<SolutionSme />} />
+          <Route path="/solutions/by-market-size/enterprise" element={<SolutionEnterprise />} />
+          {/* Legacy market-size routes */}
+          <Route path="/solutions/smb" element={<Navigate to="/solutions/by-market-size/smb" replace />} />
+          <Route path="/solutions/sme" element={<Navigate to="/solutions/by-market-size/sme" replace />} />
+          <Route path="/solutions/enterprise" element={<Navigate to="/solutions/by-market-size/enterprise" replace />} />
+          {/* By Industry */}
+          <Route path="/solutions/by-industry" element={<ByIndustry />} />
+          {/* By Service Type */}
+          <Route path="/solutions/by-service-type" element={<ByServiceType />} />
+          <Route path="/solutions/by-service-type/fully-managed" element={<FullyManagedSolution />} />
+          <Route path="/solutions/by-service-type/co-managed" element={<CoManagedSolution />} />
+          <Route path="/solutions/by-service-type/self-managed" element={<SelfManagedSolution />} />
 
           {/* Compliance */}
           <Route path="/compliance" element={<ComplianceLanding />} />

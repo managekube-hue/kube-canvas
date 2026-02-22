@@ -1,21 +1,54 @@
-import { ServiceDetailPage } from "@/components/ServiceDetailPage";
+/** SME Solutions — /solutions/by-market-size/sme — word-for-word from Solutions.docx pages 8-9 */
+import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
+
 export default function SolutionSme() {
-  return <ServiceDetailPage
-    category="By Market Size"
-    name="SME — Small/Medium Enterprise"
-    tagline="Flexible platform for growing mid-market companies balancing customisation, control, and managed services."
-    description="Mid-market organisations have outgrown turnkey SMB solutions but don't yet require — or can't justify — full enterprise deployments. ManageKube SME Solutions provide the flexibility to customise module configurations, choose co-managed or fully managed delivery, and scale coverage as your organisation grows — without re-platforming or renegotiating contracts."
-    sections={[
-      { title: "Customisable Module Configuration", items: ["12-module XMX Advanced tier with the ability to add enterprise modules à la carte", "Choose between fully managed, co-managed, or hybrid delivery for each module", "Custom detection rules and alert thresholds tuned to your environment", "Integration with existing SIEM, ticketing, and identity platforms", "Quarterly configuration reviews to optimise detection accuracy and reduce noise"] },
-      { title: "Co-Managed Delivery Model", items: ["Your team manages day-to-day operations with ManageKube as expert backup", "Shared responsibility matrix defining clear ownership for every function", "Escalation paths from your internal team to our SOC and NOC engineers", "Knowledge transfer and training for your team on every deployed module", "Access to the same tools and dashboards our managed services engineers use"] },
-      { title: "Advanced Compliance Programme", items: ["Multi-framework compliance support across NIST, ISO, SOC 2, PCI-DSS, and HIPAA", "Cross-framework control mapping eliminating duplicate evidence collection", "Dedicated compliance analyst for audit preparation and remediation tracking", "Automated evidence collection with continuous compliance monitoring", "Board-ready compliance reports with risk scoring and trend analysis"] },
-      { title: "Dedicated Account Management", items: ["Named account manager as your single point of contact", "Quarterly Business Reviews (QBRs) with security posture analysis", "Technology roadmap planning aligned with your business objectives", "Budget forecasting for technology refresh and capability expansion", "Executive briefings on threat landscape relevant to your industry"] },
-      { title: "Growth-Ready Architecture", items: ["Seamless upgrade path from XMX to XME Enterprise tier", "Module additions activated in days, not weeks", "Multi-site support with centralised management and per-site policies", "API access for custom integrations and automated workflows", "No re-platforming required as your organisation scales"] },
-    ]}
-    similar={[
-      { label: "SMB Solutions", href: "/solutions/smb" },
-      { label: "Enterprise Solutions", href: "/solutions/enterprise" },
-      { label: "XMX Advanced Tier", href: "/service-tiers/xmx-advanced" },
-    ]}
-  />;
+  return (
+    <SolutionsNarrativePage
+      category="Solutions › By Market Size"
+      title="SME Solutions"
+      tagline="Growing Organizations. Growing Requirements."
+      description="You Have Grown Beyond Startup Mode. Your Security Program Needs to Keep Pace."
+      sections={[
+        {
+          title: "The SME Challenge",
+          body: "SME organizations have dedicated IT and security staff. The team has grown beyond a single generalist. But it is stretched thin. Compliance pressure is intensifying — SOC 2, ISO 27001, CMMC, HIPAA, PCI. Environments have grown more complex. The tools and processes that functioned at 50 employees are creating friction at 500. SME Solutions deliver the operational depth the organization requires without the overhead it cannot absorb.",
+        },
+        {
+          title: "What SMEs Need",
+          items: [
+            "Depth Without Overhead — Threat hunting, vulnerability prioritization, cloud security posture management — capabilities that require depth to operate — without adding headcount to manage each one.",
+            "Compliance Acceleration — Audits are on the calendar. SOC 2. ISO 27001. CMMC. Possibly HIPAA or PCI. Compliance posture must be built, maintained, and evidenced without a dedicated compliance function.",
+            "Cloud Visibility and Control — Cloud presence has expanded, possibly across multiple providers. Costs are drifting. Security posture is fragmented. Visibility and control are required across all of it.",
+            "Tool Consolidation — Tools have accumulated. They do not share data or context. The team needs a unified platform, not an expanding portfolio of point solutions.",
+            "Partnership, Not Just Vendor Relationship — A partner who understands the business, engages at a strategic level, and is capable of growing alongside the organization.",
+          ],
+        },
+        {
+          title: "Recommended Solutions",
+          items: [
+            "Managed SOC — 24/7 security operations with threat hunting. Full methodology coverage through remediation and closure.",
+            "Managed Compliance — Continuous monitoring across multiple frameworks simultaneously. Automated evidence collection. Audit packages generated on demand.",
+            "Managed Cloud & FinOps — Cloud cost optimization and security monitoring across AWS, Azure, and GCP. Right-sizing recommendations with projected savings.",
+            "Network Performance Monitoring — Proactive network visibility with behavioral baselining before users report degradation.",
+            "Advisory Services — Security assessments, penetration testing, and compliance gap analysis when deep practitioner expertise is required.",
+          ],
+        },
+        {
+          title: "SME Service Tiers",
+          body: "SME organizations typically engage at the Advanced tier, with Enterprise capabilities added as compliance requirements intensify.",
+          items: [
+            "Advanced — Full detection through remediation. Incidents contained and resolved without platform management.",
+            "Enterprise — Complete lifecycle through documentation and closure for regulated industries requiring audit-grade evidence.",
+          ],
+        },
+      ]}
+      ctaPrimary={{ label: "Contact Sales", href: "/contact" }}
+      ctaSecondary={{ label: "View Service Tiers", href: "/service-tiers" }}
+      relatedLinks={[
+        { label: "SMB Solutions", href: "/solutions/by-market-size/smb" },
+        { label: "Enterprise Solutions", href: "/solutions/by-market-size/enterprise" },
+        { label: "Service Tiers", href: "/service-tiers" },
+      ]}
+    />
+  );
 }

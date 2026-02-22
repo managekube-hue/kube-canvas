@@ -1,21 +1,53 @@
-import { ServiceDetailPage } from "@/components/ServiceDetailPage";
+/** SMB Solutions — /solutions/by-market-size/smb — word-for-word from Solutions.docx pages 6-7 */
+import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
+
 export default function SolutionSmb() {
-  return <ServiceDetailPage
-    category="By Market Size"
-    name="SMB — Small Business"
-    tagline="Turnkey security and operations for small businesses with limited IT staff and budget."
-    description="Small businesses face the same threats as enterprises but lack dedicated security teams, compliance expertise, and the budget for multi-vendor technology stacks. ManageKube SMB Solutions deliver enterprise-grade protection in a turnkey package — pre-configured, managed end-to-end, and priced for businesses with 25 to 100 endpoints. Get protected in days, not months."
-    sections={[
-      { title: "Pre-Configured Security Stack", items: ["7-module XRO Essentials tier deployed and configured in your environment", "Identity threat detection protecting Active Directory and Microsoft 365 accounts", "Network monitoring with anomaly detection and automated alerting", "Vulnerability scanning with risk-prioritised remediation roadmaps", "Configuration drift detection ensuring systems remain in a known-good state"] },
-      { title: "Fully Managed Operations", items: ["24/7 Managed SOC with threat hunting and incident response", "Managed NOC with proactive monitoring and ticket resolution", "Help Desk services for end-user support (Tier 1–3)", "Patch management and software update coordination", "Monthly reporting with executive-ready security posture summaries"] },
-      { title: "Compliance Made Simple", items: ["Single-framework compliance support included (NIST CSF, CIS Controls, or SOC 2)", "Automated evidence collection reducing audit preparation by 80%", "Policy templates pre-built for small business operations", "Annual compliance review with gap analysis and remediation guidance", "Upgrade path to multi-framework support as your business grows"] },
-      { title: "Predictable Pricing", items: ["Per-user or per-device pricing with no hidden fees", "All modules, monitoring, and managed services included in a single monthly cost", "No CapEx — fully operational expenditure model", "30-day termination clause with complete documentation handoff", "Transparent pricing published on our pricing page — no surprise quotes"] },
-      { title: "Rapid Deployment", items: ["Onboarding completed in 5–10 business days from contract signature", "Agent-based deployment with zero downtime for your team", "Dedicated onboarding engineer for initial configuration and baseline tuning", "Employee security awareness training included in onboarding", "Go-live checklist with verification testing before handoff to managed operations"] },
-    ]}
-    similar={[
-      { label: "SME Solutions", href: "/solutions/sme" },
-      { label: "Managed Services", href: "/services" },
-      { label: "XRO Essentials Tier", href: "/service-tiers/xro-essentials" },
-    ]}
-  />;
+  return (
+    <SolutionsNarrativePage
+      category="Solutions › By Market Size"
+      title="SMB Solutions"
+      tagline="Enterprise-Grade Security. Built for Lean Teams."
+      description="You Face the Same Threats as Enterprises. You Do Not Have the Same Team."
+      sections={[
+        {
+          title: "The SMB Challenge",
+          body: "SMB organizations confront the same adversaries as large enterprises — phishing, ransomware, credential theft, supply chain compromise. The attacks do not scale down because the target is smaller. But the SMB does not have a 24/7 security operations center, a dedicated compliance officer, or the internal bandwidth to manage a portfolio of security tools. SMB Solutions deliver enterprise-grade protection without enterprise-grade operational complexity.",
+        },
+        {
+          title: "What SMBs Need",
+          items: [
+            "Coverage Without Complexity — Security that operates without constant manual tuning. Tools that integrate without ongoing integration projects. Services that deliver outcomes without requiring internal oversight to sustain them.",
+            "24/7 Protection — Adversaries operate at night, on weekends, and during holidays. Coverage must match that reality, not the organization's business hours.",
+            "Compliance Foundation — Whether SOC 2, HIPAA, or CMMC, compliance posture must be built and maintained without a dedicated compliance function on staff.",
+            "Predictable Cost — Security spend must be predictable. No cost overruns. No surprise scope expansions. No budget consumed by incidents that could have been prevented.",
+            "One Partner — One partner for infrastructure, security, compliance, and IT. Not a different vendor for every discipline.",
+          ],
+        },
+        {
+          title: "Recommended Solutions",
+          items: [
+            "Managed SOC — 24/7 security monitoring and incident response. KubricAI reduces noise so the team sees only what matters.",
+            "Managed Compliance — Continuous monitoring against relevant frameworks. Automated evidence collection. Audit-ready always.",
+            "Core Infrastructure Orchestration — Know what is in your environment. Continuous asset discovery. Configuration baseline monitoring.",
+            "Help Desk Services — End-user support so the internal team focuses on strategic priorities.",
+          ],
+        },
+        {
+          title: "SMB Service Tiers",
+          body: "SMB organizations typically engage at the Essentials or Advanced tier, depending on compliance requirements and internal team depth.",
+          items: [
+            "Essentials — Detection and triage for organizations with internal IT staff who handle remediation.",
+            "Advanced — Full detection through remediation for organizations that require incidents contained without platform management.",
+          ],
+        },
+      ]}
+      ctaPrimary={{ label: "Contact Sales", href: "/contact" }}
+      ctaSecondary={{ label: "View Service Tiers", href: "/service-tiers" }}
+      relatedLinks={[
+        { label: "SME Solutions", href: "/solutions/by-market-size/sme" },
+        { label: "Enterprise Solutions", href: "/solutions/by-market-size/enterprise" },
+        { label: "Service Tiers", href: "/service-tiers" },
+      ]}
+    />
+  );
 }
