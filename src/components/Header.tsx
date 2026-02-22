@@ -193,25 +193,35 @@ const megaMenu = {
   },
   "Pricing": {
     href: "/pricing",
-    desc: "Six flexible pricing models from consumption-based to enterprise custom. Zero lock-in, built for your business reality.",
-    viewAll: "View All Pricing Models",
+    desc: "Six flexible pricing models and three platform tiers. Zero lock-in, built for your business reality.",
+    viewAll: "View All Pricing & Tiers",
     columns: [
+      {
+        heading: "Platform Tiers",
+        items: [
+          { label: "XRO — Essentials", desc: "7 essential modules for small businesses. Deploy in 48 hours.", href: "/service-tiers/xro-essentials" },
+          { label: "XMX — Advanced", desc: "12 modules for growing organisations with advanced detection.", href: "/service-tiers/xmx-advanced" },
+          { label: "XME — Enterprise", desc: "All 18 modules with premium KubricAI orchestration.", href: "/service-tiers/xme-enterprise" },
+          { label: "Custom Configuration", desc: "Get exactly the coverage you need, configured for your environment.", href: "/service-tiers/custom" },
+        ],
+      },
       {
         heading: "Pricing Models",
         items: [
-          { label: "Precision Pay™", desc: "Pay only for what you use. Ideal for variable workloads and project-based engagements.", href: "/pricing" },
-          { label: "Flex Core™", desc: "Predictable monthly pricing based on your organisation's size and scope.", href: "/pricing" },
-          { label: "Fractional™", desc: "Access senior vCIO/vCISO expertise on a fractional basis without full-time cost.", href: "/pricing" },
-          { label: "APEX™ As-a-Service", desc: "Infrastructure delivered as a service. No CapEx, no depreciation.", href: "/pricing" },
-          { label: "Project-Based", desc: "Defined scope, defined timeline, defined price for discrete projects.", href: "/pricing" },
-          { label: "Enterprise Custom", desc: "Custom engagement structures for complex, multi-year transformations.", href: "/pricing" },
+          { label: "Precision Pay™", desc: "Pay only for what you use. Ideal for variable workloads.", href: "/pricing" },
+          { label: "Flex Core™", desc: "Predictable monthly pricing based on your organisation's size.", href: "/pricing" },
+          { label: "Fractional™", desc: "Access senior vCIO/vCISO expertise without full-time cost.", href: "/pricing" },
+          { label: "APEX™ As-a-Service", desc: "Infrastructure delivered as a service. No CapEx.", href: "/pricing" },
+          { label: "Project-Based", desc: "Defined scope, timeline, and price for discrete projects.", href: "/pricing" },
+          { label: "Enterprise Custom", desc: "Custom engagement for complex, multi-year transformations.", href: "/pricing" },
         ],
       },
       {
         heading: "Get Started",
         items: [
-          { label: "Get Started", desc: "Tell us about your organisation and we'll build your custom roadmap.", href: "/get-started" },
-          { label: "Talk to Sales", desc: "Speak with a solutions architect about enterprise and custom pricing.", href: "/contact" },
+          { label: "Onboard Today", desc: "Complete the full assessment to get your custom score, tier, and pricing.", href: "/assessment/start" },
+          { label: "Quick Contact", desc: "Tell us about your organisation and we'll reach out within 24 hours.", href: "/get-started" },
+          { label: "Talk to Sales", desc: "Speak with a solutions architect about enterprise pricing.", href: "/contact" },
         ],
       },
     ],
@@ -227,7 +237,7 @@ const megaMenu = {
           { label: "Read the Docs", desc: "All Kubric documentation — modules, compliance, tools, services, and pricing guides.", href: "/documentation" },
           { label: "How Kubric Works", desc: "Architecture overview of the unified Kubric platform.", href: "/our-tools/how-kubric-works" },
           { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against module coverage.", href: "/compliance" },
-          { label: "Get Started", desc: "Tell us about your organisation and get a custom roadmap.", href: "/get-started" },
+          { label: "Onboard Today", desc: "Complete the full assessment for custom scoring and pricing.", href: "/assessment/start" },
         ],
       },
       {
@@ -401,18 +411,26 @@ export const Header = () => {
               {/* CTA buttons at bottom */}
               <div className="px-10 py-8 space-y-3">
                 <Link
-                  to="/get-started"
+                  to="/assessment/start"
                   onClick={closeMenu}
                   className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-opacity hover:opacity-90"
                   style={{ backgroundColor: ORANGE, color: "#fff", borderRadius: "4px" }}
+                >
+                  Onboard Today
+                </Link>
+                <Link
+                  to="/get-started"
+                  onClick={closeMenu}
+                  className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-colors hover:bg-white/10"
+                  style={{ border: `1px solid rgba(255,255,255,0.35)`, color: TEXT_WHITE, borderRadius: "4px" }}
                 >
                   Get Started
                 </Link>
                 <Link
                   to="/login/client"
                   onClick={closeMenu}
-                  className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-colors hover:bg-white/10"
-                  style={{ border: `1px solid rgba(255,255,255,0.35)`, color: TEXT_WHITE, borderRadius: "4px" }}
+                  className="block w-full text-center py-3 px-6 text-xs font-semibold tracking-wide transition-colors hover:bg-white/10"
+                  style={{ color: TEXT_MUTED, borderRadius: "4px" }}
                 >
                   Log In
                 </Link>

@@ -140,8 +140,16 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Pricing Models */}
+      {/* Pricing Models Heading */}
       <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto mb-14">
+            <p className="text-label text-brand-orange mb-4">PRICING MODELS</p>
+            <h2 className="text-headline text-foreground mb-4">Six Ways to Pay</h2>
+            <p className="text-body-lg text-muted-foreground max-w-2xl">
+              From consumption-based to enterprise custom. Choose the model that matches your business reality — combine with any Service Tier above.
+            </p>
+          </div>
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {pricingModels.map((model, index) => (
@@ -175,6 +183,7 @@ const Pricing = () => {
               </motion.div>
             ))}
           </div>
+        </div>
         </div>
       </section>
 

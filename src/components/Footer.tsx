@@ -33,8 +33,9 @@ const columns: ColDef[] = [
     ],
   },
   {
-    title: "Service Tiers",
+    title: "Pricing & Tiers",
     items: [
+      { label: "Pricing Models", href: "/pricing" },
       { label: "XRO — Essentials", href: "/service-tiers/xro-essentials" },
       { label: "XMX — Advanced", href: "/service-tiers/xmx-advanced" },
       { label: "XME — Enterprise", href: "/service-tiers/xme-enterprise" },
@@ -54,15 +55,15 @@ const columns: ColDef[] = [
     ],
   },
   {
-    title: "Solutions",
+    title: "Solutions & Start",
     items: [
       { label: "Manufacturing", href: "/solutions/manufacturing" },
       { label: "Healthcare", href: "/solutions/healthcare" },
       { label: "Public Sector", href: "/solutions/public-sector" },
       { label: "Financial Services", href: "/solutions/financial-services" },
-      { label: "Retail", href: "/solutions/retail" },
+      { label: "Onboard Today", href: "/assessment/start" },
+      { label: "Get Started", href: "/get-started" },
       { label: "Support", href: "/support" },
-      { label: "ThreatAI", href: "/tools/threat-ai" },
     ],
   },
 ];
