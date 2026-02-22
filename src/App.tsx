@@ -55,6 +55,9 @@ import CustomProduct from "./pages/products/CustomProduct";
 // Services
 import Services from "./pages/services/Services";
 import ManagedNoc from "./pages/services/ManagedNoc";
+import HelpDesk from "./pages/services/HelpDesk";
+import ManagedIt from "./pages/services/ManagedIt";
+import SmartHands from "./pages/services/SmartHands";
 import ManagedSoc from "./pages/services/ManagedSoc";
 import ManagedCompliance from "./pages/services/ManagedCompliance";
 import ManagedCloud from "./pages/services/ManagedCloud";
@@ -96,6 +99,7 @@ import CisControls from "./pages/compliance/CisControls";
 import Fisma from "./pages/compliance/Fisma";
 
 // Industries
+import IndustriesHub from "./pages/industries/IndustriesHub";
 import Manufacturing from "./pages/industries/Manufacturing";
 import Healthcare from "./pages/industries/Healthcare";
 import FinancialServices from "./pages/industries/FinancialServices";
@@ -250,6 +254,9 @@ const App = () => (
           <Route path="/services/network-buildouts" element={<NetworkBuildouts />} />
           <Route path="/services/custom-automation" element={<CustomAutomation />} />
           <Route path="/services/legacy-integrations" element={<LegacyIntegrations />} />
+          <Route path="/services/help-desk" element={<HelpDesk />} />
+          <Route path="/services/managed-it" element={<ManagedIt />} />
+          <Route path="/services/smart-hands" element={<SmartHands />} />
 
           {/* Solutions Hub */}
           <Route path="/solutions/hub" element={<SolutionsHub />} />
@@ -279,6 +286,7 @@ const App = () => (
           <Route path="/compliance/fisma" element={<Fisma />} />
 
           {/* Industries */}
+          <Route path="/industries" element={<IndustriesHub />} />
           <Route path="/industries/manufacturing" element={<Manufacturing />} />
           <Route path="/industries/healthcare" element={<Healthcare />} />
           <Route path="/industries/financial-services" element={<FinancialServices />} />
