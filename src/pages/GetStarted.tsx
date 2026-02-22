@@ -30,6 +30,7 @@ function ContactForm() {
     e.preventDefault();
     setSubmitting(true);
     try {
+      // Write to leads table (existing)
       const { error } = await supabase.from("leads").insert({
         first_name: form.firstName.trim(),
         last_name: form.lastName.trim(),
@@ -42,6 +43,22 @@ function ContactForm() {
         challenges: [],
       });
       if (error) throw error;
+
+      // Also write to CMS contacts (parallel path)
+      supabase.from("cms_contacts").insert({
+        first_name: form.firstName.trim(),
+        last_name: form.lastName.trim(),
+        email: form.email.trim(),
+        company: form.company.trim(),
+        phone: form.phone.trim() || null,
+        industry: form.industry || null,
+        message: form.message.trim() || null,
+        source: "get-started",
+        source_detail: form.inquiryType || "quick-contact",
+      }).then(({ error: cmsErr }) => {
+        if (cmsErr) console.error("CMS contact save error:", cmsErr);
+      });
+
       setSubmitted(true);
     } catch (err) {
       console.error("Lead submission error:", err);

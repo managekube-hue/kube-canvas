@@ -238,6 +238,58 @@ export default function AssessmentEngine() {
         estimated_deal_size: finalScores.estimated_deal_size,
       }).eq("id", sessionId);
 
+      // Write to CMS contacts (parallel path — mirrors HubSpot fields locally)
+      supabase.from("cms_contacts").insert({
+        email: capture.email.trim(),
+        first_name: capture.first_name?.trim() || null,
+        last_name: capture.last_name?.trim() || null,
+        company: capture.company?.trim() || null,
+        phone: capture.phone?.trim() || null,
+        job_title: capture.job_title?.trim() || null,
+        website: capture.website?.trim() || null,
+        source: "assessment",
+        source_detail: status === "escalated" ? "escalation" : "full-assessment",
+        lifecycle_stage: finalScores.urgency_score > 10 ? "marketingqualifiedlead" : "lead",
+        assessment_session_id: sessionId,
+        mk_ems_score: finalScores.ems_score,
+        mk_onb_urgency_score: finalScores.urgency_score,
+        mk_onb_risk_score: finalScores.risk_score,
+        mk_recommended_tier: finalScores.recommended_tier,
+        mk_monthly_price: finalScores.monthly_price,
+        mk_onb_profile_type: finalScores.profile_type,
+        mk_upsell_ready: finalScores.upsell_ready,
+        mk_onb_completed_at: new Date().toISOString(),
+        mk_key_gaps_flags: finalScores.key_gap_flags,
+        mk_fast_track: !!flags.fast_track,
+        mk_ir_escalation: !!flags.ir_escalation,
+        mk_cf_infrastructure_maturity: finalScores.cf_infrastructure_maturity,
+        mk_cf_secops_maturity: finalScores.cf_secops_maturity,
+        mk_cf_iam_maturity: finalScores.cf_iam_maturity,
+        mk_cf_cloud_maturity: finalScores.cf_cloud_maturity,
+        mk_cf_dataprotection_maturity: finalScores.cf_data_protection_maturity,
+        mk_cf_automation_maturity: finalScores.cf_automation_maturity,
+        mk_cf_cost_maturity: finalScores.cf_cost_maturity,
+        mk_cf_business_gov_maturity: finalScores.cf_business_gov_maturity,
+        mk_onb_role: answers["P0-Q1_ROLE"] || null,
+        mk_onb_org_stage: answers["P0-Q2_ORG_STAGE"] || null,
+        mk_onb_it_situation: answers["P0-Q3_IT_SITUATION"] || null,
+        mk_onb_priority: answers["P0-Q4_PRIMARY_PRIORITY"] || null,
+        mk_onb_timeline: answers["P0-Q12_TIMELINE"] || null,
+        mk_endpoint_count: answers["P0-Q9_ENDPOINTS"] || null,
+        mk_industry_vertical: answers["P0-Q7_INDUSTRY"] || null,
+        mk_onb_estimated_deal_size: finalScores.estimated_deal_size || null,
+        mk_flag_security_remediation: !!flags.flag_security_remediation,
+        mk_flag_infra_assessment: !!flags.flag_infra_assessment,
+        mk_flag_cloud_strategy: !!flags.flag_cloud_strategy,
+        mk_flag_cost_optimization: !!flags.flag_cost_optimization,
+        mk_flag_growth_enablement: !!flags.flag_growth_enablement,
+        mk_flag_compliance: !!flags.flag_compliance,
+        mk_flag_understaffed_it: !!flags.understaffed_it,
+        industry: answers["P0-Q7_INDUSTRY"] || null,
+      }).then(({ error: cmsErr }) => {
+        if (cmsErr) console.error("CMS contact save error:", cmsErr);
+      });
+
       // Trigger HubSpot sync
       if (status === "completed" || status === "escalated") {
         supabase.functions.invoke("assessment-hubspot-sync", {

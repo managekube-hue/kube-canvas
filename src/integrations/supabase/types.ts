@@ -182,6 +182,440 @@ export type Database = {
         }
         Relationships: []
       }
+      cms_career_applications: {
+        Row: {
+          cover_letter: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          linkedin_url: string | null
+          notes: string | null
+          phone: string | null
+          posting_id: string | null
+          resume_url: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          cover_letter?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          linkedin_url?: string | null
+          notes?: string | null
+          phone?: string | null
+          posting_id?: string | null
+          resume_url?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cover_letter?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          linkedin_url?: string | null
+          notes?: string | null
+          phone?: string | null
+          posting_id?: string | null
+          resume_url?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_career_applications_posting_id_fkey"
+            columns: ["posting_id"]
+            isOneToOne: false
+            referencedRelation: "cms_career_postings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_career_postings: {
+        Row: {
+          application_email: string
+          created_at: string
+          department: string
+          description: string
+          employment_type: string | null
+          expires_at: string | null
+          id: string
+          is_published: boolean | null
+          location: string | null
+          nice_to_haves: string[] | null
+          published_at: string | null
+          requirements: string[] | null
+          salary_range: string | null
+          sort_order: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          application_email?: string
+          created_at?: string
+          department: string
+          description: string
+          employment_type?: string | null
+          expires_at?: string | null
+          id?: string
+          is_published?: boolean | null
+          location?: string | null
+          nice_to_haves?: string[] | null
+          published_at?: string | null
+          requirements?: string[] | null
+          salary_range?: string | null
+          sort_order?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          application_email?: string
+          created_at?: string
+          department?: string
+          description?: string
+          employment_type?: string | null
+          expires_at?: string | null
+          id?: string
+          is_published?: boolean | null
+          location?: string | null
+          nice_to_haves?: string[] | null
+          published_at?: string | null
+          requirements?: string[] | null
+          salary_range?: string | null
+          sort_order?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_contacts: {
+        Row: {
+          assessment_session_id: string | null
+          challenges: string[] | null
+          company: string | null
+          created_at: string
+          email: string
+          first_name: string | null
+          hubspot_contact_id: string | null
+          hubspot_error: string | null
+          hubspot_synced: boolean | null
+          hubspot_synced_at: string | null
+          id: string
+          industry: string | null
+          ip_address: string | null
+          job_title: string | null
+          last_name: string | null
+          lifecycle_stage: string | null
+          message: string | null
+          mk_annual_it_budget: string | null
+          mk_api_maturity: string | null
+          mk_automation_targets: string | null
+          mk_automation_tools: string | null
+          mk_budget_distribution: string | null
+          mk_cf_automation_maturity: number | null
+          mk_cf_business_gov_maturity: number | null
+          mk_cf_cloud_maturity: number | null
+          mk_cf_cost_maturity: number | null
+          mk_cf_dataprotection_maturity: number | null
+          mk_cf_iam_maturity: number | null
+          mk_cf_infrastructure_maturity: number | null
+          mk_cf_secops_maturity: number | null
+          mk_cloud_budget: string | null
+          mk_cloud_cost_visibility: string | null
+          mk_cloud_dr_strategy: string | null
+          mk_cloud_drivers: string | null
+          mk_cloud_skills_level: string | null
+          mk_cloud_success_metrics: string | null
+          mk_cloud_usage_level: string | null
+          mk_cloud_waste_status: string | null
+          mk_compliance_deadline_date: string | null
+          mk_compliance_in_scope: string | null
+          mk_contract_renewals: string | null
+          mk_cyber_insurance: string | null
+          mk_dr_plan_status: string | null
+          mk_email_platform: string | null
+          mk_ems_score: number | null
+          mk_endpoint_count: string | null
+          mk_fast_track: boolean | null
+          mk_flag_cloud_strategy: boolean | null
+          mk_flag_compliance: boolean | null
+          mk_flag_cost_optimization: boolean | null
+          mk_flag_growth_enablement: boolean | null
+          mk_flag_infra_assessment: boolean | null
+          mk_flag_security_remediation: boolean | null
+          mk_flag_understaffed_it: boolean | null
+          mk_growth_bottleneck: string | null
+          mk_growth_trajectory: string | null
+          mk_has_compliance_deadline: boolean | null
+          mk_headcount_growth: string | null
+          mk_hosting_state: string | null
+          mk_hyperv_version: string | null
+          mk_industry_vertical: string | null
+          mk_integration_architecture: string | null
+          mk_integration_dependencies: string | null
+          mk_ir_escalation: boolean | null
+          mk_it_team_size: string | null
+          mk_key_gaps_flags: string[] | null
+          mk_licence_tracking: string | null
+          mk_location_count: string | null
+          mk_migration_scope: string | null
+          mk_monthly_price: number | null
+          mk_multisite: boolean | null
+          mk_multisite_expansion: string | null
+          mk_onb_completed_at: string | null
+          mk_onb_estimated_deal_size: string | null
+          mk_onb_it_situation: string | null
+          mk_onb_msp_issues: string | null
+          mk_onb_org_stage: string | null
+          mk_onb_priority: string | null
+          mk_onb_profile_type: string | null
+          mk_onb_risk_score: number | null
+          mk_onb_role: string | null
+          mk_onb_timeline: string | null
+          mk_onb_urgency_score: number | null
+          mk_recommended_tier: string | null
+          mk_remote_workforce_pct: string | null
+          mk_rto_requirement: string | null
+          mk_savings_target: string | null
+          mk_scalability_bottlenecks: string | null
+          mk_security_incident_age: string | null
+          mk_security_incident_types: string | null
+          mk_sr_incident_status: string | null
+          mk_sr_network_posture: string | null
+          mk_tool_overlap: string | null
+          mk_unused_contracts: string | null
+          mk_upsell_ready: boolean | null
+          mk_vendor_count: string | null
+          mk_vmware_version: string | null
+          org_size: string | null
+          phone: string | null
+          source: string
+          source_detail: string | null
+          updated_at: string
+          user_agent: string | null
+          website: string | null
+        }
+        Insert: {
+          assessment_session_id?: string | null
+          challenges?: string[] | null
+          company?: string | null
+          created_at?: string
+          email: string
+          first_name?: string | null
+          hubspot_contact_id?: string | null
+          hubspot_error?: string | null
+          hubspot_synced?: boolean | null
+          hubspot_synced_at?: string | null
+          id?: string
+          industry?: string | null
+          ip_address?: string | null
+          job_title?: string | null
+          last_name?: string | null
+          lifecycle_stage?: string | null
+          message?: string | null
+          mk_annual_it_budget?: string | null
+          mk_api_maturity?: string | null
+          mk_automation_targets?: string | null
+          mk_automation_tools?: string | null
+          mk_budget_distribution?: string | null
+          mk_cf_automation_maturity?: number | null
+          mk_cf_business_gov_maturity?: number | null
+          mk_cf_cloud_maturity?: number | null
+          mk_cf_cost_maturity?: number | null
+          mk_cf_dataprotection_maturity?: number | null
+          mk_cf_iam_maturity?: number | null
+          mk_cf_infrastructure_maturity?: number | null
+          mk_cf_secops_maturity?: number | null
+          mk_cloud_budget?: string | null
+          mk_cloud_cost_visibility?: string | null
+          mk_cloud_dr_strategy?: string | null
+          mk_cloud_drivers?: string | null
+          mk_cloud_skills_level?: string | null
+          mk_cloud_success_metrics?: string | null
+          mk_cloud_usage_level?: string | null
+          mk_cloud_waste_status?: string | null
+          mk_compliance_deadline_date?: string | null
+          mk_compliance_in_scope?: string | null
+          mk_contract_renewals?: string | null
+          mk_cyber_insurance?: string | null
+          mk_dr_plan_status?: string | null
+          mk_email_platform?: string | null
+          mk_ems_score?: number | null
+          mk_endpoint_count?: string | null
+          mk_fast_track?: boolean | null
+          mk_flag_cloud_strategy?: boolean | null
+          mk_flag_compliance?: boolean | null
+          mk_flag_cost_optimization?: boolean | null
+          mk_flag_growth_enablement?: boolean | null
+          mk_flag_infra_assessment?: boolean | null
+          mk_flag_security_remediation?: boolean | null
+          mk_flag_understaffed_it?: boolean | null
+          mk_growth_bottleneck?: string | null
+          mk_growth_trajectory?: string | null
+          mk_has_compliance_deadline?: boolean | null
+          mk_headcount_growth?: string | null
+          mk_hosting_state?: string | null
+          mk_hyperv_version?: string | null
+          mk_industry_vertical?: string | null
+          mk_integration_architecture?: string | null
+          mk_integration_dependencies?: string | null
+          mk_ir_escalation?: boolean | null
+          mk_it_team_size?: string | null
+          mk_key_gaps_flags?: string[] | null
+          mk_licence_tracking?: string | null
+          mk_location_count?: string | null
+          mk_migration_scope?: string | null
+          mk_monthly_price?: number | null
+          mk_multisite?: boolean | null
+          mk_multisite_expansion?: string | null
+          mk_onb_completed_at?: string | null
+          mk_onb_estimated_deal_size?: string | null
+          mk_onb_it_situation?: string | null
+          mk_onb_msp_issues?: string | null
+          mk_onb_org_stage?: string | null
+          mk_onb_priority?: string | null
+          mk_onb_profile_type?: string | null
+          mk_onb_risk_score?: number | null
+          mk_onb_role?: string | null
+          mk_onb_timeline?: string | null
+          mk_onb_urgency_score?: number | null
+          mk_recommended_tier?: string | null
+          mk_remote_workforce_pct?: string | null
+          mk_rto_requirement?: string | null
+          mk_savings_target?: string | null
+          mk_scalability_bottlenecks?: string | null
+          mk_security_incident_age?: string | null
+          mk_security_incident_types?: string | null
+          mk_sr_incident_status?: string | null
+          mk_sr_network_posture?: string | null
+          mk_tool_overlap?: string | null
+          mk_unused_contracts?: string | null
+          mk_upsell_ready?: boolean | null
+          mk_vendor_count?: string | null
+          mk_vmware_version?: string | null
+          org_size?: string | null
+          phone?: string | null
+          source?: string
+          source_detail?: string | null
+          updated_at?: string
+          user_agent?: string | null
+          website?: string | null
+        }
+        Update: {
+          assessment_session_id?: string | null
+          challenges?: string[] | null
+          company?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          hubspot_contact_id?: string | null
+          hubspot_error?: string | null
+          hubspot_synced?: boolean | null
+          hubspot_synced_at?: string | null
+          id?: string
+          industry?: string | null
+          ip_address?: string | null
+          job_title?: string | null
+          last_name?: string | null
+          lifecycle_stage?: string | null
+          message?: string | null
+          mk_annual_it_budget?: string | null
+          mk_api_maturity?: string | null
+          mk_automation_targets?: string | null
+          mk_automation_tools?: string | null
+          mk_budget_distribution?: string | null
+          mk_cf_automation_maturity?: number | null
+          mk_cf_business_gov_maturity?: number | null
+          mk_cf_cloud_maturity?: number | null
+          mk_cf_cost_maturity?: number | null
+          mk_cf_dataprotection_maturity?: number | null
+          mk_cf_iam_maturity?: number | null
+          mk_cf_infrastructure_maturity?: number | null
+          mk_cf_secops_maturity?: number | null
+          mk_cloud_budget?: string | null
+          mk_cloud_cost_visibility?: string | null
+          mk_cloud_dr_strategy?: string | null
+          mk_cloud_drivers?: string | null
+          mk_cloud_skills_level?: string | null
+          mk_cloud_success_metrics?: string | null
+          mk_cloud_usage_level?: string | null
+          mk_cloud_waste_status?: string | null
+          mk_compliance_deadline_date?: string | null
+          mk_compliance_in_scope?: string | null
+          mk_contract_renewals?: string | null
+          mk_cyber_insurance?: string | null
+          mk_dr_plan_status?: string | null
+          mk_email_platform?: string | null
+          mk_ems_score?: number | null
+          mk_endpoint_count?: string | null
+          mk_fast_track?: boolean | null
+          mk_flag_cloud_strategy?: boolean | null
+          mk_flag_compliance?: boolean | null
+          mk_flag_cost_optimization?: boolean | null
+          mk_flag_growth_enablement?: boolean | null
+          mk_flag_infra_assessment?: boolean | null
+          mk_flag_security_remediation?: boolean | null
+          mk_flag_understaffed_it?: boolean | null
+          mk_growth_bottleneck?: string | null
+          mk_growth_trajectory?: string | null
+          mk_has_compliance_deadline?: boolean | null
+          mk_headcount_growth?: string | null
+          mk_hosting_state?: string | null
+          mk_hyperv_version?: string | null
+          mk_industry_vertical?: string | null
+          mk_integration_architecture?: string | null
+          mk_integration_dependencies?: string | null
+          mk_ir_escalation?: boolean | null
+          mk_it_team_size?: string | null
+          mk_key_gaps_flags?: string[] | null
+          mk_licence_tracking?: string | null
+          mk_location_count?: string | null
+          mk_migration_scope?: string | null
+          mk_monthly_price?: number | null
+          mk_multisite?: boolean | null
+          mk_multisite_expansion?: string | null
+          mk_onb_completed_at?: string | null
+          mk_onb_estimated_deal_size?: string | null
+          mk_onb_it_situation?: string | null
+          mk_onb_msp_issues?: string | null
+          mk_onb_org_stage?: string | null
+          mk_onb_priority?: string | null
+          mk_onb_profile_type?: string | null
+          mk_onb_risk_score?: number | null
+          mk_onb_role?: string | null
+          mk_onb_timeline?: string | null
+          mk_onb_urgency_score?: number | null
+          mk_recommended_tier?: string | null
+          mk_remote_workforce_pct?: string | null
+          mk_rto_requirement?: string | null
+          mk_savings_target?: string | null
+          mk_scalability_bottlenecks?: string | null
+          mk_security_incident_age?: string | null
+          mk_security_incident_types?: string | null
+          mk_sr_incident_status?: string | null
+          mk_sr_network_posture?: string | null
+          mk_tool_overlap?: string | null
+          mk_unused_contracts?: string | null
+          mk_upsell_ready?: boolean | null
+          mk_vendor_count?: string | null
+          mk_vmware_version?: string | null
+          org_size?: string | null
+          phone?: string | null
+          source?: string
+          source_detail?: string | null
+          updated_at?: string
+          user_agent?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       lead_exports: {
         Row: {
           business_name: string
