@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search, AlertTriangle, Download, TrendingUp,
-  Map, Clock, Loader2, RefreshCw,
+  Map, Loader2, RefreshCw,
   ChevronLeft, ChevronRight, Database,
 } from "lucide-react";
 import { ExportLeadModal } from "@/components/ExportLeadModal";
@@ -29,19 +29,6 @@ const severityColor = (sev: string) => {
   }
 };
 
-const sourceIndicators = (cve: ThreatCve) => {
-  const sources: string[] = [];
-  if (cve.cisaKev || cve.activelyExploited) sources.push("CISA KEV");
-  if (cve.cvss > 0) sources.push("NVD");
-  if (cve.epss > 0) sources.push("EPSS");
-  return sources;
-};
-
-const isOverdue = (dueDate?: string) => {
-  if (!dueDate) return false;
-  return new Date(dueDate) < new Date();
-};
-
 /* ── API call helper ───────────────────────────────────── */
 
 async function fetchThreatApi(body: Record<string, any>) {
@@ -57,92 +44,152 @@ async function fetchThreatApi(body: Record<string, any>) {
   return res.json();
 }
 
-/* ── Threat Card ───────────────────────────────────────── */
+/* ── Threat Card — per spec design ──────────────────────── */
 
-const ThreatCard = ({ cve, compact }: { cve: ThreatCve; compact?: boolean }) => {
-  const sources = sourceIndicators(cve);
+const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
+  // Calculate days overdue for CISA KEV
+  const dueDate = cve.cisaDueDate ? new Date(cve.cisaDueDate) : null;
+  const today = new Date();
+  const daysOverdue = dueDate && dueDate < today
+    ? Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
+  const daysRemaining = dueDate && dueDate >= today
+    ? Math.ceil((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
+
+  // Derive severity from CVSS if not provided
+  const effectiveSeverity = cve.severity && cve.severity !== "UNKNOWN"
+    ? cve.severity
+    : cve.cvss >= 9 ? "CRITICAL" : cve.cvss >= 7 ? "HIGH" : cve.cvss >= 4 ? "MEDIUM" : cve.cvss > 0 ? "LOW" : "UNKNOWN";
 
   return (
-    <div className="bg-card border border-border p-5 hover:border-primary/30 transition-colors">
-      <div className="flex items-start justify-between gap-4 mb-2">
-        <div className="flex items-center gap-3 flex-wrap">
-          <h3 className="font-mono font-bold text-foreground text-sm">{cve.id}</h3>
-          <span className={`text-xs font-semibold px-2 py-0.5 border ${severityColor(cve.severity)}`}>
-            {cve.severity}
-          </span>
-          {sources.map(s => (
-            <span key={s} className="text-[10px] font-medium px-1.5 py-0.5 border border-border bg-muted text-muted-foreground uppercase tracking-wider">
-              {s}
+    <div className="bg-card border border-border p-6 hover:border-primary/30 transition-colors">
+      {/* Header: CVE ID + badges */}
+      <div className="flex items-start justify-between gap-4 mb-3">
+        <h3 className="font-mono font-bold text-foreground text-lg">{cve.id}</h3>
+        <div className="flex gap-2 flex-wrap justify-end">
+          {cve.cisaKev && (
+            <span className="text-xs font-semibold px-2.5 py-1 border border-destructive/40 bg-destructive/10 text-destructive">
+              🚨 CISA KEV
             </span>
-          ))}
+          )}
+          {cve.ransomwareUse && (
+            <span className="text-xs font-semibold px-2.5 py-1 border border-purple-500/40 bg-purple-500/10 text-purple-400">
+              💀 Ransomware
+            </span>
+          )}
         </div>
-        <span className="text-xs text-muted-foreground whitespace-nowrap">{cve.published}</span>
       </div>
 
-      {cve.activelyExploited && (
-        <div className="flex items-center gap-2 mb-2">
-          <AlertTriangle className="w-3.5 h-3.5 text-destructive" />
-          <span className="text-xs font-semibold text-destructive uppercase tracking-wider">
-            Known exploited vulnerability
-          </span>
-        </div>
-      )}
-
-      <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
-        {cve.plainEnglish}
-      </p>
-
-      {!compact && cve.description && cve.description !== cve.plainEnglish && (
-        <p className="text-xs text-muted-foreground/70 mb-3">{cve.description.substring(0, 300)}{cve.description.length > 300 ? '...' : ''}</p>
-      )}
-
-      <div className="flex flex-wrap gap-x-6 gap-y-1.5 text-xs mt-3 pt-3 border-t border-border">
-        {cve.cvss > 0 && (
-          <div>
-            <span className="text-muted-foreground">CVSS </span>
-            <span className="font-semibold text-foreground">{cve.cvss}</span>
-          </div>
-        )}
-        {cve.epss > 0 && (
-          <div>
-            <span className="text-muted-foreground">EPSS </span>
-            <span className="font-semibold text-foreground">{(cve.epss * 100).toFixed(2)}%</span>
-          </div>
-        )}
-        {cve.riskScore > 0 && (
-          <div>
-            <span className="text-muted-foreground">Risk Score </span>
-            <span className="font-semibold text-foreground">{cve.riskScore.toFixed(1)}</span>
-          </div>
-        )}
-        {cve.vendor && cve.vendor !== "Unknown" && (
-          <div>
-            <span className="text-muted-foreground">Vendor </span>
-            <span className="font-semibold text-foreground">{cve.vendor}</span>
-          </div>
-        )}
-        {cve.product && cve.product !== "Unknown" && (
-          <div>
-            <span className="text-muted-foreground">Product </span>
-            <span className="font-semibold text-foreground">{cve.product}</span>
-          </div>
-        )}
-        {cve.ransomwareUse && (
-          <span className="text-xs font-semibold text-destructive">
-            Known ransomware use
+      {/* Severity badge + published date */}
+      <div className="flex items-center gap-3 mb-4 flex-wrap">
+        <span className={`text-xs font-bold px-3 py-1 border ${severityColor(effectiveSeverity)}`}>
+          {effectiveSeverity}{cve.cvss > 0 ? ` · ${cve.cvss.toFixed(1)} CVSS` : ""}
+        </span>
+        {cve.published && (
+          <span className="text-xs text-muted-foreground">
+            📅 Published: {new Date(cve.published).toLocaleDateString()}
           </span>
         )}
       </div>
 
-      {cve.cisaKev && cve.cisaDueDate && (
-        <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-          <Clock className="w-3 h-3" />
-          <span>
-            Remediation due: {cve.cisaDueDate}
-            {isOverdue(cve.cisaDueDate) && (
-              <span className="text-destructive font-semibold ml-2">Overdue</span>
+      {/* NVD Description */}
+      <div className="mb-4">
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {cve.description || cve.plainEnglish}
+        </p>
+        {cve.plainEnglish && cve.description && cve.plainEnglish !== cve.description && (
+          <p className="text-xs mt-2 p-3 border border-primary/20 bg-primary/5 text-primary">
+            📌 {cve.plainEnglish}
+          </p>
+        )}
+      </div>
+
+      {/* Three-column metrics: EPSS / CVSS / CISA KEV */}
+      <div className="grid grid-cols-3 gap-3 mb-4">
+        {/* EPSS */}
+        <div className="bg-muted/50 border border-border p-3">
+          <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">EPSS</div>
+          <div className="text-xl font-bold text-foreground font-mono">
+            {cve.epss > 0 ? `${(cve.epss * 100).toFixed(2)}%` : "N/A"}
+          </div>
+          <div className="text-[10px] text-muted-foreground">Attack probability</div>
+        </div>
+
+        {/* CVSS */}
+        <div className="bg-muted/50 border border-border p-3">
+          <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">CVSS</div>
+          <div className="text-xl font-bold text-foreground font-mono">
+            {cve.cvss > 0 ? cve.cvss.toFixed(1) : "N/A"}
+          </div>
+          <div className="text-[10px] text-muted-foreground">{effectiveSeverity} severity</div>
+        </div>
+
+        {/* CISA KEV */}
+        {cve.cisaKev ? (
+          <div className={`p-3 border ${daysOverdue > 0 ? "border-destructive/40 bg-destructive/5" : "border-yellow-500/40 bg-yellow-500/5"}`}>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">CISA KEV</div>
+            {dueDate && (
+              <div className="text-sm font-medium text-foreground">
+                Due: {dueDate.toLocaleDateString()}
+              </div>
             )}
-          </span>
+            {daysOverdue > 0 ? (
+              <div className="text-xs font-semibold text-destructive">
+                ⚠️ OVERDUE by {daysOverdue} days
+              </div>
+            ) : daysRemaining > 0 ? (
+              <div className="text-xs text-muted-foreground">
+                {daysRemaining} days remaining
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="bg-muted/30 border border-border p-3 flex items-center justify-center">
+            <span className="text-xs text-muted-foreground">Not in CISA KEV</span>
+          </div>
+        )}
+      </div>
+
+      {/* Vendor / Product */}
+      {(cve.vendor && cve.vendor !== "Unknown") || (cve.product && cve.product !== "Unknown") ? (
+        <div className="text-xs text-muted-foreground mb-4">
+          {cve.vendor && cve.vendor !== "Unknown" && (
+            <><span className="font-medium text-foreground">Vendor:</span> {cve.vendor}</>
+          )}
+          {cve.vendor && cve.vendor !== "Unknown" && cve.product && cve.product !== "Unknown" && " · "}
+          {cve.product && cve.product !== "Unknown" && (
+            <><span className="font-medium text-foreground">Product:</span> {cve.product}</>
+          )}
+        </div>
+      ) : null}
+
+      {/* Action Buttons */}
+      <div className="flex gap-3 flex-wrap">
+        <a
+          href={`https://nvd.nist.gov/vuln/detail/${cve.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-4 py-2 bg-muted border border-border text-foreground text-xs font-medium hover:bg-muted/80 transition-colors"
+        >
+          View in NVD ↗
+        </a>
+        {cve.cisaKev && (
+          <a
+            href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-muted border border-border text-foreground text-xs font-medium hover:bg-muted/80 transition-colors"
+          >
+            View in CISA ↗
+          </a>
+        )}
+      </div>
+
+      {/* CISA Notes */}
+      {cve.cisaNotes && (
+        <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-3">
+          <span className="font-medium text-foreground">CISA Note:</span> {cve.cisaNotes}
         </div>
       )}
     </div>

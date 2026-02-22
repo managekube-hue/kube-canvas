@@ -14,6 +14,7 @@ export interface ThreatCve {
   cisaKev: boolean;
   cisaDateAdded?: string;
   cisaDueDate?: string;
+  cisaNotes?: string;
   ransomwareUse: boolean;
   vendor: string;
   product: string;
