@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function CfdrKube() {
   return <KubeDetailPage
-    code="CFDR KUBE"
+    code="CFDR"
     name="Configuration Drift Detected and Corrected"
     tagline="Continuous compliance enforcement for configuration drift detection and remediation."
     category="Infrastructure & Operations"

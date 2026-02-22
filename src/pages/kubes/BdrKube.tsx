@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function BdrKube() {
   return <KubeDetailPage
-    code="BDR KUBE"
+    code="BDR"
     name="Recovery That's Verifiable and Auditable"
     tagline="Backup verification and disaster recovery orchestration for RTO/RPO compliance."
     category="Infrastructure & Operations"

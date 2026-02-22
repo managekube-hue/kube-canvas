@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function SdrKube() {
   return <KubeDetailPage
-    code="SDR KUBE"
+    code="SDR"
     name="Software Supply Risks Surfaced Early"
     tagline="SBOM analysis and dependency tracking for supply chain risk management."
     category="Security Detection & Response"

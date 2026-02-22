@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function AdrKube() {
   return <KubeDetailPage
-    code="ADR KUBE"
+    code="ADR"
     name="Application-Level Threat Containment"
     tagline="Web application firewall and API security for OWASP Top 10 protection."
     category="Security Detection & Response"

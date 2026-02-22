@@ -119,8 +119,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSSP Kube", href: "/kubes/mssp-kube" },
-          { label: "Start with Security Assessment", href: "/assessment" }
+          { label: "Learn more about Managed SOC", href: "/services/managed-soc" },
+          { label: "Start with Security Assessment", href: "/get-started" }
         ]
       },
       {
@@ -175,8 +175,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSSP Kube", href: "/kubes/mssp-kube" },
-          { label: "Calculate your endpoint count", href: "/assessment" }
+          { label: "Learn more about Managed SOC", href: "/services/managed-soc" },
+          { label: "Calculate your endpoint count", href: "/get-started" }
         ]
       },
       {
@@ -232,8 +232,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSSP Kube", href: "/kubes/mssp-kube" },
-          { label: "Test your current email security", href: "/assessment" }
+          { label: "Learn more about Managed SOC", href: "/services/managed-soc" },
+          { label: "Test your current email security", href: "/get-started" }
         ]
       },
       {
@@ -326,8 +326,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSSP Kube", href: "/kubes/mssp-kube" },
-          { label: "Schedule a vulnerability assessment", href: "/assessment" }
+          { label: "Learn more about Managed SOC", href: "/services/managed-soc" },
+          { label: "Schedule a vulnerability assessment", href: "/get-started" }
         ]
       },
       {
@@ -395,8 +395,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSSP Kube", href: "/kubes/mssp-kube" },
-          { label: "Assess your Zero Trust readiness", href: "/assessment" }
+          { label: "Learn more about Managed SOC", href: "/services/managed-soc" },
+          { label: "Assess your Zero Trust readiness", href: "/get-started" }
         ]
       },
       {
@@ -501,8 +501,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about Cyber Recovery", href: "/kubes/mssp-kube" },
-          { label: "Test your ransomware readiness", href: "/assessment" }
+          { label: "Learn more about Cyber Recovery", href: "/services/managed-soc" },
+          { label: "Test your ransomware readiness", href: "/get-started" }
         ]
       }
     ]
@@ -623,8 +623,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSP Kube", href: "/kubes/msp-kube" },
-          { label: "Calculate your service desk needs", href: "/assessment" }
+          { label: "Learn more about Managed NOC", href: "/services/managed-noc" },
+          { label: "Calculate your service desk needs", href: "/get-started" }
         ]
       },
       {
@@ -721,8 +721,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSP Kube", href: "/kubes/msp-kube" },
-          { label: "Assess your cloud migration readiness", href: "/assessment" }
+          { label: "Learn more about Managed Cloud", href: "/services/managed-cloud" },
+          { label: "Assess your cloud migration readiness", href: "/get-started" }
         ]
       },
       {
@@ -828,8 +828,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSP Kube", href: "/kubes/msp-kube" },
-          { label: "Get infrastructure health check", href: "/assessment" }
+          { label: "Learn more about Managed NOC", href: "/services/managed-noc" },
+          { label: "Get infrastructure health check", href: "/get-started" }
         ]
       }
     ]
@@ -949,8 +949,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSP Kube", href: "/kubes/msp-kube" },
-          { label: "Microsoft 365 security assessment", href: "/assessment" }
+          { label: "Learn more about Managed IT", href: "/services/managed-it" },
+          { label: "Microsoft 365 security assessment", href: "/get-started" }
         ]
       },
       {
@@ -1073,8 +1073,8 @@ const serviceCategories: ServiceCategory[] = [
           }
         ],
         ctaLinks: [
-          { label: "Learn more about MSP Kube", href: "/kubes/msp-kube" },
-          { label: "Assess your phone system", href: "/assessment" }
+          { label: "Learn more about Managed IT", href: "/services/managed-it" },
+          { label: "Assess your phone system", href: "/get-started" }
         ]
       }
     ]

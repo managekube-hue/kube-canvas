@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function DdrKube() {
   return <KubeDetailPage
-    code="DDR KUBE"
+    code="DDR"
     name="Data Misuse and Exfiltration Detection"
     tagline="Data loss prevention for PII/PCI exposure detection and exfiltration monitoring."
     category="Security Detection & Response"

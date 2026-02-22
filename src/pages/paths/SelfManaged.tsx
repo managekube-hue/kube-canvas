@@ -90,47 +90,47 @@ const PLATFORM_MODULES = [
 ];
 
 const KUBE_CATALOG = [
-  { label: "CIO KUBE", desc: "Asset discovery, infrastructure orchestration, and lifecycle management APIs.", href: "/kubes/cio-kube" },
-  { label: "NPM KUBE", desc: "Deep packet inspection, flow analysis, and AI-powered capacity forecasting APIs.", href: "/kubes/npm-kube" },
-  { label: "MDM KUBE", desc: "Device policy engine with API-driven enrollment, compliance, and enforcement.", href: "/kubes/mdm-kube" },
-  { label: "APM KUBE", desc: "Distributed tracing, span correlation, and application performance monitoring API.", href: "/kubes/apm-kube" },
-  { label: "ITDR KUBE", desc: "Active Directory, Azure AD, and Okta integration with identity threat detection logic.", href: "/kubes/itdr-kube" },
-  { label: "NDR KUBE", desc: "Deep packet inspection with PCAP export, MISP integration, and threat detection API.", href: "/kubes/ndr-kube" },
-  { label: "CDR KUBE", desc: "Multi-cloud CSPM with AWS, Azure, and GCP APIs and continuous posture monitoring.", href: "/kubes/cdr-kube" },
-  { label: "SDR KUBE", desc: "SBOM pipeline integration, dependency graph mapping, and supply chain risk scoring API.", href: "/kubes/sdr-kube" },
-  { label: "ADR KUBE", desc: "WAF rule management and RASP instrumentation with application threat API.", href: "/kubes/adr-kube" },
-  { label: "DDR KUBE", desc: "DLP policy engine, data classification API, and exfiltration detection logic.", href: "/kubes/ddr-kube" },
-  { label: "TI KUBE", desc: "MISP, STIX/TAXII, and EPSS integration with threat intelligence operationalization API.", href: "/kubes/ti-kube" },
-  { label: "VDR KUBE", desc: "CVSS contextualization, EPSS scoring, and asset-risk correlation API.", href: "/kubes/vdr-kube" },
-  { label: "CFDR KUBE", desc: "IaC baseline comparison, drift detection, and automated remediation API.", href: "/kubes/cfdr-kube" },
-  { label: "BDR KUBE", desc: "Backup orchestration with recovery verification API and compliance audit trail.", href: "/kubes/bdr-kube" },
-  { label: "GRC KUBE", desc: "100+ compliance frameworks. Evidence collection APIs. Audit package generation.", href: "/kubes/grc-kube" },
+  { label: "CIO", desc: "Asset discovery, infrastructure orchestration, and lifecycle management APIs.", href: "/service-layer/cio" },
+  { label: "NPM", desc: "Deep packet inspection, flow analysis, and AI-powered capacity forecasting APIs.", href: "/service-layer/npm" },
+  { label: "MDM", desc: "Device policy engine with API-driven enrollment, compliance, and enforcement.", href: "/service-layer/mdm" },
+  { label: "APM", desc: "Distributed tracing, span correlation, and application performance monitoring API.", href: "/service-layer/apm" },
+  { label: "ITDR", desc: "Active Directory, Azure AD, and Okta integration with identity threat detection logic.", href: "/service-layer/itdr" },
+  { label: "NDR", desc: "Deep packet inspection with PCAP export, MISP integration, and threat detection API.", href: "/service-layer/ndr" },
+  { label: "CDR", desc: "Multi-cloud CSPM with AWS, Azure, and GCP APIs and continuous posture monitoring.", href: "/service-layer/cdr" },
+  { label: "SDR", desc: "SBOM pipeline integration, dependency graph mapping, and supply chain risk scoring API.", href: "/service-layer/sdr" },
+  { label: "ADR", desc: "WAF rule management and RASP instrumentation with application threat API.", href: "/service-layer/adr" },
+  { label: "DDR", desc: "DLP policy engine, data classification API, and exfiltration detection logic.", href: "/service-layer/ddr" },
+  { label: "TI", desc: "MISP, STIX/TAXII, and EPSS integration with threat intelligence operationalization API.", href: "/service-layer/ti" },
+  { label: "VDR", desc: "CVSS contextualization, EPSS scoring, and asset-risk correlation API.", href: "/service-layer/vdr" },
+  { label: "CFDR", desc: "IaC baseline comparison, drift detection, and automated remediation API.", href: "/service-layer/cfdr" },
+  { label: "BDR", desc: "Backup orchestration with recovery verification API and compliance audit trail.", href: "/service-layer/bdr" },
+  { label: "GRC", desc: "100+ compliance frameworks. Evidence collection APIs. Audit package generation.", href: "/service-layer/grc" },
 ];
 
 const PLATFORM_TIERS = [
   {
     name: "XRO",
-    label: "Kubric XRO — Small Business Platform",
-    sub: "7 Kubes. Foundational detection coverage. Deployable in your environment.",
-    desc: "XRO deploys 7 core Kubes for unified infrastructure visibility, network monitoring, identity threat detection, cloud security posture, vulnerability management, configuration drift, and compliance automation — all running in your environment under your control.",
+    label: "XRO — Essentials",
+    sub: "7 Modules. Foundational detection coverage. Deployable in your environment.",
+    desc: "XRO deploys 7 core modules for unified infrastructure visibility, network monitoring, identity threat detection, cloud security posture, vulnerability management, configuration drift, and compliance automation — all running in your environment under your control.",
     cta: "Deploy XRO →",
-    href: "/products/xro",
+    href: "/service-tiers/xro-essentials",
   },
   {
-    name: "XMM",
-    label: "Kubric XMM — SME Platform",
-    sub: "12 Kubes. Expanded detection surface. Full API access.",
-    desc: "XMM deploys 12 Kubes extending detection coverage to application performance, data exfiltration, software supply chain risk, application-layer threats, and threat intelligence operationalization — all integrated through the Kubric UIDR orchestration layer.",
-    cta: "Deploy XMM →",
-    href: "/products/xmm",
+    name: "XMX",
+    label: "XMX — Advanced",
+    sub: "12 Modules. Expanded detection surface. Full API access.",
+    desc: "XMX deploys 12 modules extending detection coverage to application performance, data exfiltration, software supply chain risk, application-layer threats, and threat intelligence operationalization — all integrated through the Kubric UIDR orchestration layer.",
+    cta: "Deploy XMX →",
+    href: "/service-tiers/xmx-advanced",
   },
   {
     name: "XME",
-    label: "Kubric XME — Enterprise Platform",
-    sub: "All 15 Kubes. Complete detection stack. Premium API capabilities.",
-    desc: "XME deploys the full Kubric Kube catalog plus premium capabilities including SCDR, External Attack Surface Management, STRIKE Strategic Intelligence, and Honeypot infrastructure — giving enterprise environments complete detection and response coverage.",
+    label: "XME — Enterprise",
+    sub: "All 18 Modules. Complete detection stack. Premium API capabilities.",
+    desc: "XME deploys the full module catalog plus premium capabilities including SCDR, External Attack Surface Management, STRIKE Strategic Intelligence, and Honeypot infrastructure — giving enterprise environments complete detection and response coverage.",
     cta: "Deploy XME →",
-    href: "/products/xme",
+    href: "/service-tiers/xme-enterprise",
   },
 ];
 
@@ -198,7 +198,7 @@ export default function SelfManaged() {
             className="text-[15px] leading-relaxed mb-12 max-w-2xl"
             style={{ color: TEXT_DIM }}
           >
-            Deploy Kubric in your own environment. Configure every Kube. Own every data flow. Access every API. No managed services overhead. No abstraction between you and the platform.
+            Deploy Kubric in your own environment. Configure every module. Own every data flow. Access every API. No managed services overhead. No abstraction between you and the platform.
           </motion.p>
 
           {/* Doc Primary CTA: "Book a Technical Demo →"  Secondary: "Read the Docs →" */}
@@ -242,7 +242,7 @@ export default function SelfManaged() {
         <div className="max-w-7xl mx-auto px-6 lg:px-16 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { v: "15", l: "DR Modules" },
+              { v: "18", l: "DR Modules" },
               { v: "120k+", l: "Detection Assets" },
               { v: "10G", l: "Line Rate Analysis" },
               { v: "Apache 2.0", l: "License" },
@@ -270,7 +270,7 @@ export default function SelfManaged() {
                 How Kubric UIDR<br />Orchestrates Your Environment
               </h2>
               <p className="text-[15px] leading-relaxed mb-6" style={{ color: TEXT_DIM }}>
-                Kubric UIDR aggregates infrastructure, identity, network, application, and cloud data into a single correlated data graph. Every Kube runs on top of it. Every API exposes it. Every integration feeds it.
+                Kubric UIDR aggregates infrastructure, identity, network, application, and cloud data into a single correlated data graph. Every module runs on top of it. Every API exposes it. Every integration feeds it.
               </p>
               <Link
                 to="/uidr/technical-docs"
@@ -346,13 +346,13 @@ export default function SelfManaged() {
           <div className="grid lg:grid-cols-2 gap-12 items-end mb-16">
             <div>
               <h2 className="font-black text-white leading-tight" style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontFamily: "'Special Elite', serif" }}>
-                The Detection and Response<br />Kube Catalog
+                The Detection and Response<br />Module Catalog
               </h2>
             </div>
             <div>
-              <p className="text-[16px] font-black text-white mb-3" style={{ fontFamily: "'Special Elite', serif" }}>16 Modules. Each One Independently Deployable.</p>
+              <p className="text-[16px] font-black text-white mb-3" style={{ fontFamily: "'Special Elite', serif" }}>18 Modules. Each One Independently Deployable.</p>
               <p className="text-[14px] leading-relaxed" style={{ color: TEXT_DIM }}>
-                Every Kube is a self-contained detection engine with its own data ingestion pipeline, detection logic, response playbooks, and API surface. They run independently and orchestrate through Kubric UIDR.
+                Every module is a self-contained detection engine with its own data ingestion pipeline, detection logic, response playbooks, and API surface. They run independently and orchestrate through Kubric UIDR.
               </p>
             </div>
           </div>
@@ -415,7 +415,7 @@ export default function SelfManaged() {
                   {tier.name}
                 </p>
                 <h3 className="text-[18px] font-black text-white mb-3 leading-tight" style={{ fontFamily: "'Special Elite', serif" }}>
-                  {tier.label.replace(`Kubric ${tier.name} — `, "")}
+                  {tier.label}
                 </h3>
                 <p className="text-[12px] font-bold mb-4 uppercase tracking-wide" style={{ color: TEXT_DIM }}>
                   {tier.sub}
@@ -462,7 +462,7 @@ export default function SelfManaged() {
                 100+ Frameworks. Your Team Owns the Evidence.
               </p>
               <p className="text-[14px] leading-relaxed mb-6" style={{ color: TEXT_DIM }}>
-                The GRC KUBE maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit packages via API — the GRC KUBE gives your team programmatic access to your entire compliance posture.
+                The GRC module maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit packages via API — the GRC module gives your team programmatic access to your entire compliance posture.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link to="/service-layer/grc" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: ORANGE, letterSpacing: "0.1em" }}>

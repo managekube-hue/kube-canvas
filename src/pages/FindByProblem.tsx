@@ -48,43 +48,43 @@ const solutionCategories = [
     problems: [
       {
         problem: "We keep failing audits",
-        solution: "GRC KUBE → Managed Compliance Service",
+        solution: "GRC Module → Managed Compliance Service",
         whatYouGet: "Automated evidence collection, control implementation, audit liaison",
         frameworks: ["SOC 2", "HIPAA", "CMMC", "ISO 27001", "PCI DSS"],
-        cta: "Explore GRC Kube",
-        href: "/kubes/grc-kube"
+        cta: "Explore GRC Module",
+        href: "/service-layer/grc"
       },
       {
         problem: "We got hit by ransomware",
-        solution: "BDR KUBE + Managed SOC Service",
+        solution: "BDR Module + Managed SOC Service",
         whatYouGet: "Immutable backups, ransomware detection, incident response",
         tech: "Backup & Disaster Recovery + 24/7 SOC",
-        cta: "Explore BDR Kube",
-        href: "/kubes/bdr-kube"
+        cta: "Explore BDR Module",
+        href: "/service-layer/bdr"
       },
       {
         problem: "We don't have 24/7 security monitoring",
         solution: "Managed SOC Service",
         whatYouGet: "Always-on threat detection, incident response, threat hunting",
-        tech: "ITDR KUBE + NDR KUBE + CDR KUBE",
+        tech: "ITDR + NDR + CDR Modules",
         cta: "Managed SOC",
         href: "/services/managed-soc"
       },
       {
         problem: "Employees click on phishing emails",
-        solution: "ITDR KUBE → Identity Threat Detection",
+        solution: "ITDR Module → Identity Threat Detection",
         whatYouGet: "Email filtering, anti-phishing, simulated phishing campaigns",
         tech: "Identity Threat Detection & Response",
-        cta: "Explore ITDR Kube",
-        href: "/kubes/itdr-kube"
+        cta: "Explore ITDR Module",
+        href: "/service-layer/itdr"
       },
       {
         problem: "We need Zero Trust architecture",
-        solution: "ITDR KUBE + NDR KUBE",
+        solution: "ITDR + NDR Modules",
         whatYouGet: "Identity-centric access, network segmentation, least privilege",
         tech: "Identity + Network Detection & Response",
-        cta: "Explore ITDR Kube",
-        href: "/kubes/itdr-kube"
+        cta: "Explore ITDR Module",
+        href: "/service-layer/itdr"
       },
       {
         problem: "We don't know our security posture",
@@ -103,15 +103,15 @@ const solutionCategories = [
     problems: [
       {
         problem: "Our servers are old and failing",
-        solution: "CIO KUBE → Infrastructure Refresh",
+        solution: "CIO Module → Infrastructure Refresh",
         whatYouGet: "Server replacement, data migration, warranty coverage",
         tech: "Infrastructure Orchestration",
-        cta: "Explore CIO Kube",
-        href: "/kubes/cio-kube"
+        cta: "Explore CIO Module",
+        href: "/service-layer/cio"
       },
       {
         problem: "We need to move to the cloud",
-        solution: "CDR KUBE + Managed Cloud Service",
+        solution: "CDR Module + Managed Cloud Service",
         whatYouGet: "AWS/Azure migration, hybrid cloud setup, managed operations",
         tech: "Cloud Detection & Response + Managed Cloud",
         cta: "Managed Cloud",
@@ -119,19 +119,19 @@ const solutionCategories = [
       },
       {
         problem: "Our network is too slow",
-        solution: "NPM KUBE → Network Performance Monitoring",
+        solution: "NPM Module → Network Performance Monitoring",
         whatYouGet: "Switch replacement, WiFi upgrade, network optimisation",
         tech: "Network Performance Management",
-        cta: "Explore NPM Kube",
-        href: "/kubes/npm-kube"
+        cta: "Explore NPM Module",
+        href: "/service-layer/npm"
       },
       {
         problem: "We have no disaster recovery plan",
-        solution: "BDR KUBE → Backup & Disaster Recovery",
+        solution: "BDR Module → Backup & Disaster Recovery",
         whatYouGet: "Backup automation, disaster recovery testing, RTO <4hr",
         tech: "Backup & Disaster Recovery",
-        cta: "Explore BDR Kube",
-        href: "/kubes/bdr-kube"
+        cta: "Explore BDR Module",
+        href: "/service-layer/bdr"
       },
       {
         problem: "Our IT team is overwhelmed",
@@ -143,11 +143,11 @@ const solutionCategories = [
       },
       {
         problem: "Our data is growing out of control",
-        solution: "CIO KUBE + BDR KUBE",
+        solution: "CIO + BDR Modules",
         whatYouGet: "High-capacity storage, data tiering, deduplication",
         tech: "Infrastructure Orchestration + Backup & DR",
-        cta: "Explore CIO Kube",
-        href: "/kubes/cio-kube"
+        cta: "Explore CIO Module",
+        href: "/service-layer/cio"
       }
     ]
   },
@@ -158,35 +158,35 @@ const solutionCategories = [
     problems: [
       {
         problem: "Remote work is chaotic",
-        solution: "MDM KUBE + CIO KUBE",
+        solution: "MDM + CIO Modules",
         whatYouGet: "VDI setup, endpoint security, collaboration tools",
         tech: "Mobile Device Management + Infrastructure",
-        cta: "Explore MDM Kube",
-        href: "/kubes/mdm-kube"
+        cta: "Explore MDM Module",
+        href: "/service-layer/mdm"
       },
       {
         problem: "We need to upgrade to Microsoft 365",
-        solution: "CIO KUBE → M365 Management",
+        solution: "CIO Module → M365 Management",
         whatYouGet: "Tenant setup, email migration, training, security policies",
         tech: "Infrastructure Orchestration Platform",
-        cta: "Explore CIO Kube",
-        href: "/kubes/cio-kube"
+        cta: "Explore CIO Module",
+        href: "/service-layer/cio"
       },
       {
         problem: "Employees have too many devices to manage",
-        solution: "MDM KUBE → Mobile Device Management",
+        solution: "MDM Module → Mobile Device Management",
         whatYouGet: "MDM/UEM, security policies, app deployment",
         tech: "Mobile Device Management",
-        cta: "Explore MDM Kube",
-        href: "/kubes/mdm-kube"
+        cta: "Explore MDM Module",
+        href: "/service-layer/mdm"
       },
       {
         problem: "Applications are slow",
-        solution: "APM KUBE → Application Performance Monitoring",
+        solution: "APM Module → Application Performance Monitoring",
         whatYouGet: "Full-stack observability, distributed tracing, anomaly detection",
         tech: "Application Performance Management",
-        cta: "Explore APM Kube",
-        href: "/kubes/apm-kube"
+        cta: "Explore APM Module",
+        href: "/service-layer/apm"
       }
     ]
   },
@@ -197,7 +197,7 @@ const solutionCategories = [
     problems: [
       {
         problem: "We need HIPAA compliance",
-        solution: "GRC KUBE + Managed Compliance + Healthcare Solution",
+        solution: "GRC Module + Managed Compliance + Healthcare Solution",
         whatYouGet: "HIPAA gap remediation, BAAs, audit support",
         frameworks: ["HIPAA Security Rule", "Privacy Rule"],
         cta: "Explore Healthcare Solutions",
@@ -205,15 +205,15 @@ const solutionCategories = [
       },
       {
         problem: "We need SOC 2 certification",
-        solution: "GRC KUBE → SOC 2 Track",
+        solution: "GRC Module → SOC 2 Track",
         whatYouGet: "Control implementation, evidence automation, Type II audit",
         timeline: "12-16 weeks to audit-ready",
-        cta: "Explore GRC Kube",
-        href: "/kubes/grc-kube"
+        cta: "Explore GRC Module",
+        href: "/service-layer/grc"
       },
       {
         problem: "We need CMMC for defense contracts",
-        solution: "GRC KUBE + Managed Compliance + Manufacturing Solution",
+        solution: "GRC Module + Managed Compliance + Manufacturing Solution",
         whatYouGet: "CMMC Level 2/3 assessment, POA&M, CUI protection",
         frameworks: ["NIST 800-171", "CMMC 2.0"],
         cta: "Explore Manufacturing Solutions",
@@ -221,7 +221,7 @@ const solutionCategories = [
       },
       {
         problem: "We need PCI DSS for credit cards",
-        solution: "GRC KUBE + VDR KUBE + Financial Services Solution",
+        solution: "GRC Module + VDR Module + Financial Services Solution",
         whatYouGet: "PCI Level 1 certification, ASV scans, tokenization",
         frameworks: ["PCI DSS v4.0"],
         cta: "Explore Financial Solutions",
@@ -229,7 +229,7 @@ const solutionCategories = [
       },
       {
         problem: "We need FedRAMP for government",
-        solution: "GRC KUBE + Public Sector Solution",
+        solution: "GRC Module + Public Sector Solution",
         whatYouGet: "FedRAMP Moderate/High, 3PAO audit, continuous ATO",
         tech: "Multi-cloud FedRAMP-authorized",
         cta: "Explore Public Sector Solutions",
@@ -244,27 +244,27 @@ const solutionCategories = [
     problems: [
       {
         problem: "We have no backup system",
-        solution: "BDR KUBE → Backup & Recovery",
+        solution: "BDR Module → Backup & Recovery",
         whatYouGet: "Automated backups, retention policies, recovery testing",
         tech: "Backup & Disaster Recovery",
-        cta: "Explore BDR Kube",
-        href: "/kubes/bdr-kube"
+        cta: "Explore BDR Module",
+        href: "/service-layer/bdr"
       },
       {
         problem: "We need ransomware protection",
-        solution: "BDR KUBE + NDR KUBE",
+        solution: "BDR + NDR Modules",
         whatYouGet: "Immutable backups, air-gapped vault, recovery orchestration",
         tech: "Backup & DR + Network Detection",
-        cta: "Explore BDR Kube",
-        href: "/kubes/bdr-kube"
+        cta: "Explore BDR Module",
+        href: "/service-layer/bdr"
       },
       {
         problem: "Our RTO is too long",
-        solution: "BDR KUBE → DRaaS",
+        solution: "BDR Module → DRaaS",
         whatYouGet: "Hot/warm DR site, failover automation, RTO <4hr",
         tech: "Backup & Disaster Recovery",
-        cta: "Explore BDR Kube",
-        href: "/kubes/bdr-kube"
+        cta: "Explore BDR Module",
+        href: "/service-layer/bdr"
       },
       {
         problem: "We lost data and can't recover it",
@@ -283,43 +283,43 @@ const solutionCategories = [
     problems: [
       {
         problem: "We can't see what's on our network",
-        solution: "NDR KUBE → Network Detection & Response",
+        solution: "NDR Module → Network Detection & Response",
         whatYouGet: "Deep packet inspection, behavioural analytics, threat detection",
         tech: "Network Detection & Response",
-        cta: "Explore NDR Kube",
-        href: "/kubes/ndr-kube"
+        cta: "Explore NDR Module",
+        href: "/service-layer/ndr"
       },
       {
         problem: "Our cloud is being attacked",
-        solution: "CDR KUBE → Cloud Detection & Response",
+        solution: "CDR Module → Cloud Detection & Response",
         whatYouGet: "Multi-cloud security monitoring, CSPM, threat response",
         tech: "Cloud Detection & Response",
-        cta: "Explore CDR Kube",
-        href: "/kubes/cdr-kube"
+        cta: "Explore CDR Module",
+        href: "/service-layer/cdr"
       },
       {
         problem: "We're worried about software supply chain",
-        solution: "SDR KUBE → Supply Chain Detection & Response",
+        solution: "SDR Module → Supply Chain Detection & Response",
         whatYouGet: "SBOM analysis, supply chain risk management",
         tech: "Supply Chain Detection & Response",
-        cta: "Explore SDR Kube",
-        href: "/kubes/sdr-kube"
+        cta: "Explore SDR Module",
+        href: "/service-layer/sdr"
       },
       {
         problem: "Vulnerabilities pile up faster than we fix them",
-        solution: "VDR KUBE → Vulnerability Detection & Response",
+        solution: "VDR Module → Vulnerability Detection & Response",
         whatYouGet: "Risk-prioritised vulnerability management, automated patching",
         tech: "Vulnerability Detection & Response",
-        cta: "Explore VDR Kube",
-        href: "/kubes/vdr-kube"
+        cta: "Explore VDR Module",
+        href: "/service-layer/vdr"
       },
       {
         problem: "We need threat intelligence",
-        solution: "TI KUBE → Threat Intelligence",
+        solution: "TI Module → Threat Intelligence",
         whatYouGet: "Operationalised threat intelligence, adversary tracking",
         tech: "Threat Intelligence",
-        cta: "Explore TI Kube",
-        href: "/kubes/ti-kube"
+        cta: "Explore TI Module",
+        href: "/service-layer/ti"
       }
     ]
   },
@@ -338,7 +338,7 @@ const solutionCategories = [
       },
       {
         problem: "We don't have an IT strategy",
-        solution: "Security Assessment + CIO KUBE",
+        solution: "Security Assessment + CIO Module",
         whatYouGet: "Technology roadmap, budget planning, vendor management",
         engagement: "Monthly retainer or on-demand",
         cta: "Security Assessments",
@@ -363,7 +363,7 @@ const solutionCategories = [
         problem: "We need manufacturing OT security",
         solution: "Manufacturing Solution (M2BLOCK)",
         whatYouGet: "OT/IT convergence, CMMC compliance, predictive maintenance",
-        tech: "NDR KUBE + GRC KUBE + CIO KUBE",
+        tech: "NDR + GRC + CIO Modules",
         cta: "Explore Manufacturing",
         href: "/solutions/manufacturing"
       },
@@ -371,7 +371,7 @@ const solutionCategories = [
         problem: "We need healthcare EHR resilience",
         solution: "Healthcare Solution (H2BLOCK)",
         whatYouGet: "HIPAA automation, ransomware immunity, clinical uptime",
-        tech: "BDR KUBE + ITDR KUBE + GRC KUBE",
+        tech: "BDR + ITDR + GRC Modules",
         cta: "Explore Healthcare",
         href: "/solutions/healthcare"
       },
@@ -379,7 +379,7 @@ const solutionCategories = [
         problem: "We need financial fraud detection",
         solution: "Financial Services Solution (F2BLOCK)",
         whatYouGet: "Real-time fraud detection, SOC 2 compliance, zero-trust",
-        tech: "DDR KUBE + VDR KUBE + GRC KUBE",
+        tech: "DDR + VDR + GRC Modules",
         cta: "Explore Financial Services",
         href: "/solutions/financial-services"
       },
@@ -387,7 +387,7 @@ const solutionCategories = [
         problem: "We need FedRAMP cloud",
         solution: "Public Sector Solution",
         whatYouGet: "FedRAMP infrastructure, CJIS compliance",
-        tech: "CDR KUBE + GRC KUBE + CIO KUBE",
+        tech: "CDR + GRC + CIO Modules",
         cta: "Explore Public Sector",
         href: "/solutions/public-sector"
       }
@@ -501,222 +501,95 @@ const FindByProblem = () => {
     return solutionCategories
       .map(category => ({
         ...category,
-        problems: category.problems.filter(problem => 
-          problem.problem.toLowerCase().includes(query) ||
-          problem.solution.toLowerCase().includes(query) ||
-          problem.whatYouGet.toLowerCase().includes(query) ||
-          (problem.tech && problem.tech.toLowerCase().includes(query)) ||
-          ('frameworks' in problem && problem.frameworks && problem.frameworks.some(fw => fw.toLowerCase().includes(query)))
-        )
+        problems: category.problems.filter(
+          p =>
+            p.problem.toLowerCase().includes(query) ||
+            p.solution.toLowerCase().includes(query) ||
+            p.whatYouGet.toLowerCase().includes(query) ||
+            (p.tech && p.tech.toLowerCase().includes(query)) ||
+            ('frameworks' in p && p.frameworks && p.frameworks.some((f: string) => f.toLowerCase().includes(query))) ||
+            p.cta.toLowerCase().includes(query)
+        ),
       }))
       .filter(category => category.problems.length > 0);
   }, [searchQuery]);
-  
-  const totalProblems = solutionCategories.reduce((acc, cat) => acc + cat.problems.length, 0);
-  const filteredProblems = filteredCategories.reduce((acc, cat) => acc + cat.problems.length, 0);
+
+  const totalProblems = solutionCategories.reduce((sum, c) => sum + c.problems.length, 0);
+  const filteredProblems = filteredCategories.reduce((sum, c) => sum + c.problems.length, 0);
 
   return (
     <PageLayout>
-      {/* Hero Section with Gradient Banner */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(24 95% 40%) 50%, hsl(var(--muted)) 100%)",
-          }}
-        />
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
+      {/* Hero */}
+      <section className="py-20 lg:py-32 bg-foreground text-white">
+        <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-label text-white/70 mb-6"
-            >
-              SOLUTIONS BY PROBLEM
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-            >
-              Find the exact solution for your{" "}
-              <span className="text-brand-orange">IT challenge</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg lg:text-xl text-white/80 max-w-2xl mb-8"
-            >
-              Every IT problem has a proven solution. Search or browse {totalProblems} mapped problems across 8 categories to find the right Kube, service, and technology stack for your needs.
-            </motion.p>
+            <p className="text-label text-brand-orange mb-4">FIND YOUR SOLUTION</p>
+            <h1 className="text-headline text-white mb-6">
+              What problem are you trying to solve?
+            </h1>
+            <p className="text-body-lg text-white/70 mb-10 max-w-2xl">
+              Search {totalProblems} real-world IT and security challenges mapped to specific ManageKube solutions. Every problem has a clear answer.
+            </p>
             
-            {/* Smart Search Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="relative max-w-xl"
-            >
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            {/* Search */}
+            <div className="relative max-w-xl">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
               <input
                 type="text"
-                placeholder="What problem are you trying to solve?"
+                placeholder="Search problems... (e.g., ransomware, HIPAA, cloud)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 text-lg bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-orange"
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/40 outline-none focus:border-brand-orange transition-colors"
               />
               {searchQuery && (
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                  {filteredProblems} of {totalProblems} solutions
-                </span>
+                <p className="text-sm text-white/50 mt-2">
+                  Showing {filteredProblems} of {totalProblems} solutions
+                </p>
               )}
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Category Navigation */}
-      <section className="py-8 bg-white border-b border-border sticky top-0 z-20">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="flex flex-wrap gap-3">
-            {solutionCategories.map((category) => (
-              <a
-                key={category.id}
-                href={`#${category.id}`}
-                className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-foreground hover:text-white transition-colors text-sm font-medium"
-              >
-                <category.icon className="w-4 h-4" />
-                {category.title}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Solution Categories */}
-      <section className="py-16 lg:py-24 bg-secondary">
-        <div className="container mx-auto px-6 lg:px-12">
-          {filteredCategories.length === 0 ? (
-            <div className="text-center py-20">
-              <h3 className="text-2xl font-bold text-foreground mb-4">No solutions found</h3>
-              <p className="text-muted-foreground mb-6">Try a different search term or browse all categories below.</p>
-              <button
-                onClick={() => setSearchQuery("")}
-                className="inline-flex items-center gap-2 bg-brand-orange text-white px-6 py-3 font-semibold hover:bg-opacity-90 transition-colors"
-              >
-                Clear Search
-              </button>
             </div>
-          ) : (
-            <div className="space-y-16">
-              {filteredCategories.map((category) => (
-                <div key={category.id} id={category.id}>
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 bg-foreground flex items-center justify-center">
-                      <category.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <h2 className="text-2xl lg:text-3xl font-bold text-foreground">
-                      {category.title}
-                    </h2>
-                    <span className="text-sm text-muted-foreground">
-                      {category.problems.length} solutions
-                    </span>
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {category.problems.map((problem, index) => (
-                      <SolutionCard key={problem.problem} item={problem} index={index} />
-                    ))}
-                  </div>
-                </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories */}
+      {filteredCategories.map((category) => (
+        <section key={category.id} className="py-16 bg-white border-b border-border">
+          <div className="container mx-auto px-6 lg:px-12">
+            <div className="flex items-center gap-3 mb-10">
+              <category.icon className="w-6 h-6 text-brand-orange" />
+              <h2 className="text-2xl font-bold text-foreground">{category.title}</h2>
+              <span className="text-sm text-muted-foreground ml-2">
+                {category.problems.length} solution{category.problems.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {category.problems.map((item, index) => (
+                <SolutionCard key={item.problem} item={item} index={index} />
               ))}
             </div>
-          )}
-        </div>
-      </section>
-
-      {/* Not Sure CTA */}
-      <section className="py-20 lg:py-32 bg-foreground text-white">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-            Not sure which problem to prioritize?
-          </h2>
-          <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
-            Our free assessment analyzes your entire environment and prioritizes 
-            recommendations based on risk and business impact.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/get-started"
-              className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
-            >
-              Get Started
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-white text-foreground px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
-            >
-              Schedule Consultation
-              <ArrowRight className="w-5 h-5" />
-            </Link>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
-      {/* Related Solutions */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-8 text-center">
-            Other Ways to Find Solutions
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Link to="/find-by-size" className="group border border-border p-8 hover:border-foreground transition-all">
-              <Users className="w-10 h-10 text-foreground mb-4" />
-              <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
-                Find by Business Size
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Solutions tailored for small business, mid-market, and enterprise organizations.
-              </p>
-              <span className="text-sm font-semibold text-foreground flex items-center gap-2">
-                Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Link>
-            
-            <Link to="/solutions/hub" className="group border border-border p-8 hover:border-foreground transition-all">
-              <Building2 className="w-10 h-10 text-foreground mb-4" />
-              <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
-                Find by Industry
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Pre-configured solutions for healthcare, manufacturing, finance, and more.
-              </p>
-              <span className="text-sm font-semibold text-foreground flex items-center gap-2">
-                Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Link>
-            
-            <Link to="/service-layer" className="group border border-border p-8 hover:border-foreground transition-all">
-              <Cog className="w-10 h-10 text-foreground mb-4" />
-              <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
-                Explore All 18 Modules
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Browse all 18 detection and response modules across three pillars.
-              </p>
-              <span className="text-sm font-semibold text-foreground flex items-center gap-2">
-                Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Link>
+      {/* No results */}
+      {filteredCategories.length === 0 && (
+        <section className="py-32 bg-white text-center">
+          <div className="container mx-auto px-6">
+            <h3 className="text-2xl font-bold text-foreground mb-4">No matching solutions</h3>
+            <p className="text-muted-foreground mb-6">Try different keywords or browse all categories.</p>
+            <button
+              onClick={() => setSearchQuery("")}
+              className="text-brand-orange font-semibold hover:underline"
+            >
+              Clear search
+            </button>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
+      <PathfinderCTA />
     </PageLayout>
   );
 };
-/** END DO NOT TOUCH - Main Page Component */
 
 export default FindByProblem;

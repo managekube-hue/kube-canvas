@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function VdrKube() {
   return <KubeDetailPage
-    code="VDR KUBE"
+    code="VDR"
     name="Vulnerabilities Prioritized by Real Risk"
     tagline="Vulnerability management with EPSS-based risk scoring for intelligent patch prioritization."
     category="Intelligence & Governance"

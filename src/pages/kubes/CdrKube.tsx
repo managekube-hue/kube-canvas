@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function CdrKube() {
   return <KubeDetailPage
-    code="CDR KUBE"
+    code="CDR"
     name="Cloud Activity Under Continuous Control"
     tagline="Multi-cloud security monitoring for AWS, Azure, and GCP with misconfiguration detection and automated remediation."
     category="Security Detection & Response"

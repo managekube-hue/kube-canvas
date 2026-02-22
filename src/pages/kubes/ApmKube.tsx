@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function ApmKube() {
   return <KubeDetailPage
-    code="APM KUBE"
+    code="APM"
     name="Application Performance with Operational Context"
     tagline="Full-stack observability with distributed tracing, code-level profiling, and business transaction monitoring."
     category="Infrastructure & Operations"
