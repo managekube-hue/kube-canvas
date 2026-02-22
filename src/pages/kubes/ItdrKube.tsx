@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function ItdrKube() {
   return <KubeDetailPage
-    code="ITDR KUBE"
+    code="ITDR"
     name="Identity Threats Stopped Before Escalation"
     tagline="Active Directory and identity provider monitoring with attack path analysis and automated response."
     category="Security Detection & Response"

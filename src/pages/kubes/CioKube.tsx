@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function CioKube() {
   return <KubeDetailPage
-    code="CIO KUBE"
+    code="CIO"
     name="Core Infrastructure Orchestration"
     tagline="Unified orchestration for configuration drift, backup & disaster recovery, and infrastructure lifecycle."
     category="Infrastructure & Operations"

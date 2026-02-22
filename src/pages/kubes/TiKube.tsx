@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function TiKube() {
   return <KubeDetailPage
-    code="TI KUBE"
+    code="TI"
     name="Threat Intelligence That Informs Action"
     tagline="MISP integration with EPSS scoring for predictive threat intelligence and proactive defense."
     category="Intelligence & Governance"

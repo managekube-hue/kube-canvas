@@ -123,7 +123,7 @@ const About = () => {
             </p>
           </div>
           <div className="flex flex-wrap gap-8">
-            {["Dell Technologies", "IBM", "Microsoft", "Cisco", "Veeam", "CrowdStrike"].map((partner) => (
+            {["Dell Technologies", "IBM", "Pax8", "TD SYNNEX"].map((partner) => (
               <div 
                 key={partner}
                 className="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold"

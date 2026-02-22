@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function NdrKube() {
   return <KubeDetailPage
-    code="NDR KUBE"
+    code="NDR"
     name="Network Threats Detected at the Source"
     tagline="Deep packet inspection and behavioral analysis for network-based threat detection."
     category="Security Detection & Response"

@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function GrcKube() {
   return <KubeDetailPage
-    code="GRC KUBE"
+    code="GRC"
     name="Governance, Risk & Compliance"
     tagline="CISO Assistant integration with 100+ compliance frameworks for automated gap analysis and remediation tracking."
     category="Intelligence & Governance"

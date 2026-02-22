@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function NpmKube() {
   return <KubeDetailPage
-    code="NPM KUBE"
+    code="NPM"
     name="Network Performance Without Blind Spots"
     tagline="Real-time network monitoring with SNMP polling, flow analysis, and AI-powered capacity forecasting."
     category="Infrastructure & Operations"

@@ -1,7 +1,7 @@
 import { KubeDetailPage } from "@/components/KubeDetailPage";
 export default function MdmKube() {
   return <KubeDetailPage
-    code="MDM KUBE"
+    code="MDM"
     name="Policy-Driven Device Governance"
     tagline="Complete mobile device management for iOS and Android with DEP/Zero-Touch enrollment and enterprise policies."
     category="Infrastructure & Operations"
