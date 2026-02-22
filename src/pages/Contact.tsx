@@ -16,9 +16,28 @@ const contactMethods = [
   { icon: Mail, title: "Support", value: "support@managekube.com", href: "mailto:support@managekube.com" },
   { icon: Mail, title: "Partners", value: "partners@managekube.com", href: "mailto:partners@managekube.com" },
   { icon: Mail, title: "Careers", value: "careers@managekube.com", href: "mailto:careers@managekube.com" },
-  { icon: Phone, title: "Phone", value: "(240) 257-2029", href: "tel:+12402572029" },
-  { icon: MapPin, title: "Headquarters", value: "526 King Street, Alexandria, VA 22314", href: null },
+  { icon: Mail, title: "Roadmap Feedback", value: "roadmap@managekube.com", href: "mailto:roadmap@managekube.com" },
+  { icon: Phone, title: "Main", value: "(240) 257-2029", href: "tel:+12402572029" },
+  { icon: Phone, title: "Sales", value: "(240) 257-2029", href: "tel:+12402572029" },
+  { icon: Phone, title: "Support (24/7)", value: "(240) 257-2029", href: "tel:+12402572029" },
   { icon: Clock, title: "Support Hours", value: "24/7 for existing clients", href: null },
+];
+
+const offices = [
+  {
+    name: "Memphis Office",
+    role: "Operations & Engineering",
+    address: "3150 Lenox Park",
+    city: "Memphis, TN 38134",
+    mapUrl: "https://maps.google.com/?q=3150+Lenox+Park+Memphis+TN+38134",
+  },
+  {
+    name: "Alexandria Office",
+    role: "Sales & Federal Programs",
+    address: "526 King Street",
+    city: "Alexandria, VA 22314",
+    mapUrl: "https://maps.google.com/?q=526+King+Street+Alexandria+VA+22314",
+  },
 ];
 
 const inquiryTypes = [
@@ -93,7 +112,33 @@ const Contact = () => {
                   >
                     <div className="w-10 h-10 bg-secondary flex items-center justify-center flex-shrink-0">
                       <method.icon className="w-4 h-4 text-foreground" />
-                    </div>
+              </div>
+
+              {/* Office Locations */}
+              <div className="mt-12 pt-12 border-t border-border">
+                <p className="text-label text-muted-foreground mb-6">OFFICE LOCATIONS</p>
+                <div className="space-y-6">
+                  {offices.map((office) => (
+                    <a
+                      key={office.name}
+                      href={office.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-4 group"
+                    >
+                      <div className="w-10 h-10 bg-secondary flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-4 h-4 text-foreground" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-foreground group-hover:text-brand-orange transition-colors">{office.name}</p>
+                        <p className="text-xs text-muted-foreground mb-1">{office.role}</p>
+                        <p className="text-sm text-foreground">{office.address}</p>
+                        <p className="text-sm text-foreground">{office.city}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
                     <div>
                       <p className="text-xs text-muted-foreground mb-1">{method.title}</p>
                       {method.href ? (
