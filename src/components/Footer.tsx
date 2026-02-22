@@ -150,10 +150,13 @@ export const Footer = () => (
     <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "22px 0" }}>
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.20)" }}>© 2026 ManageKube. All rights reserved.</p>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 flex-wrap">
           {[
             { label: "Privacy Policy", href: "/privacy" },
             { label: "Terms of Service", href: "/terms" },
+            { label: "Accessibility", href: "/accessibility" },
+            { label: "Open Source Licensing", href: "/open-source-licensing" },
+            { label: "NOTICE", href: "/notice" },
             { label: "Contact", href: "/get-started" },
           ].map(l => (
             <Link key={l.label} to={l.href}
