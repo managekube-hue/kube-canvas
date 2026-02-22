@@ -22,11 +22,21 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const severityColor = (sev: string) => {
   switch (sev) {
-    case "CRITICAL": return "text-destructive bg-destructive/10 border-destructive/30";
-    case "HIGH": return "text-orange-600 dark:text-orange-400 bg-orange-500/10 border-orange-500/30";
-    case "MEDIUM": return "text-yellow-600 dark:text-yellow-400 bg-yellow-500/10 border-yellow-500/30";
-    case "LOW": return "text-muted-foreground bg-muted border-border";
-    default: return "text-muted-foreground bg-muted border-border";
+    case "CRITICAL": return "text-destructive";
+    case "HIGH": return "text-orange-600 dark:text-orange-400";
+    case "MEDIUM": return "text-yellow-600 dark:text-yellow-400";
+    case "LOW": return "text-muted-foreground";
+    default: return "text-muted-foreground";
+  }
+};
+
+const severityBadge = (sev: string) => {
+  switch (sev) {
+    case "CRITICAL": return "bg-destructive/10 border-destructive/30 text-destructive";
+    case "HIGH": return "bg-orange-500/10 border-orange-500/30 text-orange-600 dark:text-orange-400";
+    case "MEDIUM": return "bg-yellow-500/10 border-yellow-500/30 text-yellow-600 dark:text-yellow-400";
+    case "LOW": return "bg-green-500/10 border-green-500/30 text-green-600";
+    default: return "bg-muted border-border text-muted-foreground";
   }
 };
 
@@ -45,204 +55,79 @@ async function fetchThreatApi(body: Record<string, any>) {
   return res.json();
 }
 
-/* ── Threat Card — per spec design ──────────────────────── */
+/* ── CVE Table Row ──────────────────────────────────────── */
 
-// Helper to make URLs in text clickable
-const linkifyText = (text: string) => {
-  const urlRegex = /(https?:\/\/[^\s;,]+)/g;
-  const parts = text.split(urlRegex);
-  return parts.map((part, i) =>
-    urlRegex.test(part) ? (
-      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{part}</a>
-    ) : <span key={i}>{part}</span>
-  );
-};
-
-const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
+const CveTableRow = ({ cve }: { cve: ThreatCve }) => {
   const navigate = useNavigate();
-  const dueDate = cve.cisaDueDate ? new Date(cve.cisaDueDate) : null;
-  const today = new Date();
-  const daysOverdue = dueDate && dueDate < today
-    ? Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24))
-    : 0;
-  const daysRemaining = dueDate && dueDate >= today
-    ? Math.ceil((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-    : 0;
-
   const effectiveSeverity = cve.severity && cve.severity !== "UNKNOWN"
     ? cve.severity
     : cve.cvss >= 9 ? "CRITICAL" : cve.cvss >= 7 ? "HIGH" : cve.cvss >= 4 ? "MEDIUM" : cve.cvss > 0 ? "LOW" : "UNKNOWN";
-
-  const isCritical = effectiveSeverity === "CRITICAL";
-  const isHigh = effectiveSeverity === "HIGH";
-  const epssPercent = cve.epss > 0 ? cve.epss * 100 : 0;
-
-  // Card border color based on severity
-  const cardBorder = isCritical
-    ? "border-destructive/60 bg-destructive/[0.03]"
-    : isHigh
-    ? "border-orange-500/40 bg-orange-500/[0.02]"
-    : "border-border bg-card";
+  const epssPercent = cve.epss > 0 ? (cve.epss * 100).toFixed(2) : "—";
 
   return (
-    <div className={`border p-6 hover:border-primary/30 transition-colors ${cardBorder}`}>
-      {/* Header: CVE ID + badges */}
-      <div className="flex items-start justify-between gap-4 mb-3">
-        <div className="flex items-center gap-3">
-          {isCritical && <span className="text-destructive text-lg">🔴</span>}
-          {isHigh && <span className="text-lg">🟠</span>}
-          <h3 className="font-mono font-bold text-foreground text-lg">{cve.id}</h3>
-        </div>
-        <div className="flex gap-2 flex-wrap justify-end">
-          {cve.cisaKev && (
-            <span className="text-xs font-semibold px-2.5 py-1 border border-destructive/40 bg-destructive/10 text-destructive">
-              🚨 CISA KEV
-            </span>
-          )}
-          {cve.ransomwareUse && (
-            <span className="text-xs font-semibold px-2.5 py-1 border border-purple-500/40 bg-purple-500/10 text-purple-400">
-              💀 Ransomware
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Severity badge + published date */}
-      <div className="flex items-center gap-3 mb-4 flex-wrap">
-        <span className={`text-xs font-bold px-3 py-1 border ${severityColor(effectiveSeverity)}`}>
-          {effectiveSeverity}{cve.cvss > 0 ? ` · ${cve.cvss.toFixed(1)} CVSS` : ""}
+    <tr
+      className="border-b border-border hover:bg-muted/30 cursor-pointer transition-colors"
+      onClick={() => navigate(`/tools/threat-ai/${cve.id}`)}
+    >
+      <td className="px-4 py-3">
+        <span className="text-primary hover:underline font-mono text-sm font-medium">{cve.id}</span>
+      </td>
+      <td className="px-4 py-3 text-sm text-muted-foreground max-w-[400px] truncate">
+        {cve.description || cve.plainEnglish || "—"}
+      </td>
+      <td className="px-4 py-3 text-center">
+        <span className="text-sm font-mono text-foreground">{epssPercent}</span>
+      </td>
+      <td className="px-4 py-3 text-center">
+        <span className={`text-sm font-mono font-bold ${severityColor(effectiveSeverity)}`}>
+          {cve.cvss > 0 ? cve.cvss.toFixed(1) : "—"}
         </span>
-        {cve.published && (
-          <span className="text-xs text-muted-foreground">
-            📅 Published: {cve.published}
-          </span>
-        )}
-      </div>
+      </td>
+      <td className="px-4 py-3 text-center">
+        <span className={`text-xs font-bold px-2 py-0.5 border ${severityBadge(effectiveSeverity)}`}>
+          {effectiveSeverity}
+        </span>
+      </td>
+      <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">
+        {cve.published || "—"}
+      </td>
+      <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">
+        {cve.vendor && cve.vendor !== "Unknown" ? cve.vendor : "—"}
+      </td>
+      <td className="px-4 py-3 text-center">
+        {cve.cisaKev && <span className="text-xs font-semibold text-destructive">🚨</span>}
+      </td>
+    </tr>
+  );
+};
 
-      {/* NVD Description */}
-      <div className="mb-4">
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {cve.description || cve.plainEnglish}
-        </p>
-        {cve.plainEnglish && cve.description && cve.plainEnglish !== cve.description && (
-          <p className="text-xs mt-2 p-3 border border-primary/20 bg-primary/5 text-primary">
-            📌 {cve.plainEnglish}
-          </p>
-        )}
-      </div>
+/* ── CVE Table ──────────────────────────────────────────── */
 
-      {/* Three-column metrics: EPSS / CVSS / CISA KEV */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        {/* EPSS with progress bar */}
-        <div className="bg-muted/50 border border-border p-3">
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">EPSS</div>
-          <div className="text-xl font-bold text-foreground font-mono">
-            {epssPercent > 0 ? `${epssPercent.toFixed(2)}%` : "N/A"}
-          </div>
-          {epssPercent > 0 && (
-            <div className="w-full h-1.5 bg-muted mt-1.5 overflow-hidden">
-              <div
-                className={`h-full transition-all ${epssPercent >= 70 ? "bg-destructive" : epssPercent >= 40 ? "bg-orange-500" : "bg-yellow-500"}`}
-                style={{ width: `${Math.min(epssPercent, 100)}%` }}
-              />
-            </div>
-          )}
-          <div className="text-[10px] text-muted-foreground mt-1">Attack probability</div>
-        </div>
+const CveTable = ({ threats, loading }: { threats: ThreatCve[]; loading: boolean }) => {
+  if (loading) return <LoadingSkeleton />;
+  if (threats.length === 0) return <p className="text-muted-foreground text-center py-8">No data available.</p>;
 
-        {/* CVSS */}
-        <div className="bg-muted/50 border border-border p-3">
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">CVSS</div>
-          <div className={`text-xl font-bold font-mono ${isCritical ? "text-destructive" : isHigh ? "text-orange-500" : "text-foreground"}`}>
-            {cve.cvss > 0 ? cve.cvss.toFixed(1) : "N/A"}
-          </div>
-          <div className="text-[10px] text-muted-foreground">{effectiveSeverity} severity</div>
-        </div>
-
-        {/* CISA KEV */}
-        {cve.cisaKev ? (
-          <div className={`p-3 border ${daysOverdue > 0 ? "border-destructive/40 bg-destructive/5" : "border-yellow-500/40 bg-yellow-500/5"}`}>
-            <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">CISA KEV</div>
-            {dueDate && (
-              <div className="text-sm font-medium text-foreground">
-                Due: {cve.cisaDueDate}
-              </div>
-            )}
-            {daysOverdue > 0 ? (
-              <div className="text-xs font-semibold text-destructive">
-                ⚠️ OVERDUE by {daysOverdue} days
-              </div>
-            ) : daysRemaining > 0 ? (
-              <div className="text-xs text-muted-foreground">
-                {daysRemaining} days remaining
-              </div>
-            ) : null}
-          </div>
-        ) : (
-          <div className="bg-muted/30 border border-border p-3 flex items-center justify-center">
-            <span className="text-xs text-muted-foreground">Not in CISA KEV</span>
-          </div>
-        )}
-      </div>
-
-      {/* Vendor / Product */}
-      {(cve.vendor && cve.vendor !== "Unknown") || (cve.product && cve.product !== "Unknown") ? (
-        <div className="text-xs text-muted-foreground mb-4">
-          {cve.vendor && cve.vendor !== "Unknown" && (
-            <><span className="font-medium text-foreground">Vendor:</span> {cve.vendor}</>
-          )}
-          {cve.vendor && cve.vendor !== "Unknown" && cve.product && cve.product !== "Unknown" && " · "}
-          {cve.product && cve.product !== "Unknown" && (
-            <><span className="font-medium text-foreground">Product:</span> {cve.product}</>
-          )}
-        </div>
-      ) : null}
-
-      {/* Action Buttons — stop propagation so card click doesn't fire */}
-      <div className="flex gap-3 flex-wrap" onClick={(e) => e.stopPropagation()}>
-        {(isCritical || isHigh || cve.cisaKev) && (
-          <a
-            href={`https://nvd.nist.gov/vuln/detail/${cve.id}#vulnCurrentDescriptionTitle`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 bg-destructive text-destructive-foreground text-xs font-bold hover:bg-destructive/90 transition-colors"
-          >
-            🚨 Patch Now
-          </a>
-        )}
-        <button
-          onClick={() => navigate(`/tools/threat-ai/${cve.id}`)}
-          className="px-4 py-2 bg-primary/10 border border-primary/30 text-primary text-xs font-medium hover:bg-primary/20 transition-colors"
-        >
-          View Details →
-        </button>
-        <a
-          href={`https://nvd.nist.gov/vuln/detail/${cve.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-4 py-2 bg-muted border border-border text-foreground text-xs font-medium hover:bg-muted/80 transition-colors"
-        >
-          NVD ↗
-        </a>
-        {cve.cisaKev && (
-          <a
-            href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 bg-muted border border-border text-foreground text-xs font-medium hover:bg-muted/80 transition-colors"
-          >
-            CISA ↗
-          </a>
-        )}
-      </div>
-
-      {/* CISA Notes — with clickable URLs */}
-      {cve.cisaNotes && (
-        <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-3">
-          <span className="font-medium text-foreground">CISA Note:</span>{" "}
-          {linkifyText(cve.cisaNotes)}
-        </div>
-      )}
+  return (
+    <div className="overflow-x-auto border border-border bg-card">
+      <table className="w-full text-sm">
+        <thead className="bg-muted/50">
+          <tr>
+            <th className="text-left px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">CVE</th>
+            <th className="text-left px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">Description</th>
+            <th className="text-center px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">EPSS</th>
+            <th className="text-center px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">CVSS</th>
+            <th className="text-center px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">Severity</th>
+            <th className="text-left px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">Published</th>
+            <th className="text-left px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">Vendor</th>
+            <th className="text-center px-4 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider">KEV</th>
+          </tr>
+        </thead>
+        <tbody>
+          {threats.map((cve) => (
+            <CveTableRow key={cve.id} cve={cve} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -258,7 +143,7 @@ const Pagination = ({ page, totalCount, pageSize, onPageChange }: {
   return (
     <div className="flex items-center justify-between mt-6 text-sm">
       <p className="text-muted-foreground">
-        Showing {page * pageSize + 1}–{Math.min((page + 1) * pageSize, totalCount)} of {totalCount.toLocaleString()}
+        {page * pageSize + 1}–{Math.min((page + 1) * pageSize, totalCount)} of {totalCount.toLocaleString()}
       </p>
       <div className="flex items-center gap-2">
         <Button variant="outline" size="sm" disabled={page === 0} onClick={() => onPageChange(page - 1)}>
@@ -285,19 +170,19 @@ const LoadingSkeleton = () => (
       ))}
     </div>
     {[1, 2, 3].map(i => (
-      <div key={i} className="h-40 bg-muted border border-border" />
+      <div key={i} className="h-12 bg-muted border border-border" />
     ))}
   </div>
 );
 
-/* ── Tab: Trend Watch ──────────────────────────────────── */
+/* ── Tab: Latest CVEs (NVD) ────────────────────────────── */
 
-const TrendWatch = ({ stats, dbReady }: { stats: any; dbReady: boolean }) => {
+const LatestCVEs = ({ stats, dbReady }: { stats: any; dbReady: boolean }) => {
   const [threats, setThreats] = useState<ThreatCve[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const pageSize = 20;
+  const pageSize = 25;
 
   const loadPage = useCallback(async (p: number) => {
     setLoading(true);
@@ -316,54 +201,43 @@ const TrendWatch = ({ stats, dbReady }: { stats: any; dbReady: boolean }) => {
   useEffect(() => { if (dbReady) loadPage(0); }, [dbReady, loadPage]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {/* Stats row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
           { label: "Total CVEs", value: stats.totalCves?.toLocaleString() || "0", icon: Database },
-          { label: "Active Exploits", value: stats.totalActiveExploits || 0, accent: true },
+          { label: "Active Exploits (KEV)", value: stats.totalActiveExploits || 0, accent: true },
           { label: "Critical", value: stats.newCritical || 0 },
           { label: "High", value: stats.newHigh || 0 },
           { label: "Medium / Low", value: stats.newMedium || 0 },
         ].map((s) => (
-          <div key={s.label} className={`p-4 border ${s.accent ? "border-red-800 bg-red-950/20" : "border-border bg-card"}`}>
+          <div key={s.label} className={`p-4 border ${s.accent ? "border-destructive/40 bg-destructive/5" : "border-border bg-card"}`}>
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{s.label}</p>
-            <p className={`text-2xl font-bold ${s.accent ? "text-red-500" : "text-foreground"}`}>{s.value}</p>
+            <p className={`text-2xl font-bold ${s.accent ? "text-destructive" : "text-foreground"}`}>{s.value}</p>
           </div>
         ))}
       </div>
 
       <div>
-        <h3 className="text-label text-muted-foreground mb-4">
-          TOP THREATS BY ATTACK PROBABILITY (EPSS)
+        <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
+          Latest CVEs
         </h3>
-        {loading ? <LoadingSkeleton /> : (
-          <>
-            <div className="flex flex-col gap-4">
-              {threats.map((cve) => (
-                <ThreatCard key={cve.id} cve={cve} />
-              ))}
-              {threats.length === 0 && (
-                <p className="text-muted-foreground text-center py-8">
-                  No data yet. Run the sync to populate the database.
-                </p>
-              )}
-            </div>
-            <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={loadPage} />
-          </>
-        )}
+        <p className="text-xs text-muted-foreground mb-4">The most recent CVEs from NVD, sorted by risk score. Click any row for full details.</p>
+        <CveTable threats={threats} loading={loading} />
+        <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={loadPage} />
       </div>
     </div>
   );
 };
 
-/* ── Tab: Active Exploits ──────────────────────────────── */
+/* ── Tab: CISA KEV ─────────────────────────────────────── */
 
-const ActiveExploits = ({ dbReady }: { dbReady: boolean }) => {
+const CisaKEV = ({ dbReady }: { dbReady: boolean }) => {
   const [threats, setThreats] = useState<ThreatCve[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const pageSize = 20;
+  const pageSize = 25;
 
   const loadPage = useCallback(async (p: number) => {
     setLoading(true);
@@ -373,7 +247,7 @@ const ActiveExploits = ({ dbReady }: { dbReady: boolean }) => {
       setTotalCount(data.stats?.totalActiveExploits || 0);
       setPage(p);
     } catch (e) {
-      console.error("Exploits load error:", e);
+      console.error("KEV load error:", e);
     } finally {
       setLoading(false);
     }
@@ -383,20 +257,14 @@ const ActiveExploits = ({ dbReady }: { dbReady: boolean }) => {
 
   return (
     <div className="space-y-6">
-      <p className="text-xs text-muted-foreground">
-        CISA Known Exploited Vulnerabilities — {totalCount} entries
-      </p>
-
-      {loading ? <LoadingSkeleton /> : (
-        <>
-          <div className="flex flex-col gap-4">
-            {threats.map((cve) => (
-              <ThreatCard key={cve.id} cve={cve} />
-            ))}
-          </div>
-          <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={loadPage} />
-        </>
-      )}
+      <div className="p-4 border border-destructive/20 bg-destructive/5">
+        <h3 className="text-sm font-bold text-foreground mb-1">CISA Known Exploited Vulnerabilities</h3>
+        <p className="text-xs text-muted-foreground">
+          Vulnerabilities confirmed by CISA as actively exploited in the wild. {totalCount} entries. Federal agencies must patch by the due date.
+        </p>
+      </div>
+      <CveTable threats={threats} loading={loading} />
+      <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={loadPage} />
     </div>
   );
 };
@@ -442,43 +310,34 @@ const RiskMap = ({ dbReady }: { dbReady: boolean }) => {
 
   if (loading) return <LoadingSkeleton />;
 
-  const criticalCount = scatterData.filter(d => d.y >= 9 && d.x >= 70).length;
-  const highCount = scatterData.filter(d => (d.y >= 7 && d.x >= 40) && !(d.y >= 9 && d.x >= 70)).length;
-  const medCount = scatterData.length - criticalCount - highCount;
-
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        {scatterData.length} CVEs plotted. Top-right = highest risk. Bottom-left = lowest risk.
+        {scatterData.length} CVEs plotted. Top-right = highest risk.
       </p>
-
       <div className="bg-card border border-border p-4 md:p-6">
         <ResponsiveContainer width="100%" height={400}>
           <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis
-              type="number" dataKey="x" name="Attack Probability" domain={[0, 100]}
+            <XAxis type="number" dataKey="x" name="Attack Probability" domain={[0, 100]}
               label={{ value: "Attack Probability (EPSS %)", position: "bottom", offset: 20, style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }}
               tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
             />
-            <YAxis
-              type="number" dataKey="y" name="Impact" domain={[0, 10]}
+            <YAxis type="number" dataKey="y" name="Impact" domain={[0, 10]}
               label={{ value: "Impact (CVSS)", angle: -90, position: "insideLeft", offset: -5, style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }}
               tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
             />
-            <Tooltip
-              content={({ payload }) => {
-                if (!payload?.length) return null;
-                const d = payload[0].payload;
-                return (
-                  <div className="bg-card border border-border p-3 text-xs shadow-lg">
-                    <p className="font-bold text-foreground">{d.id}</p>
-                    <p className="text-muted-foreground">{d.name}</p>
-                    <p className="mt-1">CVSS: {d.y} · EPSS: {d.x.toFixed(1)}%</p>
-                  </div>
-                );
-              }}
-            />
+            <Tooltip content={({ payload }) => {
+              if (!payload?.length) return null;
+              const d = payload[0].payload;
+              return (
+                <div className="bg-card border border-border p-3 text-xs shadow-lg">
+                  <p className="font-bold text-foreground">{d.id}</p>
+                  <p className="text-muted-foreground">{d.name}</p>
+                  <p className="mt-1">CVSS: {d.y} · EPSS: {d.x.toFixed(1)}%</p>
+                </div>
+              );
+            }} />
             <Scatter data={scatterData}>
               {scatterData.map((entry, idx) => (
                 <Cell key={idx} fill={dotColor(entry.severity)} r={6} />
@@ -487,23 +346,18 @@ const RiskMap = ({ dbReady }: { dbReady: boolean }) => {
           </ScatterChart>
         </ResponsiveContainer>
       </div>
-
       <div className="flex flex-wrap gap-6 text-sm">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 bg-red-500 inline-block" />
-          <span className="text-muted-foreground">Critical Risk</span>
-          <span className="font-bold text-foreground">{criticalCount}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 bg-orange-500 inline-block" />
-          <span className="text-muted-foreground">High Risk</span>
-          <span className="font-bold text-foreground">{highCount}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 bg-yellow-500 inline-block" />
-          <span className="text-muted-foreground">Medium Risk</span>
-          <span className="font-bold text-foreground">{medCount}</span>
-        </div>
+        {[
+          { label: "Critical", color: "bg-red-500", count: scatterData.filter(d => d.y >= 9 && d.x >= 70).length },
+          { label: "High", color: "bg-orange-500", count: scatterData.filter(d => (d.y >= 7 && d.x >= 40) && !(d.y >= 9 && d.x >= 70)).length },
+          { label: "Other", color: "bg-yellow-500", count: scatterData.filter(d => !(d.y >= 7 && d.x >= 40)).length },
+        ].map(l => (
+          <div key={l.label} className="flex items-center gap-2">
+            <span className={`w-3 h-3 ${l.color} inline-block`} />
+            <span className="text-muted-foreground">{l.label}</span>
+            <span className="font-bold text-foreground">{l.count}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -518,7 +372,7 @@ const SearchTab = ({ dbReady }: { dbReady: boolean }) => {
   const [searching, setSearching] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
-  const pageSize = 20;
+  const pageSize = 25;
 
   const handleSearch = useCallback(async (p = 0) => {
     if (!query.trim()) return;
@@ -569,83 +423,16 @@ const SearchTab = ({ dbReady }: { dbReady: boolean }) => {
 
       {hasSearched && (
         <div className="space-y-4">
-          {searching ? (
-            <LoadingSkeleton />
-          ) : (
+          {searching ? <LoadingSkeleton /> : (
             <>
               <p className="text-sm text-muted-foreground">
                 {totalResults} result{totalResults !== 1 ? "s" : ""} for "{query}"
               </p>
-              {searchResults.length === 0 ? (
-                <p className="text-muted-foreground text-sm py-8 text-center">
-                  No vulnerabilities found. Try a different keyword or CVE ID.
-                </p>
-              ) : (
-                <>
-                  <div className="flex flex-col gap-4">
-                    {searchResults.map((cve) => (
-                      <ThreatCard key={cve.id} cve={cve} />
-                    ))}
-                  </div>
-                  <Pagination page={page} totalCount={totalResults} pageSize={pageSize} onPageChange={(p) => handleSearch(p)} />
-                </>
-              )}
+              <CveTable threats={searchResults} loading={false} />
+              <Pagination page={page} totalCount={totalResults} pageSize={pageSize} onPageChange={(p) => handleSearch(p)} />
             </>
           )}
         </div>
-      )}
-    </div>
-  );
-};
-
-/* ── Tab: Recent CVEs (2026) ───────────────────────────── */
-
-const RecentCVEs = ({ dbReady }: { dbReady: boolean }) => {
-  const [threats, setThreats] = useState<ThreatCve[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
-  const pageSize = 20;
-
-  const loadPage = useCallback(async (p: number) => {
-    setLoading(true);
-    try {
-      const data = await fetchThreatApi({ tab: "recent", page: p, pageSize });
-      setThreats(data.threats || []);
-      setTotalCount(data.totalCount || 0);
-      setPage(p);
-    } catch (e) {
-      console.error("Recent load error:", e);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { if (dbReady) loadPage(0); }, [dbReady, loadPage]);
-
-  return (
-    <div className="space-y-6">
-      <div className="p-4 border border-primary/20 bg-primary/5">
-        <h3 className="text-sm font-bold text-foreground mb-1">Recently Published CVEs</h3>
-        <p className="text-xs text-muted-foreground">
-          Latest vulnerabilities from NVD, sorted by publish date. Focus on 2026 disclosures.
-        </p>
-      </div>
-
-      {loading ? <LoadingSkeleton /> : (
-        <>
-          <div className="flex flex-col gap-4">
-            {threats.map((cve) => (
-              <ThreatCard key={cve.id} cve={cve} />
-            ))}
-            {threats.length === 0 && (
-              <p className="text-muted-foreground text-center py-8">
-                No recent CVEs found. Run the sync to populate data.
-              </p>
-            )}
-          </div>
-          <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={loadPage} />
-        </>
       )}
     </div>
   );
@@ -663,7 +450,6 @@ const ThreatAi = () => {
   const [backfillRemaining, setBackfillRemaining] = useState<number | null>(null);
   const [exportData, setExportData] = useState<any[]>([]);
 
-  // Fetch export data (all current threats for CSV)
   const loadExportData = useCallback(async () => {
     try {
       const data = await fetchThreatApi({ tab: "trend", page: 0, pageSize: 100 });
@@ -691,15 +477,11 @@ const ThreatAi = () => {
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/sync-threat-feeds`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
         body: JSON.stringify({}),
       });
       const data = await res.json();
       console.log("Sync result:", data);
-      // Refresh stats after sync
       await fetchStats();
     } catch (e) {
       console.error("Sync error:", e);
@@ -713,10 +495,7 @@ const ThreatAi = () => {
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/backfill-cvss`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
         body: JSON.stringify({}),
       });
       const data = await res.json();
@@ -730,17 +509,8 @@ const ThreatAi = () => {
     }
   }, [fetchStats]);
 
-  useEffect(() => {
-    fetchStats();
-    loadExportData();
-  }, [fetchStats, loadExportData]);
-
-  // Auto-trigger sync if DB is empty
-  useEffect(() => {
-    if (!loading && !dbReady && !syncing) {
-      triggerSync();
-    }
-  }, [loading, dbReady, syncing, triggerSync]);
+  useEffect(() => { fetchStats(); loadExportData(); }, [fetchStats, loadExportData]);
+  useEffect(() => { if (!loading && !dbReady && !syncing) triggerSync(); }, [loading, dbReady, syncing, triggerSync]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -751,7 +521,7 @@ const ThreatAi = () => {
       />
 
       <section className="section-off-white py-16 lg:py-24">
-        <div className="max-w-5xl mx-auto px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
             <div className="flex items-center gap-3">
               <p className="text-xs text-muted-foreground">
@@ -773,23 +543,11 @@ const ThreatAi = () => {
                   </>
                 )}
               </p>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5 text-xs h-7 px-2"
-                onClick={triggerSync}
-                disabled={syncing}
-              >
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 px-2" onClick={triggerSync} disabled={syncing}>
                 <RefreshCw className={`w-3 h-3 ${syncing ? "animate-spin" : ""}`} />
                 {syncing ? "Syncing..." : "Sync"}
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5 text-xs h-7 px-2"
-                onClick={triggerBackfill}
-                disabled={backfilling}
-              >
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 px-2" onClick={triggerBackfill} disabled={backfilling}>
                 <Database className={`w-3 h-3 ${backfilling ? "animate-pulse" : ""}`} />
                 {backfilling ? "Backfilling..." : "Backfill CVSS"}
                 {backfillRemaining !== null && backfillRemaining > 0 && (
@@ -797,12 +555,7 @@ const ThreatAi = () => {
                 )}
               </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 text-xs"
-              onClick={() => setShowExportModal(true)}
-            >
+            <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setShowExportModal(true)}>
               <Download className="w-3.5 h-3.5" />
               Export CSV
             </Button>
@@ -816,24 +569,19 @@ const ThreatAi = () => {
               </div>
               <p className="text-sm text-muted-foreground">
                 Syncing CVEs from NVD, EPSS scores, and CISA KEV data. This initial sync takes 1-2 minutes.
-                The dashboard will automatically load once complete.
               </p>
             </div>
           )}
 
-          <Tabs defaultValue="trend" className="w-full">
+          <Tabs defaultValue="latest" className="w-full">
             <TabsList className="w-full justify-start bg-card border border-border mb-8 h-auto flex-wrap">
-              <TabsTrigger value="trend" className="gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-                <TrendingUp className="w-4 h-4" />
-                Trend Watch
+              <TabsTrigger value="latest" className="gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+                <Database className="w-4 h-4" />
+                NVD Latest
               </TabsTrigger>
-              <TabsTrigger value="exploits" className="gap-2 data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive">
+              <TabsTrigger value="kev" className="gap-2 data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive">
                 <AlertTriangle className="w-4 h-4" />
                 CISA KEV
-              </TabsTrigger>
-              <TabsTrigger value="recent" className="gap-2 data-[state=active]:bg-green-500/10 data-[state=active]:text-green-600">
-                <FileText className="w-4 h-4" />
-                Recent (2026)
               </TabsTrigger>
               <TabsTrigger value="map" className="gap-2 data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-500">
                 <Map className="w-4 h-4" />
@@ -849,9 +597,8 @@ const ThreatAi = () => {
               <LoadingSkeleton />
             ) : (
               <>
-                <TabsContent value="trend"><TrendWatch stats={stats} dbReady={dbReady} /></TabsContent>
-                <TabsContent value="exploits"><ActiveExploits dbReady={dbReady} /></TabsContent>
-                <TabsContent value="recent"><RecentCVEs dbReady={dbReady} /></TabsContent>
+                <TabsContent value="latest"><LatestCVEs stats={stats} dbReady={dbReady} /></TabsContent>
+                <TabsContent value="kev"><CisaKEV dbReady={dbReady} /></TabsContent>
                 <TabsContent value="map"><RiskMap dbReady={dbReady} /></TabsContent>
                 <TabsContent value="search"><SearchTab dbReady={dbReady} /></TabsContent>
               </>
