@@ -186,26 +186,53 @@ export type Database = {
         Row: {
           business_name: string
           created_at: string | null
+          csv_exported: boolean | null
           email: string
+          error_message: string | null
           first_name: string
+          hubspot_contact_id: string | null
+          hubspot_synced: boolean | null
+          hubspot_synced_at: string | null
           id: string
+          ip_address: string | null
+          last_name: string | null
+          phone: string | null
           role: string
+          user_agent: string | null
         }
         Insert: {
           business_name: string
           created_at?: string | null
+          csv_exported?: boolean | null
           email: string
+          error_message?: string | null
           first_name: string
+          hubspot_contact_id?: string | null
+          hubspot_synced?: boolean | null
+          hubspot_synced_at?: string | null
           id?: string
+          ip_address?: string | null
+          last_name?: string | null
+          phone?: string | null
           role: string
+          user_agent?: string | null
         }
         Update: {
           business_name?: string
           created_at?: string | null
+          csv_exported?: boolean | null
           email?: string
+          error_message?: string | null
           first_name?: string
+          hubspot_contact_id?: string | null
+          hubspot_synced?: boolean | null
+          hubspot_synced_at?: string | null
           id?: string
+          ip_address?: string | null
+          last_name?: string | null
+          phone?: string | null
           role?: string
+          user_agent?: string | null
         }
         Relationships: []
       }
