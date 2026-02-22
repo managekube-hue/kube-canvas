@@ -1,5 +1,6 @@
 /**
- * Privacy Policy — ManageKube LLC
+ * Privacy Policy — ManageKube, Inc.
+ * Word-for-word from provided documentation
  */
 
 import { PageLayout } from "@/components/PageLayout";
@@ -10,141 +11,248 @@ const Privacy = () => {
   return (
     <PageLayout>
       <PageBanner
-        title="Privacy Policy"
-        subtitle="How ManageKube LLC collects, uses, stores, and protects your personal information."
-        phase="LEGAL"
+        title="Your Privacy. Your Data. Your Rights."
+        subtitle="How ManageKube, Inc. collects, uses, stores, and protects your personal information."
+        phase="PRIVACY POLICY"
       />
 
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p style={{ fontSize: "13px", color: "#5A5A5B", marginBottom: "48px" }}>
-                Effective Date: January 1, 2025 &nbsp;|&nbsp; Last Updated: February 22, 2026
+                Last Updated: February 22, 2026
               </p>
 
-              <p style={{ fontSize: "16px", lineHeight: 1.8, color: "#393837", marginBottom: "32px" }}>
-                ManageKube LLC ("ManageKube," "we," "us," or "our") is committed to protecting the privacy of our clients, prospective clients, website visitors, and business partners. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you visit our website at managekube.com, use our services, or otherwise interact with us.
-              </p>
-
-              <p style={{ fontSize: "16px", lineHeight: 1.8, color: "#393837", marginBottom: "48px" }}>
-                By accessing or using our website or services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy. If you do not agree with the terms of this Privacy Policy, please do not access the site or use our services.
-              </p>
-
-              <Section title="1. Information We Collect">
-                <p>We collect information in the following categories:</p>
-                <SubHead>1.1 Information You Provide Directly</SubHead>
+              <Section title="Introduction">
+                <p>ManageKube, Inc. ("ManageKube," "we," "us," or "our") respects your privacy and is committed to protecting it through this Privacy Policy. This policy describes the types of information we may collect from you or that you may provide when you visit managekube.com, use our services, or interact with our open source projects, and our practices for collecting, using, maintaining, protecting, and disclosing that information.</p>
+                <p>This policy applies to:</p>
                 <ul>
-                  <li>Contact information: first name, last name, email address, phone number, company name, and job title.</li>
-                  <li>Assessment and onboarding data: responses to our IT maturity assessment, infrastructure details, endpoint counts, compliance frameworks, and organizational information.</li>
-                  <li>Communications: messages, inquiries, and feedback you submit through our contact forms, email, or phone.</li>
-                  <li>Account credentials: login information for the ManageKube Client Portal or Partner Portal.</li>
-                </ul>
-                <SubHead>1.2 Information Collected Automatically</SubHead>
-                <ul>
-                  <li>Device and browser information: IP address, browser type, operating system, device identifiers, and screen resolution.</li>
-                  <li>Usage data: pages visited, time spent on pages, click patterns, referring URLs, and navigation paths.</li>
-                  <li>Cookies and tracking technologies: we use cookies, web beacons, and similar technologies to enhance your experience. See Section 6 below for details.</li>
-                </ul>
-                <SubHead>1.3 Information from Third Parties</SubHead>
-                <ul>
-                  <li>CRM and marketing platforms: we may receive information from HubSpot, Resend, or other platforms used to manage client relationships.</li>
-                  <li>Technology partners: Dell Technologies, IBM, Pax8, and TD SYNNEX may share information related to joint engagements.</li>
+                  <li>Visitors to our website</li>
+                  <li>Users of our managed services</li>
+                  <li>Contributors to our open source projects</li>
+                  <li>Prospective clients completing our assessment</li>
+                  <li>Current clients under service agreements</li>
                 </ul>
               </Section>
 
-              <Section title="2. How We Use Your Information">
-                <p>We use the information we collect for the following purposes:</p>
+              <Section title="Information We Collect">
+                <p>We collect several types of information from and about users of our website and services, including:</p>
+                <SubHead>Personal Information</SubHead>
                 <ul>
-                  <li>To provide, operate, and maintain our managed IT, security, and compliance services.</li>
-                  <li>To process and respond to your inquiries, assessment submissions, and service requests.</li>
-                  <li>To send you technical notices, security alerts, support messages, and administrative communications.</li>
-                  <li>To personalize your experience and deliver content relevant to your industry, organization size, and IT maturity.</li>
-                  <li>To generate recommended service tiers (XRO, XMX, XME) and engagement models based on your assessment results.</li>
-                  <li>To improve our website, services, and internal operations through analytics and usage patterns.</li>
-                  <li>To comply with legal obligations, enforce our terms of service, and protect against fraud or unauthorized access.</li>
-                  <li>To communicate marketing information, service updates, and promotional offers (with your consent where required by law).</li>
+                  <li>Name, email address, phone number, company name, job title</li>
+                  <li>Billing and payment information (processed securely via third-party processors)</li>
+                  <li>Account credentials for service access</li>
+                </ul>
+                <SubHead>Assessment Data</SubHead>
+                <ul>
+                  <li>Responses to assessment questions</li>
+                  <li>Environment Maturity Score (EMS) and derived recommendations</li>
+                  <li>Gap flags and remediation roadmap items</li>
+                </ul>
+                <SubHead>Usage Data</SubHead>
+                <ul>
+                  <li>Information about your visit, including traffic data, location data, logs, and other communication data</li>
+                  <li>Pages viewed, time spent, links clicked</li>
+                  <li>Referring website addresses</li>
+                </ul>
+                <SubHead>Technical Data</SubHead>
+                <ul>
+                  <li>IP address, browser type, operating system, device type</li>
+                  <li>Cookie identifiers and similar technologies</li>
+                </ul>
+                <SubHead>Open Source Contribution Data</SubHead>
+                <ul>
+                  <li>GitHub/GitLab usernames</li>
+                  <li>Contribution history</li>
+                  <li>Communication in issues, pull requests, and discussions</li>
                 </ul>
               </Section>
 
-              <Section title="3. Information Sharing and Disclosure">
-                <p>ManageKube does not sell, rent, or trade your personal information to third parties. We may share your information in the following limited circumstances:</p>
+              <Section title="How We Collect Information">
+                <p>We collect information:</p>
                 <ul>
-                  <li><strong>Service providers:</strong> We share information with trusted third-party vendors who assist us in operating our website, conducting business operations, or delivering services to you. These vendors are contractually obligated to maintain the confidentiality and security of your information.</li>
-                  <li><strong>Technology partners:</strong> When you engage with services that involve our technology partners (Dell Technologies, IBM, Pax8, TD SYNNEX), we may share relevant information to facilitate service delivery.</li>
-                  <li><strong>Legal requirements:</strong> We may disclose your information when required by law, subpoena, court order, or governmental regulation, or when we believe disclosure is necessary to protect our rights, your safety, or the safety of others.</li>
-                  <li><strong>Business transfers:</strong> In the event of a merger, acquisition, reorganization, or sale of assets, your information may be transferred as part of that transaction.</li>
+                  <li><strong>Directly from you</strong> when you provide it (contact forms, assessment forms, account registration, support tickets, open source contributions)</li>
+                  <li><strong>Automatically</strong> as you navigate through the site (usage details, IP addresses, cookies)</li>
+                  <li><strong>From third parties</strong> (analytics providers, payment processors, GitHub/GitLab APIs)</li>
                 </ul>
               </Section>
 
-              <Section title="4. Data Security">
-                <p>ManageKube implements industry-standard security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
+              <Section title="How We Use Your Information">
+                <p>We use information that we collect about you or that you provide to us:</p>
+                <SubHead>To Provide Services</SubHead>
                 <ul>
-                  <li>Encryption of data in transit using TLS 1.2 or higher.</li>
-                  <li>Encryption of data at rest using AES-256 encryption.</li>
-                  <li>Access controls and role-based permissions for all internal systems.</li>
-                  <li>Regular security assessments, vulnerability scanning, and penetration testing.</li>
-                  <li>Employee security awareness training and background checks.</li>
-                  <li>Incident response procedures aligned with our 7-step methodology: Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document.</li>
+                  <li>Deliver managed security and IT services</li>
+                  <li>Generate assessment results and recommendations</li>
+                  <li>Process payments and manage accounts</li>
+                  <li>Provide customer support</li>
                 </ul>
-                <p>While we strive to protect your information, no method of transmission over the Internet or method of electronic storage is 100% secure. We cannot guarantee absolute security.</p>
-              </Section>
-
-              <Section title="5. Data Retention">
-                <p>We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. Assessment data is retained for the duration of the client relationship plus seven (7) years. Marketing contact information is retained until you opt out or request deletion.</p>
-              </Section>
-
-              <Section title="6. Cookies and Tracking Technologies">
-                <p>Our website uses cookies and similar tracking technologies to:</p>
+                <SubHead>To Improve Our Services</SubHead>
                 <ul>
-                  <li>Remember your preferences and settings for future visits.</li>
-                  <li>Analyze website traffic and usage patterns to improve site performance.</li>
-                  <li>Deliver relevant content and measure the effectiveness of our communications.</li>
-                  <li>Support essential website functionality such as session management and security.</li>
+                  <li>Analyze usage patterns to enhance user experience</li>
+                  <li>Train and improve our scoring algorithms</li>
+                  <li>Identify and fix technical issues</li>
                 </ul>
-                <p>You can control cookies through your browser settings. Disabling cookies may affect the functionality of certain features on our website.</p>
-              </Section>
-
-              <Section title="7. Your Rights and Choices">
-                <p>Depending on your jurisdiction, you may have the following rights regarding your personal information:</p>
+                <SubHead>To Communicate</SubHead>
                 <ul>
-                  <li><strong>Access:</strong> Request a copy of the personal information we hold about you.</li>
-                  <li><strong>Correction:</strong> Request correction of inaccurate or incomplete personal information.</li>
-                  <li><strong>Deletion:</strong> Request deletion of your personal information, subject to legal retention requirements.</li>
-                  <li><strong>Opt-out:</strong> Opt out of receiving marketing communications at any time by clicking the "unsubscribe" link in any email or contacting us directly.</li>
-                  <li><strong>Data portability:</strong> Request a copy of your data in a structured, commonly used, and machine-readable format.</li>
-                  <li><strong>Restriction:</strong> Request restriction of processing of your personal information in certain circumstances.</li>
+                  <li>Respond to inquiries and support requests</li>
+                  <li>Send service updates and important notices</li>
+                  <li>Deliver assessment results and proposals</li>
+                  <li>Send marketing communications (with opt-out option)</li>
                 </ul>
-                <p>To exercise any of these rights, contact us at <strong>privacy@managekube.com</strong> or call <strong>(901) 907-7447</strong>. We will respond to your request within thirty (30) days.</p>
+                <SubHead>For Legal and Security Purposes</SubHead>
+                <ul>
+                  <li>Protect against fraud and unauthorized access</li>
+                  <li>Comply with legal obligations</li>
+                  <li>Enforce our terms and policies</li>
+                  <li>Respond to legal requests</li>
+                </ul>
+                <SubHead>For Open Source Project Management</SubHead>
+                <ul>
+                  <li>Track contributions and maintain project history</li>
+                  <li>Communicate with contributors</li>
+                  <li>Enforce contribution guidelines and licenses</li>
+                </ul>
               </Section>
 
-              <Section title="8. Third-Party Links">
-                <p>Our website may contain links to third-party websites, services, or applications that are not operated by ManageKube. We are not responsible for the privacy practices or content of these third-party sites. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+              <Section title="Disclosure of Your Information">
+                <p>We may disclose aggregated information about our users without restriction. We may disclose personal information:</p>
+                <SubHead>To Our Subsidiaries and Affiliates</SubHead>
+                <ul>
+                  <li>Kubric open source project (wholly owned subsidiary)</li>
+                  <li>Other entities under common control</li>
+                </ul>
+                <SubHead>To Service Providers</SubHead>
+                <ul>
+                  <li>Cloud infrastructure providers (AWS, Azure, GCP)</li>
+                  <li>Payment processors (Stripe)</li>
+                  <li>Analytics providers</li>
+                  <li>Customer support platforms</li>
+                  <li>Email delivery services</li>
+                </ul>
+                <SubHead>For Legal Purposes</SubHead>
+                <ul>
+                  <li>To comply with any court order, law, or legal process</li>
+                  <li>To respond to government or regulatory requests</li>
+                  <li>To enforce our rights under contracts</li>
+                </ul>
+                <SubHead>With Your Consent</SubHead>
+                <ul>
+                  <li>For any other purpose disclosed by us when you provide the information</li>
+                  <li>With your explicit consent</li>
+                </ul>
+                <p><strong>We do not sell your personal information to third parties.</strong></p>
               </Section>
 
-              <Section title="9. Children's Privacy">
-                <p>Our website and services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If we become aware that we have collected personal information from a child under 18, we will take steps to delete such information promptly.</p>
+              <Section title="Data Security">
+                <p>We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure:</p>
+                <ul>
+                  <li>Encryption in transit (TLS 1.3)</li>
+                  <li>Encryption at rest for sensitive data</li>
+                  <li>Access controls and authentication requirements</li>
+                  <li>Regular security assessments and penetration testing</li>
+                  <li>SOC 2 Type II compliant controls</li>
+                  <li>Vendor security reviews</li>
+                </ul>
+                <p>All information you provide to us is stored on secure servers behind firewalls. Payment transactions are encrypted and processed by PCI DSS-compliant third-party processors.</p>
+                <p>The safety and security of your information also depends on you. Where we have given you (or where you have chosen) a password for access to certain parts of our website or services, you are responsible for keeping this password confidential.</p>
               </Section>
 
-              <Section title="10. California Privacy Rights (CCPA)">
-                <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA), including the right to know what personal information is collected, the right to delete personal information, and the right to opt out of the sale of personal information. ManageKube does not sell personal information.</p>
+              <Section title="Data Retention">
+                <p>We retain your personal information for as long as necessary to:</p>
+                <ul>
+                  <li>Provide services to you</li>
+                  <li>Comply with legal obligations</li>
+                  <li>Resolve disputes</li>
+                  <li>Enforce our agreements</li>
+                </ul>
+                <p>Assessment data is retained to provide historical context and track improvement over time. You may request deletion of your data as described below.</p>
               </Section>
 
-              <Section title="11. Changes to This Privacy Policy">
-                <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or other factors. We will notify you of any material changes by posting the updated Privacy Policy on this page with a revised "Last Updated" date. Your continued use of our website or services after the posting of changes constitutes your acceptance of such changes.</p>
+              <Section title="Your Rights and Choices">
+                <p>Depending on your jurisdiction, you may have the following rights:</p>
+                <SubHead>Access and Portability</SubHead>
+                <ul><li>Request a copy of the personal information we hold about you</li></ul>
+                <SubHead>Correction</SubHead>
+                <ul><li>Request correction of inaccurate or incomplete information</li></ul>
+                <SubHead>Deletion</SubHead>
+                <ul><li>Request deletion of your personal information (subject to legal obligations)</li></ul>
+                <SubHead>Opt-Out of Marketing</SubHead>
+                <ul>
+                  <li>Unsubscribe from marketing communications via link in emails</li>
+                  <li>Contact us to opt out</li>
+                </ul>
+                <SubHead>Cookie Choices</SubHead>
+                <ul><li>Adjust browser settings to refuse cookies</li><li>Use our cookie consent manager</li></ul>
+                <SubHead>Do Not Track</SubHead>
+                <ul><li>Our systems do not currently respond to Do Not Track signals</li></ul>
+                <p>To exercise any of these rights, contact us at <strong>privacy@managekube.com</strong> or <strong>240-257-2029</strong>.</p>
               </Section>
 
-              <Section title="12. Contact Us">
-                <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+              <Section title="Cookies and Tracking Technologies">
+                <p>We use cookies and similar technologies to:</p>
+                <ul>
+                  <li>Authenticate users and maintain sessions</li>
+                  <li>Remember preferences and settings</li>
+                  <li>Analyze usage and improve our website</li>
+                  <li>Deliver relevant content</li>
+                </ul>
+                <SubHead>Types of cookies we use:</SubHead>
+                <div style={{ overflowX: "auto", marginBottom: "16px" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
+                    <thead>
+                      <tr style={{ borderBottom: "2px solid #CDCAC5" }}>
+                        <th style={{ textAlign: "left", padding: "8px", fontWeight: 700 }}>Type</th>
+                        <th style={{ textAlign: "left", padding: "8px", fontWeight: 700 }}>Purpose</th>
+                        <th style={{ textAlign: "left", padding: "8px", fontWeight: 700 }}>Duration</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style={{ borderBottom: "1px solid #CDCAC5" }}><td style={{ padding: "8px" }}>Essential</td><td style={{ padding: "8px" }}>Authentication, security, session management</td><td style={{ padding: "8px" }}>Session / persistent</td></tr>
+                      <tr style={{ borderBottom: "1px solid #CDCAC5" }}><td style={{ padding: "8px" }}>Functional</td><td style={{ padding: "8px" }}>Remember preferences, language choices</td><td style={{ padding: "8px" }}>Persistent</td></tr>
+                      <tr style={{ borderBottom: "1px solid #CDCAC5" }}><td style={{ padding: "8px" }}>Analytics</td><td style={{ padding: "8px" }}>Track usage, improve experience</td><td style={{ padding: "8px" }}>Persistent</td></tr>
+                      <tr><td style={{ padding: "8px" }}>Marketing</td><td style={{ padding: "8px" }}>Deliver relevant ads (opt-in only)</td><td style={{ padding: "8px" }}>Persistent</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>You can control cookies through your browser settings. Disabling essential cookies may affect website functionality.</p>
+              </Section>
+
+              <Section title="International Data Transfers">
+                <p>We are based in the United States. Information we collect may be transferred to, stored, and processed in the United States and other countries where we or our service providers operate. By using our services, you consent to the transfer of your information to countries that may have different data protection laws than your jurisdiction.</p>
+                <p>For transfers from the European Economic Area (EEA), we rely on:</p>
+                <ul>
+                  <li>Standard Contractual Clauses approved by the European Commission</li>
+                  <li>Adequacy decisions where applicable</li>
+                  <li>Your explicit consent where appropriate</li>
+                </ul>
+              </Section>
+
+              <Section title="Children's Privacy">
+                <p>Our services are not directed to individuals under 16. We do not knowingly collect personal information from children under 16. If you become aware that a child has provided us with personal information, please contact us.</p>
+              </Section>
+
+              <Section title="California Privacy Rights">
+                <p>If you are a California resident, the California Consumer Privacy Act (CCPA) provides you with specific rights regarding your personal information:</p>
+                <ul>
+                  <li>Right to know what personal information we collect, use, disclose, and sell</li>
+                  <li>Right to request deletion of your personal information</li>
+                  <li>Right to opt out of the sale of your personal information</li>
+                  <li>Right to non-discrimination for exercising your rights</li>
+                </ul>
+                <p>We do not sell your personal information. To exercise your rights, contact <strong>privacy@managekube.com</strong>.</p>
+              </Section>
+
+              <Section title="Changes to Our Privacy Policy">
+                <p>We will post any changes to our Privacy Policy on this page. If we make material changes to how we treat our users' personal information, we will notify you through a notice on the website or via email. The date the Privacy Policy was last revised is identified at the top of the page.</p>
+              </Section>
+
+              <Section title="Contact Information">
+                <p>To ask questions or comment about this Privacy Policy and our privacy practices:</p>
                 <div style={{ background: "#EEE9E3", border: "1px solid #CDCAC5", padding: "32px", marginTop: "16px" }}>
-                  <p style={{ fontWeight: 700, color: "#1D1D1B", marginBottom: "8px" }}>ManageKube LLC</p>
+                  <p style={{ fontWeight: 700, color: "#1D1D1B", marginBottom: "8px" }}>ManageKube, Inc.</p>
                   <p>Email: <strong>privacy@managekube.com</strong></p>
-                  <p>Phone: <strong>(901) 907-7447</strong></p>
-                  <p>Address: <strong>Memphis, TN 38103</strong></p>
-                  <p>Website: <strong>managekube.com</strong></p>
+                  <p>Phone: <strong>240-257-2029</strong></p>
                 </div>
               </Section>
             </motion.div>

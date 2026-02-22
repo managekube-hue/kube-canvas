@@ -1,5 +1,6 @@
 /**
- * Terms of Service — ManageKube LLC
+ * Terms of Service — ManageKube, Inc.
+ * Word-for-word from provided documentation
  */
 
 import { PageLayout } from "@/components/PageLayout";
@@ -10,151 +11,176 @@ const Terms = () => {
   return (
     <PageLayout>
       <PageBanner
-        title="Terms of Service"
+        title="Terms Governing Use of Our Services"
         subtitle="The terms and conditions that govern your use of ManageKube services and website."
-        phase="LEGAL"
+        phase="TERMS OF SERVICE"
       />
 
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p style={{ fontSize: "13px", color: "#5A5A5B", marginBottom: "48px" }}>
-                Effective Date: January 1, 2025 &nbsp;|&nbsp; Last Updated: February 22, 2026
-              </p>
-
-              <p style={{ fontSize: "16px", lineHeight: 1.8, color: "#393837", marginBottom: "32px" }}>
-                These Terms of Service ("Terms") constitute a legally binding agreement between you ("Client," "you," or "your") and ManageKube LLC ("ManageKube," "we," "us," or "our"), a Tennessee limited liability company. By accessing or using the ManageKube website at managekube.com or any of our services, you agree to be bound by these Terms. If you do not agree to these Terms, do not use our website or services.
+                Last Updated: February 22, 2026
               </p>
 
               <Section title="1. Acceptance of Terms">
-                <p>By accessing our website, submitting an assessment, engaging our services, or creating a Client Portal or Partner Portal account, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. If you are accepting these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind that entity to these Terms.</p>
-              </Section>
-
-              <Section title="2. Description of Services">
-                <p>ManageKube provides enterprise managed IT, cybersecurity, and compliance services, including but not limited to:</p>
+                <p>Welcome to ManageKube. By accessing or using managekube.com (the "Website"), our managed services, our open source projects, or any other services offered by ManageKube (collectively, the "Services"), you agree to comply with and be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Services.</p>
+                <p>These Terms apply to:</p>
                 <ul>
-                  <li>Managed Security Operations Center (SOC) services, including 24/7 monitoring, threat detection, and incident response.</li>
-                  <li>Managed Network Operations Center (NOC) services, including network monitoring, performance management, and infrastructure support.</li>
-                  <li>Managed IT services, including help desk, endpoint management, patch management, and IT administration.</li>
-                  <li>Managed compliance and governance, risk, and compliance (GRC) services across frameworks including NIST 800-53, NIST 800-171, CMMC, HIPAA, SOC 2, PCI DSS, ISO 27001, FedRAMP, FISMA, CJIS, CIS Controls, and NIST CSF.</li>
-                  <li>IT assessment, security assessment, and maturity scoring services.</li>
-                  <li>Cloud infrastructure management and migration services.</li>
-                  <li>Physical security consulting and implementation.</li>
-                  <li>Professional services including penetration testing, network buildouts, legacy system integration, infrastructure audits, and custom automation.</li>
-                </ul>
-                <p>The specific scope, deliverables, service levels, and pricing for services engaged by you will be set forth in a separate Master Service Agreement (MSA), Statement of Work (SOW), or Service Order executed between you and ManageKube.</p>
-              </Section>
-
-              <Section title="3. Service Tiers and Engagement Models">
-                <p>ManageKube offers three primary service tiers:</p>
-                <ul>
-                  <li><strong>XRO — Essentials:</strong> Foundational monitoring, alerting, and compliance reporting.</li>
-                  <li><strong>XMX — Advanced:</strong> Full-spectrum managed detection and response with proactive threat hunting.</li>
-                  <li><strong>XME — Enterprise:</strong> Complete enterprise coverage with dedicated resources, custom integrations, and executive advisory.</li>
-                </ul>
-                <p>Services may be delivered under the following engagement models:</p>
-                <ul>
-                  <li><strong>Fully Managed:</strong> ManageKube assumes full operational responsibility for the services in scope.</li>
-                  <li><strong>Co-Managed:</strong> ManageKube augments your existing IT or security team with specialized capabilities.</li>
-                  <li><strong>Self-Managed:</strong> You retain operational control with access to the ManageKube platform and tools.</li>
+                  <li>Visitors to our website</li>
+                  <li>Users of our managed services</li>
+                  <li>Contributors to our open source projects</li>
+                  <li>Prospective clients completing our assessment</li>
+                  <li>Current clients under service agreements</li>
                 </ul>
               </Section>
 
-              <Section title="4. User Accounts and Responsibilities">
-                <p>If you create an account on the ManageKube Client Portal or Partner Portal, you are responsible for:</p>
+              <Section title="2. Changes to Terms">
+                <p>We may revise these Terms from time to time. All changes are effective immediately when we post them. Your continued use of the Services following the posting of revised Terms means that you accept and agree to the changes. We will notify you of material changes via email or through a notice on the website.</p>
+              </Section>
+
+              <Section title="3. Accessing the Services">
+                <p>We reserve the right to withdraw or amend the Services, and any service or material we provide, in our sole discretion without notice. We will not be liable if for any reason all or any part of the Services are unavailable at any time or for any period.</p>
+                <SubHead>Account Responsibility</SubHead>
                 <ul>
-                  <li>Maintaining the confidentiality of your account credentials.</li>
-                  <li>All activities that occur under your account.</li>
-                  <li>Notifying ManageKube immediately of any unauthorized use of your account or any other breach of security.</li>
-                  <li>Ensuring that your use of our services complies with all applicable laws and regulations.</li>
+                  <li>You are responsible for maintaining the confidentiality of your account credentials</li>
+                  <li>You are responsible for all activities that occur under your account</li>
+                  <li>You must notify us immediately of any unauthorized use of your account</li>
                 </ul>
-                <p>ManageKube reserves the right to suspend or terminate your account if we reasonably believe that your account has been compromised or that you are in violation of these Terms.</p>
-              </Section>
-
-              <Section title="5. Intellectual Property">
-                <p>All content, materials, software, documentation, methodologies, processes, and intellectual property displayed on or provided through the ManageKube website and services, including but not limited to the Kubric UIDR platform, KubricAI, the Kubric Data Graph, and our 7-step methodology (Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document), are the exclusive property of ManageKube LLC or its licensors.</p>
-                <p>You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of our intellectual property without our prior written consent.</p>
-              </Section>
-
-              <Section title="6. Open Source Components">
-                <p>Certain components of the ManageKube platform may incorporate open-source software. Open-source components are subject to their respective licenses, which take precedence over these Terms with respect to those components. A list of open-source components and their applicable licenses is available upon request by contacting <strong>legal@managekube.com</strong>.</p>
-              </Section>
-
-              <Section title="7. Confidentiality">
-                <p>Both parties acknowledge that in the course of the engagement, each party may receive confidential information from the other. Each party agrees to hold such confidential information in strict confidence and not to disclose it to any third party without the prior written consent of the disclosing party, except as required by law or as necessary to perform the services. This obligation of confidentiality shall survive the termination of these Terms for a period of five (5) years.</p>
-              </Section>
-
-              <Section title="8. Service Level Agreements">
-                <p>Specific service level commitments, including uptime guarantees, response times, and resolution targets, will be defined in the applicable MSA or SOW. ManageKube's general service level objectives include:</p>
+                <SubHead>Accuracy of Information</SubHead>
                 <ul>
-                  <li>24/7/365 monitoring and alerting for all managed environments.</li>
-                  <li>Critical incident response initiation within 15 minutes.</li>
-                  <li>Quarterly business reviews and strategic roadmap updates.</li>
-                  <li>Monthly compliance reporting and security posture assessments.</li>
+                  <li>You represent that all information you provide is accurate, current, and complete</li>
+                  <li>You will update your information as necessary to maintain its accuracy</li>
                 </ul>
               </Section>
 
-              <Section title="9. Payment Terms">
-                <p>Fees for ManageKube services are set forth in the applicable SOW or Service Order. Unless otherwise agreed in writing:</p>
+              <Section title="4. Managed Services">
+                <p>Specific terms for managed services are governed by separate Service Agreements entered into between ManageKube and clients. In the event of a conflict between these Terms and a Service Agreement, the Service Agreement controls.</p>
+                <SubHead>Service Levels</SubHead>
                 <ul>
-                  <li>Invoices are issued monthly in advance.</li>
-                  <li>Payment is due within thirty (30) days of the invoice date.</li>
-                  <li>Late payments are subject to interest at a rate of 1.5% per month or the maximum rate permitted by law, whichever is lower.</li>
-                  <li>ManageKube reserves the right to suspend services if payment is more than sixty (60) days overdue.</li>
+                  <li>Service levels are defined in the applicable Service Agreement</li>
+                  <li>Credits or remedies for service level failures are as stated in the Service Agreement</li>
+                </ul>
+                <SubHead>Payment Terms</SubHead>
+                <ul>
+                  <li>Fees are as stated in the Service Agreement or as presented during onboarding</li>
+                  <li>Payments are due according to the agreed schedule</li>
+                  <li>Late payments may result in suspension of services</li>
+                </ul>
+                <SubHead>Termination</SubHead>
+                <ul>
+                  <li>Either party may terminate as provided in the Service Agreement</li>
+                  <li>Upon termination, you must pay all amounts due through the termination date</li>
                 </ul>
               </Section>
 
-              <Section title="10. Limitation of Liability">
-                <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL MANAGEKUBE LLC, ITS OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, OR AFFILIATES BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, OR BUSINESS OPPORTUNITIES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OUR SERVICES OR THESE TERMS, REGARDLESS OF THE THEORY OF LIABILITY.</p>
-                <p>MANAGEKUBE'S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATED TO THESE TERMS SHALL NOT EXCEED THE TOTAL FEES PAID BY YOU TO MANAGEKUBE DURING THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM.</p>
-              </Section>
-
-              <Section title="11. Indemnification">
-                <p>You agree to indemnify, defend, and hold harmless ManageKube LLC, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of our services; (b) your violation of these Terms; (c) your violation of any applicable law or regulation; or (d) your violation of any rights of a third party.</p>
-              </Section>
-
-              <Section title="12. Termination">
-                <p>Either party may terminate the service engagement as provided in the applicable MSA or SOW. ManageKube may suspend or terminate your access to the website or services immediately, without prior notice, if:</p>
+              <Section title="5. Open Source Projects">
+                <p>ManageKube maintains open source projects, including the Kubric platform, under various open source licenses. Your use of open source software is governed by the applicable license (MIT, Apache 2.0, BSD, etc.), not these Terms.</p>
+                <SubHead>Contributions</SubHead>
                 <ul>
-                  <li>You breach any provision of these Terms.</li>
-                  <li>We are required to do so by law.</li>
-                  <li>We reasonably believe that your continued use poses a security risk.</li>
+                  <li>By contributing to our open source projects, you agree to the contribution terms in the project's CONTRIBUTING.md file</li>
+                  <li>You represent that you have the right to make the contribution</li>
+                  <li>Contributions are licensed under the same license as the project</li>
                 </ul>
-                <p>Upon termination, all rights granted to you under these Terms will immediately cease. Provisions that by their nature should survive termination (including but not limited to intellectual property, confidentiality, limitation of liability, and indemnification) shall survive.</p>
+                <SubHead>No Warranty</SubHead>
+                <ul>
+                  <li>Open source software is provided "AS IS" without warranty of any kind</li>
+                  <li>See the project's LICENSE file for complete terms</li>
+                </ul>
               </Section>
 
-              <Section title="13. Governing Law and Dispute Resolution">
-                <p>These Terms shall be governed by and construed in accordance with the laws of the State of Tennessee, without regard to its conflict of law provisions. Any dispute arising out of or relating to these Terms shall be resolved exclusively in the state or federal courts located in Shelby County, Tennessee. Both parties consent to the personal jurisdiction and venue of such courts.</p>
+              <Section title="6. Intellectual Property Rights">
+                <p>The Services and their entire contents, features, and functionality (including but not limited to all information, software, text, displays, images, video, and audio, and the design, selection, and arrangement thereof) are owned by ManageKube, its licensors, or other providers of such material and are protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>
+                <SubHead>Limited License</SubHead>
+                <ul>
+                  <li>We grant you a limited, non-exclusive, non-transferable license to access and use the Services for their intended purpose</li>
+                  <li>You may not copy, modify, distribute, sell, or lease any part of the Services</li>
+                  <li>You may not reverse engineer or attempt to extract source code from the Services</li>
+                </ul>
+                <SubHead>Feedback</SubHead>
+                <ul><li>If you provide feedback or suggestions about the Services, we may use them without obligation to you</li></ul>
               </Section>
 
-              <Section title="14. Force Majeure">
-                <p>Neither party shall be liable for any failure or delay in performance resulting from causes beyond its reasonable control, including but not limited to acts of God, natural disasters, pandemics, war, terrorism, labor disputes, power failures, internet disruptions, or governmental actions.</p>
+              <Section title="7. Trademarks">
+                <p>ManageKube, the ManageKube logo, Kubric, XRO Essentials, XMX Advanced, XME Enterprise, and all related names, logos, product and service names, designs, and slogans are trademarks of ManageKube or its affiliates or licensors. You must not use such marks without the prior written permission of ManageKube.</p>
+                <SubHead>Open Source Project Names</SubHead>
+                <ul>
+                  <li>The names of open source projects (including "Kubric") are trademarks of ManageKube</li>
+                  <li>You may use the project name to refer to the project as released by ManageKube</li>
+                  <li>You may not use the project name to brand derivative works without explicit written permission</li>
+                </ul>
               </Section>
 
-              <Section title="15. Severability">
-                <p>If any provision of these Terms is found to be unenforceable or invalid by a court of competent jurisdiction, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions of these Terms shall remain in full force and effect.</p>
+              <Section title="8. Prohibited Uses">
+                <p>You may use the Services only for lawful purposes and in accordance with these Terms. You agree not to use the Services:</p>
+                <ul>
+                  <li>In any way that violates any applicable federal, state, local, or international law or regulation</li>
+                  <li>To transmit or procure the sending of any advertising or promotional material without our consent</li>
+                  <li>To impersonate or attempt to impersonate ManageKube, a ManageKube employee, another user, or any other person or entity</li>
+                  <li>To engage in any conduct that restricts or inhibits anyone's use or enjoyment of the Services</li>
+                  <li>To attempt to gain unauthorized access to any part of the Services</li>
+                  <li>To introduce any viruses, trojan horses, worms, logic bombs, or other malicious material</li>
+                  <li>To interfere with the proper working of the Services</li>
+                </ul>
+              </Section>
+
+              <Section title="9. Reliance on Information Posted">
+                <p>The information presented on or through the Services is made available solely for general information purposes. We do not warrant the accuracy, completeness, or usefulness of this information. Any reliance you place on such information is strictly at your own risk.</p>
+                <SubHead>Assessment Results</SubHead>
+                <ul>
+                  <li>Assessment results are estimates based on the information you provide</li>
+                  <li>Actual service tiers and pricing may vary based on verification during onboarding</li>
+                  <li>Recommendations are for informational purposes and do not constitute professional advice</li>
+                </ul>
+              </Section>
+
+              <Section title="10. Third-Party Links and Services">
+                <p>The Services may contain links to third-party websites or services. These links are provided for your convenience only. We have no control over the contents of those sites or resources and accept no responsibility for them or for any loss or damage that may arise from your use of them.</p>
+              </Section>
+
+              <Section title="11. Disclaimer of Warranties">
+                <p style={{ textTransform: "uppercase", fontWeight: 700, fontSize: "13px" }}>THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. TO THE FULLEST EXTENT PROVIDED BY LAW, MANAGEKUBE DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, AND FITNESS FOR PARTICULAR PURPOSE.</p>
+                <p style={{ textTransform: "uppercase", fontWeight: 700, fontSize: "13px" }}>WE DO NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, OR FREE FROM VIRUSES OR OTHER HARMFUL COMPONENTS.</p>
+                <SubHead>No Warranty for Open Source Software</SubHead>
+                <ul>
+                  <li>Open source software is provided "AS IS" without warranty</li>
+                  <li>See the project's LICENSE file for complete terms</li>
+                </ul>
+              </Section>
+
+              <Section title="12. Limitation of Liability">
+                <p style={{ textTransform: "uppercase", fontWeight: 700, fontSize: "13px" }}>TO THE FULLEST EXTENT PROVIDED BY LAW, IN NO EVENT WILL MANAGEKUBE, ITS AFFILIATES, OR THEIR LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR DAMAGES OF ANY KIND, UNDER ANY LEGAL THEORY, ARISING OUT OF OR IN CONNECTION WITH YOUR USE, OR INABILITY TO USE, THE SERVICES, ANY WEBSITES LINKED TO THEM, ANY CONTENT ON THE SERVICES OR SUCH OTHER WEBSITES, INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES.</p>
+                <SubHead>Service Agreement Controls</SubHead>
+                <ul>
+                  <li>For managed services clients, liability limits in the Service Agreement apply</li>
+                  <li>These Terms do not limit liability that cannot be limited by applicable law</li>
+                </ul>
+              </Section>
+
+              <Section title="13. Indemnification">
+                <p>You agree to defend, indemnify, and hold harmless ManageKube, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Services.</p>
+              </Section>
+
+              <Section title="14. Governing Law and Jurisdiction">
+                <p>These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of laws provisions.</p>
+                <p>Any legal suit, action, or proceeding arising out of or related to these Terms or the Services shall be instituted exclusively in the federal courts of the United States or the courts of the State of Delaware. You waive any and all objections to the exercise of jurisdiction over you by such courts and to venue in such courts.</p>
+              </Section>
+
+              <Section title="15. Waiver and Severability">
+                <p>No waiver of these Terms by ManageKube shall be deemed a further or continuing waiver of such term or condition. If any provision of these Terms is held by a court or other tribunal of competent jurisdiction to be invalid, illegal, or unenforceable for any reason, such provision shall be eliminated or limited to the minimum extent such that the remaining provisions of the Terms will continue in full force and effect.</p>
               </Section>
 
               <Section title="16. Entire Agreement">
-                <p>These Terms, together with our Privacy Policy and any applicable MSA, SOW, or Service Order, constitute the entire agreement between you and ManageKube with respect to the subject matter hereof and supersede all prior or contemporaneous communications, whether electronic, oral, or written.</p>
+                <p>These Terms, together with any applicable Service Agreement, constitute the sole and entire agreement between you and ManageKube regarding the Services and supersede all prior and contemporaneous understandings, agreements, representations, and warranties, both written and oral, regarding the Services.</p>
               </Section>
 
-              <Section title="17. Changes to These Terms">
-                <p>ManageKube reserves the right to modify these Terms at any time. We will notify you of material changes by posting the updated Terms on this page with a revised "Last Updated" date. Your continued use of our website or services after the posting of changes constitutes your acceptance of such changes.</p>
-              </Section>
-
-              <Section title="18. Contact Information">
-                <p>For questions about these Terms of Service, please contact us:</p>
+              <Section title="17. Contact Information">
+                <p>To ask questions or comment about these Terms:</p>
                 <div style={{ background: "#EEE9E3", border: "1px solid #CDCAC5", padding: "32px", marginTop: "16px" }}>
-                  <p style={{ fontWeight: 700, color: "#1D1D1B", marginBottom: "8px" }}>ManageKube LLC</p>
+                  <p style={{ fontWeight: 700, color: "#1D1D1B", marginBottom: "8px" }}>ManageKube, Inc.</p>
                   <p>Email: <strong>legal@managekube.com</strong></p>
-                  <p>Phone: <strong>(901) 907-7447</strong></p>
-                  <p>Address: <strong>Memphis, TN 38103</strong></p>
-                  <p>Website: <strong>managekube.com</strong></p>
+                  <p>Phone: <strong>240-257-2029</strong></p>
                 </div>
               </Section>
             </motion.div>
@@ -172,6 +198,10 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
       {children}
     </div>
   </div>
+);
+
+const SubHead = ({ children }: { children: React.ReactNode }) => (
+  <p style={{ fontSize: "16px", fontWeight: 600, color: "#1D1D1B", marginBottom: "8px", marginTop: "16px" }}>{children}</p>
 );
 
 export default Terms;
