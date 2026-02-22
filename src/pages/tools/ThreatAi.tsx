@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageBanner } from "@/components/PageBanner";
@@ -8,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search, AlertTriangle, Download, TrendingUp,
   Map, Loader2, RefreshCw,
-  ChevronLeft, ChevronRight, Database,
+  ChevronLeft, ChevronRight, Database, Shield, FileText,
 } from "lucide-react";
 import { ExportLeadModal } from "@/components/ExportLeadModal";
 import { curatedThreats as fallbackThreats, weeklyStats as fallbackStats, type ThreatCve } from "@/data/threat-intel-data";
@@ -58,6 +59,7 @@ const linkifyText = (text: string) => {
 };
 
 const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
+  const navigate = useNavigate();
   const dueDate = cve.cisaDueDate ? new Date(cve.cisaDueDate) : null;
   const today = new Date();
   const daysOverdue = dueDate && dueDate < today
@@ -196,8 +198,8 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
         </div>
       ) : null}
 
-      {/* Action Buttons */}
-      <div className="flex gap-3 flex-wrap">
+      {/* Action Buttons — stop propagation so card click doesn't fire */}
+      <div className="flex gap-3 flex-wrap" onClick={(e) => e.stopPropagation()}>
         {(isCritical || isHigh || cve.cisaKev) && (
           <a
             href={`https://nvd.nist.gov/vuln/detail/${cve.id}#vulnCurrentDescriptionTitle`}
@@ -208,13 +210,19 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
             🚨 Patch Now
           </a>
         )}
+        <button
+          onClick={() => navigate(`/tools/threat-ai/${cve.id}`)}
+          className="px-4 py-2 bg-primary/10 border border-primary/30 text-primary text-xs font-medium hover:bg-primary/20 transition-colors"
+        >
+          View Details →
+        </button>
         <a
           href={`https://nvd.nist.gov/vuln/detail/${cve.id}`}
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-2 bg-muted border border-border text-foreground text-xs font-medium hover:bg-muted/80 transition-colors"
         >
-          View in NVD ↗
+          NVD ↗
         </a>
         {cve.cisaKev && (
           <a
@@ -223,7 +231,7 @@ const ThreatCard = ({ cve }: { cve: ThreatCve }) => {
             rel="noopener noreferrer"
             className="px-4 py-2 bg-muted border border-border text-foreground text-xs font-medium hover:bg-muted/80 transition-colors"
           >
-            View in CISA ↗
+            CISA ↗
           </a>
         )}
       </div>
@@ -590,6 +598,59 @@ const SearchTab = ({ dbReady }: { dbReady: boolean }) => {
   );
 };
 
+/* ── Tab: Recent CVEs (2026) ───────────────────────────── */
+
+const RecentCVEs = ({ dbReady }: { dbReady: boolean }) => {
+  const [threats, setThreats] = useState<ThreatCve[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const pageSize = 20;
+
+  const loadPage = useCallback(async (p: number) => {
+    setLoading(true);
+    try {
+      const data = await fetchThreatApi({ tab: "recent", page: p, pageSize });
+      setThreats(data.threats || []);
+      setTotalCount(data.totalCount || 0);
+      setPage(p);
+    } catch (e) {
+      console.error("Recent load error:", e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { if (dbReady) loadPage(0); }, [dbReady, loadPage]);
+
+  return (
+    <div className="space-y-6">
+      <div className="p-4 border border-primary/20 bg-primary/5">
+        <h3 className="text-sm font-bold text-foreground mb-1">Recently Published CVEs</h3>
+        <p className="text-xs text-muted-foreground">
+          Latest vulnerabilities from NVD, sorted by publish date. Focus on 2026 disclosures.
+        </p>
+      </div>
+
+      {loading ? <LoadingSkeleton /> : (
+        <>
+          <div className="flex flex-col gap-4">
+            {threats.map((cve) => (
+              <ThreatCard key={cve.id} cve={cve} />
+            ))}
+            {threats.length === 0 && (
+              <p className="text-muted-foreground text-center py-8">
+                No recent CVEs found. Run the sync to populate data.
+              </p>
+            )}
+          </div>
+          <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={loadPage} />
+        </>
+      )}
+    </div>
+  );
+};
+
 /* ── Main Page ─────────────────────────────────────────── */
 
 const ThreatAi = () => {
@@ -768,7 +829,11 @@ const ThreatAi = () => {
               </TabsTrigger>
               <TabsTrigger value="exploits" className="gap-2 data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive">
                 <AlertTriangle className="w-4 h-4" />
-                Active Exploits
+                CISA KEV
+              </TabsTrigger>
+              <TabsTrigger value="recent" className="gap-2 data-[state=active]:bg-green-500/10 data-[state=active]:text-green-600">
+                <FileText className="w-4 h-4" />
+                Recent (2026)
               </TabsTrigger>
               <TabsTrigger value="map" className="gap-2 data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-500">
                 <Map className="w-4 h-4" />
@@ -786,6 +851,7 @@ const ThreatAi = () => {
               <>
                 <TabsContent value="trend"><TrendWatch stats={stats} dbReady={dbReady} /></TabsContent>
                 <TabsContent value="exploits"><ActiveExploits dbReady={dbReady} /></TabsContent>
+                <TabsContent value="recent"><RecentCVEs dbReady={dbReady} /></TabsContent>
                 <TabsContent value="map"><RiskMap dbReady={dbReady} /></TabsContent>
                 <TabsContent value="search"><SearchTab dbReady={dbReady} /></TabsContent>
               </>
