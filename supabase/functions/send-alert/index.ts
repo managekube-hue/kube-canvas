@@ -82,8 +82,8 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "ManageKube Alerts <alerts@managekube.com>",
-        to: ["alerts@managekube.com"],
+        from: "ManageKube Alerts <alerts@updates.managekube.com>",
+        to: ["team@updates.managekube.com"],
         subject,
         html,
       }),
