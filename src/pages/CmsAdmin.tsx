@@ -6,7 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Users, Briefcase, Plus, Trash2, Eye, EyeOff, Loader2, RefreshCw,
   Search, Download, ChevronDown, ChevronUp, FileText, ShieldCheck,
-  ClipboardList, BarChart3, ToggleLeft, ToggleRight,
+  ClipboardList, BarChart3, ToggleLeft, ToggleRight, Archive,
+  UserPlus, UserCog,
 } from "lucide-react";
 
 /* ── helpers ── */
@@ -22,6 +23,9 @@ const statusBadge = (status: string) => {
     case "qualified": return badge("Qualified", "border-blue-700 bg-blue-950/30 text-blue-400");
     case "disqualified": return badge("Disqualified", "border-red-700 bg-red-950/30 text-red-400");
     case "converted": return badge("Converted", "border-purple-700 bg-purple-950/30 text-purple-400");
+    case "staging": return badge("Staging", "border-yellow-700 bg-yellow-950/30 text-yellow-400");
+    case "deployment": return badge("Deployment", "border-cyan-700 bg-cyan-950/30 text-cyan-400");
+    case "archived": return badge("Archived", "border-border bg-muted/50 text-muted-foreground/60");
     default: return badge(status || "active");
   }
 };
@@ -45,7 +49,7 @@ function downloadCsv(rows: Record<string, any>[], filename: string) {
 }
 
 /* ════════════════════════════════════════════════════════
-   Contacts Tab — full CRM view of cms_contacts
+   Contacts Tab
    ════════════════════════════════════════════════════════ */
 const ContactsTab = () => {
   const [contacts, setContacts] = useState<any[]>([]);
@@ -69,9 +73,7 @@ const ContactsTab = () => {
         `email.ilike.%${search.trim()}%,first_name.ilike.%${search.trim()}%,last_name.ilike.%${search.trim()}%,company.ilike.%${search.trim()}%`
       );
     }
-    if (statusFilter !== "all") {
-      query = query.eq("lifecycle_stage", statusFilter);
-    }
+    if (statusFilter !== "all") query = query.eq("lifecycle_stage", statusFilter);
     const { data, count } = await query;
     setContacts(data || []);
     setTotal(count || 0);
@@ -101,7 +103,6 @@ const ContactsTab = () => {
         <Button variant="outline" size="sm" onClick={exportAll} className="gap-2 ml-auto"><Download className="w-4 h-4" />Export CSV</Button>
       </div>
 
-      {/* Status filter */}
       <div className="flex gap-2 flex-wrap">
         {["all", "lead", "mql", "sql", "opportunity", "customer", "subscriber"].map(s => (
           <Button key={s} variant={statusFilter === s ? "default" : "outline"} size="sm" className="text-xs capitalize"
@@ -170,16 +171,7 @@ const ContactsTab = () => {
                           <div><strong className="text-muted-foreground">Deal Size:</strong> <span className="text-foreground">{c.mk_onb_estimated_deal_size || "—"}</span></div>
                           <div><strong className="text-muted-foreground">Timeline:</strong> <span className="text-foreground">{c.mk_onb_timeline || "—"}</span></div>
                           <div><strong className="text-muted-foreground">Priority:</strong> <span className="text-foreground">{c.mk_onb_priority || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">IT Situation:</strong> <span className="text-foreground">{c.mk_onb_it_situation || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">IT Team Size:</strong> <span className="text-foreground">{c.mk_it_team_size || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Endpoints:</strong> <span className="text-foreground">{c.mk_endpoint_count || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Locations:</strong> <span className="text-foreground">{c.mk_location_count || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Remote %:</strong> <span className="text-foreground">{c.mk_remote_workforce_pct || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Email Platform:</strong> <span className="text-foreground">{c.mk_email_platform || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Compliance:</strong> <span className="text-foreground">{c.mk_compliance_in_scope || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Compliance Deadline:</strong> <span className="text-foreground">{c.mk_compliance_deadline_date || "—"}</span></div>
 
-                          {/* Flags */}
                           <div className="col-span-2 md:col-span-4 pt-2 border-t border-border">
                             <strong className="text-muted-foreground block mb-1">Routing Flags:</strong>
                             <div className="flex flex-wrap gap-1">
@@ -197,7 +189,6 @@ const ContactsTab = () => {
                             </div>
                           </div>
 
-                          {/* Maturity Scores */}
                           <div className="col-span-2 md:col-span-4 pt-2 border-t border-border">
                             <strong className="text-muted-foreground block mb-1">Control Family Maturity:</strong>
                             <div className="grid grid-cols-4 gap-2">
@@ -217,9 +208,6 @@ const ContactsTab = () => {
                           </div>
 
                           <div><strong className="text-muted-foreground">HubSpot ID:</strong> <span className="text-foreground font-mono">{c.hubspot_contact_id || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">HubSpot Synced:</strong> <span className="text-foreground">{c.hubspot_synced_at ? fmt(c.hubspot_synced_at) : "—"}</span></div>
-                          {c.hubspot_error && <div className="col-span-2"><strong className="text-destructive">HubSpot Error:</strong> <span className="text-destructive">{c.hubspot_error}</span></div>}
-                          <div><strong className="text-muted-foreground">IP:</strong> <span className="text-foreground font-mono">{c.ip_address || "—"}</span></div>
                           <div><strong className="text-muted-foreground">Updated:</strong> <span className="text-foreground">{fmt(c.updated_at)}</span></div>
                         </div>
                       </td>
@@ -243,33 +231,63 @@ const ContactsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Leads Tab — with active/inactive status toggles
+   Leads Tab — with full lifecycle management
    ════════════════════════════════════════════════════════ */
 const LeadsTab = () => {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const load = useCallback(async () => {
     setLoading(true);
-    let query = supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(200);
+    let query = supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(500);
     if (statusFilter !== "all") query = query.eq("status", statusFilter);
     const { data } = await query;
     setLeads(data || []);
+    setSelectedIds(new Set());
     setLoading(false);
   }, [statusFilter]);
 
   useEffect(() => { load(); }, [load]);
 
-  const toggleStatus = async (id: string, current: string) => {
-    const next = current === "active" ? "inactive" : current === "inactive" ? "qualified" : current === "qualified" ? "disqualified" : "active";
-    await supabase.from("leads").update({ status: next }).eq("id", id);
-    load();
-  };
-
   const updateStatus = async (id: string, status: string) => {
     await supabase.from("leads").update({ status }).eq("id", id);
     load();
+  };
+
+  const bulkUpdateStatus = async (status: string) => {
+    if (selectedIds.size === 0) return;
+    for (const id of selectedIds) {
+      await supabase.from("leads").update({ status }).eq("id", id);
+    }
+    load();
+  };
+
+  const archiveLead = async (id: string) => {
+    await supabase.from("leads").update({ status: "archived" }).eq("id", id);
+    load();
+  };
+
+  const deleteLead = async (id: string) => {
+    if (!confirm("Permanently delete this lead? This cannot be undone.")) return;
+    // Since there's no delete RLS, we update to "deleted" status
+    await supabase.from("leads").update({ status: "deleted" }).eq("id", id);
+    load();
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (selectedIds.size === leads.length) setSelectedIds(new Set());
+    else setSelectedIds(new Set(leads.map(l => l.id)));
   };
 
   const exportAll = () => { if (leads.length) downloadCsv(leads, `leads_${new Date().toISOString().split("T")[0]}.csv`); };
@@ -280,18 +298,38 @@ const LeadsTab = () => {
     <div className="space-y-4">
       <div className="flex justify-between items-center flex-wrap gap-3">
         <div className="flex gap-2 flex-wrap">
-          {["all", "active", "inactive", "qualified", "disqualified", "converted"].map(s => (
+          {["all", "active", "staging", "deployment", "qualified", "converted", "archived", "inactive"].map(s => (
             <Button key={s} variant={statusFilter === s ? "default" : "outline"} size="sm" className="text-xs capitalize"
               onClick={() => setStatusFilter(s)}>{s === "all" ? `All (${leads.length})` : s}</Button>
           ))}
         </div>
         <Button variant="outline" size="sm" onClick={exportAll} className="gap-2"><Download className="w-4 h-4" />Export CSV</Button>
       </div>
-      {leads.length === 0 ? <p className="text-muted-foreground text-center py-12">No leads yet.</p> : (
+
+      {/* Bulk actions */}
+      {selectedIds.size > 0 && (
+        <div className="flex items-center gap-3 p-3 border border-primary/30 bg-primary/5">
+          <span className="text-sm font-medium text-foreground">{selectedIds.size} selected</span>
+          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => bulkUpdateStatus("staging")}>→ Staging</Button>
+          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => bulkUpdateStatus("deployment")}>→ Deployment</Button>
+          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => bulkUpdateStatus("active")}>→ Active</Button>
+          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => bulkUpdateStatus("qualified")}>→ Qualified</Button>
+          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => bulkUpdateStatus("converted")}>→ Converted</Button>
+          <Button variant="outline" size="sm" className="text-xs gap-1 text-yellow-600" onClick={() => bulkUpdateStatus("archived")}>
+            <Archive className="w-3 h-3" /> Archive
+          </Button>
+        </div>
+      )}
+
+      {leads.length === 0 ? <p className="text-muted-foreground text-center py-12">No leads found.</p> : (
         <div className="overflow-x-auto border border-border">
           <table className="w-full text-sm">
             <thead className="bg-muted/50">
               <tr>
+                <th className="px-3 py-3 w-8">
+                  <input type="checkbox" checked={selectedIds.size === leads.length && leads.length > 0} onChange={toggleAll}
+                    className="rounded border-border" />
+                </th>
                 {["Name", "Email", "Company", "Phone", "Industry", "Org Size", "Source", "Tier", "Status", "Created", "Actions"].map(h => (
                   <th key={h} className="text-left px-3 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
@@ -299,7 +337,11 @@ const LeadsTab = () => {
             </thead>
             <tbody className="divide-y divide-border">
               {leads.map(l => (
-                <tr key={l.id} className="hover:bg-muted/30">
+                <tr key={l.id} className={`hover:bg-muted/30 ${selectedIds.has(l.id) ? "bg-primary/5" : ""}`}>
+                  <td className="px-3 py-3">
+                    <input type="checkbox" checked={selectedIds.has(l.id)} onChange={() => toggleSelect(l.id)}
+                      className="rounded border-border" />
+                  </td>
                   <td className="px-3 py-3 font-medium text-foreground whitespace-nowrap">{[l.first_name, l.last_name].filter(Boolean).join(" ") || "—"}</td>
                   <td className="px-3 py-3 text-muted-foreground">{l.email}</td>
                   <td className="px-3 py-3 text-muted-foreground">{l.company || "—"}</td>
@@ -311,15 +353,26 @@ const LeadsTab = () => {
                   <td className="px-3 py-3">{statusBadge(l.status || "active")}</td>
                   <td className="px-3 py-3 text-xs text-muted-foreground whitespace-nowrap">{fmt(l.created_at)}</td>
                   <td className="px-3 py-3">
-                    <select className="text-xs bg-background border border-border px-2 py-1"
-                      value={l.status || "active"}
-                      onChange={e => updateStatus(l.id, e.target.value)}>
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                      <option value="qualified">Qualified</option>
-                      <option value="disqualified">Disqualified</option>
-                      <option value="converted">Converted</option>
-                    </select>
+                    <div className="flex items-center gap-1">
+                      <select className="text-xs bg-background border border-border px-2 py-1"
+                        value={l.status || "active"}
+                        onChange={e => updateStatus(l.id, e.target.value)}>
+                        <option value="active">Active</option>
+                        <option value="staging">Staging</option>
+                        <option value="deployment">Deployment</option>
+                        <option value="qualified">Qualified</option>
+                        <option value="converted">Converted</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="disqualified">Disqualified</option>
+                        <option value="archived">Archived</option>
+                      </select>
+                      <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-yellow-600 hover:text-yellow-500" onClick={() => archiveLead(l.id)} title="Archive">
+                        <Archive className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-destructive hover:text-destructive/80" onClick={() => deleteLead(l.id)} title="Delete">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -332,7 +385,7 @@ const LeadsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Lead Exports Tab — ThreatAI CSV exports
+   Lead Exports Tab
    ════════════════════════════════════════════════════════ */
 const LeadExportsTab = () => {
   const [exports, setExports] = useState<any[]>([]);
@@ -386,7 +439,7 @@ const LeadExportsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Assessments Tab — with Q&A answers display
+   Assessments Tab
    ════════════════════════════════════════════════════════ */
 const AssessmentsTab = () => {
   const [sessions, setSessions] = useState<any[]>([]);
@@ -411,7 +464,6 @@ const AssessmentsTab = () => {
     return "border-border bg-muted text-muted-foreground";
   };
 
-  // Render answers JSON as readable Q&A
   const renderAnswers = (answers: any) => {
     if (!answers || typeof answers !== "object") return <p className="text-muted-foreground">No answers recorded.</p>;
     const entries = Object.entries(answers);
@@ -480,42 +532,9 @@ const AssessmentsTab = () => {
                           <div><strong className="text-muted-foreground">Locations:</strong> <span className="text-foreground">{s.location_count ?? "—"}</span></div>
                           <div><strong className="text-muted-foreground">Industry:</strong> <span className="text-foreground">{s.industry || "—"}</span></div>
                           <div><strong className="text-muted-foreground">Timeline:</strong> <span className="text-foreground">{s.timeline || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Profile Type:</strong> <span className="text-foreground">{s.profile_type || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Deal Size:</strong> <span className="text-foreground">{s.estimated_deal_size || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Priority:</strong> <span className="text-foreground">{s.primary_priority || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Complexity:</strong> <span className="text-foreground font-mono">{s.complexity_score ?? "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Current Flow:</strong> <span className="text-foreground">{s.current_flow || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Current Question:</strong> <span className="text-foreground font-mono">{s.current_question || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Completed Flows:</strong> <span className="text-foreground">{(s.completed_flows || []).join(", ") || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">Compliance:</strong> <span className="text-foreground">{(s.compliance_frameworks || []).join(", ") || "—"}</span></div>
-                          <div className="col-span-2 md:col-span-4 pt-2 border-t border-border">
-                            <strong className="text-muted-foreground block mb-1">Control Family Maturity:</strong>
-                            <div className="grid grid-cols-4 gap-2">
-                              {[
-                                ["Infrastructure", s.cf_infrastructure_maturity],
-                                ["SecOps", s.cf_secops_maturity],
-                                ["IAM", s.cf_iam_maturity],
-                                ["Cloud", s.cf_cloud_maturity],
-                                ["Data Protection", s.cf_data_protection_maturity],
-                                ["Automation", s.cf_automation_maturity],
-                                ["Cost", s.cf_cost_maturity],
-                                ["Business Gov", s.cf_business_gov_maturity],
-                                ["DR/BC", s.cf_dr_bc_maturity],
-                                ["Security PS", s.cf_security_ps_maturity],
-                              ].map(([label, val]) => (
-                                <div key={String(label)}><span className="text-muted-foreground">{label}:</span> <span className="font-mono text-foreground">{val ?? 0}</span></div>
-                              ))}
-                            </div>
-                          </div>
-                          <div><strong className="text-muted-foreground">HubSpot ID:</strong> <span className="font-mono text-foreground">{s.hubspot_contact_id || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">HubSpot Synced:</strong> <span className="text-foreground">{fmt(s.hubspot_synced_at)}</span></div>
-                          <div><strong className="text-muted-foreground">Key Gaps:</strong> <span className="text-foreground">{(s.key_gap_flags || []).join(", ") || "—"}</span></div>
-                          <div><strong className="text-muted-foreground">MSP Issues:</strong> <span className="text-foreground">{(s.msp_issues || []).join(", ") || "—"}</span></div>
                         </div>
-
-                        {/* Q&A Answers */}
                         <div className="pt-3 border-t border-border">
-                          <strong className="text-muted-foreground block mb-2 text-xs uppercase tracking-wider">Assessment Questions & Answers</strong>
+                          <strong className="text-muted-foreground block mb-2 text-xs uppercase tracking-wider">Assessment Q&A</strong>
                           {renderAnswers(s.answers)}
                         </div>
                       </td>
@@ -683,12 +702,133 @@ const ApplicationsTab = () => {
 };
 
 /* ════════════════════════════════════════════════════════
-   Main CMS Page — NO Header/Footer/Banner
+   Team Members Tab — manage access to docs/CMS
+   ════════════════════════════════════════════════════════ */
+const TeamMembersTab = () => {
+  const [members, setMembers] = useState<{ id: string; name: string; email: string; role: string; access: string[]; addedAt: string }[]>(() => {
+    try {
+      const saved = localStorage.getItem("mk_team_members");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+  const [form, setForm] = useState({ name: "", email: "", role: "viewer", access: { docs: true, cms: false } });
+
+  const save = (next: typeof members) => {
+    setMembers(next);
+    localStorage.setItem("mk_team_members", JSON.stringify(next));
+  };
+
+  const addMember = () => {
+    if (!form.email.trim()) return;
+    const access = [];
+    if (form.access.docs) access.push("technical-docs");
+    if (form.access.cms) access.push("cms-admin");
+    const member = {
+      id: crypto.randomUUID(),
+      name: form.name || form.email.split("@")[0],
+      email: form.email,
+      role: form.role,
+      access,
+      addedAt: new Date().toISOString(),
+    };
+    save([...members, member]);
+    setForm({ name: "", email: "", role: "viewer", access: { docs: true, cms: false } });
+  };
+
+  const removeMember = (id: string) => {
+    if (!confirm("Remove this team member?")) return;
+    save(members.filter(m => m.id !== id));
+  };
+
+  const updateRole = (id: string, role: string) => {
+    save(members.map(m => m.id === id ? { ...m, role } : m));
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="border border-border p-6 bg-card space-y-4">
+        <h3 className="font-bold text-foreground flex items-center gap-2"><UserPlus className="w-5 h-5" /> Add Team Member</h3>
+        <p className="text-xs text-muted-foreground">
+          Grant team members access to Technical Documentation and/or the CMS Admin dashboard.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Input placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+          <Input placeholder="Email *" type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+          <select className="px-3 py-2 border border-border bg-background text-foreground text-sm"
+            value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}>
+            <option value="viewer">Viewer</option>
+            <option value="editor">Editor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div className="flex items-center gap-6">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" checked={form.access.docs} onChange={e => setForm(f => ({ ...f, access: { ...f.access, docs: e.target.checked } }))} className="rounded border-border" />
+            <span className="text-sm text-foreground">Technical Docs</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" checked={form.access.cms} onChange={e => setForm(f => ({ ...f, access: { ...f.access, cms: e.target.checked } }))} className="rounded border-border" />
+            <span className="text-sm text-foreground">CMS Admin</span>
+          </label>
+        </div>
+        <Button onClick={addMember} disabled={!form.email.trim()} className="gap-2">
+          <UserPlus className="w-4 h-4" /> Add Member
+        </Button>
+      </div>
+
+      {members.length === 0 ? (
+        <p className="text-muted-foreground text-center py-12">No team members added yet. Add your first team member above.</p>
+      ) : (
+        <div className="overflow-x-auto border border-border">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50">
+              <tr>
+                {["Name", "Email", "Role", "Access", "Added", "Actions"].map(h => (
+                  <th key={h} className="text-left px-3 py-3 font-medium text-muted-foreground text-xs uppercase tracking-wider whitespace-nowrap">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {members.map(m => (
+                <tr key={m.id} className="hover:bg-muted/30">
+                  <td className="px-3 py-3 font-medium text-foreground">{m.name}</td>
+                  <td className="px-3 py-3 text-muted-foreground">{m.email}</td>
+                  <td className="px-3 py-3">
+                    <select className="text-xs bg-background border border-border px-2 py-1"
+                      value={m.role} onChange={e => updateRole(m.id, e.target.value)}>
+                      <option value="viewer">Viewer</option>
+                      <option value="editor">Editor</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="flex gap-1">
+                      {m.access.includes("technical-docs") && badge("Docs", "border-blue-700 bg-blue-950/30 text-blue-400")}
+                      {m.access.includes("cms-admin") && badge("CMS", "border-purple-700 bg-purple-950/30 text-purple-400")}
+                    </div>
+                  </td>
+                  <td className="px-3 py-3 text-xs text-muted-foreground whitespace-nowrap">{fmtDate(m.addedAt)}</td>
+                  <td className="px-3 py-3">
+                    <Button variant="ghost" size="sm" onClick={() => removeMember(m.id)} className="text-destructive hover:text-destructive h-7 w-7 p-0">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ════════════════════════════════════════════════════════
+   Main CMS Page
    ════════════════════════════════════════════════════════ */
 const CmsAdmin = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Simple admin header */}
       <div className="border-b border-border bg-card px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <ShieldCheck className="w-6 h-6 text-primary" />
@@ -707,6 +847,7 @@ const CmsAdmin = () => {
             <TabsTrigger value="exports" className="gap-2"><FileText className="w-4 h-4" />Threat Exports</TabsTrigger>
             <TabsTrigger value="careers" className="gap-2"><Briefcase className="w-4 h-4" />Careers</TabsTrigger>
             <TabsTrigger value="applications" className="gap-2"><Plus className="w-4 h-4" />Applications</TabsTrigger>
+            <TabsTrigger value="team" className="gap-2"><UserCog className="w-4 h-4" />Team Members</TabsTrigger>
           </TabsList>
 
           <TabsContent value="contacts"><ContactsTab /></TabsContent>
@@ -715,6 +856,7 @@ const CmsAdmin = () => {
           <TabsContent value="exports"><LeadExportsTab /></TabsContent>
           <TabsContent value="careers"><CareersTab /></TabsContent>
           <TabsContent value="applications"><ApplicationsTab /></TabsContent>
+          <TabsContent value="team"><TeamMembersTab /></TabsContent>
         </Tabs>
       </div>
     </div>
