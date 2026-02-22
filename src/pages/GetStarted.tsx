@@ -59,6 +59,25 @@ function ContactForm() {
         if (cmsErr) console.error("CMS contact save error:", cmsErr);
       });
 
+      // Send email alert via Resend
+      supabase.functions.invoke("send-alert", {
+        body: {
+          type: "new_contact",
+          data: {
+            first_name: form.firstName.trim(),
+            last_name: form.lastName.trim(),
+            email: form.email.trim(),
+            company: form.company.trim(),
+            phone: form.phone.trim() || null,
+            source: "get-started",
+            message: form.message.trim() || null,
+            inquiry_type: form.inquiryType || "quick-contact",
+          },
+        },
+      }).then(({ error: alertErr }) => {
+        if (alertErr) console.error("Alert send error:", alertErr);
+      });
+
       setSubmitted(true);
     } catch (err) {
       console.error("Lead submission error:", err);

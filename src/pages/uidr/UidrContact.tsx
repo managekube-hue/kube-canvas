@@ -1,5 +1,98 @@
+import { useState } from "react";
 import { UidrLayout } from "@/components/UidrLayout";
-import { Mail, MessageSquare, MapPin } from "lucide-react";
+import { Mail, MessageSquare, MapPin, Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+function UidrContactForm() {
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await supabase.from("cms_contacts").insert({
+        first_name: form.name.trim(),
+        email: form.email.trim(),
+        message: form.message.trim() || null,
+        source: "uidr-contact",
+        source_detail: form.subject || "general",
+      });
+
+      supabase.functions.invoke("send-alert", {
+        body: {
+          type: "new_contact",
+          data: {
+            first_name: form.name.trim(),
+            email: form.email.trim(),
+            source: "uidr-contact",
+            message: form.message.trim() || null,
+            inquiry_type: form.subject || "platform-inquiry",
+          },
+        },
+      }).then(({ error }) => { if (error) console.error("Alert error:", error); });
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error("UIDR contact error:", err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="text-center py-12">
+        <Send size={28} className="text-blue-400 mx-auto mb-4" />
+        <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
+        <p className="text-white/50 text-sm">We'll get back to you soon.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="space-y-5" onSubmit={handleSubmit}>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">Name</label>
+          <input type="text" required placeholder="Your name" value={form.name}
+            onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+            className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">Email</label>
+          <input type="email" required placeholder="you@example.com" value={form.email}
+            onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+            className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">Subject</label>
+        <select value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white/60 text-sm focus:outline-none focus:border-blue-500 transition-colors appearance-none">
+          <option value="">Select a topic...</option>
+          <option>Platform inquiry</option>
+          <option>Enterprise licensing</option>
+          <option>Partnership</option>
+          <option>Contributor application</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">Message</label>
+        <textarea rows={6} placeholder="How can we help?" value={form.message}
+          onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-500 transition-colors resize-none" />
+      </div>
+      <button type="submit" disabled={submitting}
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors text-sm disabled:opacity-50">
+        {submitting ? "Sending..." : "Send Message"}
+      </button>
+    </form>
+  );
+}
 
 export default function UidrContact() {
   return (
@@ -59,51 +152,7 @@ export default function UidrContact() {
 
           {/* Right: Form */}
           <div>
-            <form className="space-y-5" onSubmit={e => e.preventDefault()}>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-2">Name</label>
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-2">Email</label>
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-white mb-2">Subject</label>
-                <select className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white/60 text-sm focus:outline-none focus:border-blue-500 transition-colors appearance-none">
-                  <option value="">Select a topic...</option>
-                  <option>Platform inquiry</option>
-                  <option>Enterprise licensing</option>
-                  <option>Partnership</option>
-                  <option>Contributor application</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-white mb-2">Message</label>
-                <textarea
-                  rows={6}
-                  placeholder="How can we help?"
-                  className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-500 transition-colors resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors text-sm"
-              >
-                Send Message
-              </button>
-            </form>
+            <UidrContactForm />
           </div>
         </div>
 
