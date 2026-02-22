@@ -55,6 +55,21 @@ serve(async (req) => {
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${data.email}</td></tr>
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Business</td><td style="padding:8px;border:1px solid #ddd">${data.business_name || data.company || "—"}</td></tr>
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Role</td><td style="padding:8px;border:1px solid #ddd">${data.role || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Phone</td><td style="padding:8px;border:1px solid #ddd">${data.phone || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Inquiry Type</td><td style="padding:8px;border:1px solid #ddd">${data.inquiry_type || "—"}</td></tr>
+          </table>
+        `;
+        break;
+      case "contributor_request":
+        subject = `🧑‍💻 Contributor Application: ${data.name || ""} — ${data.area_of_interest || "General"}`;
+        html = `
+          <h2>New Contributor Application</h2>
+          <table style="border-collapse:collapse;width:100%">
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Name</td><td style="padding:8px;border:1px solid #ddd">${data.name || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${data.email || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">GitHub</td><td style="padding:8px;border:1px solid #ddd">${data.github || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Area of Interest</td><td style="padding:8px;border:1px solid #ddd">${data.area_of_interest || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Motivation</td><td style="padding:8px;border:1px solid #ddd">${data.motivation || "—"}</td></tr>
           </table>
         `;
         break;

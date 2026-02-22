@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { UidrLayout } from "@/components/UidrLayout";
-import { Github, MessageSquare, LayoutGrid, FileText, Calendar, CheckSquare } from "lucide-react";
+import { Github, MessageSquare, LayoutGrid, FileText, Calendar, CheckSquare, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const TOOLCHAIN = [
   {
@@ -69,6 +71,105 @@ const FOOTER_LINKS = {
   ],
 };
 
+function ContributorForm() {
+  const [form, setForm] = useState({ name: "", email: "", github: "", area: "", motivation: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await supabase.from("cms_contacts").insert({
+        first_name: form.name.trim(),
+        email: form.email.trim(),
+        website: form.github.trim() || null,
+        message: form.motivation.trim() || null,
+        source: "uidr-contributor",
+        source_detail: form.area || "general",
+      });
+
+      supabase.functions.invoke("send-alert", {
+        body: {
+          type: "contributor_request",
+          data: {
+            name: form.name.trim(),
+            email: form.email.trim(),
+            github: form.github.trim() || null,
+            area_of_interest: form.area || "Not specified",
+            motivation: form.motivation.trim() || null,
+          },
+        },
+      }).then(({ error }) => { if (error) console.error("Alert error:", error); });
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Contributor form error:", err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="text-center py-12">
+        <Send size={28} className="mx-auto mb-4" style={{ color: "hsl(24 95% 53%)" }} />
+        <h3 className="text-xl font-bold text-white mb-2">Application Submitted!</h3>
+        <p className="text-white/50 text-sm">We review applications weekly and will reach out via email.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="space-y-5" onSubmit={handleSubmit}>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">Full Name</label>
+        <input type="text" required placeholder="Jane Smith" value={form.name}
+          onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors" />
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">Email</label>
+        <input type="email" required placeholder="jane@example.com" value={form.email}
+          onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors" />
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">GitHub Profile</label>
+        <input type="text" placeholder="https://github.com/janesmith" value={form.github}
+          onChange={e => setForm(f => ({ ...f, github: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors" />
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">Area of Interest</label>
+        <select value={form.area} onChange={e => setForm(f => ({ ...f, area: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white/60 text-sm focus:outline-none focus:border-white/30 transition-colors appearance-none">
+          <option value="">Select an area...</option>
+          <option value="rust">Rust / eBPF (CoreSec Agent)</option>
+          <option value="go">Go (NetGuard, API layer)</option>
+          <option value="python">Python (KAI Orchestration)</option>
+          <option value="k8s">Kubernetes / Infrastructure</option>
+          <option value="ml">ML / AI Personas</option>
+          <option value="security">Security Research</option>
+          <option value="docs">Documentation</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">Experience & Motivation</label>
+        <textarea rows={5} placeholder="Tell us about your background and what excites you about Kubric..." value={form.motivation}
+          onChange={e => setForm(f => ({ ...f, motivation: e.target.value }))}
+          className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors resize-none" />
+      </div>
+      <button type="submit" disabled={submitting}
+        className="w-full text-white font-semibold py-3 rounded-lg transition-colors text-sm disabled:opacity-50"
+        style={{ background: "hsl(24 95% 53%)" }}>
+        {submitting ? "Submitting..." : "Submit Application"}
+      </button>
+    </form>
+  );
+}
+
 export default function UidrContributors() {
   return (
     <UidrLayout>
@@ -111,60 +212,7 @@ export default function UidrContributors() {
           <h2 className="text-2xl font-bold text-white mb-2">Apply to Contribute</h2>
           <p className="text-white/50 text-sm mb-8">We review applications weekly and reach out via email.</p>
 
-          <form className="space-y-5" onSubmit={e => e.preventDefault()}>
-            <div>
-              <label className="block text-sm font-semibold text-white mb-2">Full Name</label>
-              <input
-                type="text"
-                placeholder="Jane Smith"
-                className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-white mb-2">Email</label>
-              <input
-                type="email"
-                placeholder="jane@example.com"
-                className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-white mb-2">GitHub Profile</label>
-              <input
-                type="text"
-                placeholder="https://github.com/janesmith"
-                className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-white mb-2">Area of Interest</label>
-              <select className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white/60 text-sm focus:outline-none focus:border-white/30 transition-colors appearance-none">
-                <option value="">Select an area...</option>
-                <option value="rust">Rust / eBPF (CoreSec Agent)</option>
-                <option value="go">Go (NetGuard, API layer)</option>
-                <option value="python">Python (KAI Orchestration)</option>
-                <option value="k8s">Kubernetes / Infrastructure</option>
-                <option value="ml">ML / AI Personas</option>
-                <option value="security">Security Research</option>
-                <option value="docs">Documentation</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-white mb-2">Experience & Motivation</label>
-              <textarea
-                rows={5}
-                placeholder="Tell us about your background and what excites you about Kubric..."
-                className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 transition-colors resize-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full text-white font-semibold py-3 rounded-lg transition-colors text-sm"
-              style={{ background: "hsl(24 95% 53%)" }}
-            >
-              Submit Application
-            </button>
-          </form>
+          <ContributorForm />
         </div>
 
         {/* Footer */}

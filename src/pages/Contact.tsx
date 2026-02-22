@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Mail, Phone, MapPin, Clock, Send, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const contactMethods = [
   { icon: Mail, title: "General Inquiries", value: "info@managekube.com", href: "mailto:info@managekube.com" },
@@ -58,9 +59,54 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      // Save to leads table
+      await supabase.from("leads").insert({
+        first_name: formData.firstName.trim(),
+        last_name: formData.lastName.trim(),
+        email: formData.email.trim(),
+        company: formData.company.trim(),
+        phone: formData.phone.trim() || null,
+        message: formData.message.trim() || null,
+        source: "contact",
+      });
+
+      // Save to CMS contacts
+      supabase.from("cms_contacts").insert({
+        first_name: formData.firstName.trim(),
+        last_name: formData.lastName.trim(),
+        email: formData.email.trim(),
+        company: formData.company.trim(),
+        phone: formData.phone.trim() || null,
+        message: formData.message.trim() || null,
+        source: "contact",
+        source_detail: formData.inquiryType || "general",
+      }).then(({ error }) => { if (error) console.error("CMS save error:", error); });
+
+      // Send email alert via Resend
+      supabase.functions.invoke("send-alert", {
+        body: {
+          type: "new_contact",
+          data: {
+            first_name: formData.firstName.trim(),
+            last_name: formData.lastName.trim(),
+            email: formData.email.trim(),
+            company: formData.company.trim(),
+            phone: formData.phone.trim() || null,
+            source: "contact",
+            message: formData.message.trim() || null,
+            inquiry_type: formData.inquiryType || "general",
+          },
+        },
+      }).then(({ error }) => { if (error) console.error("Alert error:", error); });
+
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error("Contact form error:", err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
