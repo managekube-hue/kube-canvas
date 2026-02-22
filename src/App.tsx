@@ -122,6 +122,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import Assessment from "./pages/Assessment";
+import AssessmentEngine from "./pages/AssessmentEngine";
 import FindByProblem from "./pages/FindByProblem";
 import PartnerPortal from "./pages/login/PartnerPortal";
 import ClientPortal from "./pages/login/ClientPortal";
@@ -167,6 +168,7 @@ const App = () => (
           {/* Assessment & Navigation Paths */}
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/assessment" element={<Assessment />} />
+          <Route path="/assessment/start" element={<AssessmentEngine />} />
           <Route path="/find-by-problem" element={<FindByProblem />} />
           <Route path="/find-by-size" element={<Navigate to="/solutions/by-market-size" replace />} />
           <Route path="/solutions" element={<SolutionsHub />} />

@@ -14,6 +14,174 @@ export type Database = {
   }
   public: {
     Tables: {
+      assessment_sessions: {
+        Row: {
+          answers: Json | null
+          cf_automation_maturity: number | null
+          cf_business_gov_maturity: number | null
+          cf_cloud_maturity: number | null
+          cf_cost_maturity: number | null
+          cf_data_protection_maturity: number | null
+          cf_dr_bc_maturity: number | null
+          cf_iam_maturity: number | null
+          cf_infrastructure_maturity: number | null
+          cf_secops_maturity: number | null
+          cf_security_ps_maturity: number | null
+          company: string | null
+          completed_at: string | null
+          completed_flows: string[] | null
+          complexity_score: number | null
+          compliance_deadline: string | null
+          compliance_frameworks: string[] | null
+          created_at: string
+          current_flow: string | null
+          current_question: string | null
+          email: string | null
+          email_platform: string | null
+          ems_score: number | null
+          endpoint_count: number | null
+          estimated_deal_size: string | null
+          first_name: string | null
+          flags: Json | null
+          hubspot_contact_id: string | null
+          hubspot_synced_at: string | null
+          id: string
+          incident_age: string | null
+          incident_type: string | null
+          industry: string | null
+          it_situation: string | null
+          it_team_size: number | null
+          key_gap_flags: string[] | null
+          last_name: string | null
+          location_count: number | null
+          monthly_price: number | null
+          msp_issues: string[] | null
+          org_stage: string | null
+          phone: string | null
+          primary_priority: string | null
+          profile_type: string | null
+          recommended_tier: string | null
+          remote_workforce_pct: string | null
+          risk_score: number | null
+          role: string | null
+          status: string | null
+          timeline: string | null
+          updated_at: string
+          upsell_ready: boolean | null
+          urgency_score: number | null
+        }
+        Insert: {
+          answers?: Json | null
+          cf_automation_maturity?: number | null
+          cf_business_gov_maturity?: number | null
+          cf_cloud_maturity?: number | null
+          cf_cost_maturity?: number | null
+          cf_data_protection_maturity?: number | null
+          cf_dr_bc_maturity?: number | null
+          cf_iam_maturity?: number | null
+          cf_infrastructure_maturity?: number | null
+          cf_secops_maturity?: number | null
+          cf_security_ps_maturity?: number | null
+          company?: string | null
+          completed_at?: string | null
+          completed_flows?: string[] | null
+          complexity_score?: number | null
+          compliance_deadline?: string | null
+          compliance_frameworks?: string[] | null
+          created_at?: string
+          current_flow?: string | null
+          current_question?: string | null
+          email?: string | null
+          email_platform?: string | null
+          ems_score?: number | null
+          endpoint_count?: number | null
+          estimated_deal_size?: string | null
+          first_name?: string | null
+          flags?: Json | null
+          hubspot_contact_id?: string | null
+          hubspot_synced_at?: string | null
+          id?: string
+          incident_age?: string | null
+          incident_type?: string | null
+          industry?: string | null
+          it_situation?: string | null
+          it_team_size?: number | null
+          key_gap_flags?: string[] | null
+          last_name?: string | null
+          location_count?: number | null
+          monthly_price?: number | null
+          msp_issues?: string[] | null
+          org_stage?: string | null
+          phone?: string | null
+          primary_priority?: string | null
+          profile_type?: string | null
+          recommended_tier?: string | null
+          remote_workforce_pct?: string | null
+          risk_score?: number | null
+          role?: string | null
+          status?: string | null
+          timeline?: string | null
+          updated_at?: string
+          upsell_ready?: boolean | null
+          urgency_score?: number | null
+        }
+        Update: {
+          answers?: Json | null
+          cf_automation_maturity?: number | null
+          cf_business_gov_maturity?: number | null
+          cf_cloud_maturity?: number | null
+          cf_cost_maturity?: number | null
+          cf_data_protection_maturity?: number | null
+          cf_dr_bc_maturity?: number | null
+          cf_iam_maturity?: number | null
+          cf_infrastructure_maturity?: number | null
+          cf_secops_maturity?: number | null
+          cf_security_ps_maturity?: number | null
+          company?: string | null
+          completed_at?: string | null
+          completed_flows?: string[] | null
+          complexity_score?: number | null
+          compliance_deadline?: string | null
+          compliance_frameworks?: string[] | null
+          created_at?: string
+          current_flow?: string | null
+          current_question?: string | null
+          email?: string | null
+          email_platform?: string | null
+          ems_score?: number | null
+          endpoint_count?: number | null
+          estimated_deal_size?: string | null
+          first_name?: string | null
+          flags?: Json | null
+          hubspot_contact_id?: string | null
+          hubspot_synced_at?: string | null
+          id?: string
+          incident_age?: string | null
+          incident_type?: string | null
+          industry?: string | null
+          it_situation?: string | null
+          it_team_size?: number | null
+          key_gap_flags?: string[] | null
+          last_name?: string | null
+          location_count?: number | null
+          monthly_price?: number | null
+          msp_issues?: string[] | null
+          org_stage?: string | null
+          phone?: string | null
+          primary_priority?: string | null
+          profile_type?: string | null
+          recommended_tier?: string | null
+          remote_workforce_pct?: string | null
+          risk_score?: number | null
+          role?: string | null
+          status?: string | null
+          timeline?: string | null
+          updated_at?: string
+          upsell_ready?: boolean | null
+          urgency_score?: number | null
+        }
+        Relationships: []
+      }
       lead_exports: {
         Row: {
           business_name: string
