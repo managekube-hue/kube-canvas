@@ -156,7 +156,7 @@ export default function AssessmentEngine() {
           compliance_deadline: answers["P0-Q4A_DEADLINE"] || null,
           incident_type: answers["P0-Q4B_INCIDENT_TYPE"] || null,
           incident_age: answers["P0-Q4B_INCIDENT_AGE"] || null,
-          timeline: answers["P0-Q5_TIMELINE"] || null,
+          timeline: answers["P0-Q7_TIMELINE"] || answers["P0-Q5_TIMELINE"] || null,
           msp_issues: answers["P0-Q3B_MSP_ISSUES"] || null,
           ems_score: scoring.ems_score,
           complexity_score: scoring.complexity_score,
@@ -234,7 +234,16 @@ export default function AssessmentEngine() {
         recommended_tier: finalScores.recommended_tier,
         profile_type: finalScores.profile_type,
         key_gap_flags: finalScores.key_gap_flags,
+        monthly_price: finalScores.monthly_price,
+        estimated_deal_size: finalScores.estimated_deal_size,
       }).eq("id", sessionId);
+
+      // Trigger HubSpot sync
+      if (status === "completed" || status === "escalated") {
+        supabase.functions.invoke("assessment-hubspot-sync", {
+          body: { session_id: sessionId },
+        }).catch((err) => console.error("HubSpot sync error:", err));
+      }
     } catch (_e) { /* silent */ }
   };
 
@@ -456,7 +465,7 @@ export default function AssessmentEngine() {
                   </ul>
                 </div>
                 <div className="mt-8 flex flex-wrap gap-4 justify-center">
-                  <a href="tel:+1234567890" className="inline-flex items-center gap-2 px-8 py-3 text-sm font-bold uppercase tracking-wider text-white" style={{ background: "#dc2626" }}>
+                  <a href="tel:+12402572029" className="inline-flex items-center gap-2 px-8 py-3 text-sm font-bold uppercase tracking-wider text-white" style={{ background: "#dc2626" }}>
                     <Phone size={14} /> Call Now
                   </a>
                   <a href="/contact" className="inline-flex items-center gap-2 px-8 py-3 text-sm font-bold uppercase tracking-wider text-white" style={{ background: ORANGE }}>
@@ -504,6 +513,29 @@ export default function AssessmentEngine() {
                   {scores.upsell_ready && (
                     <p className="text-xs mt-2" style={{ color: ORANGE }}>⬆ Your scores suggest the next tier may be more appropriate.</p>
                   )}
+                </div>
+
+                {/* Pricing Breakdown */}
+                <div className="p-6 mb-6" style={{ background: "rgba(205,202,197,0.03)", border: "1px solid rgba(205,202,197,0.08)" }}>
+                  <p className="text-xs font-bold uppercase tracking-wider text-white/30 mb-4">Monthly Pricing</p>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-white/50">Base rate ({scores.recommended_tier})</span>
+                      <span className="text-sm font-bold text-white">${scores.base_rate.toLocaleString()}/mo</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-white/50">{scores.endpoint_count} endpoints × ${scores.per_endpoint_rate}/ea</span>
+                      <span className="text-sm font-bold text-white">${(scores.endpoint_count * scores.per_endpoint_rate).toLocaleString()}/mo</span>
+                    </div>
+                    <div className="h-px" style={{ background: "rgba(205,202,197,0.1)" }} />
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-bold text-white">Total before milestones</span>
+                      <span className="text-2xl font-black text-white">${scores.monthly_price.toLocaleString()}<span className="text-sm font-normal text-white/40">/mo</span></span>
+                    </div>
+                    <p className="text-[10px] text-white/25 mt-2">
+                      Milestone reductions up to 22% apply as you achieve operational targets. See proposal for details.
+                    </p>
+                  </div>
                 </div>
 
                 {/* CF Maturity Scores */}

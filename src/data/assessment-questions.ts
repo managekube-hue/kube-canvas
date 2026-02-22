@@ -291,9 +291,43 @@ export const P0_QUESTIONS: AssessmentQuestion[] = [
     ],
   },
   {
-    code: "P0-Q5_TIMELINE",
+    code: "P0-Q5_EMPLOYEE_COUNT",
     flow: "P0",
-    label: "What is your implementation timeline?",
+    label: "How many employees does your organisation have?",
+    description: "Feeds deal size derivation and IT ratio calculation.",
+    type: "single",
+    hubspotProperty: "numberOfEmployees",
+    options: [
+      { label: "1–25", value: "25", score: { ems_base: 0 } },
+      { label: "26–50", value: "50", score: { ems_base: 10 } },
+      { label: "51–100", value: "100", score: { ems_base: 20 } },
+      { label: "101–200", value: "200", score: { ems_base: 30 } },
+      { label: "201–500", value: "500", score: { ems_base: 40 } },
+      { label: "501–1,000", value: "1000", score: { ems_base: 50 } },
+      { label: "1,000+", value: "1000+", score: { ems_base: 60 } },
+    ],
+  },
+  {
+    code: "P0-Q6_REVENUE",
+    flow: "P0",
+    label: "What is your approximate annual revenue?",
+    description: "Feeds deal size derivation and proposal ROI framing.",
+    type: "single",
+    hubspotProperty: "annualrevenue",
+    options: [
+      { label: "Under $1M", value: "under_1m" },
+      { label: "$1M – $5M", value: "1m_5m" },
+      { label: "$5M – $25M", value: "5m_25m" },
+      { label: "$25M – $100M", value: "25m_100m", score: { complexity: 1 } },
+      { label: "$100M – $500M", value: "100m_500m", score: { complexity: 2 } },
+      { label: "$500M+", value: "500m_plus", score: { complexity: 3 } },
+      { label: "Prefer not to say", value: "prefer_not" },
+    ],
+  },
+  {
+    code: "P0-Q7_TIMELINE",
+    flow: "P0",
+    label: "What is your expected implementation timeline?",
     description: "Urgency +5 if within 30 days. Shapes proposal urgency and resource allocation.",
     type: "single",
     hubspotProperty: "mk_onb_timeline",
@@ -447,6 +481,21 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
       { label: "Yes — documented but not tested", value: "untested", score: { cf_secops_maturity: 1 } },
       { label: "Informal / undocumented", value: "informal", score: { risk: 5 }, flags: { no_ir_plan: true } },
       { label: "No IR plan", value: "none", score: { risk: 10 }, flags: { no_ir_plan: true } },
+    ],
+  },
+  {
+    code: "SR-Q2A",
+    flow: "SR",
+    label: "What additional IR support do you need?",
+    type: "multi",
+    showIf: (answers) => answers["SR-Q2"] === "need_ir",
+    options: [
+      { label: "Digital forensics", value: "forensics" },
+      { label: "Malware analysis", value: "malware_analysis" },
+      { label: "Containment and eradication", value: "containment" },
+      { label: "Communications / PR support", value: "communications" },
+      { label: "Legal / regulatory counsel", value: "legal" },
+      { label: "Recovery and restoration", value: "recovery" },
     ],
   },
   {
@@ -605,6 +654,40 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "Yes — documented but not recently tested", value: "untested", score: { cf_dr_bc_maturity: 2 } },
       { label: "Informal / undocumented", value: "informal", score: { cf_dr_bc_maturity: 1 } },
       { label: "No DR plan", value: "none", score: { risk: 15 }, flags: { no_dr_plan: true } },
+    ],
+  },
+  {
+    code: "IA-Q9A",
+    flow: "IA",
+    label: "Which VMware version are you running?",
+    type: "single",
+    showIf: (answers) => {
+      const virt = answers["IA-Q8"];
+      return virt === "80+" || virt === "50-80";
+    },
+    options: [
+      { label: "vSphere 8.x", value: "vsphere_8", score: { cf_infrastructure_maturity: 2 } },
+      { label: "vSphere 7.x", value: "vsphere_7", score: { cf_infrastructure_maturity: 2 } },
+      { label: "vSphere 6.7", value: "vsphere_67", score: { cf_infrastructure_maturity: -1 } },
+      { label: "vSphere 6.5 or older (End of Support)", value: "vsphere_65", score: { cf_infrastructure_maturity: -2, risk: 10 } },
+      { label: "Not VMware / Not sure", value: "not_vmware" },
+    ],
+  },
+  {
+    code: "IA-Q9B",
+    flow: "IA",
+    label: "Which Hyper-V version are you running?",
+    type: "single",
+    showIf: (answers) => {
+      const virt = answers["IA-Q8"];
+      return virt === "80+" || virt === "50-80";
+    },
+    options: [
+      { label: "Hyper-V 2022", value: "hyperv_2022", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Hyper-V 2019", value: "hyperv_2019", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Hyper-V 2016", value: "hyperv_2016", score: { cf_infrastructure_maturity: 0 } },
+      { label: "Hyper-V 2012 R2 or older (End of Life)", value: "hyperv_2012", score: { risk: 10 }, flags: { unsupported_os: true } },
+      { label: "Not Hyper-V / Not sure", value: "not_hyperv" },
     ],
   },
   {
