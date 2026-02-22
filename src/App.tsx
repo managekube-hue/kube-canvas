@@ -15,9 +15,9 @@ import SelfManaged from "./pages/paths/SelfManaged";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Methodology from "./pages/Methodology";
-import KubesOverview from "./pages/KubesOverview";
+import ServiceLayerOverview from "./pages/KubesOverview";
 
-// New 15 Kubes
+// Service Layer (formerly Kubes)
 import CioKube from "./pages/kubes/CioKube";
 import NpmKube from "./pages/kubes/NpmKube";
 import MdmKube from "./pages/kubes/MdmKube";
@@ -33,6 +33,10 @@ import VdrKube from "./pages/kubes/VdrKube";
 import CfdrKube from "./pages/kubes/CfdrKube";
 import BdrKube from "./pages/kubes/BdrKube";
 import GrcKube from "./pages/kubes/GrcKube";
+// New Service Layer modules
+import StrikeModule from "./pages/service-layer/StrikeModule";
+import EasmModule from "./pages/service-layer/EasmModule";
+import HoneypotModule from "./pages/service-layer/HoneypotModule";
 
 // Our Tools
 import OurTools from "./pages/our-tools/OurTools";
@@ -41,7 +45,7 @@ import KubricUidr from "./pages/our-tools/KubricUidr";
 import KubricDataGraph from "./pages/our-tools/KubricDataGraph";
 import KubricAi from "./pages/our-tools/KubricAi";
 
-// Products
+// Service Tiers (formerly Products)
 import Products from "./pages/products/Products";
 import Xro from "./pages/products/Xro";
 import Xmm from "./pages/products/Xmm";
@@ -162,10 +166,50 @@ const App = () => (
           <Route path="/our-tools/kubric-data-graph" element={<KubricDataGraph />} />
           <Route path="/our-tools/kubric-ai" element={<KubricAi />} />
 
-          {/* Kubes */}
-          <Route path="/kubes" element={<KubesOverview />} />
+          {/* ═══════════════════════════════════════════════════════════
+              SERVICE LAYER (new canonical routes)
+              ═══════════════════════════════════════════════════════════ */}
+          <Route path="/service-layer" element={<ServiceLayerOverview />} />
+          {/* Infrastructure & Operations */}
+          <Route path="/service-layer/cio" element={<CioKube />} />
+          <Route path="/service-layer/npm" element={<NpmKube />} />
+          <Route path="/service-layer/mdm" element={<MdmKube />} />
+          <Route path="/service-layer/apm" element={<ApmKube />} />
+          <Route path="/service-layer/cfdr" element={<CfdrKube />} />
+          <Route path="/service-layer/bdr" element={<BdrKube />} />
+          {/* Security Detection & Response */}
+          <Route path="/service-layer/itdr" element={<ItdrKube />} />
+          <Route path="/service-layer/ndr" element={<NdrKube />} />
+          <Route path="/service-layer/cdr" element={<CdrKube />} />
+          <Route path="/service-layer/sdr" element={<SdrKube />} />
+          <Route path="/service-layer/adr" element={<AdrKube />} />
+          <Route path="/service-layer/ddr" element={<DdrKube />} />
+          {/* Intelligence & Governance */}
+          <Route path="/service-layer/ti" element={<TiKube />} />
+          <Route path="/service-layer/vdr" element={<VdrKube />} />
+          <Route path="/service-layer/grc" element={<GrcKube />} />
+          {/* New modules */}
+          <Route path="/service-layer/strike" element={<StrikeModule />} />
+          <Route path="/service-layer/easm" element={<EasmModule />} />
+          <Route path="/service-layer/honeypot" element={<HoneypotModule />} />
 
-          {/* Legacy kube redirects → correct destinations */}
+          {/* ── Legacy /kubes/* redirects → /service-layer/* ─────────── */}
+          <Route path="/kubes" element={<Navigate to="/service-layer" replace />} />
+          <Route path="/kubes/cio-kube" element={<Navigate to="/service-layer/cio" replace />} />
+          <Route path="/kubes/npm-kube" element={<Navigate to="/service-layer/npm" replace />} />
+          <Route path="/kubes/mdm-kube" element={<Navigate to="/service-layer/mdm" replace />} />
+          <Route path="/kubes/apm-kube" element={<Navigate to="/service-layer/apm" replace />} />
+          <Route path="/kubes/cfdr-kube" element={<Navigate to="/service-layer/cfdr" replace />} />
+          <Route path="/kubes/bdr-kube" element={<Navigate to="/service-layer/bdr" replace />} />
+          <Route path="/kubes/itdr-kube" element={<Navigate to="/service-layer/itdr" replace />} />
+          <Route path="/kubes/ndr-kube" element={<Navigate to="/service-layer/ndr" replace />} />
+          <Route path="/kubes/cdr-kube" element={<Navigate to="/service-layer/cdr" replace />} />
+          <Route path="/kubes/sdr-kube" element={<Navigate to="/service-layer/sdr" replace />} />
+          <Route path="/kubes/adr-kube" element={<Navigate to="/service-layer/adr" replace />} />
+          <Route path="/kubes/ddr-kube" element={<Navigate to="/service-layer/ddr" replace />} />
+          <Route path="/kubes/ti-kube" element={<Navigate to="/service-layer/ti" replace />} />
+          <Route path="/kubes/vdr-kube" element={<Navigate to="/service-layer/vdr" replace />} />
+          <Route path="/kubes/grc-kube" element={<Navigate to="/service-layer/grc" replace />} />
           <Route path="/kubes/assessment-kube" element={<Navigate to="/assessment" replace />} />
           <Route path="/kubes/compliance-kube" element={<Navigate to="/services/managed-compliance" replace />} />
           <Route path="/kubes/mssp-kube" element={<Navigate to="/services/managed-soc" replace />} />
@@ -173,31 +217,23 @@ const App = () => (
           <Route path="/kubes/advisory-kube" element={<Navigate to="/services" replace />} />
           <Route path="/kubes/innovation-kube" element={<Navigate to="/our-tools/kubric-ai" replace />} />
           <Route path="/kubes/industry-kube" element={<Navigate to="/solutions/hub" replace />} />
-          <Route path="/kubes/product-kube" element={<Navigate to="/products" replace />} />
+          <Route path="/kubes/product-kube" element={<Navigate to="/service-tiers" replace />} />
 
-          {/* 15 Active Kubes */}
-          <Route path="/kubes/cio-kube" element={<CioKube />} />
-          <Route path="/kubes/npm-kube" element={<NpmKube />} />
-          <Route path="/kubes/mdm-kube" element={<MdmKube />} />
-          <Route path="/kubes/apm-kube" element={<ApmKube />} />
-          <Route path="/kubes/itdr-kube" element={<ItdrKube />} />
-          <Route path="/kubes/ndr-kube" element={<NdrKube />} />
-          <Route path="/kubes/cdr-kube" element={<CdrKube />} />
-          <Route path="/kubes/sdr-kube" element={<SdrKube />} />
-          <Route path="/kubes/adr-kube" element={<AdrKube />} />
-          <Route path="/kubes/ddr-kube" element={<DdrKube />} />
-          <Route path="/kubes/ti-kube" element={<TiKube />} />
-          <Route path="/kubes/vdr-kube" element={<VdrKube />} />
-          <Route path="/kubes/cfdr-kube" element={<CfdrKube />} />
-          <Route path="/kubes/bdr-kube" element={<BdrKube />} />
-          <Route path="/kubes/grc-kube" element={<GrcKube />} />
+          {/* ═══════════════════════════════════════════════════════════
+              SERVICE TIERS (new canonical routes, formerly Products)
+              ═══════════════════════════════════════════════════════════ */}
+          <Route path="/service-tiers" element={<Products />} />
+          <Route path="/service-tiers/xro-essentials" element={<Xro />} />
+          <Route path="/service-tiers/xmx-advanced" element={<Xmm />} />
+          <Route path="/service-tiers/xme-enterprise" element={<Xme />} />
+          <Route path="/service-tiers/custom" element={<CustomProduct />} />
 
-          {/* Products */}
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/xro" element={<Xro />} />
-          <Route path="/products/xmm" element={<Xmm />} />
-          <Route path="/products/xme" element={<Xme />} />
-          <Route path="/products/custom" element={<CustomProduct />} />
+          {/* ── Legacy /products/* redirects → /service-tiers/* ──────── */}
+          <Route path="/products" element={<Navigate to="/service-tiers" replace />} />
+          <Route path="/products/xro" element={<Navigate to="/service-tiers/xro-essentials" replace />} />
+          <Route path="/products/xmm" element={<Navigate to="/service-tiers/xmx-advanced" replace />} />
+          <Route path="/products/xme" element={<Navigate to="/service-tiers/xme-enterprise" replace />} />
+          <Route path="/products/custom" element={<Navigate to="/service-tiers/custom" replace />} />
 
           {/* Services */}
           <Route path="/services" element={<Services />} />

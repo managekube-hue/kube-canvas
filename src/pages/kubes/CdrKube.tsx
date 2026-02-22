@@ -13,8 +13,8 @@ export default function CdrKube() {
       { title: "Compliance", items: ["Automated compliance validation", "CIS benchmark alignment", "Continuous drift detection", "Evidence collection"] },
     ]}
     similar={[
-      { label: "NDR KUBE", href: "/kubes/ndr-kube" },
-      { label: "SDR KUBE", href: "/kubes/sdr-kube" },
+      { label: "NDR", href: "/service-layer/ndr" },
+      { label: "SDR", href: "/service-layer/sdr" },
       { label: "Managed Cloud & FinOps", href: "/services/managed-cloud" },
     ]}
   />;

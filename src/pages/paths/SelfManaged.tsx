@@ -380,14 +380,14 @@ export default function SelfManaged() {
             ))}
             {/* View all */}
             <Link
-              to="/kubes"
+              to="/service-layer"
               className="group p-6 flex flex-col items-center justify-center text-center transition-all"
               style={{ background: "#0A0A0A" }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = BG3}
               onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "#0A0A0A"}
             >
               <Layers size={24} style={{ color: ORANGE }} className="mb-3" />
-              <p className="text-[14px] font-black text-white mb-1" style={{ fontFamily: "'Special Elite', serif" }}>View All Kubes</p>
+              <p className="text-[14px] font-black text-white mb-1" style={{ fontFamily: "'Special Elite', serif" }}>View All Modules</p>
               <p className="text-[11px] mb-4" style={{ color: TEXT_DIMMER }}>Full catalog with API reference</p>
               <ArrowRight size={16} style={{ color: ORANGE }} />
             </Link>
@@ -465,12 +465,12 @@ export default function SelfManaged() {
                 The GRC KUBE maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit packages via API — the GRC KUBE gives your team programmatic access to your entire compliance posture.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link to="/kubes/grc-kube" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: ORANGE, letterSpacing: "0.1em" }}>
-                  View GRC KUBE API <ArrowRight size={11} />
+                <Link to="/service-layer/grc" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: ORANGE, letterSpacing: "0.1em" }}>
+                  View GRC API <ArrowRight size={11} />
                 </Link>
                 <span style={{ color: TEXT_DIMMER }}>·</span>
-                <Link to="/kubes/grc-kube" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: TEXT_DIM, letterSpacing: "0.1em" }}>
-                  Deploy GRC KUBE <ArrowRight size={11} />
+                <Link to="/service-layer/grc" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: TEXT_DIM, letterSpacing: "0.1em" }}>
+                  Deploy GRC Module <ArrowRight size={11} />
                 </Link>
               </div>
             </div>

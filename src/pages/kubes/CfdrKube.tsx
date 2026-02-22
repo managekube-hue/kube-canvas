@@ -13,9 +13,9 @@ export default function CfdrKube() {
       { title: "Compliance", items: ["CIS benchmark alignment", "DISA STIG enforcement", "Evidence collection", "Audit-ready reports"] },
     ]}
     similar={[
-      { label: "BDR KUBE", href: "/kubes/bdr-kube" },
-      { label: "GRC KUBE", href: "/kubes/grc-kube" },
-      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+      { label: "BDR", href: "/service-layer/bdr" },
+      { label: "GRC", href: "/service-layer/grc" },
+      { label: "CIO", href: "/service-layer/cio" },
     ]}
   />;
 }

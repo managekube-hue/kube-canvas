@@ -13,9 +13,9 @@ export default function AdrKube() {
       { title: "Advanced Protection", items: ["Virtual patching capabilities", "RASP (Runtime Application Self-Protection)", "API schema validation", "Zero-day protection"] },
     ]}
     similar={[
-      { label: "ITDR KUBE", href: "/kubes/itdr-kube" },
-      { label: "APM KUBE", href: "/kubes/apm-kube" },
-      { label: "DDR KUBE", href: "/kubes/ddr-kube" },
+      { label: "ITDR", href: "/service-layer/itdr" },
+      { label: "APM", href: "/service-layer/apm" },
+      { label: "DDR", href: "/service-layer/ddr" },
     ]}
   />;
 }

@@ -43,7 +43,7 @@ export const KubeDetailPage = ({
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">{category}</span>
                 <span className="text-white/30">·</span>
-                <span className="text-xs font-bold tracking-widest uppercase text-white/50">KUBES</span>
+                <span className="text-xs font-bold tracking-widest uppercase text-white/50">SERVICE LAYER</span>
               </div>
               <div className="h-1 w-16 bg-brand-orange mb-8" />
               <h1 className="text-display text-white mb-3">

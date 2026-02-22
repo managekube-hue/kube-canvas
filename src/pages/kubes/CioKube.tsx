@@ -13,9 +13,9 @@ export default function CioKube() {
       { title: "Integration Points", items: ["Integration with CFDR and BDR Kubes", "API gateway connectivity", "ITSM ticketing integration", "RMM platform coordination"] },
     ]}
     similar={[
-      { label: "NPM KUBE", href: "/kubes/npm-kube" },
-      { label: "CFDR KUBE", href: "/kubes/cfdr-kube" },
-      { label: "BDR KUBE", href: "/kubes/bdr-kube" },
+      { label: "NPM", href: "/service-layer/npm" },
+      { label: "CFDR", href: "/service-layer/cfdr" },
+      { label: "BDR", href: "/service-layer/bdr" },
     ]}
   />;
 }

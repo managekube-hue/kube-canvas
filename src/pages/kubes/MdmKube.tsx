@@ -13,8 +13,8 @@ export default function MdmKube() {
       { title: "Security Controls", items: ["Location tracking and geofencing", "Container and app-level security", "Encryption enforcement", "Jailbreak/root detection"] },
     ]}
     similar={[
-      { label: "CIO KUBE", href: "/kubes/cio-kube" },
-      { label: "ITDR KUBE", href: "/kubes/itdr-kube" },
+      { label: "CIO", href: "/service-layer/cio" },
+      { label: "ITDR", href: "/service-layer/itdr" },
       { label: "Physical Security Integration", href: "/services/physical-security" },
     ]}
   />;

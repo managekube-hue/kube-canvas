@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-/** Footer — 5-column professional layout, exact nav specified by user */
+/** Footer — 5-column professional layout */
 
 const ORANGE = "#993619";
 const DIM = "rgba(255,255,255,0.38)";
@@ -21,25 +21,24 @@ const columns: ColDef[] = [
     ],
   },
   {
-    title: "Kubes",
+    title: "Service Layer",
     items: [
-      { label: "What Are Kubes?", href: "/kubes" },
-      { label: "CIO KUBE", href: "/kubes/cio-kube" },
-      { label: "NPM", href: "/kubes/npm-kube" },
-      { label: "MDM", href: "/kubes/mdm-kube" },
-      { label: "APM", href: "/kubes/apm-kube" },
-      { label: "ITDR", href: "/kubes/itdr-kube" },
+      { label: "All Modules", href: "/service-layer" },
+      { label: "CIO", href: "/service-layer/cio" },
+      { label: "NPM", href: "/service-layer/npm" },
+      { label: "ITDR", href: "/service-layer/itdr" },
+      { label: "NDR", href: "/service-layer/ndr" },
+      { label: "STRIKE", href: "/service-layer/strike" },
+      { label: "EASM", href: "/service-layer/easm" },
     ],
   },
   {
-    title: "Products",
+    title: "Service Tiers",
     items: [
-      { label: "XRO", href: "/products/xro" },
-      { label: "XMX", href: "/products/xmm" },
-      { label: "XME", href: "/products/xme" },
-      { label: "Supply Chain Detection & Response", href: "/products/xme" },
-      { label: "External Attack Surface Management", href: "/products/xme" },
-      { label: "Cyber Risk Quantification", href: "/products/xme" },
+      { label: "XRO — Essentials", href: "/service-tiers/xro-essentials" },
+      { label: "XMX — Advanced", href: "/service-tiers/xmx-advanced" },
+      { label: "XME — Enterprise", href: "/service-tiers/xme-enterprise" },
+      { label: "Custom Configuration", href: "/service-tiers/custom" },
     ],
   },
   {

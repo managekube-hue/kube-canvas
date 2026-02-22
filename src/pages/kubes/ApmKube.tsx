@@ -13,9 +13,9 @@ export default function ApmKube() {
       { title: "Observability", items: ["Log aggregation and analysis", "Metric correlation", "Alert noise reduction", "SLO/SLA tracking"] },
     ]}
     similar={[
-      { label: "NPM KUBE", href: "/kubes/npm-kube" },
-      { label: "ADR KUBE", href: "/kubes/adr-kube" },
-      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+      { label: "NPM", href: "/service-layer/npm" },
+      { label: "ADR", href: "/service-layer/adr" },
+      { label: "CIO", href: "/service-layer/cio" },
     ]}
   />;
 }
