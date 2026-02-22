@@ -83,7 +83,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: "ManageKube Alerts <alerts@updates.managekube.com>",
-        to: ["team@updates.managekube.com"],
+        to: ["sunny@managekube.com"],
         subject,
         html,
       }),
