@@ -1,7 +1,8 @@
 /**
  * ManageKube Assessment Scoring Engine v2.0
- * Implements EMS scoring, CF maturity scores, urgency/risk flags,
- * tier thresholds, and industry multipliers.
+ * Implements EMS scoring per spec:
+ *   EMS = complexity_score (0-500) + risk_score (0-500)
+ *   Industry multiplier applied after.
  *
  * Tier thresholds: XRO 0-400 | XMX 401-700 | XME 701-1000
  * Compliance framework cap: +15 max
@@ -59,7 +60,6 @@ export function calculateScores(
   let complexity = 0;
   let urgency = 0;
   let risk = 0;
-  let ems_base = 0;
   let industry_multiplier = 1.0;
   let growth_modifier = 0;
 
@@ -80,12 +80,10 @@ export function calculateScores(
       for (const val of answer) {
         const opt = question.options?.find((o) => o.value === val);
         if (!opt) continue;
-        applyOptionScores(opt, cf, { complexity, urgency, risk, ems_base, industry_multiplier, growth_modifier }, allFlags);
-        const result = applyOptionScores(opt, cf, { complexity, urgency, risk, ems_base, industry_multiplier, growth_modifier }, allFlags);
+        const result = applyOptionScores(opt, cf, { complexity, urgency, risk, industry_multiplier, growth_modifier }, allFlags);
         complexity = result.complexity;
         urgency = result.urgency;
         risk = result.risk;
-        ems_base = result.ems_base;
         industry_multiplier = result.industry_multiplier;
         growth_modifier = result.growth_modifier;
       }
@@ -103,11 +101,10 @@ export function calculateScores(
       // Single-select
       const opt = question.options?.find((o) => o.value === answer);
       if (!opt) continue;
-      const result = applyOptionScores(opt, cf, { complexity, urgency, risk, ems_base, industry_multiplier, growth_modifier }, allFlags);
+      const result = applyOptionScores(opt, cf, { complexity, urgency, risk, industry_multiplier, growth_modifier }, allFlags);
       complexity = result.complexity;
       urgency = result.urgency;
       risk = result.risk;
-      ems_base = result.ems_base;
       industry_multiplier = result.industry_multiplier;
       growth_modifier = result.growth_modifier;
     }
@@ -129,11 +126,12 @@ export function calculateScores(
     cf[f] = Math.min(Math.max(cf[f], 0), 10);
   }
 
-  // Calculate EMS score
-  // EMS = ems_base + (sum of CF scores * weight) + complexity + growth_modifier
-  // Apply industry multiplier
-  const cfSum = CF_FIELDS.reduce((sum, f) => sum + cf[f], 0);
-  const rawEms = ems_base + (cfSum * 5) + (complexity * 3) + (growth_modifier * 5);
+  // ── EMS CALCULATION (per spec Section 3.1) ──
+  // EMS = complexity_score (0-500) + risk_score (0-500)
+  // Cap each stream, apply industry multiplier to composite
+  const cappedComplexity = Math.min(complexity, 500);
+  const cappedRisk = Math.min(risk, 500);
+  const rawEms = cappedComplexity + cappedRisk;
   const ems_score = Math.round(Math.min(rawEms * industry_multiplier, 1000));
 
   // Tier determination: XRO 0-400 | XMX 401-700 | XME 701-1000
@@ -141,24 +139,29 @@ export function calculateScores(
   if (ems_score > 700) recommended_tier = "XME";
   else if (ems_score > 400) recommended_tier = "XMX";
 
-  // Profile type based on endpoint count and employee count
-  const endpoints = answers["P0-Q0E_ENDPOINTS"];
+  // Profile type (per spec Section 3.4)
+  const endpoints = answers["P0-Q9_ENDPOINTS"] || answers["P0-Q0E_ENDPOINTS"];
   const employees = answers["P0-Q5_EMPLOYEE_COUNT"];
   const revenue = answers["P0-Q6_REVENUE"];
   let profile_type: "smb" | "mid_market" | "enterprise" = "smb";
-  
+
   // Employee-based: <50 SMB, 50-200 mid_market, >200 enterprise
   const empNum = parseInt(employees) || 0;
   if (empNum > 200 || endpoints === "5000" || endpoints === "5000+") profile_type = "enterprise";
   else if (empNum > 50 || endpoints === "500" || endpoints === "1000") profile_type = "mid_market";
-  
+
   // Revenue override: $25M+ = enterprise, $5M-$25M = mid_market
   if (revenue === "25m_100m" || revenue === "100m_500m" || revenue === "500m_plus") profile_type = "enterprise";
   else if (revenue === "5m_25m" && profile_type === "smb") profile_type = "mid_market";
 
-  // Upsell trigger: EMS > 350 (from XRO) or > 650 (from XMX)
-  const upsell_ready = (recommended_tier === "XRO" && ems_score > 350) ||
-    (recommended_tier === "XMX" && ems_score > 650);
+  // Upsell triggers (per spec Section 2)
+  // From XRO: EMS > 350 OR endpoints > 75 OR compliance framework added
+  // From XMX: EMS > 650 OR compliance frameworks > 2 OR security incident flag
+  const endpointNum = parseInt(endpoints) || 50;
+  const frameworks = answers["P0-Q4A_FRAMEWORKS"] || [];
+  const upsell_ready =
+    (recommended_tier === "XRO" && (ems_score > 350 || endpointNum > 75 || frameworks.length > 0)) ||
+    (recommended_tier === "XMX" && (ems_score > 650 || frameworks.length > 2 || allFlags.flag_security_remediation));
 
   // Deep-dive flow routing
   const priority = answers["P0-Q4_PRIMARY_PRIORITY"];
@@ -173,7 +176,6 @@ export function calculateScores(
     XME: { base: 18000, perEndpoint: 8 },
   };
   const tierPricing = TIER_PRICING[recommended_tier];
-  const endpointNum = parseInt(endpoints) || 50;
   const monthly_price = tierPricing.base + (endpointNum * tierPricing.perEndpoint);
 
   // Deal size classification
@@ -183,9 +185,9 @@ export function calculateScores(
 
   return {
     ems_score,
-    complexity_score: complexity,
+    complexity_score: cappedComplexity,
     urgency_score: urgency,
-    risk_score: Math.min(risk, 100),
+    risk_score: cappedRisk,
     cf_infrastructure_maturity: cf.cf_infrastructure_maturity,
     cf_security_ps_maturity: cf.cf_security_ps_maturity,
     cf_iam_maturity: cf.cf_iam_maturity,
@@ -214,7 +216,7 @@ export function calculateScores(
 function applyOptionScores(
   opt: QuestionOption,
   cf: Record<string, number>,
-  accum: { complexity: number; urgency: number; risk: number; ems_base: number; industry_multiplier: number; growth_modifier: number },
+  accum: { complexity: number; urgency: number; risk: number; industry_multiplier: number; growth_modifier: number },
   flags: Record<string, any>
 ) {
   const result = { ...accum };
@@ -224,11 +226,13 @@ function applyOptionScores(
       if (key === "complexity") result.complexity += value;
       else if (key === "urgency") result.urgency += value;
       else if (key === "risk") result.risk += value;
-      else if (key === "ems_base") result.ems_base += value;
       else if (key === "industry_multiplier") result.industry_multiplier = value;
       else if (key === "growth_modifier") result.growth_modifier += value;
       else if (key === "compliance_complexity") {
         // Handled separately in multi-select with cap
+      } else if (key === "ems_base") {
+        // ems_base feeds into complexity per spec
+        result.complexity += value;
       } else if (key.startsWith("cf_")) {
         cf[key] = (cf[key] || 0) + value;
       }
