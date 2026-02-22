@@ -1,20 +1,32 @@
-import { KubeDetailPage } from "@/components/KubeDetailPage";
+/** DO NOT TOUCH — v2.0 spec copy — TI merged into VDR/STRIKE per v2.0 spec */
+import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function TiKube() {
-  return <KubeDetailPage
-    code="TI"
-    name="Threat Intelligence That Informs Action"
-    tagline="MISP integration with EPSS scoring for predictive threat intelligence and proactive defense."
-    category="Intelligence & Governance"
-    description="TI KUBE aggregates, analyzes, and operationalizes threat intelligence from global feeds, industry sources, and internal telemetry. MISP provides threat actor tracking, IOC correlation, and campaign attribution."
-    fullDescription="Knowing what attackers are doing before they target you changes the game. TI KUBE integrates MISP for comprehensive threat actor tracking and IOC correlation, while EPSS scoring ensures your team focuses on vulnerabilities with the highest real-world exploitation probability — not just the highest CVSS scores."
+  return <ServiceLayerPage
+    category="Intelligence & Risk"
+    name="Threat Intelligence"
+    headline="Know Your Adversary. Before They Move Against You."
+    narrative={[
+      "Threat intelligence exists in abundance. IOC feeds, threat actor profiles, dark web monitoring, vulnerability disclosures the volume of raw intelligence available to security teams has never been higher. The problem is not access to information. The problem is the gap between generic threat data and actionable knowledge about the specific threats targeting your organization, your industry, and your infrastructure.",
+      "Threat Intelligence aggregates, analyzes, and operationalizes threat intelligence from global feeds, industry sources, and internal telemetry. MISP provides threat actor tracking, IOC correlation, and campaign attribution. EPSS scoring ensures your team focuses on vulnerabilities with the highest real-world exploitation probability — not just the highest CVSS scores.",
+    ]}
     capabilities={[
-      { title: "Threat Intelligence", items: ["MISP threat sharing platform", "Threat analysis", "EPSS vulnerability scoring", "IOC correlation and enrichment"] },
-      { title: "Intelligence Operations", items: ["Threat actor tracking", "Campaign attribution", "Automated IOC blocking", "Intelligence feed integration"] },
-      { title: "Strategic Intelligence", items: ["Tactical and strategic intelligence", "STIX/TAXII feed ingestion", "Dark web monitoring", "Industry-specific threat reports"] },
+      "MISP threat sharing platform for IOC correlation and enrichment",
+      "EPSS vulnerability scoring ranking by real-world exploitation likelihood",
+      "Threat actor tracking with campaign attribution",
+      "STIX/TAXII feed ingestion for standardized intelligence sharing",
+      "Dark web monitoring for credential exposure and targeting signals",
+      "Industry-specific threat reports and strategic intelligence",
+    ]}
+    methodology={[
+      { stage: "Hunt", desc: "Continuous dark web monitoring, threat actor tracking, and active campaign intelligence collection." },
+      { stage: "Identify", desc: "IOC validation and environmental relevance mapping." },
+      { stage: "Alert", desc: "Curated notification of high-relevance threat intelligence." },
+      { stage: "Triage", desc: "Analyst review of intelligence applicability and detection coverage gap identification." },
     ]}
     similar={[
-      { label: "VDR", href: "/service-layer/vdr" },
-      { label: "GRC", href: "/service-layer/grc" },
+      { label: "Vulnerability Detection & Prioritization", href: "/service-layer/vdr" },
+      { label: "STRIKE Strategic Intelligence", href: "/service-layer/strike" },
+      { label: "Governance, Risk & Compliance", href: "/service-layer/grc" },
     ]}
   />;
 }
