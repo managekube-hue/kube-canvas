@@ -15,24 +15,24 @@ const pricingModels = [
     description: "Modular tiers. Add or remove services monthly.",
   },
   {
-    id: "outcome-based",
-    name: "Outcome-Based",
-    description: "Pay for results. Share savings. Uptime SLA credits.",
-  },
-  {
-    id: "project-credits",
-    name: "Project Credits™",
-    description: "Prepaid bank. Use across any service. 15% volume discount.",
-  },
-  {
     id: "fractional",
     name: "Fractional™",
     description: "vCISO/vCIO on-demand. 4-hour minimum. Executive access.",
   },
   {
-    id: "hybrid-commit",
-    name: "Hybrid Commit™",
-    description: "Fixed baseline plus consumption overages. Best of both.",
+    id: "apex",
+    name: "APEX™",
+    description: "Infrastructure as a Service. No CapEx. Monthly consumption.",
+  },
+  {
+    id: "project-based",
+    name: "Project-Based",
+    description: "Fixed-fee delivery. Defined scope, timeline, and price.",
+  },
+  {
+    id: "enterprise-custom",
+    name: "Enterprise Custom",
+    description: "Tailored engagement for complex, multi-year transformations.",
   },
 ];
 
