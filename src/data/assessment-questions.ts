@@ -269,7 +269,7 @@ export const P0_QUESTIONS: AssessmentQuestion[] = [
     label: "What industry is your organisation in?",
     description: "Your industry shapes regulatory requirements, risk profile, and the specialised capabilities we prioritise.",
     type: "single",
-    hubspotProperty: "industry",
+    hubspotProperty: "mk_industry_vertical",
     dbColumn: "industry",
     options: [
       { label: "Financial Services / Banking / Insurance", value: "financial_services", score: { industry_multiplier: 1.1 } },
@@ -427,7 +427,7 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
       { label: "Recovery and restoration", value: "recovery" },
     ],
   },
-  // SR-02: Business impact (MULTI-SELECT per spec page 32)
+  // SR-02: Business impact (MULTI-SELECT per spec)
   {
     code: "SR-Q3",
     flow: "SR",
@@ -446,7 +446,7 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
       { label: "No significant business impact yet", value: "none_yet" },
     ],
   },
-  // SR-03: Notifications made (MULTI-SELECT per spec page 33)
+  // SR-03: Notifications made (MULTI-SELECT per spec)
   {
     code: "SR-Q4",
     flow: "SR",
@@ -488,6 +488,7 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
     label: "Describe your network architecture: firewall and segmentation.",
     description: "Flat networks allow a single compromised endpoint to reach all systems — segmentation limits blast radius.",
     type: "single",
+    hubspotProperty: "mk_sr_network_posture",
     showIf: (_answers, flags) => flags.flag_security_remediation === true,
     options: [
       { label: "Next-gen firewall with micro-segmentation / zero-trust", value: "ngfw_segmented", score: { cf_infrastructure_maturity: 3 } },
@@ -595,6 +596,7 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
 
 // ═══════════════════════════════════════════════════════════
 // IA — INFRASTRUCTURE ASSESSMENT (flag_infra_assessment = true)
+// Composite questions (IA-Q14, IA-Q16) split into sub-fields
 // ═══════════════════════════════════════════════════════════
 
 export const IA_QUESTIONS: AssessmentQuestion[] = [
@@ -605,7 +607,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
     label: "What is the age profile of your server infrastructure?",
     description: "Server age directly affects support availability, vulnerability exposure, and replacement planning horizon.",
     type: "single",
-    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["CM-Q1"] !== "cloud_first",
+    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["IA-Q22"] !== "all_cloud",
     options: [
       { label: "All servers less than 3 years old", value: "all_new", score: { cf_infrastructure_maturity: 4 } },
       { label: "Mostly under 5 years old", value: "mostly_under5", score: { cf_infrastructure_maturity: 2 } },
@@ -621,7 +623,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
     label: "Which Windows Server versions are present in your environment?",
     description: "End-of-life server OS receive no security patches and are the most common ransomware entry point.",
     type: "multi",
-    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["CM-Q1"] !== "cloud_first",
+    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["IA-Q22"] !== "all_cloud",
     options: [
       { label: "Windows Server 2022", value: "server_2022", score: { cf_infrastructure_maturity: 2 } },
       { label: "Windows Server 2019", value: "server_2019", score: { cf_infrastructure_maturity: 1 } },
@@ -637,7 +639,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
     flow: "IA",
     label: "What is the warranty / support status of your server hardware?",
     type: "single",
-    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["CM-Q1"] !== "cloud_first",
+    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["IA-Q22"] !== "all_cloud",
     options: [
       { label: "All under active warranty / support contract", value: "all_warranty", score: { cf_infrastructure_maturity: 3 } },
       { label: "Mostly under warranty", value: "mostly_warranty", score: { cf_infrastructure_maturity: 2 } },
@@ -652,7 +654,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
     flow: "IA",
     label: "How is server and infrastructure capacity monitored?",
     type: "single",
-    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["CM-Q1"] !== "cloud_first",
+    showIf: (answers, flags) => flags.flag_infra_assessment === true && answers["IA-Q22"] !== "all_cloud",
     options: [
       { label: "Automated monitoring with alerting and capacity forecasting", value: "automated_alerting", score: { cf_infrastructure_maturity: 3 } },
       { label: "Automated monitoring, no forecasting", value: "automated_basic", score: { cf_infrastructure_maturity: 2 } },
@@ -682,6 +684,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
     flow: "IA",
     label: "Which VMware version are you running?",
     type: "single",
+    hubspotProperty: "mk_vmware_version",
     showIf: (answers) => {
       const virt = answers["IA-Q8"];
       return virt === "over_80" || virt === "51_80" || virt === "21_50";
@@ -694,12 +697,13 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "Not VMware / Not sure", value: "not_vmware" },
     ],
   },
-  // IA-02 conditional: Hyper-V version
+  // IA-02 conditional: Hyper-V version (per spec IA-Q9B)
   {
     code: "IA-Q9B",
     flow: "IA",
     label: "Which Hyper-V version are you running?",
     type: "single",
+    hubspotProperty: "mk_hyperv_version",
     showIf: (answers) => {
       const virt = answers["IA-Q8"];
       return virt === "over_80" || virt === "51_80" || virt === "21_50";
@@ -708,252 +712,531 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "Hyper-V 2022", value: "hyperv_2022", score: { cf_infrastructure_maturity: 2 } },
       { label: "Hyper-V 2019", value: "hyperv_2019", score: { cf_infrastructure_maturity: 1 } },
       { label: "Hyper-V 2016", value: "hyperv_2016", score: { cf_infrastructure_maturity: 0 } },
-      { label: "Hyper-V 2012 R2 or older (End of Life)", value: "hyperv_2012", score: { risk: 10 }, flags: { unsupported_os: true } },
+      { label: "Hyper-V 2012 R2 or older (End of Life)", value: "hyperv_2012", score: { risk: 10 }, flags: { unsupported_os: true, infra_refresh: true } },
       { label: "Not Hyper-V / Not sure", value: "not_hyperv" },
     ],
   },
-  // IA-03: Network architecture
+  // IA-03: Network architecture — Firewall type (composite field 1 of 3)
   {
-    code: "IA-Q14",
+    code: "IA-Q14_FIREWALL",
     flow: "IA",
-    label: "Describe your network architecture: firewall and segmentation.",
+    label: "What type of firewall do you use?",
+    description: "Network segmentation limits blast radius — a flat network allows a single compromised device to reach all systems.",
+    type: "single",
+    hubspotProperty: "mk_cf_infrastructure_maturity",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Enterprise next-gen firewall (NGFW)", value: "enterprise_ngfw", score: { cf_infrastructure_maturity: 3 } },
+      { label: "SMB firewall", value: "smb_firewall", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Basic router / ISP-provided", value: "basic_router", score: { risk: 10 } },
+      { label: "No firewall", value: "none", score: { risk: 20 } },
+    ],
+  },
+  // IA-03: Network segmentation (composite field 2 of 3)
+  {
+    code: "IA-Q14_SEGMENTATION",
+    flow: "IA",
+    label: "What is your network segmentation approach?",
+    description: "Segmentation is the most critical control for limiting lateral movement after a breach.",
     type: "single",
     showIf: (_answers, flags) => flags.flag_infra_assessment === true,
     options: [
-      { label: "Next-gen firewall with micro-segmentation", value: "ngfw_segmented", score: { cf_infrastructure_maturity: 3 } },
-      { label: "Firewall deployed, basic segmentation", value: "fw_basic", score: { cf_infrastructure_maturity: 1 } },
-      { label: "Firewall only, flat network", value: "fw_flat", score: { risk: 10 }, flags: { flat_network: true } },
-      { label: "No dedicated firewall", value: "none", score: { risk: 20 }, flags: { flat_network: true } },
+      { label: "Zero trust / micro-segmentation", value: "zero_trust_microseg", score: { cf_infrastructure_maturity: 3 } },
+      { label: "VLAN-segmented network", value: "vlans_segmented", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Flat network (no segmentation)", value: "flat_no_segmentation", score: { risk: 10 }, flags: { flat_network: true } },
     ],
   },
-  // IA-04: IAM setup
+  // IA-03: Wide area network (composite field 3 of 3)
   {
-    code: "IA-Q16",
+    code: "IA-Q14_WAN",
     flow: "IA",
-    label: "What is your identity and access management (IAM) setup?",
+    label: "What is your wide area network connectivity?",
     type: "single",
     showIf: (_answers, flags) => flags.flag_infra_assessment === true,
     options: [
-      { label: "SSO + MFA enforced + privileged access management", value: "full", score: { cf_iam_maturity: 4 } },
-      { label: "Active Directory + MFA for admins", value: "ad_mfa", score: { cf_iam_maturity: 2 } },
-      { label: "Active Directory only, no MFA", value: "ad_only", score: { cf_iam_maturity: 1, risk: 15 }, flags: { no_mfa: true } },
-      { label: "Local accounts / no centralised directory", value: "local", score: { risk: 25 }, flags: { no_mfa: true } },
+      { label: "SD-WAN", value: "sd_wan", score: { cf_infrastructure_maturity: 2 } },
+      { label: "MPLS", value: "mpls", score: { cf_infrastructure_maturity: 1 } },
+      { label: "VPN only", value: "vpn_only", score: { cf_infrastructure_maturity: 0 } },
+      { label: "Internet only", value: "internet_only", score: { risk: 5 } },
     ],
   },
-  // IA-05: Backup verification
+  // IA-03: MFA coverage (composite field 1 of 3 for IAM)
+  {
+    code: "IA-Q16_MFA",
+    flow: "IA",
+    label: "What is your MFA coverage?",
+    description: "Identity and access management posture assessment.",
+    type: "single",
+    hubspotProperty: "mk_cf_iam_maturity",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Enforced for all users", value: "enforced_all", score: { cf_iam_maturity: 2 } },
+      { label: "Enforced for remote users", value: "enforced_remote", score: { cf_iam_maturity: 1 } },
+      { label: "Enforced for admins only", value: "enforced_admin", score: { cf_iam_maturity: 0, risk: 5 } },
+      { label: "Partial rollout", value: "partial", score: { risk: 15 }, flags: { no_mfa: true } },
+      { label: "No MFA deployed", value: "none", score: { risk: 30 }, flags: { no_mfa: true } },
+    ],
+  },
+  // IA-03: Directory service (composite field 2 of 3 for IAM)
+  {
+    code: "IA-Q16_DIRECTORY",
+    flow: "IA",
+    label: "What is your directory service?",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Azure AD (Entra ID) — fully cloud", value: "azure_ad_full", score: { cf_iam_maturity: 2 } },
+      { label: "On-premises Active Directory", value: "active_directory", score: { cf_iam_maturity: 1 } },
+      { label: "Hybrid AD (on-prem + Azure AD sync)", value: "hybrid_ad", score: { cf_iam_maturity: 1 } },
+      { label: "Local accounts only", value: "local_only", score: { cf_security_ps_maturity: -2 } },
+      { label: "No directory service", value: "none", score: { risk: 10 } },
+    ],
+  },
+  // IA-03: Privileged access management (composite field 3 of 3 for IAM)
+  {
+    code: "IA-Q16_PAM",
+    flow: "IA",
+    label: "What is your privileged access management approach?",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "PAM solution deployed (CyberArk, BeyondTrust, etc.)", value: "pam_solution", score: { cf_iam_maturity: 2 } },
+      { label: "Dedicated admin accounts (no PAM tool)", value: "admin_accounts_only", score: { cf_iam_maturity: 0 } },
+      { label: "No privileged access controls", value: "no_controls", score: { risk: 10 } },
+    ],
+  },
+  // IA-04: Backup recovery verification (per spec IA-Q18)
   {
     code: "IA-Q18",
     flow: "IA",
-    label: "How often are backups verified / recovery tested?",
+    label: "How are backup recovery points verified?",
+    description: "Untested backups fail in 40% of real recovery scenarios. Monthly testing is the standard for environments handling sensitive data.",
     type: "single",
+    hubspotProperty: "mk_cf_dataprotection_maturity",
     showIf: (_answers, flags) => flags.flag_infra_assessment === true,
     options: [
-      { label: "Monthly verified recovery tests", value: "monthly", score: { cf_data_protection_maturity: 4 } },
-      { label: "Quarterly tests", value: "quarterly", score: { cf_data_protection_maturity: 2 } },
-      { label: "Annual tests", value: "annual", score: { cf_data_protection_maturity: 1 } },
-      { label: "Never tested", value: "never", score: { risk: 25 }, flags: { no_backup: true } },
+      { label: "Monthly automated recovery test with reporting", value: "monthly_tested", score: { cf_dr_bc_maturity: 4 } },
+      { label: "Quarterly recovery test", value: "quarterly_tested", score: { cf_dr_bc_maturity: 3 } },
+      { label: "Annual recovery test", value: "annual_tested", score: { cf_dr_bc_maturity: 2 } },
+      { label: "Backups exist but recovery never tested", value: "never_tested", score: { risk: 25 }, flags: { no_backup: true } },
+      { label: "No backup solution in place", value: "no_backups", score: { risk: 25 }, flags: { no_backup: true } },
     ],
   },
-  // IA-06: DR plan
+  // IA-04: Disaster recovery plan (per spec IA-Q19)
   {
     code: "IA-Q19",
     flow: "IA",
-    label: "Do you have a documented disaster recovery (DR) plan?",
+    label: "Do you have a documented and tested disaster recovery plan?",
     type: "single",
+    hubspotProperty: "mk_dr_plan_status",
     showIf: (_answers, flags) => flags.flag_infra_assessment === true,
     options: [
-      { label: "Yes — documented, tested annually, and updated", value: "full", score: { cf_dr_bc_maturity: 4 } },
-      { label: "Yes — documented but not recently tested", value: "untested", score: { cf_dr_bc_maturity: 2 } },
-      { label: "Informal / undocumented", value: "informal", score: { cf_dr_bc_maturity: 1 } },
-      { label: "No DR plan", value: "none", score: { risk: 15 }, flags: { no_dr_plan: true } },
+      { label: "Yes, documented and tested in the last 12 months", value: "yes_tested", score: { cf_dr_bc_maturity: 3 } },
+      { label: "Yes, documented but not recently tested", value: "yes_documented", score: { cf_dr_bc_maturity: 1 } },
+      { label: "Informal plan (undocumented)", value: "informal", score: { cf_dr_bc_maturity: -2 } },
+      { label: "No DR plan", value: "no", score: { cf_dr_bc_maturity: -2 }, flags: { no_dr_plan: true } },
     ],
   },
-  // IA-07: Cloud workload distribution
+  // IA-05: Cloud workload distribution (per spec IA-Q22)
   {
     code: "IA-Q22",
     flow: "IA",
-    label: "What is your cloud workload distribution?",
+    label: "What is your current cloud workload distribution?",
     type: "single",
+    hubspotProperty: "mk_cloud_usage_level",
     showIf: (_answers, flags) => flags.flag_infra_assessment === true,
     options: [
-      { label: "100% on-premises", value: "onprem", score: { cf_cloud_maturity: 0 } },
-      { label: "Mostly on-premises, some cloud", value: "mostly_onprem", score: { cf_cloud_maturity: 1 } },
-      { label: "Hybrid (50/50)", value: "hybrid", score: { cf_cloud_maturity: 2 } },
-      { label: "Mostly cloud", value: "mostly_cloud", score: { cf_cloud_maturity: 3 } },
-      { label: "100% cloud", value: "all_cloud", score: { cf_cloud_maturity: 4 } },
+      { label: "Cloud-first / cloud-native (no significant on-premises)", value: "cloud_first", score: { cf_cloud_maturity: 4 }, flags: { has_cloud: true } },
+      { label: "Mostly cloud (some on-premises)", value: "mostly_cloud", score: { cf_cloud_maturity: 3 }, flags: { has_cloud: true } },
+      { label: "True hybrid (roughly equal cloud and on-premises)", value: "hybrid_equal", score: { cf_cloud_maturity: 2 }, flags: { has_cloud: true } },
+      { label: "Mostly on-premises (some cloud services)", value: "mostly_onprem", score: { cf_cloud_maturity: 1 }, flags: { has_cloud: true } },
+      { label: "All on-premises", value: "all_onprem", score: { cf_cloud_maturity: 0 } },
+    ],
+  },
+  // IA-05: Cloud security controls (per spec IA-Q22A)
+  {
+    code: "IA-Q22A",
+    flow: "IA",
+    label: "What cloud security controls are in place?",
+    type: "multi",
+    hubspotProperty: "mk_cf_cloud_maturity",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true && flags.has_cloud === true,
+    options: [
+      { label: "Cloud Access Security Broker (CASB)", value: "casb", score: { cf_cloud_maturity: 2 } },
+      { label: "Cloud Security Posture Management (CSPM)", value: "cspm", score: { cf_cloud_maturity: 2 } },
+      { label: "Cloud provider IAM policies configured", value: "iam_policies", score: { cf_cloud_maturity: 2 } },
+      { label: "Native provider security tools only", value: "native_security", score: { cf_cloud_maturity: 1 } },
+      { label: "No cloud-specific security controls", value: "none", score: { cf_cloud_maturity: -2 } },
     ],
   },
 ];
 
 // ═══════════════════════════════════════════════════════════
 // CM — CLOUD MIGRATION (flag_cloud_strategy = true)
+// Full spec: CM-Q1 through CM-Q17
 // ═══════════════════════════════════════════════════════════
 
 export const CM_QUESTIONS: AssessmentQuestion[] = [
+  // CM-01: Current cloud usage level
   {
     code: "CM-Q1",
     flow: "CM",
-    label: "How would you describe your current cloud usage level?",
+    label: "What is your current cloud usage level?",
     type: "single",
     hubspotProperty: "mk_cloud_usage_level",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
-      { label: "Cloud-first / cloud-native", value: "cloud_first", score: { cf_cloud_maturity: 4 } },
-      { label: "Significant cloud adoption (hybrid)", value: "hybrid", score: { cf_cloud_maturity: 2 } },
-      { label: "Early cloud (some SaaS/IaaS)", value: "early", score: { cf_cloud_maturity: 1 } },
-      { label: "No cloud — fully on-premises", value: "no_cloud", score: { cf_cloud_maturity: 0, complexity: 3 } },
+      { label: "Cloud-first (100% cloud, no on-premises)", value: "cloud_first", score: { cf_cloud_maturity: 4 } },
+      { label: "Significant cloud usage (60%+ workloads)", value: "significant", score: { cf_cloud_maturity: 3 } },
+      { label: "Moderate (30-60% cloud workloads)", value: "moderate", score: { cf_cloud_maturity: 2 } },
+      { label: "Minimal (less than 30% cloud)", value: "minimal", score: { cf_cloud_maturity: 1 } },
+      { label: "No cloud usage currently", value: "none", score: { cf_cloud_maturity: 0 } },
     ],
   },
+  // CM-01: Cloud strategy drivers
   {
     code: "CM-Q1A",
     flow: "CM",
     label: "What is driving your cloud strategy?",
     type: "multi",
+    hubspotProperty: "mk_cloud_drivers",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
-      { label: "Cost reduction", value: "cost", score: { complexity: 1 } },
-      { label: "Scalability / performance", value: "scalability", score: { complexity: 1 } },
-      { label: "Disaster recovery / resilience", value: "dr", score: { complexity: 1 } },
+      { label: "Cost reduction / infrastructure savings", value: "cost", score: { complexity: 1 } },
+      { label: "Scalability / elasticity", value: "scalability", score: { complexity: 1 } },
+      { label: "Disaster recovery / business continuity", value: "dr", score: { complexity: 1 } },
       { label: "Compliance requirements", value: "compliance", score: { complexity: 1 } },
-      { label: "Remote workforce enablement", value: "remote", score: { complexity: 1 } },
-      { label: "End of life / hardware refresh", value: "eol", score: { complexity: 1 } },
+      { label: "Development agility / speed to market", value: "agility", score: { complexity: 1 } },
+      { label: "Talent attraction (cloud-skilled workforce)", value: "talent", score: { complexity: 1 } },
+      { label: "M&A integration or consolidation", value: "m_a", score: { complexity: 1 } },
     ],
   },
+  // CM-01: Current hosting state
+  {
+    code: "CM-Q2",
+    flow: "CM",
+    label: "What is your current hosting state?",
+    type: "single",
+    hubspotProperty: "mk_hosting_state",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "All on-premises (no current cloud)", value: "all_onprem", score: { complexity: 3 } },
+      { label: "Hybrid (mix of cloud and on-premises)", value: "hybrid", score: { complexity: 2 } },
+      { label: "Mostly cloud with some legacy on-premises", value: "mostly_cloud", score: { complexity: 1 } },
+      { label: "Entirely cloud", value: "all_cloud", score: { complexity: 0 } },
+    ],
+  },
+  // CM-02: Workloads to migrate
   {
     code: "CM-Q3",
     flow: "CM",
-    label: "How many applications / workloads need to migrate?",
-    type: "single",
+    label: "Which workloads or applications need to migrate?",
+    type: "multi",
+    hubspotProperty: "mk_migration_scope",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
-      { label: "1–5 applications", value: "1-5", score: { complexity: 1 } },
-      { label: "6–20 applications", value: "6-20", score: { complexity: 3 } },
-      { label: "20–50 applications", value: "20-50", score: { complexity: 5 } },
-      { label: "50+ applications", value: "50+", score: { complexity: 7 } },
+      { label: "Email and collaboration (M365 / Google)", value: "email", score: { complexity: 1 } },
+      { label: "File storage and document management", value: "file_storage", score: { complexity: 1 } },
+      { label: "ERP / financial systems", value: "erp", score: { complexity: 2 } },
+      { label: "CRM", value: "crm", score: { complexity: 1 } },
+      { label: "Custom-developed applications", value: "custom_apps", score: { complexity: 2 } },
+      { label: "Databases", value: "databases", score: { complexity: 1 } },
+      { label: "Dev / test environments", value: "dev_test", score: { complexity: 1 } },
+      { label: "Backup and archive", value: "backup", score: { complexity: 1 } },
     ],
   },
+  // CM-02: Integration dependencies
+  {
+    code: "CM-Q4",
+    flow: "CM",
+    label: "What integration dependencies exist?",
+    type: "multi",
+    hubspotProperty: "mk_integration_dependencies",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Modern APIs (REST / GraphQL)", value: "api_modern", score: { complexity: 0 } },
+      { label: "EDI / B2B integrations", value: "edi", score: { complexity: 2 } },
+      { label: "Legacy / mainframe integrations", value: "legacy_mainframe", score: { complexity: 3 }, flags: { legacy_constraints: true } },
+      { label: "Point-to-point integrations", value: "point_to_point", score: { complexity: 1 } },
+      { label: "No significant integrations", value: "none", score: { complexity: 0 } },
+    ],
+  },
+  // CM-03: Cloud security controls
   {
     code: "CM-Q7",
     flow: "CM",
-    label: "What cloud security controls do you have in place?",
+    label: "What cloud security controls are currently in place or planned?",
     type: "multi",
+    hubspotProperty: "mk_cf_cloud_maturity",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
       { label: "CASB (Cloud Access Security Broker)", value: "casb", score: { cf_cloud_maturity: 2 } },
       { label: "CSPM (Cloud Security Posture Management)", value: "cspm", score: { cf_cloud_maturity: 2 } },
-      { label: "Cloud WAF", value: "waf", score: { cf_cloud_maturity: 1 } },
-      { label: "Cloud-native IAM + MFA", value: "iam", score: { cf_cloud_maturity: 1 } },
-      { label: "None of the above", value: "none", score: { risk: 10 }, flags: { no_cloud_security: true } },
+      { label: "Cloud IAM policies and least-privilege", value: "iam_policies", score: { cf_cloud_maturity: 2 } },
+      { label: "Native cloud security tools (AWS Security Hub, Microsoft Defender for Cloud etc.)", value: "native_security", score: { cf_cloud_maturity: 1 } },
+      { label: "Zero trust network access (ZTNA)", value: "zero_trust", score: { cf_cloud_maturity: 2 } },
+      { label: "None planned yet", value: "none", score: { cf_cloud_maturity: -2 } },
     ],
   },
+  // CM-03: Data classification maturity
   {
     code: "CM-Q9",
     flow: "CM",
     label: "What is your data classification maturity?",
     type: "single",
+    hubspotProperty: "mk_cf_dataprotection_maturity",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
-      { label: "Fully classified with automated enforcement", value: "full", score: { cf_cloud_maturity: 3, cf_data_protection_maturity: 3 } },
-      { label: "Classification policy exists, partially enforced", value: "partial", score: { cf_cloud_maturity: 2, cf_data_protection_maturity: 2 } },
-      { label: "Ad hoc classification", value: "adhoc", score: { cf_cloud_maturity: 1, cf_data_protection_maturity: 1 } },
-      { label: "No data classification", value: "none", score: { risk: 10 } },
+      { label: "Formal classification with automated data discovery", value: "formal_automated", score: { cf_cloud_maturity: 3, cf_data_protection_maturity: 2 } },
+      { label: "Formal classification (manual process)", value: "formal_manual", score: { cf_cloud_maturity: 2, cf_data_protection_maturity: 1 } },
+      { label: "Partial classification (some data types only)", value: "partial", score: { cf_cloud_maturity: 1 } },
+      { label: "Informal / undocumented classification", value: "informal", score: { cf_cloud_maturity: 0 } },
+      { label: "No data classification", value: "none" },
     ],
   },
+  // CM-04: Cloud DR strategy
   {
     code: "CM-Q12",
     flow: "CM",
-    label: "What is your cloud disaster recovery strategy?",
+    label: "What is your cloud DR strategy?",
     type: "single",
+    hubspotProperty: "mk_cloud_dr_strategy",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
-      { label: "Multi-region active-active with automated failover", value: "multi_region", score: { cf_dr_bc_maturity: 4 } },
-      { label: "Cross-region backup with tested recovery", value: "cross_region", score: { cf_dr_bc_maturity: 3 } },
-      { label: "Single-region backups only", value: "single_region", score: { cf_dr_bc_maturity: 1, risk: 5 } },
+      { label: "Active-active multi-region", value: "active_active", score: { cf_dr_bc_maturity: 4 } },
+      { label: "Active-passive (warm standby)", value: "active_passive", score: { cf_dr_bc_maturity: 3 } },
+      { label: "Cloud backup only", value: "backup_only", score: { cf_dr_bc_maturity: 1 } },
       { label: "No cloud DR strategy", value: "none", score: { risk: 15 }, flags: { no_cloud_dr: true } },
     ],
   },
+  // CM-04: RTO/RPO requirements
   {
     code: "CM-Q13",
     flow: "CM",
-    label: "What are your RTO/RPO requirements?",
+    label: "What are your RTO and RPO requirements?",
+    description: "RTO = maximum acceptable downtime. RPO = maximum acceptable data loss.",
     type: "single",
+    hubspotProperty: "mk_rto_requirement",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
       { label: "RTO < 1 hour, RPO < 15 minutes", value: "aggressive", score: { complexity: 4 } },
-      { label: "RTO < 4 hours, RPO < 1 hour", value: "standard", score: { complexity: 2 } },
+      { label: "RTO < 4 hours, RPO < 1 hour (enterprise DR)", value: "standard", score: { complexity: 2 } },
       { label: "RTO < 24 hours, RPO < 4 hours", value: "relaxed", score: { complexity: 1 } },
       { label: "Not defined", value: "undefined", score: { risk: 5 } },
     ],
   },
+  // CM-05: Cloud skills level
   {
     code: "CM-Q15",
     flow: "CM",
     label: "What is your team's cloud skills level?",
     type: "single",
+    hubspotProperty: "mk_cloud_skills_level",
     showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
     options: [
-      { label: "Certified cloud architects on staff", value: "expert", score: { cf_cloud_maturity: 3 } },
-      { label: "Intermediate — some cloud experience", value: "intermediate", score: { cf_cloud_maturity: 1 } },
-      { label: "Basic — learning", value: "basic", score: { cf_cloud_maturity: 0 }, flags: { training_recommendation: true } },
-      { label: "No cloud skills in-house", value: "none", score: { complexity: 2 }, flags: { training_recommendation: true } },
+      { label: "Advanced (certified cloud architects on team)", value: "advanced", score: { cf_cloud_maturity: 3 } },
+      { label: "Intermediate (working knowledge, some certifications)", value: "intermediate", score: { cf_cloud_maturity: 1 } },
+      { label: "Basic (minimal cloud experience)", value: "basic", score: { cf_cloud_maturity: 0 } },
+      { label: "No cloud skills currently", value: "none", score: { complexity: 2 } },
+    ],
+  },
+  // CM-05: Success metrics
+  {
+    code: "CM-Q16",
+    flow: "CM",
+    label: "What metrics define success for your cloud programme?",
+    type: "multi",
+    hubspotProperty: "mk_cloud_success_metrics",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Cost reduction vs. on-premises", value: "cost_reduction" },
+      { label: "Application performance improvement", value: "performance" },
+      { label: "Deployment speed and agility", value: "agility" },
+      { label: "DR / uptime improvement", value: "dr_improvement" },
+      { label: "Security posture improvement", value: "security" },
+      { label: "Compliance achievement", value: "compliance" },
+    ],
+  },
+  // CM-05: Cloud budget
+  {
+    code: "CM-Q17",
+    flow: "CM",
+    label: "What is your cloud programme budget band?",
+    type: "single",
+    hubspotProperty: "mk_cloud_budget",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Under $50K", value: "under_50k" },
+      { label: "$50K - $150K", value: "50k_150k" },
+      { label: "$150K - $500K", value: "150k_500k" },
+      { label: "$500K - $1M", value: "500k_1m" },
+      { label: "Over $1M", value: "over_1m" },
+      { label: "Not yet defined", value: "not_defined" },
     ],
   },
 ];
 
 // ═══════════════════════════════════════════════════════════
 // GE — GROWTH ENABLEMENT (flag_growth_enablement = true)
+// Full spec: GE-Q1 through GE-Q12
 // ═══════════════════════════════════════════════════════════
 
 export const GE_QUESTIONS: AssessmentQuestion[] = [
+  // GE-01: Revenue growth target
   {
     code: "GE-Q1",
     flow: "GE",
     label: "What is your revenue growth target for the next 12 months?",
     type: "single",
+    hubspotProperty: "mk_growth_trajectory",
     showIf: (_answers, flags) => flags.flag_growth_enablement === true,
     options: [
-      { label: "0–10% (steady state)", value: "steady", score: { growth_modifier: 0 } },
-      { label: "10–25% growth", value: "moderate", score: { growth_modifier: 2 } },
-      { label: "25–50% growth", value: "rapid", score: { growth_modifier: 4 } },
-      { label: "50%+ / hyper-growth", value: "hyper", score: { growth_modifier: 6 } },
+      { label: "Aggressive (50%+ growth)", value: "aggressive_50plus", score: { complexity: 3 } },
+      { label: "Strong (25-50%)", value: "strong_25_50", score: { complexity: 2 } },
+      { label: "Moderate (10-25%)", value: "moderate_10_25", score: { complexity: 1 } },
+      { label: "Stable (under 10%)", value: "stable_under10", score: { complexity: 0 } },
+      { label: "Reducing / rightsizing", value: "reducing" },
     ],
   },
+  // GE-01: Headcount growth plan
+  {
+    code: "GE-Q2",
+    flow: "GE",
+    label: "What is your headcount growth plan for the next 12 months?",
+    type: "single",
+    hubspotProperty: "mk_headcount_growth",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Rapid growth (50%+ headcount increase)", value: "rapid_50plus", score: { complexity: 2 } },
+      { label: "Significant (25-50%)", value: "significant_25_50", score: { complexity: 2 } },
+      { label: "Moderate (10-25%)", value: "moderate_10_25", score: { complexity: 1 } },
+      { label: "Stable (< 10%)", value: "stable" },
+      { label: "Reducing", value: "reducing" },
+    ],
+  },
+  // GE-01: Primary growth bottleneck
   {
     code: "GE-Q3",
     flow: "GE",
-    label: "What is the primary growth bottleneck?",
+    label: "What is the primary bottleneck to your growth?",
     type: "single",
+    hubspotProperty: "mk_growth_bottleneck",
     showIf: (_answers, flags) => flags.flag_growth_enablement === true,
     options: [
-      { label: "IT infrastructure can't scale", value: "infra", score: { complexity: 3 }, flags: { flag_infra_assessment: true } },
-      { label: "Manual processes slowing us down", value: "automation", score: { complexity: 2 }, flags: { automation_recommendation: true } },
-      { label: "Security concerns limiting expansion", value: "security", score: { risk: 5 } },
-      { label: "Talent / staffing gaps in IT", value: "talent", flags: { understaffed_it: true } },
+      { label: "IT capacity and infrastructure can't keep up", value: "it_capacity", score: { complexity: 2 } },
+      { label: "Manual processes slowing operations", value: "process", score: { complexity: 1 } },
+      { label: "Talent and skills gaps", value: "talent", flags: { understaffed_it: true } },
+      { label: "Inadequate tools / technology", value: "tools", score: { complexity: 1 } },
+      { label: "Poor system integration", value: "integration", score: { complexity: 2 } },
     ],
   },
+  // GE-02: Current automation level
   {
     code: "GE-Q4",
     flow: "GE",
-    label: "What is your current level of IT automation?",
+    label: "What is your current automation level?",
     type: "single",
+    hubspotProperty: "mk_cf_automation_maturity",
     showIf: (_answers, flags) => flags.flag_growth_enablement === true,
     options: [
-      { label: "Extensive — IaC, CI/CD, auto-scaling, auto-remediation", value: "extensive", score: { cf_automation_maturity: 4 } },
-      { label: "Moderate — some scripting and scheduled tasks", value: "moderate", score: { cf_automation_maturity: 2 } },
-      { label: "Minimal — mostly manual processes", value: "minimal", score: { cf_automation_maturity: 1 } },
-      { label: "None", value: "none", score: { cf_automation_maturity: 0, complexity: 2 } },
+      { label: "Full RPA / hyperautomation (most processes automated)", value: "full_rpa", score: { cf_automation_maturity: 4 } },
+      { label: "Partial RPA (some processes automated)", value: "partial_rpa", score: { cf_automation_maturity: 3 } },
+      { label: "Script-based automation", value: "scripts", score: { cf_automation_maturity: 2 } },
+      { label: "Mostly manual with some tools", value: "manual_some_tools", score: { cf_automation_maturity: 1 } },
+      { label: "Fully manual processes", value: "fully_manual", score: { cf_automation_maturity: 0 } },
     ],
   },
+  // GE-02: Manual process friction points
+  {
+    code: "GE-Q5",
+    flow: "GE",
+    label: "Which manual processes cause the most friction?",
+    type: "multi",
+    hubspotProperty: "mk_automation_targets",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Employee onboarding / offboarding", value: "onboarding" },
+      { label: "IT procurement and provisioning", value: "procurement" },
+      { label: "Reporting and analytics", value: "reporting" },
+      { label: "Invoicing and billing", value: "invoicing" },
+      { label: "Compliance checks and audits", value: "compliance_checks" },
+      { label: "Customer communications", value: "customer_comms" },
+      { label: "Approval workflows", value: "approvals" },
+    ],
+  },
+  // GE-02: Automation tools in use
+  {
+    code: "GE-Q6",
+    flow: "GE",
+    label: "What automation tools are currently in use?",
+    type: "multi",
+    hubspotProperty: "mk_automation_tools",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Microsoft Power Automate", value: "power_automate" },
+      { label: "Zapier", value: "zapier" },
+      { label: "Custom scripts / internal tools", value: "custom_scripts" },
+      { label: "RPA platform (UiPath, Automation Anywhere, etc.)", value: "rpa_platform" },
+      { label: "None", value: "none" },
+    ],
+  },
+  // GE-03: Integration architecture
+  {
+    code: "GE-Q8",
+    flow: "GE",
+    label: "How would you describe your integration architecture?",
+    type: "single",
+    hubspotProperty: "mk_integration_architecture",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "API-first with documented integration layer", value: "api_first", score: { cf_automation_maturity: 2, cf_infrastructure_maturity: 1 } },
+      { label: "Point-to-point integrations (custom per system)", value: "point_to_point", score: { cf_automation_maturity: 1 } },
+      { label: "Mostly manual data transfers", value: "manual" },
+      { label: "No formal integrations", value: "none" },
+    ],
+  },
+  // GE-03: Scalability bottlenecks
+  {
+    code: "GE-Q9",
+    flow: "GE",
+    label: "Where are your primary scalability bottlenecks?",
+    type: "multi",
+    hubspotProperty: "mk_scalability_bottlenecks",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Network capacity and performance", value: "network" },
+      { label: "Storage capacity", value: "storage" },
+      { label: "Compute / server capacity", value: "compute" },
+      { label: "Identity and access management at scale", value: "identity" },
+      { label: "Cloud costs growing faster than business", value: "cloud_costs" },
+      { label: "No significant bottlenecks", value: "none" },
+    ],
+  },
+  // GE-03: API strategy maturity
+  {
+    code: "GE-Q10",
+    flow: "GE",
+    label: "What is your API strategy maturity?",
+    type: "single",
+    hubspotProperty: "mk_api_maturity",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Mature (published API catalogue, versioning, governance)", value: "mature", score: { cf_automation_maturity: 2 } },
+      { label: "Basic (some APIs, no formal governance)", value: "basic", score: { cf_automation_maturity: 1 } },
+      { label: "No API strategy", value: "none" },
+    ],
+  },
+  // GE-03: Multi-site expansion / M&A
   {
     code: "GE-Q12",
     flow: "GE",
-    label: "Do you have multi-site expansion or M&A plans?",
+    label: "Are you planning multi-site expansion or M&A activity?",
     type: "single",
-    showIf: (answers) => answers["P0-Q8_LOCATIONS"] !== "single",
+    hubspotProperty: "mk_multisite_expansion",
+    showIf: (_answers, flags) => flags.mk_multisite === true || flags.flag_growth_enablement === true,
     options: [
-      { label: "Yes — active M&A in progress", value: "active_ma", score: { complexity: 5 }, flags: { sd_wan_recommendation: true } },
-      { label: "Yes — expanding to new locations", value: "expanding", score: { complexity: 3 }, flags: { sd_wan_recommendation: true } },
-      { label: "Considering it", value: "considering", score: { complexity: 1 } },
+      { label: "Yes, within 12 months", value: "yes", score: { complexity: 3 }, flags: { sd_wan_recommendation: true } },
+      { label: "Planned but not confirmed", value: "planned", score: { complexity: 1 }, flags: { sd_wan_recommendation: true } },
       { label: "No", value: "no" },
     ],
   },
@@ -961,87 +1244,184 @@ export const GE_QUESTIONS: AssessmentQuestion[] = [
 
 // ═══════════════════════════════════════════════════════════
 // CO — COST OPTIMISATION (flag_cost_optimization = true)
+// Full spec: CO-Q1 through CO-Q_INS
 // ═══════════════════════════════════════════════════════════
 
 export const CO_QUESTIONS: AssessmentQuestion[] = [
+  // CO-01: Annual IT budget
   {
     code: "CO-Q1",
     flow: "CO",
     label: "What is your total annual IT budget?",
     type: "single",
+    hubspotProperty: "mk_annual_it_budget",
     showIf: (_answers, flags) => flags.flag_cost_optimization === true,
     options: [
-      { label: "Under $100K", value: "lt100k", score: { cf_cost_maturity: 1 } },
-      { label: "$100K – $500K", value: "100-500k", score: { cf_cost_maturity: 2 } },
-      { label: "$500K – $2M", value: "500k-2m", score: { cf_cost_maturity: 3 } },
-      { label: "$2M – $10M", value: "2-10m", score: { cf_cost_maturity: 4 } },
-      { label: "$10M+", value: "10m+", score: { cf_cost_maturity: 4 } },
+      { label: "Under $100K", value: "under_100k", score: { cf_cost_maturity: 1 } },
+      { label: "$100K - $500K", value: "100k_500k", score: { cf_cost_maturity: 2 } },
+      { label: "$500K - $1M", value: "500k_1m", score: { cf_cost_maturity: 3 } },
+      { label: "$1M - $5M", value: "1m_5m", score: { cf_cost_maturity: 4 } },
+      { label: "Over $5M", value: "over_5m", score: { cf_cost_maturity: 4 } },
+      { label: "Not sure", value: "not_sure" },
     ],
   },
+  // CO-01: Budget distribution
+  {
+    code: "CO-Q2",
+    flow: "CO",
+    label: "How is your IT budget currently distributed?",
+    type: "multi",
+    hubspotProperty: "mk_budget_distribution",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "Cloud services / SaaS subscriptions", value: "cloud" },
+      { label: "Hardware and infrastructure", value: "hardware" },
+      { label: "Software licences", value: "software_licences" },
+      { label: "Internal IT staff", value: "internal_staff" },
+      { label: "MSP / outsourced contracts", value: "msp_contracts" },
+      { label: "Security tools and services", value: "security_tools" },
+    ],
+  },
+  // CO-01: Vendor count
   {
     code: "CO-Q3",
     flow: "CO",
-    label: "How many IT vendors do you currently manage?",
+    label: "How many active IT vendors does your organisation have?",
+    description: "More than 15 vendors flags vendor consolidation opportunity. More than 25 adds vendor rationalisation recommendation.",
     type: "single",
+    hubspotProperty: "mk_vendor_count",
     showIf: (_answers, flags) => flags.flag_cost_optimization === true,
     options: [
       { label: "1–5 vendors", value: "1-5", score: { cf_business_gov_maturity: 3 } },
       { label: "6–10 vendors", value: "6-10", score: { cf_business_gov_maturity: 2 } },
       { label: "11–15 vendors", value: "11-15", score: { cf_business_gov_maturity: 1 } },
-      { label: "15+ vendors", value: "15+", score: { cf_business_gov_maturity: 0, complexity: 3 }, flags: { vendor_consolidation: true } },
+      { label: "16–25 vendors", value: "16-25", score: { cf_business_gov_maturity: 0, complexity: 2 }, flags: { vendor_consolidation: true } },
+      { label: "25+ vendors", value: "25+", score: { cf_business_gov_maturity: -1, complexity: 3 }, flags: { vendor_consolidation: true } },
     ],
   },
+  // CO-02: Cloud cost visibility
   {
     code: "CO-Q5",
     flow: "CO",
-    label: "Do you have visibility into your cloud spending?",
+    label: "Do you have visibility into your cloud costs?",
     type: "single",
+    hubspotProperty: "mk_cloud_cost_visibility",
     showIf: (_answers, flags) => flags.flag_cost_optimization === true,
     options: [
-      { label: "Yes — real-time dashboards with budget alerts", value: "full", score: { cf_cost_maturity: 4 } },
-      { label: "Basic — monthly reports from provider", value: "basic", score: { cf_cost_maturity: 2 } },
-      { label: "Limited — invoices only", value: "limited", score: { cf_cost_maturity: 1 } },
-      { label: "No cloud cost visibility", value: "none", score: { cf_cost_maturity: 0 }, flags: { no_cost_visibility: true } },
+      { label: "Yes, full FinOps tooling with tagging and chargeback", value: "finops_full", score: { cf_cost_maturity: 4 } },
+      { label: "Yes, basic tagging and cost dashboards", value: "finops_basic", score: { cf_cost_maturity: 2 } },
+      { label: "Manual tracking in spreadsheets", value: "spreadsheet", score: { cf_cost_maturity: 1 } },
+      { label: "No visibility into cloud spend breakdown", value: "no_visibility", score: { risk: 5 }, flags: { no_cost_visibility: true } },
+      { label: "We do not use cloud services", value: "no_cloud" },
     ],
   },
+  // CO-02: Cloud waste
+  {
+    code: "CO-Q6",
+    flow: "CO",
+    label: "Have you identified cloud waste in your environment?",
+    type: "single",
+    hubspotProperty: "mk_cloud_waste_status",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "Significant waste identified (idle resources, oversized instances, zombie assets)", value: "significant" },
+      { label: "Some waste identified but not fully addressed", value: "some" },
+      { label: "Suspected but not quantified", value: "suspected" },
+      { label: "No waste identified (or no cloud)", value: "none_found" },
+    ],
+  },
+  // CO-02: Licence tracking
   {
     code: "CO-Q7",
     flow: "CO",
-    label: "Do you track software licence utilisation?",
+    label: "How do you track software licence utilisation?",
     type: "single",
+    hubspotProperty: "mk_licence_tracking",
     showIf: (_answers, flags) => flags.flag_cost_optimization === true,
     options: [
-      { label: "Yes — automated tracking with optimisation", value: "automated", score: { cf_cost_maturity: 3 } },
-      { label: "Yes — manual tracking", value: "manual", score: { cf_cost_maturity: 2 } },
-      { label: "Partially — some licences tracked", value: "partial", score: { cf_cost_maturity: 1 } },
-      { label: "No licence tracking", value: "none", score: { cf_cost_maturity: 0 }, flags: { license_waste: true } },
+      { label: "Automated SAM (Software Asset Management) tooling", value: "automated_sam", score: { cf_cost_maturity: 2 } },
+      { label: "Manual tracking, reviewed regularly", value: "manual_regular", score: { cf_cost_maturity: 1 } },
+      { label: "Manual tracking, reviewed infrequently", value: "manual_ad_hoc" },
+      { label: "No licence tracking", value: "no_tracking", flags: { license_waste: true } },
     ],
   },
+  // CO-03: Overlapping tools
   {
     code: "CO-Q9",
     flow: "CO",
-    label: "Do you have overlapping tools performing the same function?",
-    type: "single",
+    label: "Do you have overlapping or duplicate tools?",
+    type: "multi",
+    hubspotProperty: "mk_tool_overlap",
     showIf: (_answers, flags) => flags.flag_cost_optimization === true,
     options: [
-      { label: "Yes — significant overlap across tools", value: "significant", score: { complexity: 3 }, flags: { consolidation_target: true } },
-      { label: "Some overlap", value: "some", score: { complexity: 1 } },
-      { label: "No — each tool has a unique purpose", value: "no", score: { cf_cost_maturity: 2 } },
-      { label: "Not sure", value: "unsure", score: { complexity: 1 } },
+      { label: "Duplicate security tools (multiple AV, overlapping SIEM etc.)", value: "security_tools" },
+      { label: "Multiple backup solutions", value: "backup_tools" },
+      { label: "Multiple monitoring tools", value: "monitoring" },
+      { label: "Overlapping productivity / collaboration tools", value: "productivity" },
+      { label: "No significant overlap", value: "none" },
     ],
   },
+  // CO-03: Contract renewals
   {
-    code: "CO-Q_INSURANCE",
+    code: "CO-Q10",
     flow: "CO",
-    label: "What is your cyber insurance coverage level?",
-    description: "Business governance maturity driver. If none: flag for risk assessment.",
+    label: "When do your major IT contracts renew?",
     type: "single",
+    hubspotProperty: "mk_contract_renewals",
     showIf: (_answers, flags) => flags.flag_cost_optimization === true,
     options: [
-      { label: "Enterprise ($10M+ coverage)", value: "enterprise", score: { cf_business_gov_maturity: 4 } },
-      { label: "High ($5–10M)", value: "high", score: { cf_business_gov_maturity: 3 } },
-      { label: "Standard ($1–5M)", value: "standard", score: { cf_business_gov_maturity: 2 } },
-      { label: "Basic (< $1M)", value: "basic", score: { cf_business_gov_maturity: 1 } },
+      { label: "Within 90 days", value: "within_90d", flags: { leverage_opportunity: true } },
+      { label: "Within 6 months", value: "within_6m", flags: { leverage_opportunity: true } },
+      { label: "Within 12 months", value: "within_12m" },
+      { label: "More than 12 months", value: "over_12m" },
+      { label: "Not sure", value: "not_sure" },
+    ],
+  },
+  // CO-03: Unused contracts
+  {
+    code: "CO-Q11",
+    flow: "CO",
+    label: "Are you currently paying for vendor contracts you are not fully utilising?",
+    type: "single",
+    hubspotProperty: "mk_unused_contracts",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "Yes", value: "yes", flags: { immediate_savings_flag: true } },
+      { label: "No", value: "no" },
+      { label: "Not sure", value: "not_sure" },
+    ],
+  },
+  // CO-03: Target cost reduction
+  {
+    code: "CO-Q14",
+    flow: "CO",
+    label: "What is your target IT cost reduction?",
+    type: "single",
+    hubspotProperty: "mk_savings_target",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "10% reduction", value: "ten_pct" },
+      { label: "20% reduction", value: "twenty_pct" },
+      { label: "30% reduction", value: "thirty_pct" },
+      { label: "40% reduction", value: "forty_pct" },
+      { label: "50%+ reduction", value: "fifty_plus_pct" },
+      { label: "Not sure yet", value: "not_sure" },
+    ],
+  },
+  // CO-03: Cyber insurance
+  {
+    code: "CO-Q_INS",
+    flow: "CO",
+    label: "What is your current cyber insurance coverage?",
+    description: "Business governance maturity driver. Many cyber insurers now require MFA, EDR, and backup as minimum conditions.",
+    type: "single",
+    hubspotProperty: "mk_cyber_insurance",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "Enterprise: $10M+ coverage", value: "enterprise_10m_plus", score: { cf_business_gov_maturity: 2 } },
+      { label: "High: $5M - $10M coverage", value: "high_5_10m", score: { cf_business_gov_maturity: 2 } },
+      { label: "Standard: $1M - $5M coverage", value: "standard_1_5m", score: { cf_business_gov_maturity: 1 } },
+      { label: "Basic: under $1M coverage", value: "basic_under1m", score: { cf_business_gov_maturity: 1 } },
       { label: "No cyber insurance", value: "none", score: { risk: 5 }, flags: { no_insurance: true } },
     ],
   },
