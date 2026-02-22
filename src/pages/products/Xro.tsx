@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 
-const KUBES = [
-  { code: "CIO KUBE", name: "Core Infrastructure Orchestration & asset lifecycle management" },
-  { code: "NPM KUBE", name: "Network Performance Monitoring with AI-powered capacity forecasting" },
-  { code: "ITDR KUBE", name: "Identity Threat Detection & Response via Active Directory monitoring" },
-  { code: "NDR KUBE", name: "Network Threat Detection & Response with deep packet inspection" },
-  { code: "VDR KUBE", name: "Vulnerability Detection & Response prioritized by real risk, not CVSS" },
-  { code: "CFDR KUBE", name: "Configuration Drift Detection & automated remediation" },
-  { code: "GRC KUBE", name: "Governance, Risk & Compliance automation across 100+ frameworks" },
+const MODULES = [
+  { code: "CIO", name: "Core Infrastructure Orchestration & asset lifecycle management" },
+  { code: "NPM", name: "Network Performance Monitoring with AI-powered capacity forecasting" },
+  { code: "ITDR", name: "Identity Threat Detection & Response via Active Directory monitoring" },
+  { code: "NDR", name: "Network Threat Detection & Response with deep packet inspection" },
+  { code: "VDR", name: "Vulnerability Detection & Response prioritized by real risk, not CVSS" },
+  { code: "CFDR", name: "Configuration Drift Detection & automated remediation" },
+  { code: "GRC", name: "Governance, Risk & Compliance automation across 100+ frameworks" },
 ];
 
 const CAPABILITIES = [
@@ -29,27 +29,20 @@ export default function Xro() {
   return (
     <PageLayout>
       <PageBanner
-        title="XRO — Small Business Platform"
-        subtitle="Complete security and operations for small businesses. 7 essential Kubes delivering unified detection, response, infrastructure management, and compliance monitoring."
+        title="XRO — Essentials"
+        subtitle="Complete security and operations for small businesses. 7 essential modules delivering unified detection, response, infrastructure management, and compliance monitoring."
         phase="XRO"
       />
 
-      {/* Kube Grid */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-5xl mx-auto">
-            <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">Included Kubes — 7 Core</p>
+            <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">Included Modules — 7 Core</p>
             <h2 className="text-headline text-foreground mb-12">Everything a small business needs</h2>
             <div className="grid md:grid-cols-2 gap-4 mb-16">
-              {KUBES.map((k, i) => (
-                <motion.div
-                  key={k.code}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.07 }}
-                  className="flex items-start gap-4 p-6 border border-border bg-secondary"
-                >
+              {MODULES.map((k, i) => (
+                <motion.div key={k.code} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
+                  className="flex items-start gap-4 p-6 border border-border bg-secondary">
                   <Check size={18} className="text-brand-orange flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-black text-foreground mb-1">{k.code}</p>
@@ -59,7 +52,6 @@ export default function Xro() {
               ))}
             </div>
 
-            {/* Capabilities */}
             <p className="text-label text-muted-foreground uppercase tracking-widest mb-6">Core Capabilities</p>
             <div className="grid md:grid-cols-2 gap-3">
               {CAPABILITIES.map((cap) => (
@@ -73,7 +65,6 @@ export default function Xro() {
         </div>
       </section>
 
-      {/* Pricing CTA */}
       <section className="py-20 bg-foreground text-white">
         <div className="container mx-auto px-6 lg:px-12 text-center">
           <p className="text-label text-brand-orange uppercase tracking-widest mb-4">Pricing</p>
@@ -85,8 +76,8 @@ export default function Xro() {
             <Link to="/pricing" className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors">
               View Pricing Models <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/assessment" className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-8 py-4 font-semibold hover:bg-white/20 transition-colors">
-              Take Free Assessment
+            <Link to="/get-started" className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-8 py-4 font-semibold hover:bg-white/20 transition-colors">
+              Get Started
             </Link>
           </div>
         </div>

@@ -71,7 +71,7 @@ const Pricing = () => {
             <p className="text-label text-brand-orange mb-4">PLATFORMS</p>
             <h2 className="text-headline text-white mb-4">Choose Your Platform</h2>
             <p className="text-body-lg text-white/60 mb-14 max-w-2xl">
-              Three purpose-built platforms powered by Kubric UIDR. Each maps to the DR modules your organization needs — from 7 Kubes to all 15.
+              Three purpose-built platforms powered by Kubric UIDR. Each maps to the modules your organization needs — from 7 to all 18.
             </p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -79,27 +79,27 @@ const Pricing = () => {
                   code: "XRO",
                   name: "Small Business Platform",
                   audience: "1–50 Employees",
-                  desc: "7 essential Kubes. Complete security and operations for small businesses. Deploy in 48 hours.",
-                  kubes: ["CIO KUBE", "NPM KUBE", "ITDR KUBE", "NDR KUBE", "VDR KUBE", "CFDR KUBE", "GRC KUBE"],
-                  href: "/products/xro",
+                  desc: "7 essential modules. Complete security and operations for small businesses. Deploy in 48 hours.",
+                  kubes: ["CIO", "NPM", "ITDR", "NDR", "VDR", "CFDR", "GRC"],
+                  href: "/service-tiers/xro-essentials",
                   featured: false,
                 },
                 {
-                  code: "XMM",
-                  name: "SME Platform",
+                  code: "XMX",
+                  name: "Advanced Platform",
                   audience: "50–500 Employees",
-                  desc: "12 Kubes. Advanced detection, response, and compliance for growing organizations.",
-                  kubes: ["All 7 XRO Kubes", "MDM KUBE", "APM KUBE", "CDR KUBE", "ADR KUBE", "BDR KUBE"],
-                  href: "/products/xmm",
+                  desc: "12 modules. Advanced detection, response, and compliance for growing organizations.",
+                  kubes: ["All 7 XRO Modules", "MDM", "APM", "CDR", "ADR", "BDR"],
+                  href: "/service-tiers/xmx-advanced",
                   featured: true,
                 },
                 {
                   code: "XME",
                   name: "Enterprise Platform",
                   audience: "500+ Employees",
-                  desc: "All 15 Kubes. Full enterprise coverage with premium KAI orchestration capabilities.",
-                  kubes: ["All 12 XMM Kubes", "SDR KUBE", "DDR KUBE", "TI KUBE"],
-                  href: "/products/xme",
+                  desc: "All 18 modules. Full enterprise coverage with premium KubricAI orchestration capabilities.",
+                  kubes: ["All 12 XMX Modules", "SDR", "DDR", "TI", "STRIKE", "EASM", "HONEYPOT"],
+                  href: "/service-tiers/xme-enterprise",
                   featured: false,
                 },
               ].map((p) => (

@@ -110,6 +110,7 @@ import EnergyUtilities from "./pages/industries/EnergyUtilities";
 import PublicSector from "./pages/industries/PublicSector";
 import Telecommunications from "./pages/industries/Telecommunications";
 
+import GetStarted from "./pages/GetStarted";
 import Pricing from "./pages/Pricing";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -158,6 +159,7 @@ const App = () => (
           <Route path="/methodology" element={<Methodology />} />
 
           {/* Assessment & Navigation Paths */}
+          <Route path="/get-started" element={<GetStarted />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/find-by-problem" element={<FindByProblem />} />
           <Route path="/find-by-size" element={<FindBySize />} />
