@@ -1,4 +1,4 @@
-/** Shared template for all Service detail pages — compliance dark theme */
+/** Shared template for all Service detail pages — compliance-matched design */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -10,11 +10,22 @@ interface ServiceDetailPageProps {
   name: string;
   tagline: string;
   description: string;
-  sections: { title: string; items: string[] }[];
+  narrative?: string;
+  includes?: string[];
+  howItWorks?: string;
+  whatYouReceive?: string[];
+  sections?: { title: string; items: string[] }[];
   similar?: { label: string; href: string }[];
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
 }
 
-export const ServiceDetailPage = ({ category, name, tagline, description, sections, similar = [] }: ServiceDetailPageProps) => (
+export const ServiceDetailPage = ({
+  category, name, tagline, description, narrative, includes, howItWorks, whatYouReceive,
+  sections = [], similar = [],
+  primaryCta = { label: "Get Started", href: "/get-started" },
+  secondaryCta = { label: "View Service Tiers", href: "/service-tiers" },
+}: ServiceDetailPageProps) => (
   <PageLayout>
     {/* ── Hero ── */}
     <section className="relative overflow-hidden flex items-center" style={{ background: "#1D1D1B", minHeight: "48vh", paddingTop: "9rem", paddingBottom: "5rem" }}>
@@ -42,35 +53,101 @@ export const ServiceDetailPage = ({ category, name, tagline, description, sectio
       <div className="absolute bottom-0 left-0 right-0 h-20 z-10" style={{ background: "linear-gradient(to top, #FEFBF6, transparent)" }} />
     </section>
 
-    {/* ── Coverage sections ── */}
-    <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
-      <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
-        <div className="grid md:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
-          {sections.map((sec, i) => (
-            <motion.div
-              key={sec.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
-              style={{ background: "#FEFBF6", padding: "36px" }}
-            >
-              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#1D1D1B", fontFamily: "'Special Elite', serif", marginBottom: "20px", borderTop: "2px solid #993619", paddingTop: "16px" }}>
-                {sec.title}
-              </h3>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {sec.items.map((item) => (
-                  <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "10px" }}>
-                    <CheckCircle size={13} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />
-                    <span style={{ fontSize: "13px", lineHeight: 1.6, color: "#393837" }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+    {/* ── Narrative ── */}
+    {narrative && (
+      <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+          <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>{narrative}</p>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
+
+    {/* ── What [Service] Includes (bullet list) ── */}
+    {includes && includes.length > 0 && (
+      <section style={{ background: narrative ? "#EEE9E3" : "#FEFBF6", padding: "80px 0" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>What {name} Includes</p>
+          <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "32px" }} />
+          <div className="grid md:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
+            {includes.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.04 }}
+                className="flex items-start gap-3"
+                style={{ background: "#FEFBF6", padding: "24px" }}
+              >
+                <CheckCircle size={13} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />
+                <span style={{ fontSize: "13px", lineHeight: 1.6, color: "#393837" }}>{item}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* ── How It Works ── */}
+    {howItWorks && (
+      <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>How It Works</p>
+          <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "32px" }} />
+          <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>{howItWorks}</p>
+        </div>
+      </section>
+    )}
+
+    {/* ── What You Actually Receive ── */}
+    {whatYouReceive && whatYouReceive.length > 0 && (
+      <section style={{ background: "#EEE9E3", padding: "80px 0" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>What You Actually Receive</p>
+          <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "32px" }} />
+          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+            {whatYouReceive.map((item, i) => (
+              <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "14px" }}>
+                <CheckCircle size={13} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />
+                <span style={{ fontSize: "15px", lineHeight: 1.6, color: "#393837" }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {/* ── Legacy sections grid (backward compatible) ── */}
+    {sections.length > 0 && !includes && (
+      <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
+        <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
+            {sections.map((sec, i) => (
+              <motion.div
+                key={sec.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.07 }}
+                style={{ background: "#FEFBF6", padding: "36px" }}
+              >
+                <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#1D1D1B", fontFamily: "'Special Elite', serif", marginBottom: "20px", borderTop: "2px solid #993619", paddingTop: "16px" }}>
+                  {sec.title}
+                </h3>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  {sec.items.map((item) => (
+                    <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "10px" }}>
+                      <CheckCircle size={13} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />
+                      <span style={{ fontSize: "13px", lineHeight: 1.6, color: "#393837" }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     {/* ── CTA ── */}
     <section style={{ background: "#393837", padding: "80px 0" }}>
@@ -87,20 +164,20 @@ export const ServiceDetailPage = ({ category, name, tagline, description, sectio
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/get-started"
+                to={primaryCta.href}
                 className="inline-flex items-center gap-2 font-bold text-white transition-all hover:opacity-90"
                 style={{ background: "#993619", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
               >
-                Get Started <ArrowRight size={14} />
+                {primaryCta.label} <ArrowRight size={14} />
               </Link>
               <Link
-                to="/contact"
+                to={secondaryCta.href}
                 className="inline-flex items-center gap-2 font-semibold transition-all"
                 style={{ border: "1px solid rgba(205,202,197,0.15)", color: "rgba(205,202,197,0.55)", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "#993619"}
                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(205,202,197,0.15)"}
               >
-                Talk to Our Team
+                {secondaryCta.label}
               </Link>
             </div>
           </div>
