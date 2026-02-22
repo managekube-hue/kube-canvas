@@ -402,10 +402,10 @@ export default function SelfManaged() {
           <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Platform Bundles</p>
           <div className="w-10 h-[2px] mb-8" style={{ background: ORANGE }} />
           <h2 className="font-black text-white mb-4 leading-tight" style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontFamily: "'Special Elite', serif" }}>
-            Pre-configured Kube sets matched to environment size.<br />Fully customizable from day one.
+            Pre-configured module sets matched to environment size.<br />Fully customizable from day one.
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-3xl" style={{ color: TEXT_DIM }}>
-            XRO, XMM, and XME are deployment starting points — each one a proven Kube configuration your team deploys, then expands by adding modules as your detection and response requirements grow.
+            XRO, XMM, and XME are deployment starting points — each one a proven module configuration your team deploys, then expands by adding modules as your detection and response requirements grow.
           </p>
 
           <div className="grid lg:grid-cols-3 gap-[1px]" style={{ background: BORDER }}>

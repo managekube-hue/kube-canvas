@@ -36,7 +36,7 @@ export const DifferentiatorsSection = () => {
             <div className="text-display text-brand-orange mb-6">01</div>
             <h3 className="text-title text-white mb-4">Productized</h3>
             <p className="text-body-lg text-white/70">
-              Kubes contain Blocks. Blocks contain services. 
+              Modules contain Blocks. Blocks contain services. 
               No bloated contracts. Clear scope. Clear pricing. Clear outcomes.
             </p>
           </div>

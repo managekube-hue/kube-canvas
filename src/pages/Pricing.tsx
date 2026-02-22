@@ -71,7 +71,7 @@ const Pricing = () => {
             <p className="text-label text-brand-orange mb-4">PLATFORMS</p>
             <h2 className="text-headline text-white mb-4">Choose Your Platform</h2>
             <p className="text-body-lg text-white/60 mb-14 max-w-2xl">
-              Three purpose-built platforms powered by Kubric UIDR. Each maps to the modules your organization needs — from 7 to all 18.
+              Three purpose-built platforms powered by the Kubric platform. Each maps to the modules your organisation needs — from 7 to all 18.
             </p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -211,10 +211,10 @@ const Pricing = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              to="/assessment"
+              to="/get-started"
               className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
             >
-              Onboard Today
+              Get Started
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link

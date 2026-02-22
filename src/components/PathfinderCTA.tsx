@@ -5,7 +5,7 @@ import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
-  { icon: ClipboardList, title: "Free Assessment", description: "Map your security posture in minutes", href: "/assessment" },
+  { icon: ClipboardList, title: "Get Started", description: "Map your security posture in minutes", href: "/get-started" },
   { icon: LayoutGrid, title: "Service Layer", description: "18 detection & response modules", href: "/service-layer" },
   { icon: Server, title: "Service Tiers", description: "XRO, XMX & XME platform tiers", href: "/service-tiers" },
   { icon: Shield, title: "Managed Services", description: "NOC, SOC, Compliance & Cloud", href: "/services" },

@@ -140,7 +140,7 @@ export const KubePageTemplate = ({
               viewport={{ once: true }}
               className="text-2xl lg:text-3xl font-bold text-foreground"
             >
-              Explore {name.replace(" Kube", "")} Blocks
+              Explore {name.replace(" Kube", "").replace(" Module", "")} Blocks
             </motion.h2>
           </div>
 
@@ -187,7 +187,7 @@ export const KubePageTemplate = ({
       <section className="py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <p className="text-label text-muted-foreground mb-12">Related Kubes</p>
+            <p className="text-label text-muted-foreground mb-12">Related Modules</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedKubes.map((kube) => (
                 <Link

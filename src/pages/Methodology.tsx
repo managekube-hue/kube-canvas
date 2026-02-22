@@ -14,28 +14,28 @@ const phases = [
   {
     number: "01",
     label: "ASSESS",
-    kubes: ["Assessment Kube", "Compliance Kube"],
+    kubes: ["Assessment", "Compliance"],
     description: "Map your current state. Document infrastructure. Identify security gaps. Build your transformation roadmap.",
     deliverables: ["Infrastructure Inventory", "Security Assessment Report", "Compliance Gap Analysis", "Prioritized Remediation Roadmap"],
   },
   {
     number: "02",
     label: "REMEDIATE",
-    kubes: ["Product Kube", "MSSP Kube", "Industry Kube"],
+    kubes: ["Service Tiers", "Managed SOC", "Industry Solutions"],
     description: "Close the gaps identified in assessment. Implement security controls. Deploy infrastructure. Configure systems.",
     deliverables: ["Security Control Implementation", "Infrastructure Deployment", "Policy Development", "Evidence Automation"],
   },
   {
     number: "03",
     label: "MANAGE",
-    kubes: ["MSP Kube", "MSSP Kube"],
+    kubes: ["Managed NOC", "Managed SOC"],
     description: "Day-to-day operations. 24/7 monitoring. Service desk. Incident response. Continuous threat detection.",
     deliverables: ["24/7 NOC/SOC Operations", "L1-L3 Service Desk", "Incident Management", "Continuous Monitoring"],
   },
   {
     number: "04",
     label: "OPTIMIZE",
-    kubes: ["Advisory Kube", "Innovation Kube"],
+    kubes: ["Advisory Services", "KubricAI"],
     description: "Strategic guidance. Cost optimization. Process automation. Continuous improvement.",
     deliverables: ["Quarterly Business Reviews", "Cost Optimization Reports", "Automation Implementation", "Strategic Roadmapping"],
   },
@@ -110,10 +110,10 @@ const Methodology = () => {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                to="/assessment"
+                to="/get-started"
                 className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
               >
-                Take Free Assessment
+                Get Started
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>

@@ -11,7 +11,7 @@ const phases = [
     title: "ASSESS",
     icon: Search,
     description: "Comprehensive discovery of your infrastructure, security posture, and compliance gaps. Free for qualified engagements.",
-    kubes: ["Assessment Kube", "Compliance Kube"],
+    kubes: ["Assessment", "Compliance"],
     color: "from-brand-orange/20 to-transparent",
   },
   {
@@ -19,7 +19,7 @@ const phases = [
     title: "REMEDIATE",
     icon: Wrench,
     description: "Close the gaps. Deploy infrastructure. Implement controls. Configure platforms for your specific industry.",
-    kubes: ["Product Kube", "Industry Kube", "MSSP Kube"],
+    kubes: ["Service Tiers", "Industry Solutions", "Managed SOC"],
     color: "from-brand-orange/15 to-transparent",
   },
   {
@@ -27,7 +27,7 @@ const phases = [
     title: "MANAGE",
     icon: Settings,
     description: "24/7 operations. Service desk. Security monitoring. Proactive maintenance with SLA-backed support.",
-    kubes: ["MSP Kube", "MSSP Kube"],
+    kubes: ["Managed NOC", "Managed SOC"],
     color: "from-brand-orange/20 to-transparent",
   },
   {
@@ -35,7 +35,7 @@ const phases = [
     title: "OPTIMIZE",
     icon: TrendingUp,
     description: "Continuous improvement. FinOps. Process automation. Strategic guidance from virtual executives.",
-    kubes: ["Advisory Kube", "Innovation Kube"],
+    kubes: ["Advisory Services", "KubricAI"],
     color: "from-brand-orange/15 to-transparent",
   },
 ];
@@ -59,7 +59,7 @@ export const MethodologySection = () => {
             One Methodology. Four Phases.
           </h2>
           <p className="text-body-xl text-muted-foreground max-w-2xl mx-auto">
-            Every engagement follows this proven sequence. The Kubes activate at each phase to deliver exactly what you need.
+            Every engagement follows this proven sequence. The modules activate at each phase to deliver exactly what you need.
           </p>
         </motion.div>
 
@@ -114,7 +114,7 @@ export const MethodologySection = () => {
                     {/* Active Kubes */}
                     <div className={`${isLeft ? "lg:text-right" : ""}`}>
                       <div className="text-caption text-muted-foreground mb-3 uppercase tracking-wider">
-                        Active Kubes
+                        Active Modules
                       </div>
                       <div className={`flex flex-wrap gap-2 ${isLeft ? "lg:justify-end" : ""}`}>
                         {phase.kubes.map((kube) => (
