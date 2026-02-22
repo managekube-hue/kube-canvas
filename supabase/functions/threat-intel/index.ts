@@ -47,12 +47,12 @@ serve(async (req) => {
     let totalSearchResults = 0;
 
     if (tab === "trend") {
-      // Top threats by risk score / EPSS
+      // Top threats by risk score, then CVSS, showing ALL data
       const { data } = await supabase
         .from('threat_intel')
         .select('*')
-        .not('epss_score', 'is', null)
-        .order('epss_score', { ascending: false })
+        .order('risk_score', { ascending: false, nullsFirst: false })
+        .order('cvss_v3_score', { ascending: false, nullsFirst: false })
         .range(offset, offset + limit - 1);
       threats = data || [];
 

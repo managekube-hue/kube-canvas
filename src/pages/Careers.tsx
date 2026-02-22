@@ -1,64 +1,28 @@
 /**
  * Careers Page: ManageKube
- * Build the Future of Managed Security and IT.
+ * Now powered by CMS — pulls published positions from cms_career_postings table.
  */
 
+import { useState, useEffect } from "react";
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
+import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin, Clock, Briefcase, Mail } from "lucide-react";
+import { ArrowRight, MapPin, Mail, Briefcase, Loader2 } from "lucide-react";
 
-const openPositions = [
-  {
-    title: "Security Operations Center (SOC) Analyst",
-    location: "Remote / Multiple Shifts",
-    description: "Monitor security alerts across 23 detection capabilities. Triage incidents. Escalate when needed. Document everything. 24/7 coverage means shift work, but your team has your back.",
-    requirements: "2+ years SOC experience. Familiarity with SIEM, EDR, NDR. Willingness to work nights/weekends as part of rotation.",
-    email: "careers@managekube.com",
-    subject: "SOC Analyst",
-  },
-  {
-    title: "Network Operations Center (NOC) Engineer",
-    location: "Remote / Multiple Shifts",
-    description: "Monitor network performance across client environments. Detect anomalies before users report them. Escalate to engineering when needed. Keep the network running.",
-    requirements: "3+ years network engineering or NOC experience. Familiarity with routing, switching, SD-WAN. Industry certifications preferred.",
-    email: "careers@managekube.com",
-    subject: "NOC Engineer",
-  },
-  {
-    title: "Detection Engineer",
-    location: "Remote / Day Shift",
-    description: "Build and tune detection logic across the Kubric platform. Create new detections. Improve existing ones. Stay ahead of adversaries.",
-    requirements: "3+ years detection engineering. Experience with Sigma, YARA, or custom detection logic. Scripting proficiency.",
-    email: "careers@managekube.com",
-    subject: "Detection Engineer",
-  },
-  {
-    title: "Platform Engineer",
-    location: "Remote / Day Shift",
-    description: "Build and maintain the Kubric platform. Work across the stack: ingestion, graph, API, automation. Make the platform faster, more reliable, more capable.",
-    requirements: "5+ years software engineering. Experience with distributed systems, databases, or security platforms. Go/Python proficiency.",
-    email: "careers@managekube.com",
-    subject: "Platform Engineer",
-  },
-  {
-    title: "Customer Success Manager",
-    location: "Remote / Day Shift",
-    description: "Own the relationship with assigned clients. Ensure they are getting value. Identify expansion opportunities. Be the voice of the customer internally.",
-    requirements: "3+ years customer success or account management. Experience in security/IT services preferred.",
-    email: "careers@managekube.com",
-    subject: "Customer Success Manager",
-  },
-  {
-    title: "Sales Development Representative",
-    location: "Remote / Day Shift",
-    description: "Generate and qualify leads. Set meetings for the sales team. Build pipeline. Learn the business from the ground up.",
-    requirements: "1+ years sales or business development. Strong communication skills. Hunger to learn.",
-    email: "careers@managekube.com",
-    subject: "SDR",
-  },
-];
+interface CareerPosting {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  employment_type: string;
+  description: string;
+  requirements: string[];
+  nice_to_haves: string[];
+  salary_range: string | null;
+  application_email: string;
+}
 
 const whyJoin = [
   { title: "Mission-driven work", desc: "You will protect organisations that keep the world running. Manufacturing. Healthcare. Public sector. Energy. Finance. Your work matters." },
@@ -69,6 +33,28 @@ const whyJoin = [
 ];
 
 const Careers = () => {
+  const [positions, setPositions] = useState<CareerPosting[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("cms_career_postings")
+          .select("*")
+          .eq("is_published", true)
+          .order("sort_order", { ascending: true });
+
+        if (error) throw error;
+        setPositions(data || []);
+      } catch (err) {
+        console.error("Failed to load career postings:", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <PageLayout>
       <PageBanner
@@ -107,7 +93,7 @@ const Careers = () => {
         </div>
       </section>
 
-      {/* Open Positions */}
+      {/* Open Positions — from CMS */}
       <section id="openings" className="py-20 lg:py-32 bg-secondary">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
@@ -116,35 +102,68 @@ const Careers = () => {
             <h2 className="text-headline text-foreground mb-12" style={{ fontFamily: "'Special Elite', serif" }}>
               Current Opportunities
             </h2>
-            <div className="space-y-6">
-              {openPositions.map((pos, i) => (
-                <motion.div
-                  key={pos.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="bg-background border border-border p-8"
-                >
-                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-4">
-                    <div>
-                      <h3 className="text-lg font-bold text-foreground mb-2">{pos.title}</h3>
-                      <p className="text-xs text-muted-foreground flex items-center gap-1">
-                        <MapPin className="w-3 h-3" /> {pos.location}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">{pos.description}</p>
-                  <p className="text-xs text-muted-foreground mb-4"><strong className="text-foreground">Requirements:</strong> {pos.requirements}</p>
-                  <a
-                    href={`mailto:${pos.email}?subject=${encodeURIComponent(pos.subject)}`}
-                    className="inline-flex items-center gap-2 text-xs font-bold text-brand-orange hover:opacity-80 transition-opacity"
+
+            {loading ? (
+              <div className="flex items-center justify-center py-16 gap-3 text-muted-foreground">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Loading positions...
+              </div>
+            ) : positions.length === 0 ? (
+              <p className="text-muted-foreground text-center py-12">
+                No open positions at this time. Check back soon or send your resume to careers@managekube.com.
+              </p>
+            ) : (
+              <div className="space-y-6">
+                {positions.map((pos, i) => (
+                  <motion.div
+                    key={pos.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="bg-background border border-border p-8"
                   >
-                    <Mail className="w-3 h-3" /> Apply: {pos.email}
-                  </a>
-                </motion.div>
-              ))}
-            </div>
+                    <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-4">
+                      <div>
+                        <h3 className="text-lg font-bold text-foreground mb-2">{pos.title}</h3>
+                        <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {pos.location}</span>
+                          <span className="flex items-center gap-1"><Briefcase className="w-3 h-3" /> {pos.department}</span>
+                          <span>{pos.employment_type}</span>
+                          {pos.salary_range && <span className="text-brand-orange font-bold">{pos.salary_range}</span>}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">{pos.description}</p>
+
+                    {pos.requirements && pos.requirements.length > 0 && (
+                      <div className="mb-3">
+                        <p className="text-xs font-bold text-foreground mb-2">Requirements:</p>
+                        <ul className="list-disc list-inside text-xs text-muted-foreground space-y-1">
+                          {pos.requirements.map((req, ri) => <li key={ri}>{req}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    {pos.nice_to_haves && pos.nice_to_haves.length > 0 && (
+                      <div className="mb-4">
+                        <p className="text-xs font-bold text-foreground mb-2">Nice to Have:</p>
+                        <ul className="list-disc list-inside text-xs text-muted-foreground space-y-1">
+                          {pos.nice_to_haves.map((nth, ni) => <li key={ni}>{nth}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    <a
+                      href={`mailto:${pos.application_email}?subject=${encodeURIComponent(`Application: ${pos.title}`)}`}
+                      className="inline-flex items-center gap-2 text-xs font-bold text-brand-orange hover:opacity-80 transition-opacity"
+                    >
+                      <Mail className="w-3 h-3" /> Apply: {pos.application_email}
+                    </a>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
