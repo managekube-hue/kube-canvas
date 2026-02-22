@@ -15,7 +15,7 @@ const pathways = [
 /** END DO NOT TOUCH */
 
 export const PathfinderCTA = () => (
-  <section className="relative overflow-hidden" style={{ minHeight: "480px", display: "flex", alignItems: "center" }}>
+  <section className="relative overflow-hidden" style={{ minHeight: "680px", display: "flex", alignItems: "center" }}>
     <video
       autoPlay loop muted playsInline
       className="absolute inset-0 w-full h-full object-cover"
