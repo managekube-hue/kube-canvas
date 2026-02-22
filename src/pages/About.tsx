@@ -1,36 +1,41 @@
 /**
- * DO NOT TOUCH - About Page with Global Design Standards
- * Uses PageBanner for consistent header styling
+ * About Page — Enterprise identity with global design standards
  */
 
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
-import { PathfinderCTA } from "@/components/PathfinderCTA";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Target, Shield, Users, Zap } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 const values = [
   {
-    icon: Target,
     title: "Clear Ownership",
-    description: "One team, one SLA, one point of accountability. No vendor finger-pointing.",
+    description: "One team, one SLA, one point of accountability. No vendor finger-pointing. No ticket ping-pong. When something breaks, you call one number.",
   },
   {
-    icon: Shield,
     title: "Security First",
-    description: "Every solution designed with security embedded, not bolted on afterward.",
+    description: "Every solution designed with security embedded, not bolted on afterward. Our 7-step methodology — Hunt through Document — ensures nothing is an afterthought.",
   },
   {
-    icon: Users,
     title: "Client Partnership",
-    description: "We succeed when you succeed. Long-term relationships over short-term transactions.",
+    description: "We succeed when you succeed. Long-term relationships over short-term transactions. Quarterly business reviews, strategic roadmaps, and transparent reporting.",
   },
   {
-    icon: Zap,
     title: "Continuous Improvement",
-    description: "Technology evolves. So do we. Quarterly reviews ensure your IT stays optimized.",
+    description: "Technology evolves. So do we. Every incident feeds updated playbooks. Every review updates the roadmap. The cycle never stops.",
   },
+];
+
+const differentiators = [
+  "Single vendor consolidation — 8 vendors become 1",
+  "18 detection and response modules in one platform",
+  "7-step methodology: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document",
+  "Kubric UIDR platform with real-time data graph",
+  "KubricAI-powered threat orchestration",
+  "Three service tiers: Essentials (XRO), Advanced (XMX), Enterprise (XME)",
+  "Fully Managed, Co-Managed, and Self-Managed engagement models",
+  "Dell Technologies, IBM, Pax8, TD SYNNEX technology partnerships",
 ];
 
 const About = () => {
@@ -38,127 +43,167 @@ const About = () => {
     <PageLayout>
       <PageBanner
         title="About ManageKube"
-        subtitle="Making complex IT understandable. Enterprise infrastructure. Intelligent software. One accountable team."
+        subtitle="Enterprise managed MSP & MSSP services. Unified infrastructure, detection, and response — delivered by one accountable team."
+        phase="COMPANY"
       />
 
       {/* Mission Section */}
-      <section className="py-20 lg:py-32 bg-white">
+      <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-label text-muted-foreground mb-4">OUR MISSION</p>
-              <h2 className="text-headline text-foreground mb-6">
-                IT transformation shouldn't require a dozen vendors
-              </h2>
-              <p className="text-body-lg text-muted-foreground mb-6">
-                Most organizations juggle multiple IT vendors—each with their own SLA, 
-                their own support portal, and their own blame when things go wrong. 
-                ManageKube consolidates your IT ecosystem into a single accountable partnership.
-              </p>
-              <p className="text-body-lg text-muted-foreground">
-                From assessment through ongoing operations, we provide the infrastructure, 
-                security, compliance, and strategic guidance that modern enterprises need—all 
-                through one relationship.
-              </p>
-            </div>
-            <div className="bg-secondary p-8 lg:p-12">
-              <div className="text-6xl lg:text-7xl font-bold text-brand-orange mb-4">
-                8→1
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>
+                  Our Mission
+                </p>
+                <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
+                <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 900, color: "#1D1D1B", fontFamily: "'Special Elite', serif", marginBottom: "20px" }}>
+                  IT transformation shouldn't require a dozen vendors
+                </h2>
+                <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "16px" }}>
+                  Most organizations juggle multiple IT vendors — each with their own SLA, their own support portal, and their own blame when things go wrong. ManageKube consolidates your IT ecosystem into a single accountable partnership.
+                </p>
+                <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
+                  From assessment through ongoing operations, we provide the infrastructure, security, compliance, and strategic guidance that modern enterprises need — all through one relationship. Our 7-step methodology ensures nothing falls through the cracks.
+                </p>
               </div>
-              <p className="text-xl font-semibold text-foreground mb-2">
-                Eight vendors become one team
-              </p>
-              <p className="text-muted-foreground">
-                Consolidate infrastructure, security, compliance, and operations 
-                under a single point of accountability.
-              </p>
+              <div style={{ background: "#EEE9E3", padding: "48px", border: "1px solid #CDCAC5" }}>
+                <div style={{ fontSize: "clamp(3rem, 6vw, 5rem)", fontWeight: 900, color: "#993619", fontFamily: "'Special Elite', serif", marginBottom: "16px" }}>
+                  8→1
+                </div>
+                <p style={{ fontSize: "18px", fontWeight: 700, color: "#1D1D1B", marginBottom: "8px" }}>
+                  Eight vendors become one team
+                </p>
+                <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#393837" }}>
+                  Consolidate infrastructure, security, compliance, and operations under a single point of accountability. One contract. One SLA. One team that owns the outcome.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Values */}
-      <section id="values" className="py-20 lg:py-32 bg-secondary">
+      <section style={{ background: "#EEE9E3", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl mb-16">
-            <p className="text-label text-muted-foreground mb-4">OUR VALUES</p>
-            <h2 className="text-headline text-foreground">
+          <div className="max-w-6xl mx-auto">
+            <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>
+              Our Values
+            </p>
+            <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
+            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 900, color: "#1D1D1B", fontFamily: "'Special Elite', serif", marginBottom: "48px" }}>
               What we stand for
             </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white p-8 border border-border"
-              >
-                <value.icon className="w-10 h-10 text-brand-orange mb-6" />
-                <h3 className="text-lg font-bold text-foreground mb-3">
-                  {value.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {value.description}
-                </p>
-              </motion.div>
-            ))}
+            <div className="grid sm:grid-cols-2 gap-6">
+              {values.map((value, index) => (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  style={{ background: "#FEFBF6", border: "1px solid #CDCAC5", padding: "36px" }}
+                >
+                  <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#1D1D1B", marginBottom: "12px" }}>
+                    {value.title}
+                  </h3>
+                  <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#393837" }}>
+                    {value.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section id="partners" className="py-20 lg:py-32 bg-foreground text-white">
+      {/* What Makes Us Different */}
+      <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl mb-16">
-            <p className="text-label text-white/50 mb-4">TECHNOLOGY PARTNERS</p>
-            <h2 className="text-headline text-white mb-6">
-              Built on enterprise foundations
-            </h2>
-            <p className="text-body-lg text-white/70">
-              We source and implement from core technology partners, delivering 
-              validated reference architectures and certified expertise.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-8">
-            {["Dell Technologies", "IBM", "Pax8", "TD SYNNEX"].map((partner) => (
-              <div 
-                key={partner}
-                className="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold"
-              >
-                {partner}
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>
+                  Why ManageKube
+                </p>
+                <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
+                <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 900, color: "#1D1D1B", fontFamily: "'Special Elite', serif", marginBottom: "20px" }}>
+                  What sets us apart
+                </h2>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  {differentiators.map((d) => (
+                    <li key={d} style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "16px" }}>
+                      <Check size={16} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />
+                      <span style={{ fontSize: "15px", lineHeight: 1.6, color: "#393837" }}>{d}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
+              <div>
+                <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>
+                  Technology Partners
+                </p>
+                <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
+                <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
+                  We source and implement from core technology partners, delivering validated reference architectures and certified expertise.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {["Dell Technologies", "IBM", "Pax8", "TD SYNNEX"].map((partner) => (
+                    <div
+                      key={partner}
+                      style={{ background: "#EEE9E3", border: "1px solid #CDCAC5", padding: "16px 24px", fontSize: "14px", fontWeight: 700, color: "#1D1D1B" }}
+                    >
+                      {partner}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 lg:py-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-headline text-foreground mb-6">
-            Ready to simplify your IT?
-          </h2>
-          <p className="text-body-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Take our free assessment to discover how ManageKube can consolidate 
-            your vendor relationships and accelerate your transformation.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/get-started"
-              className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
-            >
+      <section style={{ background: "#393837", padding: "80px 0" }}>
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-5xl mx-auto">
+            <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>
               Get Started
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-foreground text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
-            >
-              Contact Us
-            </Link>
+            </p>
+            <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
+            <h2 className="font-black text-white leading-tight" style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontFamily: "'Special Elite', serif", marginBottom: "20px" }}>
+              Ready to simplify your IT?
+            </h2>
+            <p style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(205,202,197,0.50)", marginBottom: "36px", maxWidth: "500px" }}>
+              Take our free assessment to discover how ManageKube can consolidate your vendor relationships and accelerate your transformation.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/get-started"
+                className="inline-flex items-center gap-2 font-bold text-white transition-all hover:opacity-90"
+                style={{ background: "#993619", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
+              >
+                Get Started <ArrowRight size={14} />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 font-semibold transition-all"
+                style={{ border: "1px solid rgba(205,202,197,0.15)", color: "rgba(205,202,197,0.55)", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "#993619"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(205,202,197,0.15)"}
+              >
+                Contact Us
+              </Link>
+              <Link
+                to="/methodology"
+                className="inline-flex items-center gap-2 font-semibold transition-all"
+                style={{ border: "1px solid rgba(205,202,197,0.15)", color: "rgba(205,202,197,0.55)", padding: "14px 32px", fontSize: "13px", letterSpacing: "0.10em", textTransform: "uppercase" }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "#993619"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(205,202,197,0.15)"}
+              >
+                Our Methodology
+              </Link>
+            </div>
           </div>
         </div>
       </section>
