@@ -24,7 +24,7 @@ const lifecycle = [
 ];
 
 const delivers = [
-  "20 detection capabilities running concurrently",
+  "23 detection capabilities running concurrently",
   "Cross-domain correlation at ingestion, not investigation",
   "Behavioral baselines that learn your specific environment",
   "Methodology-enforced incident lifecycle from hunt through close",

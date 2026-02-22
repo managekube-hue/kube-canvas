@@ -82,7 +82,7 @@ const businessSizes = [
     icon: Globe,
     description: "Comprehensive managed services for global organizations. Multi-region security operations and digital transformation.",
     recommendedKubes: [
-      { name: "Full Service Layer", href: "/service-layer", reason: "All 18 Modules" },
+      { name: "Full Service Layer", href: "/service-layer", reason: "All 23 Capabilities" },
       { name: "Industry Solutions", href: "/solutions/hub", reason: "Vertical solutions" },
       { name: "Service Tiers", href: "/service-tiers", reason: "Infrastructure refresh" },
     ],

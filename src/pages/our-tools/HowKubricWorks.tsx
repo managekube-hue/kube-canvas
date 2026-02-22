@@ -97,10 +97,10 @@ export default function HowKubricWorks() {
         </div>
       </section>
 
-      {/* ── The 20 Capabilities ── */}
+      {/* ── The 23 Capabilities ── */}
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
-          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>The 20 Capabilities</p>
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>The 23 Capabilities</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "32px" }} />
           <div className="grid md:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
             {Object.entries(capabilities).map(([cat, items], i) => (

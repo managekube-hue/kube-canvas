@@ -286,7 +286,7 @@ export default function CoManaged() {
             >
               <Layers size={24} style={{ color: CM.accent }} className="mb-3" />
               <p className="text-[14px] font-black text-white mb-1" style={{ fontFamily: "'Special Elite', serif" }}>View Full Catalog</p>
-              <p className="text-[11px] mb-4" style={{ color: "rgba(205,202,197,0.3)" }}>All 18 modules</p>
+              <p className="text-[11px] mb-4" style={{ color: "rgba(205,202,197,0.3)" }}>All 23 capabilities</p>
               <ArrowRight size={16} style={{ color: CM.accent }} />
             </Link>
           </div>

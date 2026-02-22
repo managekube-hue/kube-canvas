@@ -113,9 +113,9 @@ export default function UidrPlatform() {
       <div className="max-w-5xl mx-auto px-6 pt-16 pb-24">
         {/* Hero */}
         <div className="mb-16 border-b border-white/10 pb-16">
-          <p className="text-xs font-bold tracking-widest text-blue-500 uppercase mb-4">PLATFORM</p>
+          <p className="text-xs font-bold tracking-widest text-blue-500 uppercase mb-4">SERVICE LAYER</p>
           <h1 className="text-4xl lg:text-5xl font-black text-white mb-2">
-            18 Detection & Response Modules.
+            18 Detection & Response Modules. 23 Capabilities.
           </h1>
           <h2 className="text-4xl lg:text-5xl font-black text-blue-500 mb-6">
             One Engine.

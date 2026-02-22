@@ -249,7 +249,7 @@ export default function DocsOverview() {
           </h2>
           <div className="grid sm:grid-cols-2 gap-3">
             {[
-              { label: "K-MAP-11 DR Module Mapping", desc: "20 detection modules × library × NATS subject × KAI persona", href: "/docs/nats" },
+              { label: "K-MAP-11 DR Module Mapping", desc: "18 detection modules × library × NATS subject × KAI persona", href: "/docs/nats" },
               { label: "K-MAP-020 License Compliance", desc: "Full §20 matrix — 120,000+ assets with safe integration patterns", href: "/docs/license-matrix" },
               { label: "Monorepo Directory Structure", desc: "Prevents GPL/AGPL contamination via directory isolation", href: "/docs/monorepo" },
               { label: "Integration Summary", desc: "Build vs. Import vs. Vendor — the core Kubric doctrine", href: "/docs/summary" },

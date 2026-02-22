@@ -17,7 +17,7 @@ const serviceGroups = [
     desc: "24/7 operational coverage across infrastructure, security, IT, compliance, and cloud.",
     items: [
       { name: "Managed NOC", desc: "24/7 network operations center with proactive monitoring and response.", href: "/services/managed-noc" },
-      { name: "Managed SOC", desc: "24/7 security operations with threat hunting, detection, and incident response across 20 capabilities.", href: "/services/managed-soc" },
+      { name: "Managed SOC", desc: "24/7 security operations with threat hunting, detection, and incident response across 23 capabilities.", href: "/services/managed-soc" },
       { name: "Help Desk Services", desc: "End-user support with escalation to engineering when issues exceed scope.", href: "/services/help-desk" },
       { name: "Managed IT Services", desc: "IT operations and administration across endpoints, identity, and productivity tools.", href: "/services/managed-it" },
       { name: "Smart Hands Services", desc: "Remote and on-site technical support for deployments, troubleshooting, and maintenance.", href: "/services/smart-hands" },
