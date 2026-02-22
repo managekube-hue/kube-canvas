@@ -113,20 +113,23 @@ const megaMenu = {
         ],
       },
       {
-        heading: "Advisory Services",
+        heading: "Professional Services — BOM Add-Ons",
+        items: [
+          { label: "Help Desk", desc: "Tier 1–3 end-user support with Mac support, warranty services, and SLA-backed resolution.", href: "/services/help-desk" },
+          { label: "Managed IT", desc: "Full-spectrum IT operations — endpoints, IoT, print, O365, data center, and vCIO advisory.", href: "/services/managed-it" },
+          { label: "Smart Hands", desc: "On-site field technicians for rack-and-stack, cabling, and multi-site rollouts.", href: "/services/smart-hands" },
+        ],
+      },
+      {
+        heading: "Advisory & Deployment",
         items: [
           { label: "Security Assessments", desc: "Holistic security posture evaluation with risk prioritisation.", href: "/services/security-assessments" },
           { label: "Penetration Testing", desc: "Manual penetration testing across network, application, and cloud.", href: "/services/penetration-testing" },
           { label: "Compliance Gap Analysis", desc: "Framework-specific gap assessments with remediation roadmaps.", href: "/services/compliance-gap-analysis" },
           { label: "IT Infrastructure Audits", desc: "Architecture, performance, security, and efficiency review.", href: "/services/infrastructure-audits" },
           { label: "Right-Sizing Engagements", desc: "Eliminate waste and improve performance per dollar spent.", href: "/services/right-sizing" },
-        ],
-      },
-      {
-        heading: "Deployment & Integration",
-        items: [
-          { label: "Physical Security Integration", desc: "Video surveillance, access control, and SOC integration.", href: "/services/physical-security" },
           { label: "Network Infrastructure Buildouts", desc: "Enterprise network design, deployment, and migration.", href: "/services/network-buildouts" },
+          { label: "Physical Security Integration", desc: "Video surveillance, access control, and SOC integration.", href: "/services/physical-security" },
           { label: "Custom Automation Development", desc: "Bespoke automation, scripting, and workflow development.", href: "/services/custom-automation" },
           { label: "Legacy System Integrations", desc: "Bridge ageing infrastructure with modern security platforms.", href: "/services/legacy-integrations" },
         ],
@@ -207,7 +210,7 @@ const megaMenu = {
       {
         heading: "Get Started",
         items: [
-          { label: "Take Free Assessment", desc: "Find the pricing model that best matches your organisation's size and needs.", href: "/assessment" },
+          { label: "Get Started", desc: "Tell us about your organisation and we'll build your custom roadmap.", href: "/get-started" },
           { label: "Talk to Sales", desc: "Speak with a solutions architect about enterprise and custom pricing.", href: "/contact" },
         ],
       },
@@ -224,7 +227,7 @@ const megaMenu = {
           { label: "Read the Docs", desc: "All Kubric documentation — modules, compliance, tools, services, and pricing guides.", href: "/documentation" },
           { label: "How Kubric Works", desc: "Architecture overview of the unified Kubric platform.", href: "/our-tools/how-kubric-works" },
           { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against module coverage.", href: "/compliance" },
-          { label: "Assessment Calculator", desc: "Estimate your security maturity and identify gaps in minutes.", href: "/assessment" },
+          { label: "Get Started", desc: "Tell us about your organisation and get a custom roadmap.", href: "/get-started" },
         ],
       },
       {
@@ -398,12 +401,12 @@ export const Header = () => {
               {/* CTA buttons at bottom */}
               <div className="px-10 py-8 space-y-3">
                 <Link
-                  to="/contact"
+                  to="/get-started"
                   onClick={closeMenu}
                   className="block w-full text-center py-3 px-6 text-sm font-semibold tracking-wide transition-opacity hover:opacity-90"
                   style={{ backgroundColor: ORANGE, color: "#fff", borderRadius: "4px" }}
                 >
-                  Onboard Today
+                  Get Started
                 </Link>
                 <Link
                   to="/login/client"

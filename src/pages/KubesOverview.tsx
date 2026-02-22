@@ -87,10 +87,10 @@ const ServiceLayerOverview = () => {
             Onboard with ManageKube and start detecting threats across your infrastructure in days, not months.
           </p>
           <Link
-            to="/assessment"
+            to="/get-started"
             className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
           >
-            Onboard Today
+            Get Started
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

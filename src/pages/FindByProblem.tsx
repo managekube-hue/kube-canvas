@@ -91,8 +91,8 @@ const solutionCategories = [
         solution: "Security Assessment Service",
         whatYouGet: "FREE vulnerability scan, risk scoring, remediation roadmap",
         timeline: "4 weeks",
-        cta: "Onboard Today",
-        href: "/assessment"
+        cta: "Get Started",
+        href: "/get-started"
       }
     ]
   },
@@ -648,10 +648,10 @@ const FindByProblem = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/assessment"
+              to="/get-started"
               className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
             >
-              Onboard Today
+              Get Started
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link

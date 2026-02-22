@@ -21,8 +21,8 @@ const docCards = [
       "Onboarding guides, platform overview, and your first assessment walkthrough. Everything you need to get operational with Kubric fast.",
     links: [
       { label: "Platform Overview", href: "/our-tools/how-kubric-works" },
-      { label: "Onboard Today", href: "/assessment" },
-      { label: "Understanding Kubes", href: "/kubes" },
+      { label: "Get Started", href: "/get-started" },
+      { label: "Service Layer Overview", href: "/service-layer" },
       { label: "Service Methodology", href: "/methodology" },
     ],
   },

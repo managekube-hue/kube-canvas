@@ -46,10 +46,11 @@ const columns: ColDef[] = [
     items: [
       { label: "Managed NOC", href: "/services/managed-noc" },
       { label: "Managed SOC", href: "/services/managed-soc" },
+      { label: "Help Desk", href: "/services/help-desk" },
+      { label: "Managed IT", href: "/services/managed-it" },
+      { label: "Smart Hands", href: "/services/smart-hands" },
       { label: "Managed Compliance & GRC", href: "/services/managed-compliance" },
-      { label: "Managed Cloud & FinOps", href: "/services/managed-cloud" },
       { label: "Security Assessments", href: "/services/security-assessments" },
-      { label: "Penetration Testing", href: "/services/penetration-testing" },
     ],
   },
   {
@@ -60,7 +61,8 @@ const columns: ColDef[] = [
       { label: "Public Sector", href: "/solutions/public-sector" },
       { label: "Financial Services", href: "/solutions/financial-services" },
       { label: "Retail", href: "/solutions/retail" },
-      { label: "Technology", href: "/solutions/technology" },
+      { label: "Support", href: "/support" },
+      { label: "ThreatAI", href: "/tools/threat-ai" },
     ],
   },
 ];
