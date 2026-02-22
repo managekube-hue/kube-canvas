@@ -20,7 +20,7 @@ const PATHS = [
     id: "co-managed" as const,
     label: "CO-MANAGED",
     headline: "Your team runs it.\nOur platform backs you up.",
-    sub: "Kubes, tooling, and engineer escalation on demand.",
+    sub: "Modules, tooling, and engineer escalation on demand.",
     detail: "You keep control of daily operations. We provide the platform, playbooks, and escalation support when your team needs backup.",
     badge: "Best for IT Teams",
   },

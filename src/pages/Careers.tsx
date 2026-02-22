@@ -25,7 +25,7 @@ const openPositions = [
   },
   {
     title: "Compliance Analyst",
-    department: "Compliance Kube",
+    department: "Compliance & GRC",
     location: "Memphis, TN / Remote",
     type: "Full-time",
   },

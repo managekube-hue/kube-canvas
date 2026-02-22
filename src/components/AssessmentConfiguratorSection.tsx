@@ -79,7 +79,7 @@ export const AssessmentConfiguratorSection = () => {
               <div className="flex items-start gap-4">
                 <Check className="w-6 h-6 text-brand-orange flex-shrink-0 mt-1" />
                 <p className="text-body-lg text-muted-foreground">
-                  Recommended Kube configuration and pricing
+                  Recommended module configuration and pricing
                 </p>
               </div>
             </div>

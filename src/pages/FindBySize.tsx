@@ -19,9 +19,9 @@ const businessSizes = [
     icon: Users,
     description: "Essential security and IT management for growing businesses. Get enterprise-grade protection without enterprise complexity.",
     recommendedKubes: [
-      { name: "Assessment Kube", href: "/kubes/assessment-kube", reason: "Free starting point" },
-      { name: "MSP Kube", href: "/kubes/msp-kube", reason: "Managed IT support" },
-      { name: "MSSP Kube", href: "/kubes/mssp-kube", reason: "Security basics" },
+      { name: "Free Assessment", href: "/get-started", reason: "Free starting point" },
+      { name: "Managed NOC", href: "/services/managed-noc", reason: "Managed IT support" },
+      { name: "Managed SOC", href: "/services/managed-soc", reason: "Security basics" },
     ],
     features: [
       "Managed endpoint protection",
@@ -38,10 +38,10 @@ const businessSizes = [
     icon: Building,
     description: "Comprehensive security and IT operations for scaling organizations. Balance control with managed services.",
     recommendedKubes: [
-      { name: "Assessment Kube", href: "/kubes/assessment-kube", reason: "Gap analysis" },
-      { name: "Compliance Kube", href: "/kubes/compliance-kube", reason: "SOC 2, HIPAA readiness" },
-      { name: "MSSP Kube", href: "/kubes/mssp-kube", reason: "Full SOC operations" },
-      { name: "MSP Kube", href: "/kubes/msp-kube", reason: "Hybrid IT management" },
+      { name: "Free Assessment", href: "/get-started", reason: "Gap analysis" },
+      { name: "Managed Compliance", href: "/services/managed-compliance", reason: "SOC 2, HIPAA readiness" },
+      { name: "Managed SOC", href: "/services/managed-soc", reason: "Full SOC operations" },
+      { name: "Managed NOC", href: "/services/managed-noc", reason: "Hybrid IT management" },
     ],
     features: [
       "24/7 SOC monitoring",
@@ -59,11 +59,11 @@ const businessSizes = [
     icon: Building2,
     description: "Full-stack transformation for complex, multi-site organizations. Enterprise security, compliance, and innovation.",
     recommendedKubes: [
-      { name: "Assessment Kube", href: "/kubes/assessment-kube", reason: "Full discovery" },
-      { name: "Compliance Kube", href: "/kubes/compliance-kube", reason: "Enterprise GRC" },
-      { name: "MSSP Kube", href: "/kubes/mssp-kube", reason: "Advanced threat ops" },
-      { name: "Advisory Kube", href: "/kubes/advisory-kube", reason: "vCIO/vCISO leadership" },
-      { name: "Innovation Kube", href: "/kubes/innovation-kube", reason: "AI & automation" },
+      { name: "Free Assessment", href: "/get-started", reason: "Full discovery" },
+      { name: "Managed Compliance", href: "/services/managed-compliance", reason: "Enterprise GRC" },
+      { name: "Managed SOC", href: "/services/managed-soc", reason: "Advanced threat ops" },
+      { name: "Advisory Services", href: "/services", reason: "vCIO/vCISO leadership" },
+      { name: "KubricAI", href: "/our-tools/kubric-ai", reason: "AI & automation" },
     ],
     features: [
       "Advanced threat hunting",
@@ -82,9 +82,9 @@ const businessSizes = [
     icon: Globe,
     description: "Comprehensive managed services for global organizations. Multi-region security operations and digital transformation.",
     recommendedKubes: [
-      { name: "Full Kube Suite", href: "/kubes", reason: "All 8 Kubes" },
-      { name: "Industry Kube", href: "/kubes/industry-kube", reason: "Vertical solutions" },
-      { name: "Product Kube", href: "/kubes/product-kube", reason: "Infrastructure refresh" },
+      { name: "Full Service Layer", href: "/service-layer", reason: "All 18 Modules" },
+      { name: "Industry Solutions", href: "/solutions/hub", reason: "Vertical solutions" },
+      { name: "Service Tiers", href: "/service-tiers", reason: "Infrastructure refresh" },
     ],
     features: [
       "Multi-region SOC operations",
@@ -104,7 +104,7 @@ const FindBySize = () => {
     <PageLayout>
       <PageBanner
         title="Solutions by Business Size"
-        subtitle="From startup to global enterprise, find the right combination of Kubes for your organization's scale and complexity."
+        subtitle="From startup to global enterprise, find the right combination of modules for your organization's scale and complexity."
         phase="PATHFINDER"
       />
 
@@ -142,7 +142,7 @@ const FindBySize = () => {
 
                   {/* Middle - Recommended Kubes */}
                   <div className="p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-border">
-                    <p className="text-label text-muted-foreground mb-6">RECOMMENDED KUBES</p>
+                    <p className="text-label text-muted-foreground mb-6">RECOMMENDED MODULES</p>
                     <div className="space-y-3">
                       {size.recommendedKubes.map((kube) => (
                         <Link
@@ -183,10 +183,10 @@ const FindBySize = () => {
                   </p>
                   <div className="flex gap-4">
                     <Link
-                      to="/assessment"
+                      to="/get-started"
                       className="px-6 py-3 bg-brand-orange text-white font-semibold hover:bg-opacity-90 transition-colors"
                     >
-                      Take Assessment
+                      Get Started
                     </Link>
                     <Link
                       to="/contact"
@@ -212,14 +212,14 @@ const FindBySize = () => {
             </h2>
             <p className="text-lg text-muted-foreground">
               Our AI-powered assessment analyzes your infrastructure, security posture, and compliance needs 
-              to recommend the exact Kube combination for your organization.
+              to recommend the exact module combination for your organization.
             </p>
           </div>
           <Link
-            to="/assessment"
+            to="/get-started"
             className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
           >
-            Onboard Today
+            Get Started
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
