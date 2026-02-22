@@ -7,13 +7,12 @@ import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Search, Shield, Zap, RefreshCw } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 const phases = [
   {
     number: "01",
     label: "HUNT",
-    icon: Search,
     description: "Proactive threat hunting across your entire attack surface. We don't wait for alerts — we go looking. Our analysts comb through telemetry, behavioral anomalies, and threat intelligence feeds to identify risks before they materialize into incidents.",
     capabilities: ["External Attack Surface Management (EASM)", "Vulnerability Detection & Prioritization", "Threat Intelligence Correlation", "Configuration Drift Detection", "Honeypot & Deception Networks"],
     methodology: "Hunt → Identify → Alert",
@@ -22,14 +21,12 @@ const phases = [
     number: "02",
     label: "DETECT",
     description: "Real-time detection across every layer of your stack — identity, network, cloud, application, endpoint, and data. Correlated alerts, not noise. Every detection is enriched with context from the Kubric Data Graph before it reaches an analyst.",
-    icon: Shield,
     capabilities: ["Identity Threat Detection & Response (ITDR)", "Network Detection & Response (NDR)", "Cloud Detection & Response (CDR)", "Application Detection & Response (ADR)", "Software Supply Chain Detection (SDR)", "Data Exfiltration Detection (DDR)"],
     methodology: "Alert → Triage → Diagnose",
   },
   {
     number: "03",
     label: "RESPOND",
-    icon: Zap,
     description: "Automated containment and expert-led remediation. When a threat is confirmed, playbooks execute in seconds — isolating endpoints, revoking credentials, blocking lateral movement. Our SOC analysts handle escalation, communication, and forensic documentation.",
     capabilities: ["Automated Playbook Execution", "Endpoint Isolation & Containment", "Credential Revocation", "Lateral Movement Blocking", "Incident Communication & Reporting", "Forensic Evidence Preservation"],
     methodology: "Diagnose → Remediate → Document",
@@ -37,7 +34,6 @@ const phases = [
   {
     number: "04",
     label: "RECOVER",
-    icon: RefreshCw,
     description: "Restore operations, harden defenses, and close the loop. Every incident produces a post-mortem, updated playbooks, and hardened configurations. Backup and disaster recovery ensures business continuity while compliance documentation is generated automatically.",
     capabilities: ["Backup & Disaster Recovery (BDR)", "Post-Incident Hardening", "Compliance Evidence Generation", "Playbook Updates & Tuning", "Quarterly Business Reviews", "Strategic Roadmap Updates"],
     methodology: "Document → Close → Hunt (cycle repeats)",
@@ -98,9 +94,7 @@ const Methodology = () => {
               Security isn't a destination — it's a cycle. Every module in the Service Layer maps to one or more phases of this lifecycle. The methodology scales from 7 modules (Essentials) to all 18 (Enterprise).
             </p>
 
-            {phases.map((phase, index) => {
-              const Icon = phase.icon;
-              return (
+            {phases.map((phase, index) => (
                 <motion.div
                   key={phase.number}
                   initial={{ opacity: 0, y: 30 }}
@@ -114,12 +108,7 @@ const Methodology = () => {
                       <span style={{ fontSize: "13px", fontWeight: 700, color: "rgba(57,56,55,0.35)", letterSpacing: "0.1em" }}>{phase.number}</span>
                     </div>
                     <div className="lg:col-span-3">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div style={{ width: "40px", height: "40px", background: "#993619", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <Icon className="w-5 h-5 text-white" />
-                        </div>
-                        <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", fontWeight: 900, color: "#1D1D1B", fontFamily: "'Special Elite', serif" }}>{phase.label}</h2>
-                      </div>
+                      <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: "#1D1D1B", fontFamily: "'Special Elite', serif", marginBottom: "16px" }}>{phase.label}</h2>
                       <p style={{ fontSize: "12px", fontWeight: 700, color: "#993619", letterSpacing: "0.12em" }}>{phase.methodology}</p>
                     </div>
                     <div className="lg:col-span-4">
@@ -138,8 +127,8 @@ const Methodology = () => {
                     </div>
                   </div>
                 </motion.div>
-              );
-            })}
+              )
+            )}
           </div>
         </div>
       </section>

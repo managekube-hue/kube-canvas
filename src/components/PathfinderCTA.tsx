@@ -61,12 +61,13 @@ export const PathfinderCTA = () => (
           >
             <Link
               to={p.href}
-              className="group flex flex-col items-start p-5 bg-white/5 border border-white/10 hover:bg-brand-orange hover:border-brand-orange transition-all h-full"
+              className="group flex flex-col items-start bg-white/5 border border-white/10 hover:bg-brand-orange hover:border-brand-orange transition-all h-full"
+              style={{ padding: "28px 24px", minHeight: "220px" }}
             >
-              <p.icon className="w-6 h-6 text-brand-orange group-hover:text-white mb-4 transition-colors" strokeWidth={1.5} />
-              <h3 className="text-sm font-bold text-white mb-1 leading-tight">{p.title}</h3>
-              <p className="text-xs text-white/55 group-hover:text-white/80 transition-colors leading-relaxed flex-1">{p.description}</p>
-              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white mt-3 transition-colors group-hover:translate-x-1 duration-200" />
+              <p.icon className="text-brand-orange group-hover:text-white mb-6 transition-colors" style={{ width: "32px", height: "32px" }} strokeWidth={1.5} />
+              <h3 style={{ fontSize: "16px", fontWeight: 700, lineHeight: 1.3, marginBottom: "6px" }} className="text-white">{p.title}</h3>
+              <p style={{ fontSize: "14px", lineHeight: 1.6 }} className="text-white/55 group-hover:text-white/80 transition-colors flex-1">{p.description}</p>
+              <ArrowRight style={{ width: "18px", height: "18px", marginTop: "16px" }} className="text-white/20 group-hover:text-white transition-colors group-hover:translate-x-1 duration-200" />
             </Link>
           </motion.div>
         ))}
