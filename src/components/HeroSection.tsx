@@ -70,10 +70,10 @@ export const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Link
-              to="/assessment"
+              to="/get-started"
               className="inline-flex items-center justify-center px-8 py-4 bg-brand-orange text-white font-bold text-sm uppercase tracking-wider hover:bg-brand-orange/90 transition-colors"
             >
-              Onboard Today
+              Get Started
             </Link>
             <Link
               to="/methodology"

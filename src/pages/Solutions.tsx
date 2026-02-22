@@ -1474,8 +1474,8 @@ const Solutions = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 Our assessment helps identify the right solutions for your specific needs.
               </p>
-              <Link to="/assessment" className="text-sm font-semibold text-brand-orange flex items-center gap-1">
-                Take Free Assessment <ArrowRight className="w-4 h-4" />
+              <Link to="/get-started" className="text-sm font-semibold text-brand-orange flex items-center gap-1">
+                Get Started <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="border-t-2 border-foreground pt-6">

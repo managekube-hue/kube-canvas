@@ -72,10 +72,10 @@ const Assessment = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/assessment/start"
+              to="/get-started"
               className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
             >
-              Onboard Today
+              Get Started
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
@@ -217,10 +217,10 @@ const Assessment = () => {
             Join thousands of organizations who have used our assessment to accelerate their IT transformation.
           </p>
           <Link
-            to="/assessment/start"
+            to="/get-started"
             className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
           >
-            Onboard Today
+            Get Started
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

@@ -221,10 +221,10 @@ export const IndustryPageTemplate = ({
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
-            to="/assessment"
+            to="/get-started"
             className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
           >
-            Take Free Assessment
+            Get Started
             <ArrowRight className="w-5 h-5" />
           </Link>
           <Link

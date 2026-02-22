@@ -169,7 +169,7 @@ export default function CoManaged() {
               className="flex flex-wrap gap-4"
             >
               <Link
-                to="/assessment"
+                to="/get-started"
                 className="inline-flex items-center gap-2 px-8 py-4 font-bold text-sm uppercase tracking-wider text-white transition-all hover:opacity-90"
                 style={{ background: CM.accent, letterSpacing: "0.1em" }}
               >
@@ -374,7 +374,7 @@ export default function CoManaged() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/assessment"
+                to="/get-started"
                 className="inline-flex items-center gap-2 px-8 py-4 font-bold text-sm uppercase tracking-wider text-white transition-all hover:opacity-90"
                 style={{ background: CM.accent, letterSpacing: "0.1em" }}
               >

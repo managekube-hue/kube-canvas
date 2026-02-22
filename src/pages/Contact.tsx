@@ -120,10 +120,10 @@ const Contact = () => {
                 <p className="text-label text-muted-foreground mb-6">QUICK ACTIONS</p>
                 <div className="space-y-3">
                   <Link
-                    to="/assessment"
+                    to="/get-started"
                     className="flex items-center justify-between p-4 bg-secondary hover:bg-muted transition-colors group"
                   >
-                    <span className="font-semibold text-foreground">Take Free Assessment</span>
+                    <span className="font-semibold text-foreground">Get Started</span>
                     <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all" />
                   </Link>
                   <Link

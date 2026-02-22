@@ -21,7 +21,7 @@ const SUB_NAV = [
   { label: "Compliance", href: "/compliance/cmmc" },
   { label: "Industries", href: "/solutions/hub" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Onboard Today", href: "/assessment", cta: true },
+  { label: "Get Started", href: "/get-started", cta: true },
 ];
 
 const OUTCOMES = [
@@ -125,11 +125,11 @@ export default function FullyManaged() {
               className="flex flex-wrap gap-4"
             >
               <Link
-                to="/assessment"
+                to="/get-started"
                 className="inline-flex items-center gap-2 px-8 py-4 font-bold text-sm uppercase tracking-wider text-white transition-all hover:opacity-90"
                 style={{ background: "#993619", letterSpacing: "0.1em" }}
               >
-                Onboard Today <ArrowRight size={15} />
+                Get Started <ArrowRight size={15} />
               </Link>
               <Link
                 to="/pricing"
