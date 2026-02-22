@@ -555,6 +555,8 @@ const ThreatAi = () => {
   const [loading, setLoading] = useState(true);
   const [dbReady, setDbReady] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [backfilling, setBackfilling] = useState(false);
+  const [backfillRemaining, setBackfillRemaining] = useState<number | null>(null);
   const [exportData, setExportData] = useState<any[]>([]);
 
   // Fetch export data (all current threats for CSV)
@@ -599,6 +601,28 @@ const ThreatAi = () => {
       console.error("Sync error:", e);
     } finally {
       setSyncing(false);
+    }
+  }, [fetchStats]);
+
+  const triggerBackfill = useCallback(async () => {
+    setBackfilling(true);
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/backfill-cvss`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      console.log("Backfill result:", data);
+      setBackfillRemaining(data.remaining ?? null);
+      await fetchStats();
+    } catch (e) {
+      console.error("Backfill error:", e);
+    } finally {
+      setBackfilling(false);
     }
   }, [fetchStats]);
 
@@ -654,6 +678,19 @@ const ThreatAi = () => {
               >
                 <RefreshCw className={`w-3 h-3 ${syncing ? "animate-spin" : ""}`} />
                 {syncing ? "Syncing..." : "Sync"}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5 text-xs h-7 px-2"
+                onClick={triggerBackfill}
+                disabled={backfilling}
+              >
+                <Database className={`w-3 h-3 ${backfilling ? "animate-pulse" : ""}`} />
+                {backfilling ? "Backfilling..." : "Backfill CVSS"}
+                {backfillRemaining !== null && backfillRemaining > 0 && (
+                  <span className="text-muted-foreground">({backfillRemaining})</span>
+                )}
               </Button>
             </div>
             <Button
