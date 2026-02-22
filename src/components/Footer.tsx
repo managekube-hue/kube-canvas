@@ -61,9 +61,7 @@ const columns: ColDef[] = [
       { label: "Careers", href: "/careers" },
       { label: "Partners", href: "/about/partners" },
       { label: "Roadmap", href: "/about/roadmap" },
-      { label: "Contact Us", href: "/contact" },
       { label: "Get Started", href: "/get-started" },
-      { label: "Onboard Today", href: "/assessment/start" },
       { label: "Support", href: "/support" },
     ],
   },
@@ -156,7 +154,7 @@ export const Footer = () => (
           {[
             { label: "Privacy Policy", href: "/privacy" },
             { label: "Terms of Service", href: "/terms" },
-            { label: "Contact", href: "/contact" },
+            { label: "Contact", href: "/get-started" },
           ].map(l => (
             <Link key={l.label} to={l.href}
               style={{ fontSize: "11px", color: "rgba(255,255,255,0.22)", textDecoration: "none" }}
