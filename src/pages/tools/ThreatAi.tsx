@@ -4,13 +4,14 @@ import { Footer } from "@/components/Footer";
 import { PageBanner } from "@/components/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ShieldAlert, AlertTriangle, Download, Lock } from "lucide-react";
+import { Search, ShieldAlert, AlertTriangle, Download, Lock, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface LeadForm {
-  name: string;
+  first_name: string;
   email: string;
-  company: string;
+  business_name: string;
+  role: string;
 }
 
 interface CveResult {
@@ -22,22 +23,26 @@ interface CveResult {
   published: string;
 }
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
 const ThreatAi = () => {
   const [query, setQuery] = useState("");
-  const [leadForm, setLeadForm] = useState<LeadForm>({ name: "", email: "", company: "" });
+  const [leadForm, setLeadForm] = useState<LeadForm>({ first_name: "", email: "", business_name: "", role: "" });
   const [gateUnlocked, setGateUnlocked] = useState(false);
   const [results, setResults] = useState<CveResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [searched, setSearched] = useState(false);
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (leadForm.name && leadForm.email && leadForm.company) {
+    if (leadForm.first_name && leadForm.email && leadForm.business_name && leadForm.role) {
       try {
         await supabase.from("leads").insert({
-          first_name: leadForm.name.trim(),
+          first_name: leadForm.first_name.trim(),
           email: leadForm.email.trim(),
-          company: leadForm.company.trim(),
+          company: leadForm.business_name.trim(),
           source: "threat-ai",
         });
       } catch (err) {
@@ -58,31 +63,57 @@ const ThreatAi = () => {
         {
           id: query.toUpperCase().startsWith("CVE-") ? query.toUpperCase() : `CVE-2024-${Math.floor(Math.random() * 99999).toString().padStart(5, "0")}`,
           description: "Remote code execution vulnerability in a widely-used network service allowing unauthenticated attackers to execute arbitrary commands.",
-          cvss: 9.8,
-          epss: 0.87,
-          severity: "CRITICAL",
-          published: "2024-11-15",
+          cvss: 9.8, epss: 0.87, severity: "CRITICAL", published: "2024-11-15",
         },
         {
           id: `CVE-2024-${Math.floor(Math.random() * 99999).toString().padStart(5, "0")}`,
           description: "Cross-site scripting vulnerability in web application framework affecting input validation on form fields.",
-          cvss: 6.1,
-          epss: 0.34,
-          severity: "MEDIUM",
-          published: "2024-10-22",
+          cvss: 6.1, epss: 0.34, severity: "MEDIUM", published: "2024-10-22",
         },
         {
           id: `CVE-2024-${Math.floor(Math.random() * 99999).toString().padStart(5, "0")}`,
           description: "Privilege escalation via improper access control in identity management module.",
-          cvss: 7.5,
-          epss: 0.62,
-          severity: "HIGH",
-          published: "2024-09-03",
+          cvss: 7.5, epss: 0.62, severity: "HIGH", published: "2024-09-03",
         },
       ];
       setResults(mockResults);
       setLoading(false);
     }, 1500);
+  };
+
+  const handleExportCsv = async () => {
+    if (results.length === 0) return;
+    setExporting(true);
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/export-lead-to-csv`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+        },
+        body: JSON.stringify({
+          email: leadForm.email,
+          first_name: leadForm.first_name,
+          business_name: leadForm.business_name,
+          role: leadForm.role,
+          export_data: results,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Export failed");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "threatai-report.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("CSV export error:", err);
+    } finally {
+      setExporting(false);
+    }
   };
 
   const severityColor = (sev: string) => {
@@ -114,8 +145,8 @@ const ThreatAi = () => {
             <form onSubmit={handleLeadSubmit} className="flex flex-col gap-4 text-left">
               <Input
                 placeholder="Full Name"
-                value={leadForm.name}
-                onChange={(e) => setLeadForm((p) => ({ ...p, name: e.target.value }))}
+                value={leadForm.first_name}
+                onChange={(e) => setLeadForm((p) => ({ ...p, first_name: e.target.value }))}
                 required
               />
               <Input
@@ -126,9 +157,15 @@ const ThreatAi = () => {
                 required
               />
               <Input
-                placeholder="Company Name"
-                value={leadForm.company}
-                onChange={(e) => setLeadForm((p) => ({ ...p, company: e.target.value }))}
+                placeholder="Company / Business Name"
+                value={leadForm.business_name}
+                onChange={(e) => setLeadForm((p) => ({ ...p, business_name: e.target.value }))}
+                required
+              />
+              <Input
+                placeholder="Your Role (e.g. CISO, IT Director)"
+                value={leadForm.role}
+                onChange={(e) => setLeadForm((p) => ({ ...p, role: e.target.value }))}
                 required
               />
               <Button type="submit" className="btn-primary w-full justify-center">
@@ -174,9 +211,14 @@ const ThreatAi = () => {
                   <h2 className="text-xl font-bold text-foreground">
                     {results.length} Result{results.length !== 1 ? "s" : ""} Found
                   </h2>
-                  <Button variant="outline" className="gap-2 text-sm">
-                    <Download className="w-4 h-4" />
-                    Export CSV
+                  <Button
+                    variant="outline"
+                    className="gap-2 text-sm"
+                    onClick={handleExportCsv}
+                    disabled={exporting || results.length === 0}
+                  >
+                    {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                    {exporting ? "Exporting..." : "Export CSV"}
                   </Button>
                 </div>
 

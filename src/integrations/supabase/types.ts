@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      lead_exports: {
+        Row: {
+          business_name: string
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          role: string
+        }
+        Insert: {
+          business_name: string
+          created_at?: string | null
+          email: string
+          first_name: string
+          id?: string
+          role: string
+        }
+        Update: {
+          business_name?: string
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          role?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           challenges: string[] | null
