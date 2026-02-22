@@ -113,7 +113,7 @@ export default function Products() {
           <div className="grid lg:grid-cols-3 gap-[1px]" style={{ background: "#CDCAC5" }}>
             {tiers.map((t, i) => (
               <motion.div key={t.code} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="relative" style={{ background: "#FEFBF6", padding: "32px", borderTop: t.featured ? "3px solid #993619" : "3px solid #CDCAC5" }}>
+                className="relative flex flex-col" style={{ background: "#FEFBF6", padding: "32px", borderTop: t.featured ? "3px solid #993619" : "3px solid #CDCAC5" }}>
                 {t.featured && t.code === "XMX" && (
                   <span className="absolute -top-3 left-8 text-white text-[10px] font-bold px-3 py-0.5 uppercase tracking-wider" style={{ background: "#993619" }}>Most Popular</span>
                 )}
@@ -123,8 +123,8 @@ export default function Products() {
                 </h2>
                 <p className="text-xl font-black mt-2 mb-3" style={{ color: "#993619" }}>{t.price}</p>
                 <p className="text-sm mb-4" style={{ color: "#393837" }}>{t.tagline}</p>
-                <p className="text-xs mb-6" style={{ color: "#393837", opacity: 0.6 }}>{t.methodology}</p>
-                <Link to={t.ctaHref} className={`block text-center py-3 text-sm font-bold uppercase tracking-wider transition-colors ${t.featured ? "text-white hover:opacity-90" : "border hover:text-white"}`}
+                <p className="text-xs mb-6 flex-1" style={{ color: "#393837", opacity: 0.6 }}>{t.methodology}</p>
+                <Link to={t.ctaHref} className={`block text-center py-3 text-sm font-bold uppercase tracking-wider transition-colors mt-auto ${t.featured ? "text-white hover:opacity-90" : "border hover:text-white"}`}
                   style={t.featured ? { background: "#993619" } : { borderColor: "#1D1D1B", color: "#1D1D1B" }}
                   onMouseEnter={!t.featured ? (e => { (e.currentTarget as HTMLElement).style.background = "#1D1D1B"; (e.currentTarget as HTMLElement).style.color = "#fff"; }) : undefined}
                   onMouseLeave={!t.featured ? (e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#1D1D1B"; }) : undefined}
