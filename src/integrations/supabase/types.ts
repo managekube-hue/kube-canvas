@@ -632,6 +632,7 @@ export type Database = {
           last_name: string | null
           phone: string | null
           role: string
+          status: string | null
           user_agent: string | null
         }
         Insert: {
@@ -649,6 +650,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           role: string
+          status?: string | null
           user_agent?: string | null
         }
         Update: {
@@ -666,6 +668,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           role?: string
+          status?: string | null
           user_agent?: string | null
         }
         Relationships: []
@@ -685,6 +688,7 @@ export type Database = {
           phone: string | null
           recommended_tier: string | null
           source: string
+          status: string | null
         }
         Insert: {
           challenges?: string[] | null
@@ -700,6 +704,7 @@ export type Database = {
           phone?: string | null
           recommended_tier?: string | null
           source?: string
+          status?: string | null
         }
         Update: {
           challenges?: string[] | null
@@ -715,6 +720,7 @@ export type Database = {
           phone?: string | null
           recommended_tier?: string | null
           source?: string
+          status?: string | null
         }
         Relationships: []
       }
