@@ -7,19 +7,19 @@ import childPageVideo from "@/assets/child-page.mp4";
 const platforms = [
   {
     code: "XRO",
-    name: "Small Business Platform",
+    name: "Essentials Platform",
     audience: "Small Business",
-    tagline: "Complete security and operations for small businesses with 7 essential Kubes.",
-    kubes: ["CIO KUBE", "NPM KUBE", "ITDR KUBE", "NDR KUBE", "VDR KUBE", "CFDR KUBE", "GRC KUBE"],
+    tagline: "Complete security and operations with 7 essential modules. Deploy in 48 hours.",
+    modules: ["CIO", "NPM", "ITDR", "NDR", "VDR", "CFDR", "GRC"],
     href: "/service-tiers/xro-essentials",
     featured: false,
   },
   {
     code: "XMX",
     name: "Advanced Platform",
-    audience: "Small/Medium Enterprise",
-    tagline: "Advanced security and operations for growing organisations with 12 modules.",
-    kubes: ["All 7 XRO Modules", "MDM", "APM", "CDR", "ADR", "BDR"],
+    audience: "Small / Medium Enterprise",
+    tagline: "Advanced detection, response, and compliance with 12 modules for growing organisations.",
+    modules: ["All 7 XRO Modules", "MDM", "APM", "CDR", "ADR", "BDR"],
     href: "/service-tiers/xmx-advanced",
     featured: true,
   },
@@ -28,7 +28,7 @@ const platforms = [
     name: "Enterprise Platform",
     audience: "Enterprise",
     tagline: "Complete enterprise coverage with all 18 modules and premium capabilities.",
-    kubes: ["All 12 XMX Modules", "SDR", "DDR", "TI", "STRIKE", "EASM", "HONEYPOT"],
+    modules: ["All 12 XMX Modules", "SDR", "DDR", "TI", "STRIKE", "EASM", "HONEYPOT"],
     href: "/service-tiers/xme-enterprise",
     featured: false,
   },
@@ -40,6 +40,8 @@ const services = [
     items: [
       { label: "Managed NOC", description: "24/7 network operations centre monitoring and response", href: "/services/managed-noc" },
       { label: "Managed SOC", description: "24/7 security operations centre with threat hunting and IR", href: "/services/managed-soc" },
+      { label: "Managed IT", description: "Full-spectrum IT operations — endpoints to infrastructure", href: "/services/managed-it" },
+      { label: "Help Desk", description: "Tier 1–3 user support with SLA-backed resolution", href: "/services/help-desk" },
       { label: "Managed Compliance", description: "Continuous compliance management across 100+ frameworks", href: "/services/managed-compliance" },
       { label: "Managed Cloud", description: "Multi-cloud management for AWS, Azure, and GCP", href: "/services/managed-cloud" },
     ],
@@ -52,6 +54,7 @@ const services = [
       { label: "Compliance Gap Analysis", description: "Identify gaps against CMMC, HIPAA, SOC 2, and more", href: "/services/compliance-gap-analysis" },
       { label: "Infrastructure Audits", description: "Full infrastructure review with remediation planning", href: "/services/infrastructure-audits" },
       { label: "Right-Sizing", description: "Cloud and infrastructure cost optimisation", href: "/services/right-sizing" },
+      { label: "Smart Hands", description: "On-site technicians for rack-and-stack and field deployments", href: "/services/smart-hands" },
       { label: "Network Buildouts", description: "Enterprise network design, deployment, and documentation", href: "/services/network-buildouts" },
       { label: "Physical Security", description: "Physical access control, CCTV, and site hardening", href: "/services/physical-security" },
       { label: "Custom Automation", description: "Bespoke workflow and process automation development", href: "/services/custom-automation" },
@@ -107,9 +110,9 @@ export default function Products() {
                 </div>
                 <p className="text-sm text-muted-foreground mb-6">{p.tagline}</p>
                 <div className="mb-8">
-                  <h4 className="text-xs font-bold uppercase tracking-wider mb-3">Included Kubes</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider mb-3">Included Modules</h4>
                   <ul className="space-y-2">
-                    {p.kubes.map((k) => (
+                    {p.modules.map((k) => (
                       <li key={k} className="flex items-center gap-2 text-sm">
                         <Check size={14} className="text-brand-orange flex-shrink-0" />
                         {k}
@@ -139,10 +142,7 @@ export default function Products() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {group.items.map((item, i) => (
                 <motion.div key={item.label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Link
-                    to={item.href}
-                    className="block p-6 border border-border bg-white hover:border-brand-orange group transition-colors"
-                  >
+                  <Link to={item.href} className="block p-6 border border-border bg-white hover:border-brand-orange group transition-colors">
                     <h3 className="font-bold text-foreground group-hover:text-brand-orange transition-colors mb-2">{item.label}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                     <div className="mt-4 flex items-center gap-1 text-xs text-brand-orange font-semibold">
@@ -164,10 +164,10 @@ export default function Products() {
             Run a free assessment and we'll build your transformation roadmap — scoped to your size, budget, and compliance requirements.
           </p>
           <Link
-            to="/assessment"
+            to="/get-started"
             className="inline-flex items-center gap-2 bg-brand-orange text-white px-10 py-5 font-semibold text-lg hover:bg-opacity-90 transition-colors"
           >
-            Onboard Today
+            Get Started
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
