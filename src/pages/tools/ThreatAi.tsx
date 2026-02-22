@@ -1,169 +1,448 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageBanner } from "@/components/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ShieldAlert, AlertTriangle, Download, Loader2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Search, ShieldAlert, AlertTriangle, Download, TrendingUp,
+  Flame, Map, Target, Clock, ExternalLink, Filter,
+} from "lucide-react";
 import { ExportLeadModal } from "@/components/ExportLeadModal";
+import { curatedThreats, weeklyStats, type ThreatCve } from "@/data/threat-intel-data";
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-interface CveResult {
-  id: string;
-  description: string;
-  cvss: number;
-  epss: number;
-  severity: string;
-  published: string;
-}
+/* ── helpers ───────────────────────────────────────────── */
 
-const ThreatAi = () => {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<CveResult[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
+const severityColor = (sev: string) => {
+  switch (sev) {
+    case "CRITICAL": return "text-red-600 bg-red-950/40 border-red-800";
+    case "HIGH": return "text-orange-500 bg-orange-950/40 border-orange-800";
+    case "MEDIUM": return "text-yellow-500 bg-yellow-950/40 border-yellow-700";
+    default: return "text-muted-foreground bg-muted border-border";
+  }
+};
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
-    setLoading(true);
-    setSearched(true);
+const riskLabel = (epss: number) => {
+  if (epss >= 0.7) return { text: "PATCH NOW", cls: "text-red-500" };
+  if (epss >= 0.4) return { text: "Schedule ASAP", cls: "text-orange-500" };
+  return { text: "Next Maintenance", cls: "text-yellow-500" };
+};
 
-    // Simulated results (replace with NVD/EPSS API call via edge function)
-    setTimeout(() => {
-      const mockResults: CveResult[] = [
-        {
-          id: query.toUpperCase().startsWith("CVE-") ? query.toUpperCase() : `CVE-2024-${Math.floor(Math.random() * 99999).toString().padStart(5, "0")}`,
-          description: "Remote code execution vulnerability in a widely-used network service allowing unauthenticated attackers to execute arbitrary commands.",
-          cvss: 9.8, epss: 0.87, severity: "CRITICAL", published: "2024-11-15",
-        },
-        {
-          id: `CVE-2024-${Math.floor(Math.random() * 99999).toString().padStart(5, "0")}`,
-          description: "Cross-site scripting vulnerability in web application framework affecting input validation on form fields.",
-          cvss: 6.1, epss: 0.34, severity: "MEDIUM", published: "2024-10-22",
-        },
-        {
-          id: `CVE-2024-${Math.floor(Math.random() * 99999).toString().padStart(5, "0")}`,
-          description: "Privilege escalation via improper access control in identity management module.",
-          cvss: 7.5, epss: 0.62, severity: "HIGH", published: "2024-09-03",
-        },
-      ];
-      setResults(mockResults);
-      setLoading(false);
-    }, 1500);
-  };
+const isOverdue = (dueDate?: string) => {
+  if (!dueDate) return false;
+  return new Date(dueDate) < new Date();
+};
 
-  const severityColor = (sev: string) => {
-    switch (sev) {
-      case "CRITICAL": return "text-red-600 bg-red-50 border-red-200";
-      case "HIGH": return "text-orange-600 bg-orange-50 border-orange-200";
-      case "MEDIUM": return "text-yellow-700 bg-yellow-50 border-yellow-200";
-      default: return "text-muted-foreground bg-muted border-border";
+/* ── Threat Card ───────────────────────────────────────── */
+
+const ThreatCard = ({ cve, compact }: { cve: ThreatCve; compact?: boolean }) => (
+  <div className="bg-card border border-border p-6 hover:border-brand-orange/40 transition-colors">
+    <div className="flex items-start justify-between gap-4 mb-3">
+      <div className="flex items-center gap-3 flex-wrap">
+        <ShieldAlert className="w-5 h-5 text-brand-orange flex-shrink-0" />
+        <h3 className="font-bold text-foreground">{cve.id}</h3>
+        <span className="text-sm text-muted-foreground">•</span>
+        <span className="text-sm font-medium text-foreground">{cve.name}</span>
+        <span className={`text-xs font-bold px-2 py-0.5 border ${severityColor(cve.severity)}`}>
+          {cve.severity}
+        </span>
+      </div>
+      <span className="text-xs text-muted-foreground whitespace-nowrap">{cve.published}</span>
+    </div>
+
+    {cve.activelyExploited && (
+      <div className="flex items-center gap-2 mb-3">
+        <Flame className="w-4 h-4 text-red-500" />
+        <span className="text-xs font-bold text-red-500 uppercase tracking-wider">
+          Actively exploited in the wild
+        </span>
+      </div>
+    )}
+
+    <p className="text-sm text-muted-foreground mb-2">
+      <Target className="w-3.5 h-3.5 inline mr-1.5 text-brand-orange" />
+      {cve.plainEnglish}
+    </p>
+
+    {!compact && (
+      <p className="text-xs text-muted-foreground/70 mb-4">{cve.description}</p>
+    )}
+
+    <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mt-4">
+      <div>
+        <span className="text-muted-foreground">CVSS:</span>{" "}
+        <span className="font-bold text-foreground">{cve.cvss}</span>
+      </div>
+      <div>
+        <span className="text-muted-foreground">Attack Probability:</span>{" "}
+        <span className="font-bold text-foreground">{(cve.epss * 100).toFixed(0)}%</span>
+      </div>
+      <div className={riskLabel(cve.epss).cls}>
+        <AlertTriangle className="w-3.5 h-3.5 inline mr-1" />
+        <span className="font-bold">{riskLabel(cve.epss).text}</span>
+      </div>
+      {cve.ransomwareUse && (
+        <span className="text-xs font-bold text-red-500 border border-red-800 px-2 py-0.5 bg-red-950/40">
+          RANSOMWARE
+        </span>
+      )}
+    </div>
+
+    {cve.cisaKev && cve.cisaDueDate && (
+      <div className="flex items-center gap-2 mt-3 text-xs">
+        <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+        <span className="text-muted-foreground">
+          CISA Due: {cve.cisaDueDate}
+          {isOverdue(cve.cisaDueDate) && (
+            <span className="text-red-500 font-bold ml-2">OVERDUE</span>
+          )}
+        </span>
+      </div>
+    )}
+  </div>
+);
+
+/* ── Tab: Trend Watch ──────────────────────────────────── */
+
+const TrendWatch = () => {
+  const topThreats = useMemo(
+    () => [...curatedThreats].sort((a, b) => b.epss - a.epss).slice(0, 5),
+    []
+  );
+  const criticalCount = curatedThreats.filter(c => c.severity === "CRITICAL").length;
+
+  return (
+    <div className="space-y-8">
+      {/* Stat cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { label: "Active Exploits", value: weeklyStats.totalActiveExploits, accent: true },
+          { label: "New Critical (7d)", value: weeklyStats.newCritical },
+          { label: "New High (7d)", value: weeklyStats.newHigh },
+          { label: "New Medium (7d)", value: weeklyStats.newMedium },
+        ].map((s) => (
+          <div key={s.label} className={`p-4 border ${s.accent ? "border-red-800 bg-red-950/20" : "border-border bg-card"}`}>
+            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{s.label}</p>
+            <p className={`text-2xl font-bold ${s.accent ? "text-red-500" : "text-foreground"}`}>{s.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <h3 className="text-label text-muted-foreground mb-4">
+          TOP THREATS BY ATTACK PROBABILITY
+        </h3>
+        <div className="flex flex-col gap-4">
+          {topThreats.map((cve) => (
+            <ThreatCard key={cve.id} cve={cve} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Tab: Active Exploits ──────────────────────────────── */
+
+const ActiveExploits = () => {
+  const [filter, setFilter] = useState<"all" | "ransomware" | "critical">("all");
+
+  const kevThreats = useMemo(() => {
+    let list = curatedThreats.filter(c => c.cisaKev);
+    if (filter === "ransomware") list = list.filter(c => c.ransomwareUse);
+    if (filter === "critical") list = list.filter(c => c.severity === "CRITICAL");
+    return list.sort((a, b) => new Date(b.cisaDateAdded!).getTime() - new Date(a.cisaDateAdded!).getTime());
+  }, [filter]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-3 flex-wrap">
+        <Filter className="w-4 h-4 text-muted-foreground" />
+        {(["all", "ransomware", "critical"] as const).map((f) => (
+          <Button
+            key={f}
+            variant={filter === f ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter(f)}
+            className="text-xs capitalize"
+          >
+            {f === "all" ? "All KEV" : f}
+          </Button>
+        ))}
+      </div>
+
+      <p className="text-xs text-muted-foreground">
+        Showing {kevThreats.length} active exploit{kevThreats.length !== 1 ? "s" : ""} from CISA Known Exploited Vulnerabilities catalog
+      </p>
+
+      <div className="flex flex-col gap-4">
+        {kevThreats.map((cve) => (
+          <ThreatCard key={cve.id} cve={cve} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── Tab: Risk Map ─────────────────────────────────────── */
+
+const RiskMap = () => {
+  const scatterData = curatedThreats.map(c => ({
+    x: c.epss * 100,
+    y: c.cvss,
+    id: c.id,
+    name: c.name,
+    severity: c.severity,
+  }));
+
+  const dotColor = (severity: string) => {
+    switch (severity) {
+      case "CRITICAL": return "#ef4444";
+      case "HIGH": return "#f97316";
+      case "MEDIUM": return "#eab308";
+      default: return "#6b7280";
     }
   };
+
+  const criticalCount = scatterData.filter(d => d.y >= 9 && d.x >= 70).length;
+  const highCount = scatterData.filter(d => (d.y >= 7 && d.x >= 40) && !(d.y >= 9 && d.x >= 70)).length;
+  const medCount = scatterData.length - criticalCount - highCount;
+
+  return (
+    <div className="space-y-6">
+      <p className="text-sm text-muted-foreground">
+        Each dot is a vulnerability. Top-right = highest risk. Bottom-left = lowest risk.
+      </p>
+
+      <div className="bg-card border border-border p-4 md:p-6">
+        <ResponsiveContainer width="100%" height={400}>
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis
+              type="number"
+              dataKey="x"
+              name="Attack Probability"
+              domain={[0, 100]}
+              label={{ value: "Attack Probability (EPSS %)", position: "bottom", offset: 20, style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+            />
+            <YAxis
+              type="number"
+              dataKey="y"
+              name="Impact"
+              domain={[0, 10]}
+              label={{ value: "Impact (CVSS)", angle: -90, position: "insideLeft", offset: -5, style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+            />
+            <Tooltip
+              content={({ payload }) => {
+                if (!payload?.length) return null;
+                const d = payload[0].payload;
+                return (
+                  <div className="bg-card border border-border p-3 text-xs shadow-lg">
+                    <p className="font-bold text-foreground">{d.id}</p>
+                    <p className="text-muted-foreground">{d.name}</p>
+                    <p className="mt-1">CVSS: {d.y} · EPSS: {d.x.toFixed(0)}%</p>
+                  </div>
+                );
+              }}
+            />
+            <Scatter data={scatterData}>
+              {scatterData.map((entry, idx) => (
+                <Cell key={idx} fill={dotColor(entry.severity)} r={8} />
+              ))}
+            </Scatter>
+          </ScatterChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="flex flex-wrap gap-6 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 bg-red-500 inline-block" />
+          <span className="text-muted-foreground">Critical Risk (Patch now)</span>
+          <span className="font-bold text-foreground">{criticalCount}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 bg-orange-500 inline-block" />
+          <span className="text-muted-foreground">High Risk (Schedule ASAP)</span>
+          <span className="font-bold text-foreground">{highCount}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 bg-yellow-500 inline-block" />
+          <span className="text-muted-foreground">Medium Risk (Next maintenance)</span>
+          <span className="font-bold text-foreground">{medCount}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Tab: Search ───────────────────────────────────────── */
+
+const SearchTab = () => {
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<ThreatCve[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const handleSearch = () => {
+    if (!query.trim()) return;
+    setHasSearched(true);
+    const q = query.toLowerCase();
+    const results = curatedThreats.filter(
+      c =>
+        c.id.toLowerCase().includes(q) ||
+        c.name.toLowerCase().includes(q) ||
+        c.vendor.toLowerCase().includes(q) ||
+        c.product.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q)
+    );
+    setSearchResults(results);
+  };
+
+  const popularSearches = ["Ivanti", "Fortinet", "Palo Alto", "Citrix", "OpenSSH", "PHP"];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex gap-3">
+        <Input
+          placeholder="Search by CVE ID, vendor, product, or keyword..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          className="flex-1"
+        />
+        <Button onClick={handleSearch} className="btn-primary gap-2">
+          <Search className="w-4 h-4" />
+          Search
+        </Button>
+      </div>
+
+      {!hasSearched && (
+        <div className="space-y-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider">Popular searches</p>
+          <div className="flex flex-wrap gap-2">
+            {popularSearches.map((s) => (
+              <Button
+                key={s}
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={() => { setQuery(s); }}
+              >
+                {s}
+              </Button>
+            ))}
+          </div>
+
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mt-6">Recent Critical CVEs</p>
+          <div className="flex flex-col gap-3">
+            {curatedThreats
+              .filter(c => c.severity === "CRITICAL")
+              .slice(0, 3)
+              .map((cve) => (
+                <ThreatCard key={cve.id} cve={cve} compact />
+              ))}
+          </div>
+        </div>
+      )}
+
+      {hasSearched && (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            {searchResults.length} result{searchResults.length !== 1 ? "s" : ""} for "{query}"
+          </p>
+          {searchResults.length === 0 ? (
+            <p className="text-muted-foreground text-sm py-8 text-center">
+              No vulnerabilities found. Try a different keyword or CVE ID.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {searchResults.map((cve) => (
+                <ThreatCard key={cve.id} cve={cve} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ── Main Page ─────────────────────────────────────────── */
+
+const ThreatAi = () => {
+  const [showExportModal, setShowExportModal] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <PageBanner
-        title="ThreatAI: CVE & EPSS Lookup"
-        subtitle="Search vulnerabilities by CVE ID, keyword, or product name. Get real risk scores, not just CVSS."
+        title="Threat Intelligence Dashboard"
+        subtitle="See what's critical now. Understand risk at a glance. Take action."
       />
 
-      {/* Search Interface: Always visible, no gate */}
-      <section className="section-white py-16 lg:py-24">
-        <div className="max-w-4xl mx-auto px-6 lg:px-12">
-          <div className="flex gap-3">
-            <Input
-              placeholder="Search by CVE ID, keyword, or product name..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className="flex-1"
-            />
-            <Button onClick={handleSearch} disabled={loading} className="btn-primary gap-2">
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-              {loading ? "Searching..." : "Search"}
+      <section className="section-off-white py-16 lg:py-24">
+        <div className="max-w-5xl mx-auto px-6 lg:px-12">
+          <div className="flex items-center justify-between mb-8">
+            <p className="text-xs text-muted-foreground">
+              Last updated: {weeklyStats.lastUpdated} · Sources: NVD, FIRST EPSS, CISA KEV
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 text-xs"
+              onClick={() => setShowExportModal(true)}
+            >
+              <Download className="w-3.5 h-3.5" />
+              Export CSV
             </Button>
           </div>
-          <p className="text-xs text-muted-foreground mt-2">
-            Examples: CVE-2024-3094, Log4Shell, Apache HTTP Server, SolarWinds
-          </p>
+
+          <Tabs defaultValue="trend" className="w-full">
+            <TabsList className="w-full justify-start bg-card border border-border mb-8 h-auto flex-wrap">
+              <TabsTrigger value="trend" className="gap-2 data-[state=active]:bg-brand-orange/10 data-[state=active]:text-brand-orange">
+                <TrendingUp className="w-4 h-4" />
+                Trend Watch
+              </TabsTrigger>
+              <TabsTrigger value="exploits" className="gap-2 data-[state=active]:bg-red-500/10 data-[state=active]:text-red-500">
+                <Flame className="w-4 h-4" />
+                Active Exploits
+              </TabsTrigger>
+              <TabsTrigger value="map" className="gap-2 data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-500">
+                <Map className="w-4 h-4" />
+                Risk Map
+              </TabsTrigger>
+              <TabsTrigger value="search" className="gap-2 data-[state=active]:bg-foreground/10">
+                <Search className="w-4 h-4" />
+                Search
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="trend"><TrendWatch /></TabsContent>
+            <TabsContent value="exploits"><ActiveExploits /></TabsContent>
+            <TabsContent value="map"><RiskMap /></TabsContent>
+            <TabsContent value="search"><SearchTab /></TabsContent>
+          </Tabs>
+
+          {/* CTA */}
+          <div className="mt-16 p-8 section-dark text-center">
+            <h3 className="text-xl font-bold text-white mb-3">Want Continuous Vulnerability Monitoring?</h3>
+            <p className="text-white/70 mb-6 max-w-lg mx-auto">
+              Our VDR module provides 24/7 vulnerability detection and response with EPSS-prioritised remediation across your entire attack surface.
+            </p>
+            <a href="/service-layer/vdr" className="btn-primary inline-flex">
+              Learn About VDR Module
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Results */}
-      {searched && (
-        <section className="section-off-white py-16 lg:py-24">
-          <div className="max-w-4xl mx-auto px-6 lg:px-12">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold text-foreground">
-                {results.length} Result{results.length !== 1 ? "s" : ""} Found
-              </h2>
-              <Button
-                variant="outline"
-                className="gap-2 text-sm"
-                onClick={() => setShowExportModal(true)}
-                disabled={results.length === 0}
-              >
-                <Download className="w-4 h-4" />
-                Export CSV
-              </Button>
-            </div>
-
-            <div className="flex flex-col gap-6">
-              {results.map((r) => (
-                <div key={r.id} className="bg-card border border-border p-6">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-3">
-                      <ShieldAlert className="w-5 h-5 text-brand-orange flex-shrink-0" />
-                      <h3 className="font-bold text-foreground">{r.id}</h3>
-                      <span className={`text-xs font-bold px-2 py-0.5 border ${severityColor(r.severity)}`}>
-                        {r.severity}
-                      </span>
-                    </div>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">{r.published}</span>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-4">{r.description}</p>
-                  <div className="flex gap-8 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">CVSS:</span>{" "}
-                      <span className="font-bold text-foreground">{r.cvss}</span>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">EPSS Probability:</span>{" "}
-                      <span className="font-bold text-foreground">{(r.epss * 100).toFixed(1)}%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <AlertTriangle className="w-3.5 h-3.5 text-brand-orange" />
-                      <span className="text-muted-foreground">Risk:</span>{" "}
-                      <span className="font-bold text-foreground">
-                        {r.epss > 0.7 ? "Actively Exploited" : r.epss > 0.4 ? "Likely Exploitable" : "Low Likelihood"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <div className="mt-12 p-8 section-dark text-center">
-              <h3 className="text-xl font-bold text-white mb-3">Want Continuous Vulnerability Monitoring?</h3>
-              <p className="text-white/70 mb-6 max-w-lg mx-auto">
-                Our VDR module provides 24/7 vulnerability detection and response with EPSS-prioritised remediation across your entire attack surface.
-              </p>
-              <a href="/service-layer/vdr" className="btn-primary inline-flex">
-                Learn About VDR Module
-              </a>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Export Lead Modal: only shown when user clicks Export CSV */}
       <ExportLeadModal
         isOpen={showExportModal}
         onClose={() => setShowExportModal(false)}
-        data={results}
+        data={curatedThreats}
       />
 
       <Footer />
