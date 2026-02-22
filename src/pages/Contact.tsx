@@ -127,10 +127,10 @@ const Contact = () => {
                     <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all" />
                   </Link>
                   <Link
-                    to="/kubes"
+                    to="/service-layer"
                     className="flex items-center justify-between p-4 bg-secondary hover:bg-muted transition-colors group"
                   >
-                    <span className="font-semibold text-foreground">Explore Kubes</span>
+                    <span className="font-semibold text-foreground">Explore Service Layer</span>
                     <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-brand-orange group-hover:translate-x-1 transition-all" />
                   </Link>
                   <Link

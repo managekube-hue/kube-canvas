@@ -103,10 +103,10 @@ const Methodology = () => {
             </h2>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
-                to="/kubes"
+                to="/service-layer"
                 className="inline-flex items-center gap-3 bg-foreground text-white px-8 py-4 font-semibold hover:bg-opacity-90 transition-colors"
               >
-                Explore the eight Kubes
+                Explore the Service Layer
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link

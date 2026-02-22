@@ -13,9 +13,9 @@ export default function NdrKube() {
       { title: "Response", items: ["Automated blocking", "Quarantine workflows", "SOAR integration", "Forensic packet capture"] },
     ]}
     similar={[
-      { label: "ITDR KUBE", href: "/kubes/itdr-kube" },
-      { label: "CDR KUBE", href: "/kubes/cdr-kube" },
-      { label: "DDR KUBE", href: "/kubes/ddr-kube" },
+      { label: "ITDR", href: "/service-layer/itdr" },
+      { label: "CDR", href: "/service-layer/cdr" },
+      { label: "DDR", href: "/service-layer/ddr" },
     ]}
   />;
 }

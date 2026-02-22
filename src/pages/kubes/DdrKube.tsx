@@ -13,9 +13,9 @@ export default function DdrKube() {
       { title: "Activity Monitoring", items: ["Database activity monitoring", "User behavior analytics", "Insider threat detection", "Forensic investigation support"] },
     ]}
     similar={[
-      { label: "ADR KUBE", href: "/kubes/adr-kube" },
-      { label: "CDR KUBE", href: "/kubes/cdr-kube" },
-      { label: "ITDR KUBE", href: "/kubes/itdr-kube" },
+      { label: "ADR", href: "/service-layer/adr" },
+      { label: "CDR", href: "/service-layer/cdr" },
+      { label: "ITDR", href: "/service-layer/itdr" },
     ]}
   />;
 }

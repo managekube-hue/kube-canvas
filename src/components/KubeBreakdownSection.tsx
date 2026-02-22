@@ -8,31 +8,34 @@ const pillars = [
   {
     label: "INFRASTRUCTURE",
     kubes: [
-      { id: "cio", name: "CIO KUBE", tagline: "Infrastructure Orchestration", description: "Core infrastructure lifecycle management, asset discovery, and operational oversight across your entire environment.", href: "/kubes/cio-kube" },
-      { id: "npm", name: "NPM KUBE", tagline: "Network Performance Monitoring", description: "Real-time network visibility with AI-powered capacity forecasting and traffic analysis.", href: "/kubes/npm-kube" },
-      { id: "mdm", name: "MDM KUBE", tagline: "Mobile Device Management", description: "Policy-driven mobile device governance for iOS and Android at enterprise scale.", href: "/kubes/mdm-kube" },
-      { id: "apm", name: "APM KUBE", tagline: "Application Performance Monitoring", description: "Full-stack application observability with distributed tracing and anomaly detection.", href: "/kubes/apm-kube" },
-      { id: "cfdr", name: "CFDR KUBE", tagline: "Configuration Drift Detection", description: "Continuous configuration compliance monitoring with automated drift remediation.", href: "/kubes/cfdr-kube" },
-      { id: "bdr", name: "BDR KUBE", tagline: "Backup & Disaster Recovery", description: "Backup verification and disaster recovery orchestration for guaranteed RTO/RPO compliance.", href: "/kubes/bdr-kube" },
+      { id: "cio", name: "CIO", tagline: "Infrastructure Orchestration", description: "Core infrastructure lifecycle management, asset discovery, and operational oversight across your entire environment.", href: "/service-layer/cio" },
+      { id: "npm", name: "NPM", tagline: "Network Performance Monitoring", description: "Real-time network visibility with AI-powered capacity forecasting and traffic analysis.", href: "/service-layer/npm" },
+      { id: "mdm", name: "MDM", tagline: "Mobile Device Management", description: "Policy-driven mobile device governance for iOS and Android at enterprise scale.", href: "/service-layer/mdm" },
+      { id: "apm", name: "APM", tagline: "Application Performance Monitoring", description: "Full-stack application observability with distributed tracing and anomaly detection.", href: "/service-layer/apm" },
+      { id: "cfdr", name: "CFDR", tagline: "Configuration Drift Detection", description: "Continuous configuration compliance monitoring with automated drift remediation.", href: "/service-layer/cfdr" },
+      { id: "bdr", name: "BDR", tagline: "Backup & Disaster Recovery", description: "Backup verification and disaster recovery orchestration for guaranteed RTO/RPO compliance.", href: "/service-layer/bdr" },
     ]
   },
   {
     label: "DETECTION & RESPONSE",
     kubes: [
-      { id: "itdr", name: "ITDR KUBE", tagline: "Identity Threat Detection", description: "Identity threats stopped before escalation via Active Directory and Entra ID monitoring.", href: "/kubes/itdr-kube" },
-      { id: "ndr", name: "NDR KUBE", tagline: "Network Detection & Response", description: "Network threats detected at the source with deep packet inspection and behavioural analytics.", href: "/kubes/ndr-kube" },
-      { id: "cdr", name: "CDR KUBE", tagline: "Cloud Detection & Response", description: "Multi-cloud security monitoring for AWS, Azure, and GCP with unified cloud posture management.", href: "/kubes/cdr-kube" },
-      { id: "sdr", name: "SDR KUBE", tagline: "Supply Chain Detection & Response", description: "SBOM analysis and software supply chain risk management across the development lifecycle.", href: "/kubes/sdr-kube" },
-      { id: "adr", name: "ADR KUBE", tagline: "Application Detection & Response", description: "Application-level threat containment with WAF, RASP, and runtime protection.", href: "/kubes/adr-kube" },
-      { id: "ddr", name: "DDR KUBE", tagline: "Data Detection & Response", description: "Data misuse and exfiltration prevention with DLP controls and insider threat detection.", href: "/kubes/ddr-kube" },
+      { id: "itdr", name: "ITDR", tagline: "Identity Threat Detection", description: "Identity threats stopped before escalation via Active Directory and Entra ID monitoring.", href: "/service-layer/itdr" },
+      { id: "ndr", name: "NDR", tagline: "Network Detection & Response", description: "Network threats detected at the source with deep packet inspection and behavioural analytics.", href: "/service-layer/ndr" },
+      { id: "cdr", name: "CDR", tagline: "Cloud Detection & Response", description: "Multi-cloud security monitoring for AWS, Azure, and GCP with unified cloud posture management.", href: "/service-layer/cdr" },
+      { id: "sdr", name: "SDR", tagline: "Supply Chain Detection & Response", description: "SBOM analysis and software supply chain risk management across the development lifecycle.", href: "/service-layer/sdr" },
+      { id: "adr", name: "ADR", tagline: "Application Detection & Response", description: "Application-level threat containment with WAF, RASP, and runtime protection.", href: "/service-layer/adr" },
+      { id: "ddr", name: "DDR", tagline: "Data Detection & Response", description: "Data misuse and exfiltration prevention with DLP controls and insider threat detection.", href: "/service-layer/ddr" },
+      { id: "easm", name: "EASM", tagline: "External Attack Surface Management", description: "Continuous discovery and monitoring of internet-facing assets, shadow IT, and exposed services.", href: "/service-layer/easm" },
+      { id: "honeypot", name: "HONEYPOT", tagline: "Deception-Based Detection", description: "Deploy decoy assets to detect lateral movement and insider threats with zero false positives.", href: "/service-layer/honeypot" },
     ]
   },
   {
     label: "INTELLIGENCE",
     kubes: [
-      { id: "ti", name: "TI KUBE", tagline: "Threat Intelligence", description: "Operationalised threat intelligence via MISP, EPSS scoring, and adversary tracking.", href: "/kubes/ti-kube" },
-      { id: "vdr", name: "VDR KUBE", tagline: "Vulnerability Detection & Response", description: "Vulnerabilities prioritised by real exploitability risk, not just CVSS scores.", href: "/kubes/vdr-kube" },
-      { id: "grc", name: "GRC KUBE", tagline: "Governance, Risk & Compliance", description: "Compliance automation across 100+ frameworks with continuous control monitoring and evidence collection.", href: "/kubes/grc-kube" },
+      { id: "ti", name: "TI", tagline: "Threat Intelligence", description: "Operationalised threat intelligence via MISP, EPSS scoring, and adversary tracking.", href: "/service-layer/ti" },
+      { id: "vdr", name: "VDR", tagline: "Vulnerability Detection & Response", description: "Vulnerabilities prioritised by real exploitability risk, not just CVSS scores.", href: "/service-layer/vdr" },
+      { id: "grc", name: "GRC", tagline: "Governance, Risk & Compliance", description: "Compliance automation across 100+ frameworks with continuous control monitoring and evidence collection.", href: "/service-layer/grc" },
+      { id: "strike", name: "STRIKE", tagline: "Strategic Intelligence & Kill-chain Enrichment", description: "Advanced adversary tracking, campaign attribution, and kill-chain mapping for proactive defence.", href: "/service-layer/strike" },
     ]
   },
 ];
@@ -42,7 +45,7 @@ export const KubeBreakdownSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-32 lg:py-48 section-white" id="kubes">
+    <section ref={ref} className="py-32 lg:py-48 section-white" id="service-layer">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Section Header */}
         <motion.div
@@ -53,11 +56,11 @@ export const KubeBreakdownSection = () => {
         >
           <div className="accent-line mb-8" />
           <h2 className="text-headline text-foreground mb-6">
-            Fifteen <span className="text-brand-orange">Kubes</span>.
+            Eighteen <span className="text-brand-orange">Modules</span>.
             <br />Three Pillars.
           </h2>
           <p className="text-body-xl text-muted-foreground">
-            Each Kube is a targeted capability module mapping directly to OSS libraries, NATS subjects, and KAI orchestration personas.
+            Each module is a targeted capability mapping directly to OSS libraries, NATS subjects, and KAI orchestration personas.
           </p>
         </motion.div>
 
@@ -115,10 +118,10 @@ export const KubeBreakdownSection = () => {
           className="border-t border-border pt-12 mt-8"
         >
           <Link
-            to="/kubes"
+            to="/service-layer"
             className="inline-flex items-center gap-3 text-subtitle text-foreground hover:text-brand-orange transition-colors group"
           >
-            Explore all 15 Kubes
+            Explore all 18 Modules
             <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Link>
         </motion.div>

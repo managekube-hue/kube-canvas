@@ -11,25 +11,25 @@ const platforms = [
     audience: "Small Business",
     tagline: "Complete security and operations for small businesses with 7 essential Kubes.",
     kubes: ["CIO KUBE", "NPM KUBE", "ITDR KUBE", "NDR KUBE", "VDR KUBE", "CFDR KUBE", "GRC KUBE"],
-    href: "/products/xro",
+    href: "/service-tiers/xro-essentials",
     featured: false,
   },
   {
-    code: "XMM",
-    name: "SME Platform",
+    code: "XMX",
+    name: "Advanced Platform",
     audience: "Small/Medium Enterprise",
-    tagline: "Advanced security and operations for growing organizations with 12 Kubes.",
-    kubes: ["All 7 XRO Kubes", "MDM KUBE", "APM KUBE", "CDR KUBE", "ADR KUBE", "BDR KUBE"],
-    href: "/products/xmm",
+    tagline: "Advanced security and operations for growing organisations with 12 modules.",
+    kubes: ["All 7 XRO Modules", "MDM", "APM", "CDR", "ADR", "BDR"],
+    href: "/service-tiers/xmx-advanced",
     featured: true,
   },
   {
     code: "XME",
     name: "Enterprise Platform",
     audience: "Enterprise",
-    tagline: "Complete enterprise coverage with all 15 Kubes and premium capabilities.",
-    kubes: ["All 12 XMM Kubes", "SDR KUBE", "DDR KUBE", "TI KUBE"],
-    href: "/products/xme",
+    tagline: "Complete enterprise coverage with all 18 modules and premium capabilities.",
+    kubes: ["All 12 XMX Modules", "SDR", "DDR", "TI", "STRIKE", "EASM", "HONEYPOT"],
+    href: "/service-tiers/xme-enterprise",
     featured: false,
   },
 ];
@@ -75,7 +75,7 @@ export default function Products() {
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="h-1 w-16 bg-brand-orange mb-8" />
-            <h1 className="text-headline text-white mb-4">Products & Services</h1>
+            <h1 className="text-headline text-white mb-4">Service Tiers</h1>
             <p className="text-body-xl text-white/70 max-w-2xl">
               Purpose-built security and operations platforms. &gt;90% MITRE ATT&CK coverage. Unified threat detection, correlation, and automated response powered by the Kubric Data Graph and KubricAI.
             </p>
@@ -124,7 +124,7 @@ export default function Products() {
             ))}
           </div>
           <div className="mt-8 text-center">
-            <Link to="/products/custom" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-orange transition-colors border border-border px-6 py-3">
+            <Link to="/service-tiers/custom" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-orange transition-colors border border-border px-6 py-3">
               Custom Configuration <ArrowRight size={14} />
             </Link>
           </div>

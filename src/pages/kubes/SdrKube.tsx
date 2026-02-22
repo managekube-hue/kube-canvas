@@ -13,8 +13,8 @@ export default function SdrKube() {
       { title: "Integration", items: ["CI/CD pipeline integration", "Git repository scanning", "Registry monitoring", "Developer workflow embedding"] },
     ]}
     similar={[
-      { label: "CDR KUBE", href: "/kubes/cdr-kube" },
-      { label: "VDR KUBE", href: "/kubes/vdr-kube" },
+      { label: "CDR", href: "/service-layer/cdr" },
+      { label: "VDR", href: "/service-layer/vdr" },
       { label: "Penetration Testing", href: "/services/penetration-testing" },
     ]}
   />;

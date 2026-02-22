@@ -13,9 +13,9 @@ export default function ItdrKube() {
       { title: "Automated Response", items: ["Automated account lockout", "Session termination", "Remediation workflows", "Incident correlation"] },
     ]}
     similar={[
-      { label: "NDR KUBE", href: "/kubes/ndr-kube" },
-      { label: "CDR KUBE", href: "/kubes/cdr-kube" },
-      { label: "ADR KUBE", href: "/kubes/adr-kube" },
+      { label: "NDR", href: "/service-layer/ndr" },
+      { label: "CDR", href: "/service-layer/cdr" },
+      { label: "ADR", href: "/service-layer/adr" },
     ]}
   />;
 }

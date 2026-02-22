@@ -13,8 +13,8 @@ export default function BdrKube() {
       { title: "Protection", items: ["Immutable backup storage", "Ransomware protection", "Air-gapped backup copies", "Encryption verification"] },
     ]}
     similar={[
-      { label: "CFDR KUBE", href: "/kubes/cfdr-kube" },
-      { label: "CIO KUBE", href: "/kubes/cio-kube" },
+      { label: "CFDR", href: "/service-layer/cfdr" },
+      { label: "CIO", href: "/service-layer/cio" },
     ]}
   />;
 }

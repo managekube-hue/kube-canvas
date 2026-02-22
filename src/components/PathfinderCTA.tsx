@@ -6,8 +6,8 @@ import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 /** DO NOT TOUCH - PathfinderCTA pathways configuration */
 const pathways = [
   { icon: ClipboardList, title: "Free Assessment", description: "Map your security posture in minutes", href: "/assessment" },
-  { icon: LayoutGrid, title: "Explore Kubes", description: "15 detection & response modules", href: "/kubes" },
-  { icon: Server, title: "Our Products", description: "XRO, XMM & XME platform tiers", href: "/products" },
+  { icon: LayoutGrid, title: "Service Layer", description: "18 detection & response modules", href: "/service-layer" },
+  { icon: Server, title: "Service Tiers", description: "XRO, XMX & XME platform tiers", href: "/service-tiers" },
   { icon: Shield, title: "Managed Services", description: "NOC, SOC, Compliance & Cloud", href: "/services" },
   { icon: Search, title: "Find by Problem", description: "Start from the challenge you face", href: "/find-by-problem" },
   { icon: BookOpen, title: "Read the Docs", description: "K-DOCS technical documentation", href: "/documentation" },

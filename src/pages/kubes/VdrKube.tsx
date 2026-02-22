@@ -13,8 +13,8 @@ export default function VdrKube() {
       { title: "Integration", items: ["Integration with ticketing systems", "Data Graph context enrichment", "CI/CD pipeline scanning", "Compliance framework alignment"] },
     ]}
     similar={[
-      { label: "TI KUBE", href: "/kubes/ti-kube" },
-      { label: "GRC KUBE", href: "/kubes/grc-kube" },
+      { label: "TI", href: "/service-layer/ti" },
+      { label: "GRC", href: "/service-layer/grc" },
     ]}
   />;
 }

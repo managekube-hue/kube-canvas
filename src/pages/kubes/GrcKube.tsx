@@ -13,9 +13,9 @@ export default function GrcKube() {
       { title: "Governance", items: ["Policy and procedure management", "Third-party risk tracking", "Board-level reporting", "Risk register management"] },
     ]}
     similar={[
-      { label: "CFDR KUBE", href: "/kubes/cfdr-kube" },
-      { label: "TI KUBE", href: "/kubes/ti-kube" },
-      { label: "VDR KUBE", href: "/kubes/vdr-kube" },
+      { label: "CFDR", href: "/service-layer/cfdr" },
+      { label: "TI", href: "/service-layer/ti" },
+      { label: "VDR", href: "/service-layer/vdr" },
     ]}
   />;
 }

@@ -28,70 +28,72 @@ const megaMenu = {
       {
         heading: "Intelligence & Automation",
         items: [
-          { label: "KubricAI", desc: "AI-powered orchestration using CrewAI for predictive threat detection, automated remediation, and intelligent prioritization.", href: "/our-tools/kubric-ai" },
+          { label: "KubricAI", desc: "AI-powered orchestration using CrewAI for predictive threat detection, automated remediation, and intelligent prioritisation.", href: "/our-tools/kubric-ai" },
           { label: "Service Delivery Methodology", desc: "Our proven framework for onboarding, operations, and continuous improvement across managed services.", href: "/methodology" },
         ],
       },
     ],
   },
-  "Kubes": {
-    href: "/kubes",
-    desc: "15 specialized detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance.",
-    viewAll: "View All Kubes",
+  "Service Layer": {
+    href: "/service-layer",
+    desc: "18 specialised detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance.",
+    viewAll: "View All Modules",
     columns: [
       {
         heading: "Infrastructure & Operations",
         items: [
-          { label: "CIO KUBE", desc: "Core infrastructure orchestration and asset lifecycle management.", href: "/kubes/cio-kube" },
-          { label: "NPM KUBE", desc: "Real-time network performance monitoring with AI-powered capacity forecasting.", href: "/kubes/npm-kube" },
-          { label: "MDM KUBE", desc: "Policy-driven mobile device governance for iOS and Android.", href: "/kubes/mdm-kube" },
-          { label: "APM KUBE", desc: "Full-stack application observability with distributed tracing.", href: "/kubes/apm-kube" },
-          { label: "CFDR KUBE", desc: "Configuration drift detection and automated remediation.", href: "/kubes/cfdr-kube" },
-          { label: "BDR KUBE", desc: "Backup verification and disaster recovery orchestration.", href: "/kubes/bdr-kube" },
+          { label: "CIO", desc: "Core infrastructure orchestration and asset lifecycle management.", href: "/service-layer/cio" },
+          { label: "NPM", desc: "Real-time network performance monitoring with AI-powered capacity forecasting.", href: "/service-layer/npm" },
+          { label: "MDM", desc: "Policy-driven mobile device governance for iOS and Android.", href: "/service-layer/mdm" },
+          { label: "APM", desc: "Full-stack application observability with distributed tracing.", href: "/service-layer/apm" },
+          { label: "CFDR", desc: "Configuration drift detection and automated remediation.", href: "/service-layer/cfdr" },
+          { label: "BDR", desc: "Backup verification and disaster recovery orchestration.", href: "/service-layer/bdr" },
         ],
       },
       {
         heading: "Security Detection & Response",
         items: [
-          { label: "ITDR KUBE", desc: "Identity threats stopped before escalation via Active Directory monitoring.", href: "/kubes/itdr-kube" },
-          { label: "NDR KUBE", desc: "Network threats detected at the source with deep packet inspection.", href: "/kubes/ndr-kube" },
-          { label: "CDR KUBE", desc: "Multi-cloud security monitoring for AWS, Azure, and GCP.", href: "/kubes/cdr-kube" },
-          { label: "SDR KUBE", desc: "SBOM analysis and software supply chain risk management.", href: "/kubes/sdr-kube" },
-          { label: "ADR KUBE", desc: "Application-level threat containment with WAF and RASP.", href: "/kubes/adr-kube" },
-          { label: "DDR KUBE", desc: "Data misuse and exfiltration detection with DLP controls.", href: "/kubes/ddr-kube" },
+          { label: "ITDR", desc: "Identity threats stopped before escalation via Active Directory monitoring.", href: "/service-layer/itdr" },
+          { label: "NDR", desc: "Network threats detected at the source with deep packet inspection.", href: "/service-layer/ndr" },
+          { label: "CDR", desc: "Multi-cloud security monitoring for AWS, Azure, and GCP.", href: "/service-layer/cdr" },
+          { label: "SDR", desc: "SBOM analysis and software supply chain risk management.", href: "/service-layer/sdr" },
+          { label: "ADR", desc: "Application-level threat containment with WAF and RASP.", href: "/service-layer/adr" },
+          { label: "DDR", desc: "Data misuse and exfiltration detection with DLP controls.", href: "/service-layer/ddr" },
+          { label: "EASM", desc: "Continuous discovery and monitoring of your external attack surface.", href: "/service-layer/easm" },
+          { label: "HONEYPOT", desc: "Deception-based threat detection and attacker profiling.", href: "/service-layer/honeypot" },
         ],
       },
       {
         heading: "Intelligence & Governance",
         items: [
-          { label: "TI KUBE", desc: "Threat intelligence that informs action via MISP and EPSS scoring.", href: "/kubes/ti-kube" },
-          { label: "VDR KUBE", desc: "Vulnerabilities prioritized by real risk, not just CVSS scores.", href: "/kubes/vdr-kube" },
-          { label: "GRC KUBE", desc: "Governance, risk & compliance automation across 100+ frameworks.", href: "/kubes/grc-kube" },
+          { label: "TI", desc: "Threat intelligence that informs action via MISP and EPSS scoring.", href: "/service-layer/ti" },
+          { label: "VDR", desc: "Vulnerabilities prioritised by real risk, not just CVSS scores.", href: "/service-layer/vdr" },
+          { label: "GRC", desc: "Governance, risk & compliance automation across 100+ frameworks.", href: "/service-layer/grc" },
+          { label: "STRIKE", desc: "Advanced adversary tracking and kill-chain intelligence.", href: "/service-layer/strike" },
         ],
       },
     ],
   },
-  "Products": {
-    href: "/products",
+  "Service Tiers": {
+    href: "/service-tiers",
     desc: "Purpose-built security and operations platforms tailored to your business size and maturity.",
-    viewAll: "View All Products",
+    viewAll: "View All Tiers",
     columns: [
       {
         heading: "Platform Tiers",
         items: [
-          { label: "XRO — Small Business", desc: "Complete security and operations for small businesses with 7 essential Kubes.", href: "/products/xro" },
-          { label: "XMM — SME Platform", desc: "Advanced security and operations for growing organizations with 12 Kubes.", href: "/products/xmm" },
-          { label: "XME — Enterprise", desc: "Full enterprise coverage with all 15 Kubes and premium capabilities.", href: "/products/xme" },
+          { label: "XRO — Essentials", desc: "Complete security and operations for small businesses with essential coverage.", href: "/service-tiers/xro-essentials" },
+          { label: "XMX — Advanced", desc: "Advanced security and operations for growing organisations.", href: "/service-tiers/xmx-advanced" },
+          { label: "XME — Enterprise", desc: "Full enterprise coverage with all modules and premium capabilities.", href: "/service-tiers/xme-enterprise" },
         ],
       },
       {
-        heading: "Add-On Capabilities",
+        heading: "Core Capabilities",
         items: [
-          { label: "Supply Chain Cyber Risk", desc: "SCDR protection for third-party and software supply chains.", href: "/products/xme" },
-          { label: "External Attack Surface Management", desc: "Continuous discovery and monitoring of your attack surface.", href: "/products/xmm" },
-          { label: "STRIKE Strategic Intelligence", desc: "Advanced threat intelligence and adversary tracking capabilities.", href: "/products/xme" },
-          { label: "Honeypots", desc: "Deception-based threat detection and attacker profiling.", href: "/products/xme" },
-          { label: "Custom Configuration", desc: "Get exactly the coverage you need, configured for your environment.", href: "/products/custom" },
+          { label: "STRIKE Intelligence", desc: "Advanced threat intelligence and adversary tracking capabilities.", href: "/service-layer/strike" },
+          { label: "External Attack Surface Management", desc: "Continuous discovery and monitoring of your attack surface.", href: "/service-layer/easm" },
+          { label: "Honeypots", desc: "Deception-based threat detection and attacker profiling.", href: "/service-layer/honeypot" },
+          { label: "Custom Configuration", desc: "Get exactly the coverage you need, configured for your environment.", href: "/service-tiers/custom" },
         ],
       },
     ],
@@ -104,16 +106,16 @@ const megaMenu = {
       {
         heading: "Managed Services",
         items: [
-          { label: "Managed NOC", desc: "24/7 network operations center with proactive monitoring and response.", href: "/services/managed-noc" },
+          { label: "Managed NOC", desc: "24/7 network operations centre with proactive monitoring and response.", href: "/services/managed-noc" },
           { label: "Managed SOC", desc: "24/7 security operations with threat hunting and incident response.", href: "/services/managed-soc" },
           { label: "Managed Compliance & GRC", desc: "Continuous compliance monitoring across 100+ frameworks.", href: "/services/managed-compliance" },
-          { label: "Managed Cloud & FinOps", desc: "Cloud cost optimization and performance management.", href: "/services/managed-cloud" },
+          { label: "Managed Cloud & FinOps", desc: "Cloud cost optimisation and performance management.", href: "/services/managed-cloud" },
         ],
       },
       {
         heading: "Advisory Services",
         items: [
-          { label: "Security Assessments", desc: "Holistic security posture evaluation with risk prioritization.", href: "/services/security-assessments" },
+          { label: "Security Assessments", desc: "Holistic security posture evaluation with risk prioritisation.", href: "/services/security-assessments" },
           { label: "Penetration Testing", desc: "Manual penetration testing across network, application, and cloud.", href: "/services/penetration-testing" },
           { label: "Compliance Gap Analysis", desc: "Framework-specific gap assessments with remediation roadmaps.", href: "/services/compliance-gap-analysis" },
           { label: "IT Infrastructure Audits", desc: "Architecture, performance, security, and efficiency review.", href: "/services/infrastructure-audits" },
@@ -126,7 +128,7 @@ const megaMenu = {
           { label: "Physical Security Integration", desc: "Video surveillance, access control, and SOC integration.", href: "/services/physical-security" },
           { label: "Network Infrastructure Buildouts", desc: "Enterprise network design, deployment, and migration.", href: "/services/network-buildouts" },
           { label: "Custom Automation Development", desc: "Bespoke automation, scripting, and workflow development.", href: "/services/custom-automation" },
-          { label: "Legacy System Integrations", desc: "Bridge aging infrastructure with modern security platforms.", href: "/services/legacy-integrations" },
+          { label: "Legacy System Integrations", desc: "Bridge ageing infrastructure with modern security platforms.", href: "/services/legacy-integrations" },
         ],
       },
     ],
@@ -152,7 +154,7 @@ const megaMenu = {
         items: [
           { label: "SMB", desc: "Turnkey security and operations for small businesses with limited IT staff.", href: "/solutions/smb" },
           { label: "SME", desc: "Flexible platform for growing mid-market companies.", href: "/solutions/sme" },
-          { label: "Enterprise", desc: "Enterprise-grade customization, dedicated support, and advanced features.", href: "/solutions/enterprise" },
+          { label: "Enterprise", desc: "Enterprise-grade customisation, dedicated support, and advanced features.", href: "/solutions/enterprise" },
         ],
       },
     ],
@@ -163,25 +165,25 @@ const megaMenu = {
     viewAll: "View All Compliance Frameworks",
     columns: [
       {
-        heading: "Government & Defense",
+        heading: "Government & Defence",
         items: [
-          { label: "CMMC", desc: "Cybersecurity Maturity Model Certification for defense contractors.", href: "/compliance/cmmc" },
+          { label: "CMMC", desc: "Cybersecurity Maturity Model Certification for defence contractors.", href: "/compliance/cmmc" },
           { label: "CJIS", desc: "Criminal Justice Information Services Security Policy compliance.", href: "/compliance/cjis" },
           { label: "NIST 800-171", desc: "Protecting Controlled Unclassified Information for federal contractors.", href: "/compliance/nist-800-171" },
           { label: "NIST 800-53", desc: "Security controls for federal information systems and critical infrastructure.", href: "/compliance/nist-800-53" },
           { label: "FedRAMP", desc: "Federal Risk and Authorization Management Program for cloud service providers.", href: "/compliance/fedramp" },
-          { label: "FISMA", desc: "Federal Information Security Modernization Act compliance for federal agencies.", href: "/compliance/fisma" },
+          { label: "FISMA", desc: "Federal Information Security Modernisation Act compliance for federal agencies.", href: "/compliance/fisma" },
         ],
       },
       {
         heading: "Industry Standards",
         items: [
-          { label: "HIPAA", desc: "HIPAA Security Rule and Privacy Rule compliance for healthcare organizations.", href: "/compliance/hipaa" },
+          { label: "HIPAA", desc: "HIPAA Security Rule and Privacy Rule compliance for healthcare organisations.", href: "/compliance/hipaa" },
           { label: "SOC 2", desc: "SOC 2 Type I and Type II audit readiness with continuous control monitoring.", href: "/compliance/soc2" },
           { label: "ISO 27001", desc: "International ISMS certification — 93 controls across 4 themes.", href: "/compliance/iso-27001" },
           { label: "PCI-DSS", desc: "Payment card data security and cardholder data environment protection.", href: "/compliance/pci-dss" },
-          { label: "NIST CSF", desc: "NIST Cybersecurity Framework 2.0 — risk-based security program development.", href: "/compliance/nist-csf" },
-          { label: "CIS Controls v8.1", desc: "18 Controls, 153 Safeguards — prioritized and actionable security controls.", href: "/compliance/cis-controls" },
+          { label: "NIST CSF", desc: "NIST Cybersecurity Framework 2.0 — risk-based security programme development.", href: "/compliance/nist-csf" },
+          { label: "CIS Controls v8.1", desc: "18 Controls, 153 Safeguards — prioritised and actionable security controls.", href: "/compliance/cis-controls" },
         ],
       },
     ],
@@ -195,7 +197,7 @@ const megaMenu = {
         heading: "Pricing Models",
         items: [
           { label: "Precision Pay™", desc: "Pay only for what you use. Ideal for variable workloads and project-based engagements.", href: "/pricing" },
-          { label: "Flex Core™", desc: "Predictable monthly pricing based on your organization's size and scope.", href: "/pricing" },
+          { label: "Flex Core™", desc: "Predictable monthly pricing based on your organisation's size and scope.", href: "/pricing" },
           { label: "Fractional™", desc: "Access senior vCIO/vCISO expertise on a fractional basis without full-time cost.", href: "/pricing" },
           { label: "APEX™ As-a-Service", desc: "Infrastructure delivered as a service. No CapEx, no depreciation.", href: "/pricing" },
           { label: "Project-Based", desc: "Defined scope, defined timeline, defined price for discrete projects.", href: "/pricing" },
@@ -205,7 +207,7 @@ const megaMenu = {
       {
         heading: "Get Started",
         items: [
-          { label: "Take Free Assessment", desc: "Find the pricing model that best matches your organization's size and needs.", href: "/assessment" },
+          { label: "Take Free Assessment", desc: "Find the pricing model that best matches your organisation's size and needs.", href: "/assessment" },
           { label: "Talk to Sales", desc: "Speak with a solutions architect about enterprise and custom pricing.", href: "/contact" },
         ],
       },
@@ -219,17 +221,16 @@ const megaMenu = {
       {
         heading: "Documentation",
         items: [
-          { label: "Read the Docs", desc: "All Kubric documentation — Kubes, compliance, tools, services, and pricing guides.", href: "/documentation" },
+          { label: "Read the Docs", desc: "All Kubric documentation — modules, compliance, tools, services, and pricing guides.", href: "/documentation" },
           { label: "How Kubric Works", desc: "Architecture overview of the unified Kubric platform.", href: "/our-tools/how-kubric-works" },
-          { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against Kube coverage.", href: "/compliance" },
+          { label: "Compliance Matrix", desc: "Cross-reference compliance frameworks against module coverage.", href: "/compliance" },
           { label: "Assessment Calculator", desc: "Estimate your security maturity and identify gaps in minutes.", href: "/assessment" },
         ],
       },
       {
         heading: "Resources",
         items: [
-          { label: "Methodology", desc: "Our proven Assess → Remediate → Manage → Optimize service delivery framework.", href: "/methodology" },
-          { label: "Case Studies", desc: "Real-world deployments and measurable outcomes from our clients.", href: "/resources" },
+          { label: "Methodology", desc: "Our proven Assess → Remediate → Manage → Optimise service delivery framework.", href: "/methodology" },
           { label: "Pricing Guide", desc: "Six flexible pricing models explained — find the right fit for your business.", href: "/pricing" },
         ],
       },
@@ -245,7 +246,7 @@ const megaMenu = {
         items: [
           { label: "About Us", desc: "Our mission, values, and the team behind ManageKube.", href: "/about" },
           { label: "Careers", desc: "Join our team and help build the future of managed security.", href: "/careers" },
-          { label: "Partners", desc: "Technology alliances and channel partner programs.", href: "/contact" },
+          { label: "Partners", desc: "Technology alliances and channel partner programmes.", href: "/contact" },
           { label: "Contact", desc: "Get in touch with our team for sales, support, or partnerships.", href: "/contact" },
         ],
       },

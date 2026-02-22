@@ -1488,12 +1488,12 @@ const Solutions = () => {
               </Link>
             </div>
             <div className="border-t-2 border-foreground pt-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">Browse by Kube</h3>
+              <h3 className="text-lg font-bold text-foreground mb-2">Browse the Service Layer</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Explore our service Kubes to see how solutions integrate with managed services.
+                Explore our service modules to see how solutions integrate with managed services.
               </p>
-              <Link to="/kubes" className="text-sm font-semibold text-brand-orange flex items-center gap-1">
-                Explore Kubes <ArrowRight className="w-4 h-4" />
+              <Link to="/service-layer" className="text-sm font-semibold text-brand-orange flex items-center gap-1">
+                Explore Modules <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

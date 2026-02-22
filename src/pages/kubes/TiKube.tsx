@@ -13,8 +13,8 @@ export default function TiKube() {
       { title: "Strategic Intelligence", items: ["Tactical and strategic intelligence", "STIX/TAXII feed ingestion", "Dark web monitoring", "Industry-specific threat reports"] },
     ]}
     similar={[
-      { label: "VDR KUBE", href: "/kubes/vdr-kube" },
-      { label: "GRC KUBE", href: "/kubes/grc-kube" },
+      { label: "VDR", href: "/service-layer/vdr" },
+      { label: "GRC", href: "/service-layer/grc" },
     ]}
   />;
 }

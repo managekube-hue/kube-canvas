@@ -698,13 +698,13 @@ const FindByProblem = () => {
               </span>
             </Link>
             
-            <Link to="/kubes" className="group border border-border p-8 hover:border-foreground transition-all">
+            <Link to="/service-layer" className="group border border-border p-8 hover:border-foreground transition-all">
               <Cog className="w-10 h-10 text-foreground mb-4" />
               <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-brand-orange transition-colors">
-                Explore All 15 Kubes
+                Explore All 18 Modules
               </h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Browse all 15 detection and response modules across three pillars.
+                Browse all 18 detection and response modules across three pillars.
               </p>
               <span className="text-sm font-semibold text-foreground flex items-center gap-2">
                 Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

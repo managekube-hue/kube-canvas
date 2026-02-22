@@ -13,9 +13,9 @@ export default function NpmKube() {
       { title: "Capacity Planning", items: ["AI-powered capacity forecasting", "Historical trend analysis", "Growth planning recommendations", "Multi-site visibility"] },
     ]}
     similar={[
-      { label: "CIO KUBE", href: "/kubes/cio-kube" },
-      { label: "NDR KUBE", href: "/kubes/ndr-kube" },
-      { label: "APM KUBE", href: "/kubes/apm-kube" },
+      { label: "CIO", href: "/service-layer/cio" },
+      { label: "NDR", href: "/service-layer/ndr" },
+      { label: "APM", href: "/service-layer/apm" },
     ]}
   />;
 }
