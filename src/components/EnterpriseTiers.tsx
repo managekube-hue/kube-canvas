@@ -26,7 +26,7 @@ const tiers = [
   },
   {
     icon: Crown,
-    name: "ENTERPRISE PLATFORM",
+    name: "ENTERPRISE TIER",
     price: "$500,000+",
     unit: "/month",
     color: "orange",
@@ -56,7 +56,7 @@ export const EnterpriseTiers = () => {
           transition={{ delay: 0.1 }}
           className="font-mono text-muted-foreground text-center max-w-3xl mx-auto mb-16"
         >
-          Our methodology serves businesses of every size. The technology foundation scales from boutique precision to mission-critical platforms.
+          Our methodology serves businesses of every size. The technology foundation scales from boutique precision to mission-critical operations.
         </motion.p>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">

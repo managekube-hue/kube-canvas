@@ -7,63 +7,63 @@ const industries = [
     code: "M2BLOCK",
     name: "Manufacturing",
     tagline: "Production Excellence",
-    description: "Integrated platform for predictive maintenance, quality control, and secure OT/IT convergence. Utilizes Dell PowerEdge XR rugged servers and IBM Maximo to deliver 99.9% uptime.",
+    description: "Integrated services for predictive maintenance, quality control, and secure OT/IT convergence. Utilizes Dell PowerEdge XR rugged servers and IBM Maximo to deliver 99.9% uptime.",
   },
   {
     icon: Heart,
     code: "H2BLOCK",
     name: "Healthcare",
     tagline: "Clinical Excellence",
-    description: "Secure infrastructure platform for clinical excellence, HIPAA compliance, and ransomware immunity. Utilizes Dell PowerMax for EHR performance and IBM Maximo for medical equipment.",
+    description: "Secure infrastructure services for clinical excellence, HIPAA compliance, and ransomware immunity. Utilizes Dell PowerMax for EHR performance and IBM Maximo for medical equipment.",
   },
   {
     icon: Landmark,
     code: "F2BLOCK",
     name: "Financial Services",
     tagline: "Mission-Critical Operations",
-    description: "Resilient platform for real-time fraud detection, T+0 regulatory reporting, and zero-trust access. Integrates Dell PowerMax and IBM z16 mainframe.",
+    description: "Resilient services for real-time fraud detection, T+0 regulatory reporting, and zero-trust access. Integrates Dell PowerMax and IBM z16 mainframe.",
   },
   {
     icon: ShoppingCart,
     code: "R2BLOCK",
     name: "Retail",
     tagline: "Omnichannel Commerce",
-    description: "Platform for unified omnichannel fulfillment, store operations management, and AI personalization. Utilizes Dell NativeEdge and IBM Sterling Order Management.",
+    description: "Managed services for unified omnichannel fulfillment, store operations management, and AI personalization. Utilizes Dell NativeEdge and IBM Sterling Order Management.",
   },
   {
     icon: Truck,
     code: "T2BLOCK",
     name: "Transportation",
     tagline: "Fleet Intelligence",
-    description: "Integrated platform for real-time fleet visibility, predictive maintenance, and logistics optimization. Delivers 98% on-time performance.",
+    description: "Integrated services for real-time fleet visibility, predictive maintenance, and logistics optimization. Delivers 98% on-time performance.",
   },
   {
     icon: HardHat,
     code: "ME2BLOCK",
     name: "Mining & Extraction",
     tagline: "Remote Operations Resilience",
-    description: "Resilient platform for remote operations, OT security, and environmental compliance. Delivers zero safety incidents.",
+    description: "Resilient services for remote operations, OT security, and environmental compliance. Delivers zero safety incidents.",
   },
   {
     icon: Zap,
     code: "EU2BLOCK",
     name: "Energy & Utilities",
     tagline: "Grid Resilience",
-    description: "Platform for grid stability, renewable integration, and NERC-CIP compliance. Utilizes Dell NativeEdge for substation management.",
+    description: "Managed services for grid stability, renewable integration, and NERC-CIP compliance. Utilizes Dell NativeEdge for substation management.",
   },
   {
     icon: Building,
     code: "PS2BLOCK",
     name: "Public Sector",
     tagline: "Citizen Services Digitization",
-    description: "Platform for secure citizen services, FedRAMP compliance, and smart city infrastructure. Utilizes Dell FedRAMP-authorized infrastructure.",
+    description: "Managed services for secure citizen services, FedRAMP compliance, and smart city infrastructure. Utilizes Dell FedRAMP-authorized infrastructure.",
   },
   {
     icon: Radio,
     code: "TC2BLOCK",
     name: "Telecommunications",
     tagline: "Network Transformation",
-    description: "Platform for 5G core network transformation, edge monetization, and network automation. Utilizes Dell PowerEdge 17G servers for Open RAN.",
+    description: "Managed services for 5G core network transformation, edge monetization, and network automation. Utilizes Dell PowerEdge 17G servers for Open RAN.",
   },
 ];
 
@@ -78,7 +78,7 @@ export const IndustryGrid = () => {
           className="font-display text-3xl sm:text-4xl lg:text-5xl text-center mb-6"
           style={{ color: "hsl(0 0% 2%)" }}
         >
-          INDUSTRY-SPECIFIC PLATFORMS.
+          INDUSTRY-SPECIFIC SOLUTIONS.
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}

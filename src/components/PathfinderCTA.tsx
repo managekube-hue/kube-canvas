@@ -7,7 +7,7 @@ import footerCtaVideo from "@/assets/footer-cta-video.mp4";
 const pathways = [
   { icon: ClipboardList, title: "Onboard Today", description: "Full assessment — score, tier, and pricing", href: "/assessment/start" },
   { icon: LayoutGrid, title: "Service Layer", description: "18 detection & response modules", href: "/service-layer" },
-  { icon: Server, title: "Service Tiers", description: "XRO, XMX & XME platform tiers", href: "/service-tiers" },
+  { icon: Server, title: "Service Tiers", description: "XRO, XMX & XME service tiers", href: "/service-tiers" },
   { icon: Shield, title: "Managed Services", description: "NOC, SOC, Compliance & Cloud", href: "/services" },
   { icon: Search, title: "Find by Problem", description: "Start from the challenge you face", href: "/find-by-problem" },
   { icon: BookOpen, title: "Read the Docs", description: "K-DOCS technical documentation", href: "/documentation" },

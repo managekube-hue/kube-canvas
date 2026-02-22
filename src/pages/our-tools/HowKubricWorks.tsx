@@ -26,9 +26,9 @@ const unifiers = [
 ];
 
 const deliveryModels = [
-  { name: "Fully Managed", desc: "We operate the platform. Your team receives outcomes." },
-  { name: "Co-Managed", desc: "We operate the platform. Your team participates in response." },
-  { name: "Self-Managed", desc: "You operate the platform. We provide the architecture." },
+  { name: "Fully Managed", desc: "We operate everything. Your team receives outcomes." },
+  { name: "Co-Managed", desc: "We operate the engine. Your team participates in response." },
+  { name: "Self-Managed", desc: "You operate the toolset. We provide the architecture." },
 ];
 
 export default function HowKubricWorks() {
@@ -45,29 +45,29 @@ export default function HowKubricWorks() {
         </div>
         <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 py-32 lg:py-40">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works — Platform Overview</span>
+            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works — Service Overview</span>
             <div style={{ height: "2px", width: "56px", background: "#993619", margin: "20px 0" }} />
             <h1 className="font-black text-white leading-tight" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif", marginBottom: "12px" }}>
-              One Platform. Twenty Capabilities. Zero Tool Sprawl.
+              One Service Provider. Twenty Capabilities. Zero Tool Sprawl.
             </h1>
             <p style={{ fontSize: "16px", lineHeight: 1.7, color: "rgba(205,202,197,0.70)", maxWidth: "640px" }}>
-              The Kubric platform explained: what it is, what it does, and why it is different.
+              How ManageKube delivers: what we do, how we do it, and why it is different.
             </p>
           </motion.div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-20 z-10" style={{ background: "linear-gradient(to top, #FEFBF6, transparent)" }} />
       </section>
 
-      {/* ── The Problem with "Platforms" ── */}
+      {/* ── The Problem with Vendors ── */}
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
-          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>The Problem with "Platforms"</p>
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>The Problem with Vendors</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            "Platform" has become a functionally meaningless word in enterprise security. Every vendor applies it to whatever collection of acquired products they have assembled under a single contract vehicle. But if the data does not unify, if detection does not correlate, and if the interface does not connect — it is not a platform. It is a marketing term.
+            Most providers assemble a collection of acquired products under a single contract vehicle. But if the data does not unify, if detection does not correlate, and if the interface does not connect — it is not a service provider. It is a reseller with a dashboard.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
-            A genuine platform has one data layer. One detection engine. One investigation workflow. One architecture. That is what Kubric is.
+            A genuine service provider has one data layer. One detection engine. One investigation workflow. One architecture. That is what ManageKube delivers.
           </p>
         </div>
       </section>
@@ -78,10 +78,10 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>What Kubric Actually Is</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
-            Kubric is the proprietary detection and response engine that powers every ManageKube service. It is not a SIEM. It is not an open-source distribution rebranded under a managed services wrapper. It is an integrated platform engineered specifically for cross-discipline threat correlation — operated by analysts who understand your environment, delivered as a service your organization consumes.
+            Kubric is the proprietary detection and response engine that powers every ManageKube service. It is not a SIEM. It is not an open-source distribution rebranded under a managed services wrapper. It is an integrated engine engineered specifically for cross-discipline threat correlation — operated by analysts who understand your environment, delivered as a service your organization consumes.
           </p>
 
-          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#1D1D1B", marginBottom: "24px" }}>The platform is composed of four engineered layers:</h3>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#1D1D1B", marginBottom: "24px" }}>The engine is composed of four engineered layers:</h3>
           <div className="grid md:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5", marginBottom: "32px" }}>
             {layers.map((layer, i) => (
               <motion.div key={layer.title} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
@@ -127,7 +127,7 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>What Unifies Them</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
-            Three architectural decisions elevate Kubric from a product collection to a genuine platform:
+            Three architectural decisions elevate Kubric from a product collection to a genuine service provider:
           </p>
           <div className="space-y-[1px]" style={{ background: "#CDCAC5" }}>
             {unifiers.map((u, i) => (
@@ -147,7 +147,7 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>How It Delivers</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
-            Kubric is delivered as a managed service. Your organization does not maintain it, tune it, or staff it. The platform operates continuously. The analysts operate it continuously. Your team receives outcomes continuously. Three delivery models accommodate your operational structure:
+            Kubric is delivered as a managed service. Your organization does not maintain it, tune it, or staff it. Our engineers operate it continuously. Your team receives outcomes continuously. Three delivery models accommodate your operational structure:
           </p>
           <div className="grid md:grid-cols-3 gap-[1px]" style={{ background: "#CDCAC5", marginBottom: "48px" }}>
             {deliveryModels.map((m, i) => (

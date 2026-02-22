@@ -115,7 +115,7 @@ export default function FullyManaged() {
               className="text-lg leading-relaxed mb-12"
               style={{ color: "rgba(255,255,255,0.5)" }}
             >
-              We manage your infrastructure, security, and compliance so you can focus on growth. One team. One platform. Every operation covered.
+              We manage your infrastructure, security, and compliance so you can focus on growth. One team. One service provider. Every operation covered.
             </motion.p>
 
             <motion.div
@@ -240,7 +240,7 @@ export default function FullyManaged() {
       <section className="py-24" style={{ background: "#0C0C0C" }}>
         <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
           <div className="max-w-3xl">
-            <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#993619" }}>The Platform Running Behind Your Managed Services</p>
+            <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#993619" }}>The Engine Running Behind Your Managed Services</p>
             <div className="w-10 h-[2px] mb-8" style={{ background: "#993619" }} />
             <h2
               className="font-black text-white mb-6"

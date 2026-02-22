@@ -19,7 +19,7 @@ export default function SolutionSme() {
             "Depth Without Overhead — Threat hunting, vulnerability prioritization, cloud security posture management — capabilities that require depth to operate — without adding headcount to manage each one.",
             "Compliance Acceleration — Audits are on the calendar. SOC 2. ISO 27001. CMMC. Possibly HIPAA or PCI. Compliance posture must be built, maintained, and evidenced without a dedicated compliance function.",
             "Cloud Visibility and Control — Cloud presence has expanded, possibly across multiple providers. Costs are drifting. Security posture is fragmented. Visibility and control are required across all of it.",
-            "Tool Consolidation — Tools have accumulated. They do not share data or context. The team needs a unified platform, not an expanding portfolio of point solutions.",
+            "Tool Consolidation — Tools have accumulated. They do not share data or context. The team needs a unified service provider, not an expanding portfolio of point solutions.",
             "Partnership, Not Just Vendor Relationship — A partner who understands the business, engages at a strategic level, and is capable of growing alongside the organization.",
           ],
         },
@@ -37,7 +37,7 @@ export default function SolutionSme() {
           title: "SME Service Tiers",
           body: "SME organizations typically engage at the Advanced tier, with Enterprise capabilities added as compliance requirements intensify.",
           items: [
-            "Advanced — Full detection through remediation. Incidents contained and resolved without platform management.",
+            "Advanced — Full detection through remediation. Incidents contained and resolved without overhead.",
             "Enterprise — Complete lifecycle through documentation and closure for regulated industries requiring audit-grade evidence.",
           ],
         },
