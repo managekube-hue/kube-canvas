@@ -151,6 +151,7 @@ import UidrTechnicalDocs from "./pages/uidr/UidrTechnicalDocs";
 import UidrContributors from "./pages/uidr/UidrContributors";
 import UidrOpenSource from "./pages/uidr/UidrOpenSource";
 import UidrContact from "./pages/uidr/UidrContact";
+import UidrIde from "./pages/uidr/UidrIde";
 
 
 const queryClient = new QueryClient();
@@ -376,8 +377,9 @@ const App = () => (
           <Route path="/uidr/docs" element={<UidrDocs />} />
           <Route path="/uidr/docs/:moduleId" element={<UidrModulePage />} />
           <Route path="/uidr/technical-docs" element={<AuthGate><UidrTechnicalDocs /></AuthGate>} />
-          <Route path="/uidr/contributors" element={<UidrContributors />} />
+          <Route path="/uidr/contributors" element={<AuthGate><UidrContributors /></AuthGate>} />
           <Route path="/uidr/open-source" element={<AuthGate><UidrOpenSource /></AuthGate>} />
+          <Route path="/uidr/ide" element={<AuthGate><UidrIde /></AuthGate>} />
           <Route path="/uidr/contact" element={<UidrContact />} />
 
           <Route path="*" element={<NotFound />} />
