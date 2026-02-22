@@ -28,15 +28,15 @@ const docCards = [
   },
   {
     icon: Shield,
-    title: "Kubes Reference",
+    title: "Service Layer Reference",
     description:
-      "Deep-dive documentation on all 15 detection, response, and operations modules across Infrastructure, Security, and Intelligence pillars.",
+      "Deep-dive documentation on all 18 detection, response, and operations modules across Infrastructure, Security, and Intelligence pillars.",
     links: [
-      { label: "All 15 Kubes", href: "/kubes" },
-      { label: "CIO Kube — Infrastructure", href: "/kubes/cio-kube" },
-      { label: "ITDR Kube — Identity", href: "/kubes/itdr-kube" },
-      { label: "NDR Kube — Network", href: "/kubes/ndr-kube" },
-      { label: "GRC Kube — Governance", href: "/kubes/grc-kube" },
+      { label: "All 18 Modules", href: "/service-layer" },
+      { label: "CIO — Infrastructure", href: "/service-layer/cio" },
+      { label: "ITDR — Identity", href: "/service-layer/itdr" },
+      { label: "NDR — Network", href: "/service-layer/ndr" },
+      { label: "GRC — Governance", href: "/service-layer/grc" },
     ],
   },
   {

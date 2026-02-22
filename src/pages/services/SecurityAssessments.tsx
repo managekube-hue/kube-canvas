@@ -3,16 +3,54 @@ export default function SecurityAssessments() {
   return <ServiceDetailPage
     category="Advisory Services"
     name="Security Assessments"
-    tagline="Security posture evaluation with risk prioritization and remediation roadmaps."
-    description="Security Assessments provide a holistic evaluation of your security posture across infrastructure, applications, policies, and processes. Assessments identify vulnerabilities, configuration weaknesses, compliance gaps, and policy deficiencies."
+    tagline="Holistic security posture evaluation with risk prioritization and actionable remediation roadmaps."
+    description="Security Assessments provide a comprehensive evaluation of your security posture across infrastructure, applications, policies, and processes. Our certified assessors identify vulnerabilities, configuration weaknesses, compliance gaps, and policy deficiencies — delivering a prioritized remediation roadmap that maps risk to business impact."
     sections={[
-      { title: "Assessment Components", items: ["Infrastructure vulnerability assessment", "Configuration review and hardening", "Access control evaluation", "Data protection analysis", "Policy and procedure review", "Security awareness evaluation"] },
-      { title: "Deliverables", items: ["Risk-prioritized findings report", "Remediation roadmap", "Executive summary and presentation", "Risk scoring and prioritization"] },
+      {
+        title: "Infrastructure Assessment",
+        items: [
+          "Network architecture and segmentation review",
+          "Server and endpoint hardening evaluation",
+          "Firewall and security appliance rule analysis",
+          "Wireless network security assessment",
+          "Cloud infrastructure security posture review",
+        ],
+      },
+      {
+        title: "Application & Data Security",
+        items: [
+          "Web application vulnerability scanning",
+          "API security evaluation and testing",
+          "Data classification and protection analysis",
+          "Database security configuration review",
+          "Encryption implementation assessment (at rest, in transit)",
+        ],
+      },
+      {
+        title: "Policy & Process Review",
+        items: [
+          "Security policy completeness and alignment evaluation",
+          "Access control and privilege management review",
+          "Incident response plan assessment and tabletop exercises",
+          "Security awareness program effectiveness analysis",
+          "Business continuity and disaster recovery plan review",
+        ],
+      },
+      {
+        title: "Deliverables & Roadmap",
+        items: [
+          "Risk-prioritized findings report with CVSS and business-impact scoring",
+          "90-day, 180-day, and 12-month remediation roadmaps",
+          "Executive summary presentation for leadership and board",
+          "Technical appendix with evidence and reproduction steps",
+          "Follow-up validation assessment (included at 90 days)",
+        ],
+      },
     ]}
     similar={[
       { label: "Penetration Testing", href: "/services/penetration-testing" },
       { label: "IT Infrastructure Audits", href: "/services/infrastructure-audits" },
-      { label: "VDR KUBE", href: "/kubes/vdr-kube" },
+      { label: "Vulnerability Detection & Response", href: "/service-layer/vdr" },
     ]}
   />;
 }

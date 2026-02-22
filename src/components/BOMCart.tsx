@@ -82,7 +82,7 @@ export const BOMCart = () => {
               style={{ borderTop: "1px solid rgba(205,202,197,0.08)" }}
             >
               <Link
-                to="/assessment"
+                to="/get-started"
                 className="flex-1 py-2.5 text-center text-[12px] font-bold uppercase tracking-wider text-white transition-all hover:opacity-90"
                 style={{ background: "#993619", letterSpacing: "0.1em" }}
                 onClick={() => setOpen(false)}

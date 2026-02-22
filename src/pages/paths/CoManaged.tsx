@@ -35,10 +35,10 @@ const CM = {
 
 // Doc page 18: Sub-nav for co-managed
 const SUB_NAV = [
-  { label: "Our Tools",       href: "/our-tools" },
-  { label: "Kube Catalog",    href: "/kubes" },
+  { label: "How It Works",       href: "/our-tools" },
+  { label: "Module Catalog",    href: "/service-layer" },
   { label: "Escalation",      href: "/services/managed-soc" },
-  { label: "Platform Tiers",  href: "/products" },
+  { label: "Service Tiers",  href: "/service-tiers" },
   { label: "Compliance",      href: "/compliance/cmmc" },
   { label: "Solutions",       href: "/solutions/hub" },
   { label: "Pricing",         href: "/pricing" },

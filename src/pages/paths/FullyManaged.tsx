@@ -15,11 +15,11 @@ import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
 // Sub-nav per architecture doc
 const SUB_NAV = [
   { label: "Our Tools", href: "/our-tools" },
-  { label: "What We Run For You", href: "/kubes" },
+  { label: "Service Layer", href: "/service-layer" },
   { label: "Services", href: "/services" },
-  { label: "Platform Stack", href: "/products" },
-  { label: "Compliance", href: "/compliance/cmmc" },
-  { label: "Industries", href: "/solutions/hub" },
+  { label: "Service Tiers", href: "/service-tiers" },
+  { label: "Compliance", href: "/compliance" },
+  { label: "Industries", href: "/industries" },
   { label: "Pricing", href: "/pricing" },
   { label: "Get Started", href: "/get-started", cta: true },
 ];
