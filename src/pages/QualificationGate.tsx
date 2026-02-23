@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { usePath } from "@/context/PathContext";
 import { STORAGE_KEY } from "@/context/PathContext";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
 
-/** DO NOT TOUCH — Qualification Gate — #0C0C0C premium dark enterprise experience */
+/** Qualification Gate — full-page video background + KubeConstellation */
 
 const PATHS = [
   {
@@ -19,26 +20,47 @@ const PATHS = [
   {
     id: "co-managed" as const,
     label: "CO-MANAGED",
-    headline: "Your team runs it.\nOur platform backs you up.",
+    headline: "Your team runs it.\nOur engineers back you up.",
     sub: "Modules, tooling, and engineer escalation on demand.",
-    detail: "You keep control of daily operations. We provide the platform, playbooks, and escalation support when your team needs backup.",
+    detail: "You keep control of daily operations. We provide the tools, playbooks, and escalation support when your team needs backup.",
     badge: "Best for IT Teams",
   },
   {
     id: "self-managed" as const,
     label: "SELF-MANAGED",
-    headline: "You run it.\nThe platform gets out of your way.",
+    headline: "You run it.\nThe service provider gets out of your way.",
     sub: "Deploy, configure, and control every layer yourself.",
-    detail: "Full access to Kubric UIDR, the K-DOCS library, and the open-core platform. Deploy on your terms, your infrastructure.",
+    detail: "Full access to Kubric UIDR, the K-DOCS library, and the open-core system. Deploy on your terms, your infrastructure.",
     badge: "For Engineers",
   },
 ];
 
 const ORANGE = "#993619";
 
+interface KubeNode { id: string; label: string; x: number; y: number; desc: string; }
+
+const KUBES: KubeNode[] = [
+  { id: "ITDR", label: "ITDR", x: 72, y: 10, desc: "Identity Threat Detection & Response" },
+  { id: "GRC", label: "GRC", x: 48, y: 18, desc: "Governance, Risk & Compliance" },
+  { id: "CIO", label: "CIO", x: 65, y: 20, desc: "CIO Advisory & Strategy" },
+  { id: "VDR", label: "VDR", x: 52, y: 32, desc: "Vulnerability Detection & Response" },
+  { id: "NPM", label: "NPM", x: 72, y: 30, desc: "Network Performance Monitoring" },
+  { id: "NDR", label: "NDR", x: 85, y: 36, desc: "Network Detection & Response" },
+  { id: "DDR", label: "DDR", x: 40, y: 48, desc: "Data Detection & Response" },
+  { id: "TI", label: "TI", x: 50, y: 46, desc: "Threat Intelligence" },
+  { id: "MDM", label: "MDM", x: 80, y: 46, desc: "Mobile Device Management" },
+  { id: "BDR", label: "BDR", x: 52, y: 62, desc: "Backup & Disaster Recovery" },
+  { id: "APM", label: "APM", x: 72, y: 62, desc: "Application Performance Monitoring" },
+  { id: "CDR", label: "CDR", x: 85, y: 60, desc: "Cloud Detection & Response" },
+  { id: "CFDR", label: "CFDR", x: 62, y: 70, desc: "Cloud & FinOps Detection & Response" },
+  { id: "ADR", label: "ADR", x: 48, y: 76, desc: "Application Detection & Response" },
+  { id: "SDR", label: "SDR", x: 62, y: 84, desc: "Security Detection & Response" },
+];
+
 export default function QualificationGate() {
   const navigate = useNavigate();
   const { setPath } = usePath();
+  const [hovered, setHovered] = useState<string | null>(null);
 
   // DO NOT auto-redirect — user must always see and choose their path on the gate
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,13 +72,18 @@ export default function QualificationGate() {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ background: "#0C0C0C", fontFamily: "'Roboto Mono', monospace" }}
-    >
+    <div className="relative min-h-screen flex flex-col" style={{ fontFamily: "'Roboto Mono', monospace" }}>
+      {/* ── Full-page video background ─────────────────────────────────── */}
+      <div className="absolute inset-0 z-0">
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-40">
+          <source src={datacenterVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(12,12,12,0.92) 0%, rgba(12,12,12,0.75) 40%, rgba(12,12,12,0.92) 100%)" }} />
+      </div>
+
       {/* ── Top bar ─────────────────────────────────────────────────────── */}
       <div
-        className="flex items-center justify-between px-8 lg:px-16 py-5"
+        className="relative z-10 flex items-center justify-between px-8 lg:px-16 py-5"
         style={{ borderBottom: "1px solid rgba(205,202,197,0.07)" }}
       >
         <span
@@ -79,51 +106,123 @@ export default function QualificationGate() {
       </div>
 
       {/* ── Main content ────────────────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 lg:py-24">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-16 lg:py-24">
 
-        {/* Thin orange rule */}
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: 48 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="h-[2px] mb-10"
-          style={{ background: ORANGE }}
-        />
+        {/* Hero: headline left + constellation right */}
+        <div className="grid lg:grid-cols-2 gap-12 w-full max-w-6xl items-center mb-16">
+          {/* Left — text */}
+          <div>
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 48 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="h-[2px] mb-10"
+              style={{ background: ORANGE }}
+            />
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-[10px] font-bold tracking-[0.24em] uppercase mb-6"
+              style={{ color: "rgba(205,202,197,0.35)" }}
+            >
+              One Service Provider. Three Ways to Work With Us.
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-4xl md:text-5xl lg:text-[3.25rem] font-black text-white leading-[1.08] mb-4"
+              style={{ fontFamily: "'Special Elite', serif" }}
+            >
+              How you engage with ManageKube
+              <br />
+              <span style={{ color: ORANGE }}>depends on how your team operates.</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              className="text-[14px] max-w-md mb-4 leading-relaxed"
+              style={{ color: "rgba(205,202,197,0.4)" }}
+            >
+              Choose your model.
+            </motion.p>
+          </div>
 
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-[10px] font-bold tracking-[0.24em] uppercase mb-6 text-center"
-          style={{ color: "rgba(205,202,197,0.35)" }}
-        >
-          One Platform. Three Ways to Work With Us.
-        </motion.p>
+          {/* Right — KubeConstellation */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="hidden lg:block relative"
+            style={{ minHeight: 420 }}
+          >
+            <span className="absolute top-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>Infrastructure & Operations</span>
+            <span className="absolute bottom-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>Intelligence & Governance</span>
 
-        {/* H1 */}
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-4xl md:text-5xl lg:text-[3.25rem] font-black text-white text-center leading-[1.08] mb-4 max-w-3xl"
-          style={{ fontFamily: "'Special Elite', serif" }}
-        >
-          How you engage with ManageKube
-          <br />
-          <span style={{ color: ORANGE }}>depends on how your team operates.</span>
-        </motion.h1>
+            {/* Center hub */}
+            <motion.div
+              className="absolute rounded-full flex flex-col items-center justify-center z-10"
+              style={{
+                width: 90,
+                height: 90,
+                left: "calc(62% - 45px)",
+                top: "calc(46% - 45px)",
+                background: "rgba(12,12,12,0.85)",
+                border: `3px solid ${ORANGE}`,
+                boxShadow: `0 0 40px rgba(153,54,25,0.35)`,
+                backdropFilter: "blur(8px)",
+              }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+            >
+              <span className="text-white text-[10px] font-black tracking-wider">Manage</span>
+              <span className="text-white text-[10px] font-black tracking-wider">Kube</span>
+            </motion.div>
 
-        {/* Sub */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.45 }}
-          className="text-[14px] text-center max-w-md mb-14 leading-relaxed"
-          style={{ color: "rgba(205,202,197,0.4)" }}
-        >
-          Choose your model.
-        </motion.p>
+            {KUBES.map((kube, i) => {
+              const isHovered = hovered === kube.id;
+              return (
+                <motion.div
+                  key={kube.id}
+                  className="absolute cursor-default"
+                  style={{ left: `${kube.x}%`, top: `${kube.y}%`, transform: "translate(-50%, -50%)" }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.8 + i * 0.04 }}
+                  onMouseEnter={() => setHovered(kube.id)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <div
+                    className="rounded-full flex items-center justify-center transition-all duration-300"
+                    style={{
+                      width: 46,
+                      height: 46,
+                      background: isHovered ? ORANGE : "rgba(29,29,27,0.8)",
+                      border: `1px solid ${isHovered ? ORANGE : "rgba(255,255,255,0.12)"}`,
+                      backdropFilter: "blur(6px)",
+                      transform: isHovered ? "scale(1.15)" : "scale(1)",
+                    }}
+                  >
+                    <span className="text-white text-[10px] font-bold tracking-wide">{kube.label}</span>
+                  </div>
+                  {isHovered && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap px-3 py-2 rounded z-20"
+                      style={{ background: "rgba(12,12,12,0.95)", border: "1px solid rgba(255,255,255,0.12)" }}
+                    >
+                      <span className="text-white text-[11px] font-medium">{kube.desc}</span>
+                    </motion.div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
 
         {/* ── 3 path cards ──────────────────────────────────────────────── */}
         <motion.div
@@ -138,9 +237,9 @@ export default function QualificationGate() {
               key={p.id}
               onClick={() => choose(p.id)}
               className="group relative flex flex-col items-start p-10 text-left transition-all duration-300"
-              style={{ background: "#141414" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#1D1D1B"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#141414"; }}
+              style={{ background: "rgba(20,20,20,0.85)", backdropFilter: "blur(12px)" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(29,29,27,0.9)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(20,20,20,0.85)"; }}
             >
               {/* Orange top accent */}
               <div className="absolute top-0 left-0 right-0 h-[2px] transition-all" style={{ background: ORANGE }} />
@@ -214,7 +313,7 @@ export default function QualificationGate() {
 
       {/* ── Footer bar ──────────────────────────────────────────────────── */}
       <div
-        className="px-8 lg:px-16 py-5 flex items-center justify-between"
+        className="relative z-10 px-8 lg:px-16 py-5 flex items-center justify-between"
         style={{ borderTop: "1px solid rgba(205,202,197,0.05)" }}
       >
         <p className="text-[11px]" style={{ color: "rgba(205,202,197,0.18)" }}>
@@ -227,4 +326,3 @@ export default function QualificationGate() {
     </div>
   );
 }
-/** END DO NOT TOUCH */
