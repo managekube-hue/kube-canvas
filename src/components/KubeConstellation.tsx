@@ -1,4 +1,4 @@
-/** Powered by Kubric UIDR — constellation bubble display with hover tooltips */
+/** Powered by Kubric UIDR — constellation bubble display matching reference layout */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -11,42 +11,28 @@ interface KubeNode {
   label: string;
   x: number;
   y: number;
+  size?: number;
   href: string;
   desc: string;
 }
 
+// Exact positions matched from reference screenshot
 const KUBES: KubeNode[] = [
-  // Row 1 — top
-  { id: "ITDR", label: "ITDR", x: 52, y: 2, href: "/kubes/itdr", desc: "Identity Threat Detection & Response" },
-  // Row 2
-  { id: "GRC", label: "GRC", x: 22, y: 10, href: "/kubes/grc", desc: "Governance, Risk & Compliance" },
-  { id: "CIO", label: "CIO", x: 44, y: 12, href: "/kubes/cio", desc: "CIO Advisory & Strategy" },
-  { id: "ADVISORY", label: "Advisory", x: 72, y: 8, href: "/kubes/advisory", desc: "Strategic Advisory Services" },
-  // Row 3
-  { id: "VDR", label: "VDR", x: 32, y: 22, href: "/kubes/vdr", desc: "Vulnerability Detection & Response" },
-  { id: "NPM", label: "NPM", x: 52, y: 20, href: "/kubes/npm", desc: "Network Performance Monitoring" },
-  { id: "NDR", label: "NDR", x: 78, y: 24, href: "/kubes/ndr", desc: "Network Detection & Response" },
-  // Row 4
-  { id: "ASSESSMENT", label: "Assess", x: 18, y: 34, href: "/kubes/assessment", desc: "Security & Infrastructure Assessments" },
-  // Row 5 — middle band
-  { id: "MSSP", label: "MSSP", x: 8, y: 46, href: "/kubes/mssp", desc: "Managed Security Service Provider" },
-  { id: "DDR", label: "DDR", x: 22, y: 48, href: "/kubes/ddr", desc: "Data Detection & Response" },
-  { id: "TI", label: "TI", x: 40, y: 42, href: "/kubes/ti", desc: "Threat Intelligence" },
-  { id: "MDM", label: "MDM", x: 68, y: 44, href: "/kubes/mdm", desc: "Mobile Device Management" },
-  { id: "COMPLIANCE", label: "Comply", x: 80, y: 50, href: "/kubes/compliance", desc: "Compliance Management" },
-  // Row 6
-  { id: "MSP", label: "MSP", x: 22, y: 60, href: "/kubes/msp", desc: "Managed Service Provider Operations" },
-  { id: "BDR", label: "BDR", x: 36, y: 62, href: "/kubes/bdr", desc: "Backup & Disaster Recovery" },
-  { id: "APM", label: "APM", x: 56, y: 60, href: "/kubes/apm", desc: "Application Performance Monitoring" },
-  { id: "CDR", label: "CDR", x: 78, y: 62, href: "/kubes/cdr", desc: "Cloud Detection & Response" },
-  // Row 7
-  { id: "PRODUCT", label: "Product", x: 16, y: 74, href: "/kubes/product", desc: "Product Engineering & Development" },
-  { id: "ADR", label: "ADR", x: 34, y: 76, href: "/kubes/adr", desc: "Application Detection & Response" },
-  { id: "CFDR", label: "CFDR", x: 48, y: 70, href: "/kubes/cfdr", desc: "Cloud & FinOps Detection & Response" },
-  { id: "INDUSTRY", label: "Industry", x: 72, y: 74, href: "/kubes/industry", desc: "Industry-Specific Solutions" },
-  // Row 8 — bottom
-  { id: "INNOVATION", label: "Innovate", x: 58, y: 82, href: "/kubes/innovation", desc: "Innovation & Emerging Technology" },
-  { id: "SDR", label: "SDR", x: 40, y: 88, href: "/kubes/sdr", desc: "Security Detection & Response" },
+  { id: "ITDR",  label: "ITDR",  x: 68, y: 6,   href: "/kubes/itdr-kube",  desc: "Identity Threat Detection & Response" },
+  { id: "GRC",   label: "GRC",   x: 22, y: 18,   href: "/kubes/grc-kube",   desc: "Governance, Risk & Compliance" },
+  { id: "CIO",   label: "CIO",   x: 50, y: 16,   href: "/kubes/cio-kube",   desc: "CIO Advisory & Strategy" },
+  { id: "VDR",   label: "VDR",   x: 30, y: 32,   href: "/kubes/vdr-kube",   desc: "Vulnerability Detection & Response" },
+  { id: "NPM",   label: "NPM",   x: 60, y: 30,   href: "/kubes/npm-kube",   desc: "Network Performance Monitoring" },
+  { id: "NDR",   label: "NDR",   x: 86, y: 36,   href: "/kubes/ndr-kube",   desc: "Network Detection & Response" },
+  { id: "DDR",   label: "DDR",   x: 6,  y: 52,   href: "/kubes/ddr-kube",   desc: "Data Detection & Response" },
+  { id: "TI",    label: "TI",    x: 24, y: 48,   href: "/kubes/ti-kube",    desc: "Threat Intelligence" },
+  { id: "MDM",   label: "MDM",   x: 76, y: 48,   href: "/kubes/mdm-kube",   desc: "Mobile Device Management" },
+  { id: "BDR",   label: "BDR",   x: 30, y: 66,   href: "/kubes/bdr-kube",   desc: "Backup & Disaster Recovery" },
+  { id: "APM",   label: "APM",   x: 60, y: 66,   href: "/kubes/apm-kube",   desc: "Application Performance Monitoring" },
+  { id: "CDR",   label: "CDR",   x: 86, y: 68,   href: "/kubes/cdr-kube",   desc: "Cloud Detection & Response" },
+  { id: "CFDR",  label: "CFDR",  x: 50, y: 76,   href: "/kubes/cfdr-kube",  desc: "Cloud & FinOps Detection & Response" },
+  { id: "ADR",   label: "ADR",   x: 28, y: 84,   href: "/kubes/adr-kube",   desc: "Application Detection & Response" },
+  { id: "SDR",   label: "SDR",   x: 54, y: 92,   href: "/kubes/sdr-kube",   desc: "Security Detection & Response" },
 ];
 
 export const KubeConstellation = () => {
@@ -58,13 +44,13 @@ export const KubeConstellation = () => {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left — text */}
           <div>
-            <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Our Service Provider</p>
+            <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Our Platform</p>
             <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
             <h2 className="font-black mb-6 leading-tight" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontFamily: "'Special Elite', serif", color: "#1D1D1B" }}>
               Powered by Kubric UIDR
             </h2>
             <p className="text-[15px] leading-relaxed mb-8" style={{ color: "#393837" }}>
-              Our proprietary system combines RMM, PSA, and Microsoft 365 management into one unified system — enabling the capabilities and outcomes we deliver as your managed services partner.
+              Our proprietary platform combines RMM, PSA, and Microsoft 365 management into one unified system — enabling the capabilities and outcomes we deliver as your managed services partner.
             </p>
             <ul className="space-y-3 mb-10">
               {[
@@ -85,59 +71,65 @@ export const KubeConstellation = () => {
           </div>
 
           {/* Right — constellation */}
-          <div className="relative" style={{ minHeight: 480 }}>
+          <div className="relative" style={{ height: 560 }}>
             {/* Category labels */}
-            <span className="absolute top-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>Infrastructure & Operations</span>
-            <span className="absolute bottom-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>Intelligence & Governance</span>
+            <span className="absolute top-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
+              Infrastructure & Operations
+            </span>
+            <span className="absolute bottom-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
+              Intelligence & Governance
+            </span>
 
-            {/* Center hub */}
+            {/* Center hub — ManageKube */}
             <motion.div
               className="absolute rounded-full flex flex-col items-center justify-center z-10"
               style={{
                 width: 100,
                 height: 100,
-                left: "calc(48% - 50px)",
-                top: "calc(38% - 50px)",
+                left: "calc(50% - 50px)",
+                top: "calc(46% - 50px)",
                 background: "#1D1D1B",
                 border: `3px solid ${ORANGE}`,
-                boxShadow: `0 0 30px rgba(153,54,25,0.25)`,
+                boxShadow: `0 0 30px rgba(153,54,25,0.3)`,
               }}
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <span className="text-white text-[11px] font-black tracking-wider">Manage</span>
-              <span className="text-white text-[11px] font-black tracking-wider">Kube</span>
+              <span className="text-white text-[12px] font-black tracking-wider leading-none">Manage</span>
+              <span className="text-white text-[12px] font-black tracking-wider leading-none mt-1">Kube</span>
             </motion.div>
 
             {/* Kube bubbles */}
             {KUBES.map((kube, i) => {
               const isHovered = hovered === kube.id;
+              const sz = kube.size || 54;
               return (
                 <motion.div
                   key={kube.id}
-                  className="absolute group cursor-default"
+                  className="absolute cursor-default"
                   style={{
                     left: `${kube.x}%`,
                     top: `${kube.y}%`,
                     transform: "translate(-50%, -50%)",
+                    zIndex: isHovered ? 20 : 5,
                   }}
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.1 + i * 0.04 }}
+                  transition={{ duration: 0.3, delay: 0.15 + i * 0.04 }}
                   onMouseEnter={() => setHovered(kube.id)}
                   onMouseLeave={() => setHovered(null)}
                 >
                   <div
                     className="rounded-full flex items-center justify-center transition-all duration-300"
                     style={{
-                      width: 52,
-                      height: 52,
+                      width: sz,
+                      height: sz,
                       background: isHovered ? ORANGE : "#1D1D1B",
-                      border: `1px solid ${isHovered ? ORANGE : "rgba(29,29,27,0.3)"}`,
-                      transform: isHovered ? "scale(1.15)" : "scale(1)",
+                      border: `1px solid ${isHovered ? ORANGE : "rgba(29,29,27,0.25)"}`,
+                      transform: isHovered ? "scale(1.12)" : "scale(1)",
                     }}
                   >
                     <span className="text-white text-[11px] font-bold tracking-wide">{kube.label}</span>
@@ -148,7 +140,7 @@ export const KubeConstellation = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap px-3 py-2 rounded z-20"
+                      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap px-3 py-2 rounded z-30"
                       style={{ background: "#1D1D1B", border: "1px solid rgba(205,202,197,0.15)" }}
                     >
                       <span className="text-white text-[11px] font-medium">{kube.desc}</span>
