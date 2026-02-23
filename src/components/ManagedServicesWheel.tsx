@@ -32,31 +32,44 @@ export const ManagedServicesWheel = ({
   const isLight = variant === "light";
   const bgColor = isLight ? "#FEFBF6" : "#1D1D1B";
   const textColor = isLight ? "#1D1D1B" : "#fff";
-  const mutedColor = isLight ? "#393837" : "rgba(205,202,197,0.55)";
+  const mutedColor = isLight ? "#615C58" : "rgba(205,202,197,0.55)";
 
   const total = segments.length;
-  const centerRadius = 60;
-  const innerRadius = 68;
-  const outerRadius = 150;
+  const cx = 250;
+  const cy = 250;
+  const centerRadius = 72;
+  const innerRadius = 82;
+  const outerRadius = 200;
   const labelRadius = (innerRadius + outerRadius) / 2;
 
   const getPath = (i: number) => {
     const angle = (2 * Math.PI) / total;
-    const gap = 0.025;
-    const s = i * angle - Math.PI / 2 + gap;
-    const e = s + angle - 2 * gap;
-    const x1 = Math.cos(s) * outerRadius, y1 = Math.sin(s) * outerRadius;
-    const x2 = Math.cos(e) * outerRadius, y2 = Math.sin(e) * outerRadius;
-    const x3 = Math.cos(e) * innerRadius, y3 = Math.sin(e) * innerRadius;
-    const x4 = Math.cos(s) * innerRadius, y4 = Math.sin(s) * innerRadius;
-    const big = angle - 2 * gap > Math.PI ? 1 : 0;
-    return `M ${x1} ${y1} A ${outerRadius} ${outerRadius} 0 ${big} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerRadius} ${innerRadius} 0 ${big} 0 ${x4} ${y4} Z`;
+    const gap = 0.02;
+    const startAngle = i * angle - Math.PI / 2 + gap;
+    const endAngle = startAngle + angle - 2 * gap;
+
+    const x1 = cx + Math.cos(startAngle) * outerRadius;
+    const y1 = cy + Math.sin(startAngle) * outerRadius;
+    const x2 = cx + Math.cos(endAngle) * outerRadius;
+    const y2 = cy + Math.sin(endAngle) * outerRadius;
+    const x3 = cx + Math.cos(endAngle) * innerRadius;
+    const y3 = cy + Math.sin(endAngle) * innerRadius;
+    const x4 = cx + Math.cos(startAngle) * innerRadius;
+    const y4 = cy + Math.sin(startAngle) * innerRadius;
+
+    const largeArc = angle - 2 * gap > Math.PI ? 1 : 0;
+
+    return `M ${x1} ${y1} A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${x4} ${y4} Z`;
   };
 
   const getLabelPos = (i: number) => {
     const angle = (2 * Math.PI) / total;
     const mid = i * angle + angle / 2 - Math.PI / 2;
-    return { x: Math.cos(mid) * labelRadius, y: Math.sin(mid) * labelRadius, angle: mid };
+    return {
+      x: cx + Math.cos(mid) * labelRadius,
+      y: cy + Math.sin(mid) * labelRadius,
+      angleDeg: (mid * 180) / Math.PI,
+    };
   };
 
   const hoveredSegment = segments.find(s => s.id === hovered);
@@ -133,14 +146,21 @@ export const ManagedServicesWheel = ({
 
           {/* Right — SVG wheel */}
           <div className="flex items-center justify-center">
-            <svg width="380" height="380" viewBox="-190 -190 380 380" className="max-w-full">
-              {/* Decorative rings */}
-              <circle cx="0" cy="0" r="165" fill="none" stroke={isLight ? "rgba(29,29,27,0.08)" : "rgba(205,202,197,0.08)"} strokeWidth="1" strokeDasharray="4 4" />
-              <circle cx="0" cy="0" r="178" fill="none" stroke={isLight ? "rgba(29,29,27,0.04)" : "rgba(205,202,197,0.04)"} strokeWidth="1" strokeDasharray="2 6" />
+            <svg
+              viewBox="0 0 500 500"
+              className="w-full max-w-[500px]"
+              style={{ overflow: "visible" }}
+            >
+              {/* Decorative outer rings */}
+              <circle cx={cx} cy={cy} r={outerRadius + 16} fill="none" stroke={isLight ? "rgba(29,29,27,0.08)" : "rgba(205,202,197,0.08)"} strokeWidth="1" strokeDasharray="4 4" />
+              <circle cx={cx} cy={cy} r={outerRadius + 30} fill="none" stroke={isLight ? "rgba(29,29,27,0.04)" : "rgba(205,202,197,0.04)"} strokeWidth="1" strokeDasharray="2 6" />
 
               {/* Segments */}
               {segments.map((seg, i) => {
                 const isActive = hovered === seg.id;
+                const midAngle = i * (2 * Math.PI / total) + (Math.PI / total) - Math.PI / 2;
+                const pushX = isActive ? Math.cos(midAngle) * 8 : 0;
+                const pushY = isActive ? Math.sin(midAngle) * 8 : 0;
                 return (
                   <motion.path
                     key={seg.id}
@@ -148,25 +168,33 @@ export const ManagedServicesWheel = ({
                     initial={{ opacity: 0, scale: 0.85 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: i * 0.04 }}
+                    transition={{ duration: 0.35, delay: i * 0.04 }}
                     fill={isActive ? ORANGE : isLight ? "#1D1D1B" : "#393837"}
-                    stroke={isActive ? ORANGE : isLight ? "rgba(29,29,27,0.15)" : "rgba(205,202,197,0.1)"}
-                    strokeWidth={isActive ? 2 : 1}
-                    className="cursor-pointer transition-colors duration-200"
+                    stroke={bgColor}
+                    strokeWidth={2}
+                    className="cursor-pointer"
                     onMouseEnter={() => setHovered(seg.id)}
                     onMouseLeave={() => setHovered(null)}
-                    style={{ transform: isActive ? "scale(1.04)" : "scale(1)", transformOrigin: "0 0" }}
+                    style={{
+                      transform: `translate(${pushX}px, ${pushY}px)`,
+                      transition: "transform 0.25s ease, fill 0.2s ease",
+                    }}
                   />
                 );
               })}
 
-              {/* Labels */}
+              {/* Labels on segments */}
               {segments.map((seg, i) => {
                 const pos = getLabelPos(i);
-                const angleDeg = (pos.angle * 180) / Math.PI;
-                let textRot = angleDeg;
-                if (angleDeg > 90 && angleDeg < 270) textRot += 180;
-                const fontSize = total > 10 ? 7.5 : total > 8 ? 8.5 : 9.5;
+                let textRot = pos.angleDeg;
+                // Flip text so it's always readable
+                if (textRot > 90 && textRot < 270) textRot += 180;
+                if (textRot > 90 && textRot <= 180) textRot += 180;
+                const fontSize = total > 10 ? 8 : total > 8 ? 9 : 10;
+                const isActive = hovered === seg.id;
+                const midAngle = i * (2 * Math.PI / total) + (Math.PI / total) - Math.PI / 2;
+                const pushX = isActive ? Math.cos(midAngle) * 8 : 0;
+                const pushY = isActive ? Math.sin(midAngle) * 8 : 0;
                 return (
                   <text
                     key={`lbl-${seg.id}`}
@@ -175,12 +203,13 @@ export const ManagedServicesWheel = ({
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fill="#fff"
-                    className="pointer-events-none font-bold"
+                    className="pointer-events-none font-bold select-none"
                     style={{
                       fontSize: `${fontSize}px`,
-                      transform: `rotate(${textRot}deg)`,
+                      transform: `translate(${pushX}px, ${pushY}px) rotate(${textRot}deg)`,
                       transformOrigin: `${pos.x}px ${pos.y}px`,
-                      letterSpacing: "0.04em",
+                      letterSpacing: "0.06em",
+                      transition: "transform 0.25s ease",
                     }}
                   >
                     {seg.shortLabel}
@@ -190,7 +219,7 @@ export const ManagedServicesWheel = ({
 
               {/* Center hub */}
               <motion.circle
-                cx="0" cy="0" r={centerRadius}
+                cx={cx} cy={cy} r={centerRadius}
                 fill="#1D1D1B"
                 stroke={ORANGE}
                 strokeWidth="3"
@@ -198,12 +227,12 @@ export const ManagedServicesWheel = ({
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                style={{ filter: `drop-shadow(0 0 20px rgba(153,54,25,0.3))` }}
+                style={{ transformOrigin: `${cx}px ${cy}px`, filter: `drop-shadow(0 0 24px rgba(153,54,25,0.35))` }}
               />
-              <text x="0" y="-6" textAnchor="middle" dominantBaseline="middle" fill="#fff" className="font-black" style={{ fontSize: "11px", letterSpacing: "0.12em" }}>
+              <text x={cx} y={cy - 8} textAnchor="middle" dominantBaseline="middle" fill="#fff" className="font-black" style={{ fontSize: "13px", letterSpacing: "0.14em" }}>
                 MANAGE
               </text>
-              <text x="0" y="10" textAnchor="middle" dominantBaseline="middle" fill="#fff" className="font-black" style={{ fontSize: "11px", letterSpacing: "0.12em" }}>
+              <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle" fill="#fff" className="font-black" style={{ fontSize: "13px", letterSpacing: "0.14em" }}>
                 KUBE
               </text>
             </svg>
