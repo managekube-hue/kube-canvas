@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Shield, Monitor, FileCheck, Users, Sun, Moon, Clock, Handshake } from "lucide-react";
-import { KubeConstellation } from "@/components/KubeConstellation";
+import { ManagedServicesWheel, CO_MANAGED_SEGMENTS } from "@/components/ManagedServicesWheel";
 import childPageVideo from "@/assets/child-page.mp4";
 import socImg from "@/assets/soc-operations.jpg";
 import nocImg from "@/assets/noc-operations.jpg";
@@ -93,8 +93,13 @@ export default function CoManagedSolution() {
         </div>
       </section>
 
-      {/* ── Powered by Kubric UIDR — Light Band ── */}
-      <KubeConstellation />
+      {/* ── Interactive Capabilities Wheel — Light Band ── */}
+      <ManagedServicesWheel
+        title="Shared Capabilities. One Wheel."
+        subtitle="Hover any segment to see how responsibilities are shared between your team and ours."
+        segments={CO_MANAGED_SEGMENTS}
+        variant="light"
+      />
 
       {/* ── Bento Service Grid ── */}
       <section className="py-20" style={{ background: "#2A2A28" }}>

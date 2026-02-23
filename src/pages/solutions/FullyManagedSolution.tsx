@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Shield, Monitor, FileCheck, Cloud, Search, Rocket, Settings, TrendingUp } from "lucide-react";
-import { KubeConstellation } from "@/components/KubeConstellation";
+import { ManagedServicesWheel, FULLY_MANAGED_SEGMENTS } from "@/components/ManagedServicesWheel";
 import childPageVideo from "@/assets/child-page.mp4";
 import socImg from "@/assets/soc-operations.jpg";
 import nocImg from "@/assets/noc-operations.jpg";
@@ -147,8 +147,13 @@ export default function FullyManagedSolution() {
         </div>
       </section>
 
-      {/* ── Powered by Kubric UIDR — Light Band ── */}
-      <KubeConstellation />
+      {/* ── Interactive Capabilities Wheel — Light Band ── */}
+      <ManagedServicesWheel
+        title="Every Capability. One Wheel."
+        subtitle="Hover any segment to explore the managed services included in a Fully Managed engagement."
+        segments={FULLY_MANAGED_SEGMENTS}
+        variant="light"
+      />
 
       {/* ── What Fully Managed Includes ── */}
       <section className="py-20" style={{ background: "#EEE9E3" }}>
