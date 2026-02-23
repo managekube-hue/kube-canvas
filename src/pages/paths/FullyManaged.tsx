@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
+import { ManagedServicesWheel, FULLY_MANAGED_SEGMENTS } from "@/components/ManagedServicesWheel";
 
 
 /** DO NOT TOUCH — Fully Managed Home — #993619 design system */
@@ -235,6 +236,15 @@ export default function FullyManaged() {
           </div>
         </div>
       </section>
+
+      {/* === CAPABILITIES WHEEL === */}
+      <ManagedServicesWheel
+        title="Every Capability. One Wheel."
+        subtitle="Hover any segment to explore the managed services included in a Fully Managed engagement."
+        segments={FULLY_MANAGED_SEGMENTS}
+        hubLabel={"MANAGE\nKUBE"}
+        variant="light"
+      />
 
       {/* === PLATFORM CTA === */}
       <section className="py-24" style={{ background: "#0C0C0C" }}>
