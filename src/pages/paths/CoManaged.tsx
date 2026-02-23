@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import childPageVideo from "@/assets/child-page.mp4";
-import { ManagedServicesWheel, CO_MANAGED_SEGMENTS } from "@/components/ManagedServicesWheel";
+import { KubeConstellation } from "@/components/KubeConstellation";
 
 
 /** DO NOT TOUCH — Co-Managed Home — per architecture doc page 18/15 */
@@ -360,14 +360,8 @@ export default function CoManaged() {
         </div>
       </section>
 
-      {/* ══ CAPABILITIES WHEEL ══════════════════════════════════════ */}
-      <ManagedServicesWheel
-        title="Shared Capabilities. One Wheel."
-        subtitle="Hover any segment to see how responsibilities are shared between your team and ours."
-        segments={CO_MANAGED_SEGMENTS}
-        hubLabel={"MANAGE\nKUBE"}
-        variant="light"
-      />
+      {/* ══ KUBE CONSTELLATION ══════════════════════════════════ */}
+      <KubeConstellation />
 
       {/* ══ SECTION 5: Build Your Stack ══════════════════════════════════ */}
       {/* Doc page 18: Section 5 — Build Your Stack */}
