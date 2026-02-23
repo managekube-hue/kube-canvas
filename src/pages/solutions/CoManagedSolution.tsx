@@ -3,6 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Shield, Monitor, FileCheck, Users, Sun, Moon, Clock, Handshake } from "lucide-react";
+import { KubeConstellation } from "@/components/KubeConstellation";
 import childPageVideo from "@/assets/child-page.mp4";
 import socImg from "@/assets/soc-operations.jpg";
 import nocImg from "@/assets/noc-operations.jpg";
@@ -92,6 +93,9 @@ export default function CoManagedSolution() {
         </div>
       </section>
 
+      {/* ── Powered by Kubric UIDR — Light Band ── */}
+      <KubeConstellation />
+
       {/* ── Bento Service Grid ── */}
       <section className="py-20" style={{ background: "#2A2A28" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
@@ -169,11 +173,11 @@ export default function CoManagedSolution() {
       </section>
 
       {/* ── Who It Is For ── */}
-      <section className="py-20" style={{ background: "#FEFBF6" }}>
+      <section className="py-20" style={{ background: "#1D1D1B" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
           <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Who It Is For</p>
           <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
-          <div className="grid sm:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
+          <div className="grid sm:grid-cols-2 gap-[1px]" style={{ background: "rgba(205,202,197,0.08)" }}>
             {[
               "Organizations with in-house security staff during business hours",
               "Organizations that want visibility and operational involvement without 24/7 coverage burden",
@@ -181,9 +185,9 @@ export default function CoManagedSolution() {
               "Organizations that need after-hours coverage but want to retain daytime decision authority",
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }}
-                className="p-6 flex items-start gap-3" style={{ background: "#FEFBF6" }}>
+                className="p-6 flex items-start gap-3" style={{ background: "#1D1D1B" }}>
                 <CheckCircle size={14} style={{ color: ORANGE, flexShrink: 0, marginTop: 2 }} />
-                <span className="text-[13px] leading-relaxed" style={{ color: "#393837" }}>{item}</span>
+                <span className="text-[13px] leading-relaxed" style={{ color: "rgba(205,202,197,0.6)" }}>{item}</span>
               </motion.div>
             ))}
           </div>

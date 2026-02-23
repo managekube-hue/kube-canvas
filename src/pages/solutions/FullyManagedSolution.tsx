@@ -3,6 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Shield, Monitor, FileCheck, Cloud, Search, Rocket, Settings, TrendingUp } from "lucide-react";
+import { KubeConstellation } from "@/components/KubeConstellation";
 import childPageVideo from "@/assets/child-page.mp4";
 import socImg from "@/assets/soc-operations.jpg";
 import nocImg from "@/assets/noc-operations.jpg";
@@ -145,6 +146,9 @@ export default function FullyManagedSolution() {
           </div>
         </div>
       </section>
+
+      {/* ── Powered by Kubric UIDR — Light Band ── */}
+      <KubeConstellation />
 
       {/* ── What Fully Managed Includes ── */}
       <section className="py-20" style={{ background: "#EEE9E3" }}>
