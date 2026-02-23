@@ -30,9 +30,14 @@ export const ManagedServicesWheel = ({
   const [hovered, setHovered] = useState<string | null>(null);
 
   const isLight = variant === "light";
-  const bgColor = isLight ? "#FEFBF6" : "#1D1D1B";
+  const bgColor = isLight ? "#FAF7F2" : "#1D1D1B";
   const textColor = isLight ? "#1D1D1B" : "#fff";
   const mutedColor = isLight ? "#615C58" : "rgba(205,202,197,0.55)";
+  const segFill = isLight ? "#E8E2DA" : "#393837";
+  const segStroke = isLight ? "#D4CEC6" : bgColor;
+  const segLabelColor = isLight ? "#3D3A37" : "#fff";
+  const hubFill = isLight ? "#FAF7F2" : "#1D1D1B";
+  const hubTextColor = isLight ? "#1D1D1B" : "#fff";
 
   const total = segments.length;
   const cx = 250;
@@ -169,9 +174,9 @@ export const ManagedServicesWheel = ({
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.35, delay: i * 0.04 }}
-                    fill={isActive ? ORANGE : isLight ? "#1D1D1B" : "#393837"}
-                    stroke={bgColor}
-                    strokeWidth={2}
+                    fill={isActive ? ORANGE : segFill}
+                    stroke={segStroke}
+                    strokeWidth={isLight ? 1.5 : 2}
                     className="cursor-pointer"
                     onMouseEnter={() => setHovered(seg.id)}
                     onMouseLeave={() => setHovered(null)}
@@ -202,7 +207,7 @@ export const ManagedServicesWheel = ({
                     y={pos.y}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fill="#fff"
+                    fill={isActive ? "#fff" : segLabelColor}
                     className="pointer-events-none font-bold select-none"
                     style={{
                       fontSize: `${fontSize}px`,
@@ -220,19 +225,19 @@ export const ManagedServicesWheel = ({
               {/* Center hub */}
               <motion.circle
                 cx={cx} cy={cy} r={centerRadius}
-                fill="#1D1D1B"
+                fill={hubFill}
                 stroke={ORANGE}
                 strokeWidth="3"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                style={{ transformOrigin: `${cx}px ${cy}px`, filter: `drop-shadow(0 0 24px rgba(153,54,25,0.35))` }}
+                style={{ transformOrigin: `${cx}px ${cy}px`, filter: isLight ? `drop-shadow(0 0 20px rgba(153,54,25,0.2))` : `drop-shadow(0 0 24px rgba(153,54,25,0.35))` }}
               />
-              <text x={cx} y={cy - 8} textAnchor="middle" dominantBaseline="middle" fill="#fff" className="font-black" style={{ fontSize: "13px", letterSpacing: "0.14em" }}>
+              <text x={cx} y={cy - 8} textAnchor="middle" dominantBaseline="middle" fill={hubTextColor} className="font-black" style={{ fontSize: "13px", letterSpacing: "0.14em" }}>
                 MANAGE
               </text>
-              <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle" fill="#fff" className="font-black" style={{ fontSize: "13px", letterSpacing: "0.14em" }}>
+              <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle" fill={hubTextColor} className="font-black" style={{ fontSize: "13px", letterSpacing: "0.14em" }}>
                 KUBE
               </text>
             </svg>
