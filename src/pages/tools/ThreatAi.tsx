@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageBanner } from "@/components/PageBanner";
+import threatHeroImg from "@/assets/threat-intel-hero.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -546,10 +547,22 @@ const ThreatAi = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <PageBanner
-        title="Threat Intelligence Dashboard"
-        subtitle="See what's critical now. Understand risk at a glance. Take action."
-      />
+      {/* ── Rich Image Hero ── */}
+      <section className="relative min-h-[44vh] flex items-end overflow-hidden" style={{ background: "#0C0C0C" }}>
+        <img src={threatHeroImg} alt="Threat Intelligence" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.35 }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,12,12,0.95) 0%, rgba(12,12,12,0.3) 60%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(12,12,12,0.9) 0%, transparent 70%)" }} />
+        <div className="container mx-auto px-6 lg:px-12 max-w-6xl relative z-10 pb-16 pt-32">
+          <span className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "#993619" }}>Intelligence Tools</span>
+          <div className="h-[2px] w-16 my-4" style={{ background: "#993619" }} />
+          <h1 className="text-4xl md:text-5xl font-black text-white mb-3 leading-tight" style={{ fontFamily: "'Special Elite', serif" }}>
+            Threat Intelligence Dashboard
+          </h1>
+          <p className="text-[16px] max-w-lg" style={{ color: "rgba(205,202,197,0.6)" }}>
+            See what's critical now. Understand risk at a glance. Take action.
+          </p>
+        </div>
+      </section>
 
       <section className="section-off-white py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-6 lg:px-12">
