@@ -16,21 +16,32 @@ interface KubeNode {
 }
 
 const KUBES: KubeNode[] = [
-  { id: "ITDR", label: "ITDR", x: 72, y: 8, href: "/kubes/itdr", desc: "Identity Threat Detection & Response" },
-  { id: "GRC", label: "GRC", x: 48, y: 18, href: "/kubes/grc", desc: "Governance, Risk & Compliance" },
-  { id: "CIO", label: "CIO", x: 65, y: 20, href: "/kubes/cio", desc: "CIO Advisory & Strategy" },
-  { id: "VDR", label: "VDR", x: 52, y: 32, href: "/kubes/vdr", desc: "Vulnerability Detection & Response" },
-  { id: "NPM", label: "NPM", x: 72, y: 30, href: "/kubes/npm", desc: "Network Performance Monitoring" },
-  { id: "NDR", label: "NDR", x: 85, y: 36, href: "/kubes/ndr", desc: "Network Detection & Response" },
-  { id: "DDR", label: "DDR", x: 40, y: 48, href: "/kubes/ddr", desc: "Data Detection & Response" },
-  { id: "TI", label: "TI", x: 50, y: 46, href: "/kubes/ti", desc: "Threat Intelligence" },
-  { id: "MDM", label: "MDM", x: 80, y: 46, href: "/kubes/mdm", desc: "Mobile Device Management" },
-  { id: "BDR", label: "BDR", x: 52, y: 62, href: "/kubes/bdr", desc: "Backup & Disaster Recovery" },
-  { id: "APM", label: "APM", x: 72, y: 62, href: "/kubes/apm", desc: "Application Performance Monitoring" },
-  { id: "CDR", label: "CDR", x: 85, y: 60, href: "/kubes/cdr", desc: "Cloud Detection & Response" },
-  { id: "CFDR", label: "CFDR", x: 62, y: 70, href: "/kubes/cfdr", desc: "Cloud & FinOps Detection & Response" },
+  // Top cluster — Infrastructure & Operations
+  { id: "ITDR", label: "ITDR", x: 72, y: 5, href: "/kubes/itdr", desc: "Identity Threat Detection & Response" },
+  { id: "GRC", label: "GRC", x: 45, y: 14, href: "/kubes/grc", desc: "Governance, Risk & Compliance" },
+  { id: "CIO", label: "CIO", x: 62, y: 16, href: "/kubes/cio", desc: "CIO Advisory & Strategy" },
+  { id: "ADVISORY", label: "Advisory", x: 82, y: 14, href: "/kubes/advisory", desc: "Strategic Advisory Services" },
+  { id: "VDR", label: "VDR", x: 50, y: 28, href: "/kubes/vdr", desc: "Vulnerability Detection & Response" },
+  { id: "NPM", label: "NPM", x: 70, y: 26, href: "/kubes/npm", desc: "Network Performance Monitoring" },
+  { id: "NDR", label: "NDR", x: 87, y: 30, href: "/kubes/ndr", desc: "Network Detection & Response" },
+  { id: "ASSESSMENT", label: "Assess", x: 38, y: 34, href: "/kubes/assessment", desc: "Security & Infrastructure Assessments" },
+  // Middle cluster
+  { id: "DDR", label: "DDR", x: 35, y: 48, href: "/kubes/ddr", desc: "Data Detection & Response" },
+  { id: "TI", label: "TI", x: 48, y: 44, href: "/kubes/ti", desc: "Threat Intelligence" },
+  { id: "MDM", label: "MDM", x: 82, y: 44, href: "/kubes/mdm", desc: "Mobile Device Management" },
+  { id: "COMPLIANCE", label: "Comply", x: 88, y: 52, href: "/kubes/compliance", desc: "Compliance Management" },
+  { id: "MSP", label: "MSP", x: 38, y: 58, href: "/kubes/msp", desc: "Managed Service Provider Operations" },
+  { id: "MSSP", label: "MSSP", x: 25, y: 48, href: "/kubes/mssp", desc: "Managed Security Service Provider" },
+  // Bottom cluster — Intelligence & Governance
+  { id: "BDR", label: "BDR", x: 50, y: 60, href: "/kubes/bdr", desc: "Backup & Disaster Recovery" },
+  { id: "APM", label: "APM", x: 72, y: 58, href: "/kubes/apm", desc: "Application Performance Monitoring" },
+  { id: "CDR", label: "CDR", x: 87, y: 62, href: "/kubes/cdr", desc: "Cloud Detection & Response" },
+  { id: "CFDR", label: "CFDR", x: 62, y: 68, href: "/kubes/cfdr", desc: "Cloud & FinOps Detection & Response" },
+  { id: "INDUSTRY", label: "Industry", x: 82, y: 72, href: "/kubes/industry", desc: "Industry-Specific Solutions" },
   { id: "ADR", label: "ADR", x: 48, y: 76, href: "/kubes/adr", desc: "Application Detection & Response" },
-  { id: "SDR", label: "SDR", x: 62, y: 84, href: "/kubes/sdr", desc: "Security Detection & Response" },
+  { id: "PRODUCT", label: "Product", x: 36, y: 72, href: "/kubes/product", desc: "Product Engineering & Development" },
+  { id: "INNOVATION", label: "Innovate", x: 72, y: 80, href: "/kubes/innovation", desc: "Innovation & Emerging Technology" },
+  { id: "SDR", label: "SDR", x: 58, y: 88, href: "/kubes/sdr", desc: "Security Detection & Response" },
 ];
 
 export const KubeConstellation = () => {
