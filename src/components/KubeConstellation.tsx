@@ -71,12 +71,12 @@ export const KubeConstellation = () => {
           </div>
 
           {/* Right — constellation */}
-          <div className="relative" style={{ height: 560 }}>
+          <div className="relative" style={{ height: 620 }}>
             {/* Category labels */}
-            <span className="absolute top-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
               Infrastructure & Operations
             </span>
-            <span className="absolute bottom-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
               Intelligence & Governance
             </span>
 
@@ -84,10 +84,10 @@ export const KubeConstellation = () => {
             <motion.div
               className="absolute rounded-full flex flex-col items-center justify-center z-10"
               style={{
-                width: 100,
-                height: 100,
-                left: "calc(50% - 50px)",
-                top: "calc(46% - 50px)",
+                width: 110,
+                height: 110,
+                left: "calc(38% - 55px)",
+                top: "calc(40% - 55px)",
                 background: "#1D1D1B",
                 border: `3px solid ${ORANGE}`,
                 boxShadow: `0 0 30px rgba(153,54,25,0.3)`,

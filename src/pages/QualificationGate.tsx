@@ -143,85 +143,12 @@ export default function QualificationGate() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.45 }}
-              className="text-[14px] max-w-md mb-4 leading-relaxed"
+              className="text-[14px] max-w-md mb-4 leading-relaxed mx-auto"
               style={{ color: "rgba(205,202,197,0.4)" }}
             >
               Choose your model.
             </motion.p>
           </div>
-
-          {/* Right — KubeConstellation */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="hidden lg:block relative"
-            style={{ minHeight: 420 }}
-          >
-            <span className="absolute top-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>Infrastructure & Operations</span>
-            <span className="absolute bottom-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>Intelligence & Governance</span>
-
-            {/* Center hub */}
-            <motion.div
-              className="absolute rounded-full flex flex-col items-center justify-center z-10"
-              style={{
-                width: 90,
-                height: 90,
-                left: "calc(62% - 45px)",
-                top: "calc(46% - 45px)",
-                background: "rgba(12,12,12,0.85)",
-                border: `3px solid ${ORANGE}`,
-                boxShadow: `0 0 40px rgba(153,54,25,0.35)`,
-                backdropFilter: "blur(8px)",
-              }}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-            >
-              <span className="text-white text-[10px] font-black tracking-wider">Manage</span>
-              <span className="text-white text-[10px] font-black tracking-wider">Kube</span>
-            </motion.div>
-
-            {KUBES.map((kube, i) => {
-              const isHovered = hovered === kube.id;
-              return (
-                <motion.div
-                  key={kube.id}
-                  className="absolute cursor-default"
-                  style={{ left: `${kube.x}%`, top: `${kube.y}%`, transform: "translate(-50%, -50%)" }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.8 + i * 0.04 }}
-                  onMouseEnter={() => setHovered(kube.id)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  <div
-                    className="rounded-full flex items-center justify-center transition-all duration-300"
-                    style={{
-                      width: 46,
-                      height: 46,
-                      background: isHovered ? ORANGE : "rgba(29,29,27,0.8)",
-                      border: `1px solid ${isHovered ? ORANGE : "rgba(255,255,255,0.12)"}`,
-                      backdropFilter: "blur(6px)",
-                      transform: isHovered ? "scale(1.15)" : "scale(1)",
-                    }}
-                  >
-                    <span className="text-white text-[10px] font-bold tracking-wide">{kube.label}</span>
-                  </div>
-                  {isHovered && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap px-3 py-2 rounded z-20"
-                      style={{ background: "rgba(12,12,12,0.95)", border: "1px solid rgba(255,255,255,0.12)" }}
-                    >
-                      <span className="text-white text-[11px] font-medium">{kube.desc}</span>
-                    </motion.div>
-                  )}
-                </motion.div>
-              );
-            })}
-          </motion.div>
         </div>
 
         {/* ── 3 path cards ──────────────────────────────────────────────── */}
