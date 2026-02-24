@@ -18,21 +18,21 @@ interface KubeNode {
 
 // Exact positions matched from reference screenshot
 const KUBES: KubeNode[] = [
-  { id: "ITDR",  label: "ITDR",  x: 68, y: 6,   href: "/kubes/itdr-kube",  desc: "Identity Threat Detection & Response" },
-  { id: "GRC",   label: "GRC",   x: 22, y: 18,   href: "/kubes/grc-kube",   desc: "Governance, Risk & Compliance" },
-  { id: "CIO",   label: "CIO",   x: 50, y: 16,   href: "/kubes/cio-kube",   desc: "CIO Advisory & Strategy" },
-  { id: "VDR",   label: "VDR",   x: 30, y: 32,   href: "/kubes/vdr-kube",   desc: "Vulnerability Detection & Response" },
-  { id: "NPM",   label: "NPM",   x: 60, y: 30,   href: "/kubes/npm-kube",   desc: "Network Performance Monitoring" },
-  { id: "NDR",   label: "NDR",   x: 86, y: 36,   href: "/kubes/ndr-kube",   desc: "Network Detection & Response" },
-  { id: "DDR",   label: "DDR",   x: 6,  y: 52,   href: "/kubes/ddr-kube",   desc: "Data Detection & Response" },
-  { id: "TI",    label: "TI",    x: 24, y: 48,   href: "/kubes/ti-kube",    desc: "Threat Intelligence" },
-  { id: "MDM",   label: "MDM",   x: 76, y: 48,   href: "/kubes/mdm-kube",   desc: "Mobile Device Management" },
-  { id: "BDR",   label: "BDR",   x: 30, y: 66,   href: "/kubes/bdr-kube",   desc: "Backup & Disaster Recovery" },
-  { id: "APM",   label: "APM",   x: 60, y: 66,   href: "/kubes/apm-kube",   desc: "Application Performance Monitoring" },
-  { id: "CDR",   label: "CDR",   x: 86, y: 68,   href: "/kubes/cdr-kube",   desc: "Cloud Detection & Response" },
-  { id: "CFDR",  label: "CFDR",  x: 50, y: 76,   href: "/kubes/cfdr-kube",  desc: "Cloud & FinOps Detection & Response" },
-  { id: "ADR",   label: "ADR",   x: 28, y: 84,   href: "/kubes/adr-kube",   desc: "Application Detection & Response" },
-  { id: "SDR",   label: "SDR",   x: 54, y: 92,   href: "/kubes/sdr-kube",   desc: "Security Detection & Response" },
+  { id: "ITDR",  label: "ITDR",  x: 58, y: 8,    href: "/kubes/itdr-kube",  desc: "Identity Threat Detection & Response" },
+  { id: "GRC",   label: "GRC",   x: 18, y: 14,   href: "/kubes/grc-kube",   desc: "Governance, Risk & Compliance" },
+  { id: "CIO",   label: "CIO",   x: 42, y: 14,   href: "/kubes/cio-kube",   desc: "CIO Advisory & Strategy" },
+  { id: "VDR",   label: "VDR",   x: 26, y: 28,   href: "/kubes/vdr-kube",   desc: "Vulnerability Detection & Response" },
+  { id: "NPM",   label: "NPM",   x: 54, y: 24,   href: "/kubes/npm-kube",   desc: "Network Performance Monitoring" },
+  { id: "NDR",   label: "NDR",   x: 78, y: 30,   href: "/kubes/ndr-kube",   desc: "Network Detection & Response" },
+  { id: "DDR",   label: "DDR",   x: 4,  y: 46,   href: "/kubes/ddr-kube",   desc: "Data Detection & Response" },
+  { id: "TI",    label: "TI",    x: 20, y: 44,   href: "/kubes/ti-kube",    desc: "Threat Intelligence" },
+  { id: "MDM",   label: "MDM",   x: 66, y: 42,   href: "/kubes/mdm-kube",   desc: "Mobile Device Management" },
+  { id: "BDR",   label: "BDR",   x: 24, y: 62,   href: "/kubes/bdr-kube",   desc: "Backup & Disaster Recovery" },
+  { id: "APM",   label: "APM",   x: 52, y: 60,   href: "/kubes/apm-kube",   desc: "Application Performance Monitoring" },
+  { id: "CDR",   label: "CDR",   x: 76, y: 56,   href: "/kubes/cdr-kube",   desc: "Cloud Detection & Response" },
+  { id: "CFDR",  label: "CFDR",  x: 42, y: 72,   href: "/kubes/cfdr-kube",  desc: "Cloud & FinOps Detection & Response" },
+  { id: "ADR",   label: "ADR",   x: 20, y: 80,   href: "/kubes/adr-kube",   desc: "Application Detection & Response" },
+  { id: "SDR",   label: "SDR",   x: 42, y: 90,   href: "/kubes/sdr-kube",   desc: "Security Detection & Response" },
 ];
 
 export const KubeConstellation = () => {
@@ -71,12 +71,12 @@ export const KubeConstellation = () => {
           </div>
 
           {/* Right — constellation */}
-          <div className="relative" style={{ height: 560 }}>
+          <div className="relative" style={{ height: 620 }}>
             {/* Category labels */}
-            <span className="absolute top-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
               Infrastructure & Operations
             </span>
-            <span className="absolute bottom-0 right-0 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-[0.18em] uppercase" style={{ color: ORANGE }}>
               Intelligence & Governance
             </span>
 
@@ -84,10 +84,10 @@ export const KubeConstellation = () => {
             <motion.div
               className="absolute rounded-full flex flex-col items-center justify-center z-10"
               style={{
-                width: 100,
-                height: 100,
-                left: "calc(50% - 50px)",
-                top: "calc(46% - 50px)",
+                width: 110,
+                height: 110,
+                left: "calc(38% - 55px)",
+                top: "calc(40% - 55px)",
                 background: "#1D1D1B",
                 border: `3px solid ${ORANGE}`,
                 boxShadow: `0 0 30px rgba(153,54,25,0.3)`,
