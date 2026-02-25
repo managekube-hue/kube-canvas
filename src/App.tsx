@@ -352,8 +352,9 @@ const App = () => (
           <Route path="/tools/threat-ai" element={<ThreatAi />} />
           <Route path="/tools/threat-ai/:id" element={<CVEDetailPage />} />
 
-          {/* CMS Admin */}
-          <Route path="/cms" element={<CmsAdmin />} />
+          {/* CRM Admin */}
+          <Route path="/crm" element={<CmsAdmin />} />
+          <Route path="/cms" element={<Navigate to="/crm" replace />} />
 
           {/* Login Portals */}
           <Route path="/login/partner" element={<PartnerPortal />} />
