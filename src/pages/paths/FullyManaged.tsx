@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
-import { KubeConstellation } from "@/components/KubeConstellation";
+
 
 
 /** DO NOT TOUCH — Fully Managed Home — #993619 design system */
@@ -237,8 +237,7 @@ export default function FullyManaged() {
         </div>
       </section>
 
-      {/* === KUBE CONSTELLATION === */}
-      <KubeConstellation />
+      {/* Kube constellation removed — awaiting user-provided image */}
 
       {/* === PLATFORM CTA === */}
       <section className="py-24" style={{ background: "#0C0C0C" }}>
