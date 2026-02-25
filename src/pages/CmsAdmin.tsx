@@ -882,7 +882,7 @@ const CmsAdmin = () => {
           <h1 className="text-lg font-bold text-foreground">ManageKube CRM</h1>
           <span className="text-xs text-muted-foreground">Admin Dashboard</span>
         </div>
-        <a href="/home" className="text-xs text-muted-foreground hover:text-foreground">← Back to Site</a>
+        <a href="/crm" className="text-xs text-muted-foreground hover:text-foreground">← Back to Site</a>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-6">
