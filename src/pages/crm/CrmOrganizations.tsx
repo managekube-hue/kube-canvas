@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Building2 } from "lucide-react";
+import { Plus, Search, Building2, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
@@ -25,6 +26,7 @@ interface Org {
 
 export default function CrmOrganizations() {
   const { isAdmin } = useCrmUser();
+  const navigate = useNavigate();
   const [orgs, setOrgs] = useState<Org[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -113,7 +115,7 @@ export default function CrmOrganizations() {
       ) : (
         <div className="grid gap-3">
           {filtered.map((org) => (
-            <Card key={org.id} className="border-border hover:shadow-sm transition-shadow cursor-pointer">
+            <Card key={org.id} className="border-border hover:shadow-sm transition-shadow cursor-pointer" onClick={() => navigate(`/crm/organizations/${org.id}`)}>
               <CardContent className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">

@@ -146,7 +146,11 @@ import Login from "./pages/auth/Login";
 import { CrmLayout } from "./components/crm/CrmLayout";
 import CrmDashboard from "./pages/crm/CrmDashboard";
 import CrmOrganizations from "./pages/crm/CrmOrganizations";
+import CrmOrgDetail from "./pages/crm/CrmOrgDetail";
 import CrmContacts from "./pages/crm/CrmContacts";
+import CrmContactDetail from "./pages/crm/CrmContactDetail";
+import CrmDeals from "./pages/crm/CrmDeals";
+import CrmTickets from "./pages/crm/CrmTickets";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
 
 // UIDR Open Source Docs Site
@@ -363,9 +367,11 @@ const App = () => (
           <Route path="/crm" element={<AuthGate><CrmLayout /></AuthGate>}>
             <Route index element={<CrmDashboard />} />
             <Route path="organizations" element={<CrmOrganizations />} />
+            <Route path="organizations/:id" element={<CrmOrgDetail />} />
             <Route path="contacts" element={<CrmContacts />} />
-            <Route path="deals" element={<CrmPlaceholder title="Deals Pipeline" />} />
-            <Route path="tickets" element={<CrmPlaceholder title="Tickets & PSA" />} />
+            <Route path="contacts/:id" element={<CrmContactDetail />} />
+            <Route path="deals" element={<CrmDeals />} />
+            <Route path="tickets" element={<CrmTickets />} />
             <Route path="time" element={<CrmPlaceholder title="Time Tracking" />} />
             <Route path="contracts" element={<CrmPlaceholder title="Contracts" />} />
             <Route path="invoices" element={<CrmPlaceholder title="Invoices & Billing" />} />
