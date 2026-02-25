@@ -142,6 +142,13 @@ import CVEDetailPage from "./pages/tools/CVEDetailPage";
 import CmsAdmin from "./pages/CmsAdmin";
 import Login from "./pages/auth/Login";
 
+// CRM App
+import { CrmLayout } from "./components/crm/CrmLayout";
+import CrmDashboard from "./pages/crm/CrmDashboard";
+import CrmOrganizations from "./pages/crm/CrmOrganizations";
+import CrmContacts from "./pages/crm/CrmContacts";
+import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
+
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
 import UidrPlatform from "./pages/uidr/UidrPlatform";
@@ -352,8 +359,22 @@ const App = () => (
           <Route path="/tools/threat-ai" element={<ThreatAi />} />
           <Route path="/tools/threat-ai/:id" element={<CVEDetailPage />} />
 
-          {/* CRM Admin */}
-          <Route path="/crm" element={<AuthGate><CmsAdmin /></AuthGate>} />
+          {/* CRM Platform */}
+          <Route path="/crm" element={<AuthGate><CrmLayout /></AuthGate>}>
+            <Route index element={<CrmDashboard />} />
+            <Route path="organizations" element={<CrmOrganizations />} />
+            <Route path="contacts" element={<CrmContacts />} />
+            <Route path="deals" element={<CrmPlaceholder title="Deals Pipeline" />} />
+            <Route path="tickets" element={<CrmPlaceholder title="Tickets & PSA" />} />
+            <Route path="time" element={<CrmPlaceholder title="Time Tracking" />} />
+            <Route path="contracts" element={<CrmPlaceholder title="Contracts" />} />
+            <Route path="invoices" element={<CrmPlaceholder title="Invoices & Billing" />} />
+            <Route path="assets" element={<CrmPlaceholder title="Asset Management" />} />
+            <Route path="deployments" element={<CrmPlaceholder title="Deployment Schedules" />} />
+            <Route path="audit" element={<CrmPlaceholder title="Audit Log" />} />
+            <Route path="settings" element={<CrmPlaceholder title="Settings" />} />
+            <Route path="legacy" element={<CmsAdmin />} />
+          </Route>
           <Route path="/cms" element={<Navigate to="/crm" replace />} />
 
           {/* Login Portals */}
