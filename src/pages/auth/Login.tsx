@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -6,12 +6,19 @@ import { Input } from "@/components/ui/input";
 import { GitBranch, Loader2, Settings } from "lucide-react";
 
 export default function Login() {
-  const { signIn, signInWithGitHub } = useAuth();
+  const { user, signIn, signInWithGitHub } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Redirect authenticated users to technical docs
+  useEffect(() => {
+    if (user) {
+      navigate("/uidr/technical-docs", { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
