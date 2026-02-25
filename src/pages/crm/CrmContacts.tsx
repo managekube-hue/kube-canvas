@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Users } from "lucide-react";
+import { Plus, Search, Users, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
@@ -25,6 +26,7 @@ interface Contact {
 }
 
 export default function CrmContacts() {
+  const navigate = useNavigate();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -108,7 +110,7 @@ export default function CrmContacts() {
       ) : (
         <div className="grid gap-2">
           {filtered.map((c) => (
-            <Card key={c.id} className="border-border hover:shadow-sm transition-shadow cursor-pointer">
+            <Card key={c.id} className="border-border hover:shadow-sm transition-shadow cursor-pointer" onClick={() => navigate(`/crm/contacts/${c.id}`)}>
               <CardContent className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
