@@ -27,13 +27,13 @@ export default function SolutionEnterprise() {
         {
           title: "Recommended Solutions",
           items: [
-            "Managed SOC (Enterprise) — 24/7 security operations with full methodology through Document and Close. Threat hunting. Deception network. STRIKE intelligence integration.",
-            "Managed Compliance — Continuous monitoring across 100+ frameworks. Automated evidence collection. Audit packages generated on demand.",
-            "External Attack Surface Management — Continuous mapping of internet-exposed assets. Subdomain takeover detection. Cloud exposure monitoring.",
-            "STRIKE Strategic Intelligence — Curated threat intelligence mapped to your industry. Dark web monitoring. Adversary campaign tracking.",
-            "Honeypot & Deception Network — Decoy infrastructure that produces high-confidence detections with zero false positives.",
-            "Advisory Services — Security assessments, penetration testing, and infrastructure audits from practitioners experienced in enterprise-scale environments.",
-            "Custom Automation & Integration — Bespoke automation, workflow development, and system integration for enterprise-specific operational requirements.",
+            "Managed SOC (Enterprise): 24/7 security operations with full methodology through Document and Close. Threat hunting. Deception network. STRIKE intelligence integration.",
+            "Managed Compliance: Continuous monitoring across 100+ frameworks. Automated evidence collection. Audit packages generated on demand.",
+            "External Attack Surface Management: Continuous mapping of internet-exposed assets. Subdomain takeover detection. Cloud exposure monitoring.",
+            "STRIKE Strategic Intelligence: Curated threat intelligence mapped to your industry. Dark web monitoring. Adversary campaign tracking.",
+            "Honeypot & Deception Network: Decoy infrastructure that produces high-confidence detections with zero false positives.",
+            "Advisory Services: Security assessments, penetration testing, and infrastructure audits from practitioners experienced in enterprise-scale environments.",
+            "Custom Automation & Integration: Bespoke automation, workflow development, and system integration for enterprise-specific operational requirements.",
           ],
         },
         {
