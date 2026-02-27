@@ -295,7 +295,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
         <div className="flex items-center justify-between mb-1">
           <p className="text-xs font-bold uppercase tracking-wider" style={{ color: ORANGE }}>
             <Star size={10} className="inline mr-1" />
-            Professional Services — À La Carte
+            Professional Services: À La Carte
           </p>
           <span className="text-[10px] text-white/25">{recommendedServices.length} recommended · {otherServices.length} additional</span>
         </div>
