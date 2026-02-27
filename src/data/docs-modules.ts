@@ -250,7 +250,7 @@ export const docModules: DocModule[] = [
     number: 11,
     code: "CFDR",
     name: "Configuration Drift Detection & Response",
-    fullName: "CFDR — Configuration Drift Detection & Response",
+    fullName: "CFDR: Configuration Drift Detection & Response",
     category: "governance",
     tagline: "OPA Go library and Kyverno engine embed directly into the compliance binary.",
     description: "OPA Go library and Kyverno engine embed directly into the compliance binary. OpenSCAP provides a Python binding (LGPL — dynamic link safe). Rudder techniques and SaltStack SLS states are vendored config data. Covers config states, drift detection, compliance, and policy as code.",
