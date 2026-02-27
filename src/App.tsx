@@ -157,6 +157,9 @@ import CrmTimeTracking from "./pages/crm/CrmTimeTracking";
 import CrmDeployments from "./pages/crm/CrmDeployments";
 import CrmAuditLog from "./pages/crm/CrmAuditLog";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
+import CrmInvoices from "./pages/crm/CrmInvoices";
+import CrmSettings from "./pages/crm/CrmSettings";
+import CrmLeadImport from "./pages/crm/CrmLeadImport";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -379,11 +382,12 @@ const App = () => (
             <Route path="tickets" element={<CrmTickets />} />
             <Route path="time" element={<CrmTimeTracking />} />
             <Route path="contracts" element={<CrmContracts />} />
-            <Route path="invoices" element={<CrmPlaceholder title="Invoices & Billing" />} />
+            <Route path="invoices" element={<CrmInvoices />} />
+            <Route path="leads" element={<CrmLeadImport />} />
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
-            <Route path="settings" element={<CrmPlaceholder title="Settings" />} />
+            <Route path="settings" element={<CrmSettings />} />
             <Route path="legacy" element={<CmsAdmin />} />
           </Route>
           <Route path="/cms" element={<Navigate to="/crm" replace />} />

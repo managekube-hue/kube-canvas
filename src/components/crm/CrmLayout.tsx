@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/crm" },
+  { label: "Lead Pipeline", icon: BarChart3, path: "/crm/leads" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },
