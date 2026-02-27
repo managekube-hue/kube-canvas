@@ -25,7 +25,7 @@ export default function Xme() {
     <PageLayout>
       <PageBanner
         title="Enterprise"
-        subtitle="Complete coverage — threat intelligence, deception, and supply chain defense"
+        subtitle="Complete coverage: threat intelligence, deception, and supply chain defense"
         phase="Service Tiers"
       />
 
