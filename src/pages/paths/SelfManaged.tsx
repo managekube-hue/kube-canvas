@@ -63,7 +63,7 @@ const PLATFORM_MODULES = [
     icon: Cpu,
     label: "KubricAI",
     desc: "ML models, detection logic, automated response playbooks, and AI configuration.",
-    detail: "KubricAI runs ML-based anomaly detection, behavioral analysis, and automated response orchestration on top of the Kubric data graph — configurable via playbook editor and exposed through the KubricAI API for custom integration.",
+    detail: "KubricAI runs ML-based anomaly detection, behavioral analysis, and automated response orchestration on top of the Kubric data graph, configurable via playbook editor and exposed through the KubricAI API for custom integration.",
     href: "/our-tools/kubric-ai",
   },
   {
