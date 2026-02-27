@@ -4,7 +4,7 @@ import { useCrmUser } from "@/hooks/useCrmUser";
 import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
-  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck,
+  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck, ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ const navItems = [
   { label: "CSV Upload", icon: Upload, path: "/crm/bulk-upload" },
   { label: "Careers", icon: Megaphone, path: "/crm/careers" },
   { label: "Assessments", icon: ClipboardCheck, path: "/crm/assessments" },
+  { label: "BOM Quotes", icon: ShoppingCart, path: "/crm/bom-quotes" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },

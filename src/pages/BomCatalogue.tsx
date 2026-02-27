@@ -193,15 +193,16 @@ function QuoteRequestSection() {
     setSubmitting(true);
     try {
       const bomSummary = items.map(i => `${i.name} (${i.type})`).join(", ");
-      const { error } = await supabase.from("leads").insert({
+      // Persist to dedicated bom_submissions table
+      const { error } = await supabase.from("bom_submissions" as any).insert({
         first_name: form.firstName.trim(),
-        last_name: form.lastName.trim(),
+        last_name: form.lastName.trim() || null,
         email: form.email.trim(),
-        company: form.company.trim(),
+        company: form.company.trim() || null,
         phone: form.phone.trim() || null,
-        message: `BOM Quote Request:\n${bomSummary}\n\nNotes: ${form.message.trim() || "None"}`,
-        source: "bom-catalogue",
-        challenges: [],
+        message: form.message.trim() || null,
+        items: items.map(i => ({ id: i.id, name: i.name, type: i.type, vendor: i.vendor, parentBlock: i.parentBlock })),
+        item_count: items.length,
       });
       if (error) throw error;
 
