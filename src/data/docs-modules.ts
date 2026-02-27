@@ -157,7 +157,7 @@ export const docModules: DocModule[] = [
     number: 7,
     code: "DDR",
     name: "Data Detection & Response",
-    fullName: "DDR — Data Detection & Response",
+    fullName: "DDR: Data Detection & Response",
     category: "data",
     tagline: "TruffleHog detector packages import directly into Go. Presidio Analyzer is a Python import.",
     description: "TruffleHog detector packages import directly into Go. Presidio Analyzer is a Python import. Gitleaks TOML config is vendored as data. RITA exfil algorithms imported as Go packages. Covers secrets detection, DLP patterns, PII detection, and exfiltration detection.",
