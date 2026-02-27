@@ -239,7 +239,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
 
         {optionalModules.length > 0 && (
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-white/30 mb-2">Optional — Consider at Scale</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-white/30 mb-2">Optional: Consider at Scale</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {optionalModules.map((m) => (
                 <ModuleCard key={m.name} module={m} />
