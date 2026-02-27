@@ -49,7 +49,7 @@ const PLATFORM_MODULES = [
     icon: Server,
     label: "Kubric UIDR Platform",
     desc: "Platform internals: agent architecture, data ingestion, and correlation engine.",
-    detail: "The Kubric UIDR agent-based architecture deploys across your environment — collecting telemetry at the endpoint, network, and cloud layer, normalizing it into the Kubric data model, and making it queryable via graph API and REST endpoints.",
+    detail: "The Kubric UIDR agent-based architecture deploys across your environment, collecting telemetry at the endpoint, network, and cloud layer, normalizing it into the Kubric data model, and making it queryable via graph API and REST endpoints.",
     href: "/uidr/platform",
   },
   {
