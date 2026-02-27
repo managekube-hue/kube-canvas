@@ -11,7 +11,7 @@ export default function SdrKube() {
       "Software Supply Chain Detection & Response provides continuous visibility into your software dependency tree, real-time monitoring for compromised components, and the detection and response capability to contain a supply chain attack before it achieves its objective.",
     ]}
     capabilities={[
-      "Continuous SBOM generation and maintenance across all applications and workloads—your software inventory is always current.",
+      "Continuous SBOM generation and maintenance across all applications and workloads. Your software inventory is always current.",
       "Dependency vulnerability correlation mapping known CVEs to components in your environment in real time.",
       "Integrity monitoring for software packages, build artifacts, and deployment pipeline configurations.",
       "CI/CD pipeline security monitoring identifying unauthorized changes to build processes, the most common supply chain attack vector.",

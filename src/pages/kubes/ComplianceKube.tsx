@@ -80,7 +80,7 @@ const ComplianceKube = () => {
           id: "policy-development",
           name: "Policy Development",
           description: "Creation of required policy library tailored to your organization and frameworks.",
-          details: "Custom policy development aligned with your operations and regulatory requirements. From information security policies to acceptable use, incident response to data retention—all tailored to your industry, size, and compliance needs. Policies mapped to multiple frameworks to maximize efficiency.",
+          details: "Custom policy development aligned with your operations and regulatory requirements. From information security policies to acceptable use, incident response to data retention, all tailored to your industry, size, and compliance needs. Policies mapped to multiple frameworks to maximize efficiency.",
           useCases: [
             "New compliance program launch",
             "Policy refresh initiatives",
