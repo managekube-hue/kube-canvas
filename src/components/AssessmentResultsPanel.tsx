@@ -121,7 +121,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
 
       {/* ── MILESTONE PRICING SLIDER ── */}
       <div className="p-6 mb-6" style={{ background: "rgba(205,202,197,0.03)", border: "1px solid rgba(205,202,197,0.08)" }}>
-        <p className="text-xs font-bold uppercase tracking-wider text-white/30 mb-6">Monthly Pricing — Milestone Scale-Down</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-white/30 mb-6">Monthly Pricing: Milestone Scale-Down</p>
 
         {/* Base breakdown */}
         <div className="space-y-2 mb-6">
