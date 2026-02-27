@@ -162,6 +162,8 @@ import CrmSettings from "./pages/crm/CrmSettings";
 import CrmLeadImport from "./pages/crm/CrmLeadImport";
 import CrmBulkUpload from "./pages/crm/CrmBulkUpload";
 import CrmCareers from "./pages/crm/CrmCareers";
+import CrmAssessmentSessions from "./pages/crm/CrmAssessmentSessions";
+import BomCatalogue from "./pages/BomCatalogue";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -202,6 +204,7 @@ const App = () => (
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/assessment/start" element={<AssessmentEngine />} />
+          <Route path="/bom" element={<BomCatalogue />} />
           <Route path="/find-by-problem" element={<FindByProblem />} />
           <Route path="/find-by-size" element={<Navigate to="/solutions/by-market-size" replace />} />
           <Route path="/solutions" element={<SolutionsHub />} />
@@ -388,6 +391,7 @@ const App = () => (
             <Route path="leads" element={<CrmLeadImport />} />
             <Route path="bulk-upload" element={<CrmBulkUpload />} />
             <Route path="careers" element={<CrmCareers />} />
+            <Route path="assessments" element={<CrmAssessmentSessions />} />
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
