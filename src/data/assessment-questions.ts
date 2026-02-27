@@ -1606,6 +1606,36 @@ export const CO_QUESTIONS: AssessmentQuestion[] = [
       { label: "No cyber insurance", value: "none", score: { risk: 5 }, flags: { no_insurance: true } },
     ],
   },
+  // CO-04: IT staffing efficiency
+  {
+    code: "CO-Q_STAFF",
+    flow: "CO",
+    label: "How efficiently is your IT budget spent on staffing vs. tools?",
+    description: "High staffing-to-tool ratio often indicates automation opportunities and MSP consolidation value.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "More than 70% on staff, less than 30% on tools", value: "staff_heavy", score: { cf_cost_maturity: 0, complexity: 2 } },
+      { label: "Roughly 50/50 split", value: "balanced", score: { cf_cost_maturity: 2 } },
+      { label: "More on tools/services than staff", value: "tool_heavy", score: { cf_cost_maturity: 3 } },
+      { label: "Not tracked", value: "unknown", score: { cf_cost_maturity: 0 } },
+    ],
+  },
+  // CO-04: Procurement process
+  {
+    code: "CO-Q_PROC",
+    flow: "CO",
+    label: "How are IT purchases and renewals managed?",
+    description: "Centralised procurement typically saves 15-25% through volume negotiation and elimination of shadow IT.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "Centralised IT procurement with approval workflows", value: "centralised", score: { cf_business_gov_maturity: 2, cf_cost_maturity: 2 } },
+      { label: "IT reviews but departments can purchase independently", value: "partial", score: { cf_cost_maturity: 1 } },
+      { label: "Decentralised — departments buy their own tools", value: "decentralised", score: { cf_cost_maturity: 0 }, flags: { shadow_it: true } },
+      { label: "No formal process", value: "none", flags: { shadow_it: true } },
+    ],
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════
