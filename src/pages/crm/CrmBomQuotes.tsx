@@ -37,7 +37,7 @@ export default function CrmBomQuotes() {
         .order("created_at", { ascending: false })
         .limit(200);
       if (error) console.error(error);
-      setSubmissions((data as BomSubmission[]) || []);
+      setSubmissions((data as unknown as BomSubmission[]) || []);
       setLoading(false);
     })();
   }, []);
