@@ -1,4 +1,4 @@
-/** By Market Size — /solutions/by-market-size — word-for-word from Solutions.docx page 5 */
+/** By Market Size: /solutions/by-market-size, word-for-word from Solutions.docx page 5 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function ByMarketSize() {

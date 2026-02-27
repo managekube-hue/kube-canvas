@@ -45,7 +45,7 @@ export default function DocsNats() {
             <span className="text-foreground">NATS Message Bus</span>
           </div>
 
-          <h1 className="text-3xl lg:text-4xl font-black text-foreground mb-4">NATS Message Bus — Subject Hierarchy</h1>
+          <h1 className="text-3xl lg:text-4xl font-black text-foreground mb-4">NATS Message Bus: Subject Hierarchy</h1>
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
             All KAI-to-module and module-to-module communication uses the following NATS subject taxonomy. JetStream provides persistence and consumer groups for guaranteed delivery.
           </p>

@@ -357,7 +357,7 @@ export default function GetStarted() {
     <PageLayout>
       <PageBanner
         title="Get Started"
-        subtitle="Your security journey starts here. Full assessment or à la carte — choose what fits."
+        subtitle="Your security journey starts here. Full assessment or à la carte: choose what fits."
       />
       <SplitHero />
       <HowItWorks />

@@ -1,5 +1,5 @@
 /**
- * Privacy Policy — ManageKube, Inc.
+ * Privacy Policy: ManageKube, Inc.
  * Word-for-word from provided documentation
  */
 

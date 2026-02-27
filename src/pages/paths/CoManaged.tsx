@@ -304,7 +304,7 @@ export default function CoManaged() {
             Where We Back You Up
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-2xl" style={{ color: "rgba(205,202,197,0.5)" }}>
-            On-demand escalation, expert advisory, and deployment support from the engineers who built the platform. Co-managed means your team runs it — but you're never alone.
+            On-demand escalation, expert advisory, and deployment support from the engineers who built the platform. Co-managed means your team runs it, but you're never alone.
           </p>
 
           <div className="grid lg:grid-cols-3 gap-[1px]" style={{ background: CM.border }}>
