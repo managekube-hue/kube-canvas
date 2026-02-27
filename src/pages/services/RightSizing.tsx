@@ -4,7 +4,7 @@ export default function RightSizing() {
     category="Advisory Services"
     name="Right-Sizing Engagements"
     tagline="Infrastructure and cloud resource optimization to eliminate waste and improve performance per dollar."
-    description="Right-Sizing Engagements analyze infrastructure and cloud resource utilization to identify overprovisioned resources and optimization opportunities. Our engineers baseline performance, characterize workloads, and deliver data-driven recommendations — often reducing infrastructure spend by 30–50% without compromising capabilities."
+    description="Right-Sizing Engagements analyze infrastructure and cloud resource utilization to identify overprovisioned resources and optimization opportunities. Our engineers baseline performance, characterize workloads, and deliver data-driven recommendations, often reducing infrastructure spend by 30 to 50% without compromising capabilities."
     sections={[
       {
         title: "Discovery & Baselining",

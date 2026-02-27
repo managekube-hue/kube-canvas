@@ -4,7 +4,7 @@ export default function ManagedSoc() {
     category="Managed Services"
     name="Managed SOC"
     tagline="24/7 security operations center with threat hunting, incident response, and compliance reporting."
-    description="Our Managed SOC is staffed by expert analysts and powered by the Kubric XDR platform. We deliver 24/7 threat detection, hunting, incident response, and compliance reporting — fully managed so your organization stays protected without building an in-house security team."
+    description="Our Managed SOC is staffed by expert analysts and powered by the Kubric XDR platform. We deliver 24/7 threat detection, hunting, incident response, and compliance reporting, fully managed so your organization stays protected without building an in-house security team."
     sections={[
       {
         title: "Security Monitoring",

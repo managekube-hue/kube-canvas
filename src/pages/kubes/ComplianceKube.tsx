@@ -22,7 +22,7 @@ const ComplianceKube = () => {
       tagline="ACHIEVE CONTINUOUS COMPLIANCE"
       phase="ASSESS"
       description="The Assessment Kube identifies technical gaps. We then implement controls that deliver continuous compliance across all major industry frameworks."
-      narrative="The Compliance Kube transforms identified gaps into a sustainable compliance program. We employ Smart Question Consolidation—85-120 questions covering 1,200+ controls through multi-framework mapping. Automated Evidence Collection integrates directly with Dell CloudIQ, IBM QRadar, and infrastructure platforms. Remediation Roadmaps deliver 90-day implementation plans with resource allocation and timeline visibility. Continuous Monitoring provides ongoing compliance posture tracking with drift detection and automated alerts. Move from reactive annual scrambles to proactive continuous compliance."
+      narrative="The Compliance Kube transforms identified gaps into a sustainable compliance program. We employ Smart Question Consolidation, 85 to 120 questions covering 1,200+ controls through multi-framework mapping. Automated Evidence Collection integrates directly with Dell CloudIQ, IBM QRadar, and infrastructure platforms. Remediation Roadmaps deliver 90-day implementation plans with resource allocation and timeline visibility. Continuous Monitoring provides ongoing compliance posture tracking with drift detection and automated alerts. Move from reactive annual scrambles to proactive continuous compliance."
       blocks={[
         {
           id: "smart-consolidation",
@@ -80,7 +80,7 @@ const ComplianceKube = () => {
           id: "policy-development",
           name: "Policy Development",
           description: "Creation of required policy library tailored to your organization and frameworks.",
-          details: "Custom policy development aligned with your operations and regulatory requirements. From information security policies to acceptable use, incident response to data retention—all tailored to your industry, size, and compliance needs. Policies mapped to multiple frameworks to maximize efficiency.",
+          details: "Custom policy development aligned with your operations and regulatory requirements. From information security policies to acceptable use, incident response to data retention, all tailored to your industry, size, and compliance needs. Policies mapped to multiple frameworks to maximize efficiency.",
           useCases: [
             "New compliance program launch",
             "Policy refresh initiatives",

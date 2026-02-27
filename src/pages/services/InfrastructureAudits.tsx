@@ -4,7 +4,7 @@ export default function InfrastructureAudits() {
     category="Advisory Services"
     name="IT Infrastructure Audits"
     tagline="Architecture, performance, security, and operational efficiency review across your entire environment."
-    description="IT Infrastructure Audits assess your network architecture, server configurations, storage systems, virtualization platforms, and cloud infrastructure for security, performance, and operational efficiency. We identify technical debt, single points of failure, capacity constraints, and optimization opportunities — delivering a clear modernization roadmap."
+    description="IT Infrastructure Audits assess your network architecture, server configurations, storage systems, virtualization platforms, and cloud infrastructure for security, performance, and operational efficiency. We identify technical debt, single points of failure, capacity constraints, and optimization opportunities, delivering a clear modernization roadmap."
     sections={[
       {
         title: "Network & Architecture Review",

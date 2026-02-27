@@ -4,7 +4,7 @@ export default function PhysicalSecurity() {
     category="Deployment & Integration"
     name="Physical Security Integration"
     tagline="Design, installation, and integration of physical security systems with IT infrastructure and SOC monitoring."
-    description="Physical Security Integration designs and deploys video surveillance, access control, intrusion detection, and environmental monitoring systems — fully integrated with your IT infrastructure and SOC for unified physical and cyber security operations. We bridge the gap between facilities and IT."
+    description="Physical Security Integration designs and deploys video surveillance, access control, intrusion detection, and environmental monitoring systems, fully integrated with your IT infrastructure and SOC for unified physical and cyber security operations. We bridge the gap between facilities and IT."
     sections={[
       {
         title: "Video Surveillance",

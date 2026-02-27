@@ -4,7 +4,7 @@ export default function PenetrationTesting() {
     category="Advisory Services"
     name="Penetration Testing"
     tagline="Manual adversarial testing across network, application, cloud, and social engineering vectors."
-    description="Penetration Testing simulates real-world attacks to identify exploitable vulnerabilities before threat actors do. Our certified ethical hackers (OSCP, OSCE, GPEN) perform manual testing across networks, web applications, APIs, mobile apps, and cloud infrastructure — going far beyond automated scanning to find the vulnerabilities that matter."
+    description="Penetration Testing simulates real-world attacks to identify exploitable vulnerabilities before threat actors do. Our certified ethical hackers (OSCP, OSCE, GPEN) perform manual testing across networks, web applications, APIs, mobile apps, and cloud infrastructure, going far beyond automated scanning to find the vulnerabilities that matter."
     sections={[
       {
         title: "Network Penetration Testing",

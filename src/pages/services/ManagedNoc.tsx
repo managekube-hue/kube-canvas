@@ -4,7 +4,7 @@ export default function ManagedNoc() {
     category="Managed Services"
     name="Managed NOC"
     tagline="24/7 network operations center with proactive monitoring, alerting, and incident response."
-    description="Managed NOC provides around-the-clock monitoring of network infrastructure, servers, applications, and endpoints. Expert technicians respond to alerts, troubleshoot issues, and perform routine maintenance — delivering continuous uptime while your team sleeps."
+    description="Managed NOC provides around-the-clock monitoring of network infrastructure, servers, applications, and endpoints. Expert technicians respond to alerts, troubleshoot issues, and perform routine maintenance, delivering continuous uptime while your team sleeps."
     sections={[
       {
         title: "NOC Monitoring",

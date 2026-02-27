@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.36-37) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.36-37) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function AdrKube() {
   return <ServiceLayerPage

@@ -4,7 +4,7 @@ export default function LegacyIntegrations() {
     category="Deployment & Integration"
     name="Legacy System Integrations"
     tagline="Bridging aging infrastructure with modern security and operations platforms."
-    description="Legacy System Integrations bridge the gap between aging infrastructure and modern security and operations platforms. We reverse-engineer legacy protocols, develop custom adapters for unsupported systems, extract and migrate critical data, and create phased modernization plans — so you can extend the life of existing investments while gaining modern visibility and control."
+    description="Legacy System Integrations bridge the gap between aging infrastructure and modern security and operations platforms. We reverse-engineer legacy protocols, develop custom adapters for unsupported systems, extract and migrate critical data, and create phased modernization plans so you can extend the life of existing investments while gaining modern visibility and control."
     sections={[
       {
         title: "Legacy Assessment & Discovery",

@@ -1,4 +1,4 @@
-/** Self-Managed — /solutions/by-service-type/self-managed — word-for-word from Solutions.docx pages 16-17 */
+/** Self-Managed: /solutions/by-service-type/self-managed: word-for-word from Solutions.docx pages 16-17 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function SelfManagedSolution() {
@@ -11,26 +11,26 @@ export default function SelfManagedSolution() {
       sections={[
         {
           title: "The Self-Managed Model",
-          body: "Self-Managed is for organizations with experienced security teams who intend to operate their own detection and response program — but have no interest in building and maintaining the underlying infrastructure from scratch. The same Kubric architecture that powers ManageKube managed services is available as a licensed toolset for internal operation. Self-Managed delivers: we provide the toolset, updates, and support. Your team runs detection and response.",
+          body: "Self-Managed is for organizations with experienced security teams who intend to operate their own detection and response program, but have no interest in building and maintaining the underlying infrastructure from scratch. The same Kubric architecture that powers ManageKube managed services is available as a licensed toolset for internal operation. Self-Managed delivers: we provide the toolset, updates, and support. Your team runs detection and response.",
         },
         {
           title: "What Self-Managed Includes",
           items: [
-             "Kubric License — Full access to the Kubric toolset with all 23 capabilities available for internal operation.",
-            "Continuous Updates — Toolset updates, new detection capabilities, and threat intelligence feeds delivered continuously without manual intervention.",
-            "Documentation and Training — Comprehensive documentation and structured training for your internal team.",
-            "Support Access — Technical support for configuration questions and capability questions.",
-            "Community Access — Access to the user community, shared detection content, and documented best practices.",
-            "Optional Advisory Services — Access to ManageKube assessments, penetration testing, and consulting engagements when deep external expertise is required.",
+             "Kubric License: Full access to the Kubric toolset with all 23 capabilities available for internal operation.",
+            "Continuous Updates: Toolset updates, new detection capabilities, and threat intelligence feeds delivered continuously without manual intervention.",
+            "Documentation and Training: Comprehensive documentation and structured training for your internal team.",
+            "Support Access: Technical support for configuration questions and capability questions.",
+            "Community Access: Access to the user community, shared detection content, and documented best practices.",
+            "Optional Advisory Services: Access to ManageKube assessments, penetration testing, and consulting engagements when deep external expertise is required.",
           ],
         },
         {
           title: "What Self-Managed Does Not Include",
           items: [
-            "24/7 operations — your team operates the toolset",
-            "Incident response — your team responds to incidents",
-            "Detection tuning and optimization — your team tunes and maintains detection logic",
-            "Compliance evidence collection configuration — your team configures evidence collection workflows",
+            "24/7 operations: your team operates the toolset",
+            "Incident response: your team responds to incidents",
+            "Detection tuning and optimization: your team tunes and maintains detection logic",
+            "Compliance evidence collection configuration: your team configures evidence collection workflows",
           ],
         },
         {
