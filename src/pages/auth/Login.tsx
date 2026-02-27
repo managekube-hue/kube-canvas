@@ -15,7 +15,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  // Determine redirect target — CRM users go to /crm, default to /uidr/technical-docs
+  // Determine redirect target: CRM users go to /crm, default to /uidr/technical-docs
   const redirectTo = searchParams.get("redirect") || "/uidr/technical-docs";
   const isCrmLogin = redirectTo.startsWith("/crm");
 
