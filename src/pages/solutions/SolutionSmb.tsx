@@ -16,11 +16,11 @@ export default function SolutionSmb() {
         {
           title: "What SMBs Need",
           items: [
-            "Coverage Without Complexity — Security that operates without constant manual tuning. Tools that integrate without ongoing integration projects. Services that deliver outcomes without requiring internal oversight to sustain them.",
-            "24/7 Protection — Adversaries operate at night, on weekends, and during holidays. Coverage must match that reality, not the organization's business hours.",
-            "Compliance Foundation — Whether SOC 2, HIPAA, or CMMC, compliance posture must be built and maintained without a dedicated compliance function on staff.",
-            "Predictable Cost — Security spend must be predictable. No cost overruns. No surprise scope expansions. No budget consumed by incidents that could have been prevented.",
-            "One Partner — One partner for infrastructure, security, compliance, and IT. Not a different vendor for every discipline.",
+            "Coverage Without Complexity: Security that operates without constant manual tuning. Tools that integrate without ongoing integration projects. Services that deliver outcomes without requiring internal oversight to sustain them.",
+            "24/7 Protection: Adversaries operate at night, on weekends, and during holidays. Coverage must match that reality, not the organization's business hours.",
+            "Compliance Foundation: Whether SOC 2, HIPAA, or CMMC, compliance posture must be built and maintained without a dedicated compliance function on staff.",
+            "Predictable Cost: Security spend must be predictable. No cost overruns. No surprise scope expansions. No budget consumed by incidents that could have been prevented.",
+            "One Partner: One partner for infrastructure, security, compliance, and IT. Not a different vendor for every discipline.",
           ],
         },
         {
