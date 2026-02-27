@@ -77,7 +77,7 @@ const stats = [
   { value: "18", label: "Detection & Response Modules" },
   { value: "12", label: "Compliance Frameworks Mapped" },
   { value: "24/7", label: "NOC & SOC Coverage" },
-  { value: "96", label: "Assessment Questions" },
+  { value: "48hr", label: "Onboarding to First Alert" },
 ];
 const StatsBand = () => (
   <section className="bg-secondary border-y border-border">
