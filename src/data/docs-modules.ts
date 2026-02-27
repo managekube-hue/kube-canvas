@@ -275,7 +275,7 @@ export const docModules: DocModule[] = [
     number: 12,
     code: "BDR",
     name: "Backup & Disaster Recovery",
-    fullName: "BDR — Backup & Disaster Recovery",
+    fullName: "BDR: Backup & Disaster Recovery",
     category: "operations",
     tagline: "Restic internal packages are BSD-2 and embed cleanly. Velero Go packages are Apache 2.0.",
     description: "Restic internal packages are BSD-2 and embed cleanly. Velero Go packages are Apache 2.0. go-proxmox provides Proxmox API client. MinIO Go SDK handles object storage. Covers VM backups, file backups, backup verification, metrics, object storage, and DR automation.",
