@@ -4,7 +4,7 @@ import { useCrmUser } from "@/hooks/useCrmUser";
 import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
-  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck,
+  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck, ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
