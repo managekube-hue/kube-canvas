@@ -11,7 +11,7 @@ import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
 
 
 
-/** DO NOT TOUCH — Fully Managed Home — #993619 design system */
+/** DO NOT TOUCH: Fully Managed Home, #993619 design system */
 
 // Sub-nav per architecture doc
 const SUB_NAV = [
