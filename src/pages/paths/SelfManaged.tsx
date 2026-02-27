@@ -118,7 +118,7 @@ const PLATFORM_TIERS = [
   },
   {
     name: "XMX",
-    label: "XMX — Advanced",
+    label: "XMX: Advanced",
     sub: "16 Capabilities. Expanded detection surface. Full API access.",
     desc: "XMX deploys 16 capabilities extending coverage to managed SOC, cloud detection, application performance, backup and disaster recovery, compliance management, and real-time visibility: all integrated through the Kubric UIDR orchestration layer.",
     cta: "Deploy XMX →",
