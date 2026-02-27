@@ -81,7 +81,7 @@ export default function FullyManagedSolution() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="h-[2px] w-10 mb-6" style={{ background: ORANGE }} />
             <h2 className="font-black text-white mb-3 leading-tight" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontFamily: "'Special Elite', serif" }}>
-              We are not another MSP or software platform — we are a different kind of partner.
+              We are not another MSP or software platform. We are a different kind of partner.
             </h2>
             <p className="text-[14px] mb-12" style={{ color: "rgba(205,202,197,0.45)" }}>
               Our service delivery is unmatched and consistently outperforms expectations.
