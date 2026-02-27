@@ -247,7 +247,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-38063",
     name: "Windows TCP/IP IPv6 RCE",
     description: "Remote code execution via specially crafted IPv6 packets in Windows TCP/IP stack.",
-    plainEnglish: "Send a malicious network packet to crash or take over Windows machines — wormable potential.",
+    plainEnglish: "Send a malicious network packet to crash or take over Windows machines, with wormable potential.",
     cvss: 9.8,
     epss: 0.42,
     severity: "CRITICAL",
