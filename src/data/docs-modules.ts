@@ -50,7 +50,7 @@ export const docModules: DocModule[] = [
     number: 2,
     code: "ITDR",
     name: "Identity Threat Detection & Response",
-    fullName: "ITDR — Identity Threat Detection & Response",
+    fullName: "ITDR: Identity Threat Detection & Response",
     category: "identity",
     tagline: "BloodHound Go packages provide AD attack path algorithms. Sigma rules vendored as detection data.",
     description: "BloodHound Go packages provide AD attack path algorithms. Sigma rules and Wazuh XML are vendored as detection data files, loaded at startup. Covers Active Directory attack paths, privilege escalation, geo anomaly detection, and identity response automation.",
