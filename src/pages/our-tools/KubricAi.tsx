@@ -1,4 +1,4 @@
-/** v2.0 spec copy — KubricAI (How_It_works.docx pp.12-14) */
+/** v2.0 spec copy: KubricAI (How_It_works.docx pp.12-14) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
