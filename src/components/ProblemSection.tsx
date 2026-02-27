@@ -58,7 +58,7 @@ export const ProblemSection = () => {
                 <div className="text-display text-brand-orange">∞</div>
                 <div>
                   <div className="text-subtitle text-foreground">Continuous Optimization</div>
-                  <div className="text-body text-muted-foreground">Not a project—a partnership</div>
+                  <div className="text-body text-muted-foreground">Not a project, a partnership</div>
                 </div>
               </div>
             </div>

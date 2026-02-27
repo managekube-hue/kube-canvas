@@ -1,4 +1,4 @@
-/** Powered by Kubric UIDR — section with static image placeholder */
+/** Powered by Kubric UIDR: section with static image placeholder */
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
@@ -17,7 +17,7 @@ export const KubeConstellation = () => {
               Powered by Kubric UIDR
             </h2>
             <p className="text-[15px] leading-relaxed mb-8" style={{ color: "#393837" }}>
-              Our proprietary platform combines RMM, PSA, and Microsoft 365 management into one unified system — enabling the capabilities and outcomes we deliver as your managed services partner.
+              Our proprietary platform combines RMM, PSA, and Microsoft 365 management into one unified system, enabling the capabilities and outcomes we deliver as your managed services partner.
             </p>
             <ul className="space-y-3 mb-10">
               {[

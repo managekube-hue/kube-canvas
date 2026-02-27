@@ -121,7 +121,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
 
       {/* ── MILESTONE PRICING SLIDER ── */}
       <div className="p-6 mb-6" style={{ background: "rgba(205,202,197,0.03)", border: "1px solid rgba(205,202,197,0.08)" }}>
-        <p className="text-xs font-bold uppercase tracking-wider text-white/30 mb-6">Monthly Pricing — Milestone Scale-Down</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-white/30 mb-6">Monthly Pricing: Milestone Scale-Down</p>
 
         {/* Base breakdown */}
         <div className="space-y-2 mb-6">
@@ -217,7 +217,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
 
         {criticalModules.length > 0 && (
           <div className="mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">Critical — Address Immediately</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">Critical: Address Immediately</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {criticalModules.map((m) => (
                 <ModuleCard key={m.name} module={m} />
@@ -239,7 +239,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
 
         {optionalModules.length > 0 && (
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-white/30 mb-2">Optional — Consider at Scale</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-white/30 mb-2">Optional: Consider at Scale</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {optionalModules.map((m) => (
                 <ModuleCard key={m.name} module={m} />
@@ -295,12 +295,12 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
         <div className="flex items-center justify-between mb-1">
           <p className="text-xs font-bold uppercase tracking-wider" style={{ color: ORANGE }}>
             <Star size={10} className="inline mr-1" />
-            Professional Services — À La Carte
+            Professional Services: À La Carte
           </p>
           <span className="text-[10px] text-white/25">{recommendedServices.length} recommended · {otherServices.length} additional</span>
         </div>
         <p className="text-[10px] text-white/25 mb-4">
-          One-time engagements, migrations, and project work — priced separately from your managed service tier
+          One-time engagements, migrations, and project work. Priced separately from your managed service tier.
         </p>
 
         {Object.entries(servicesByCategory).map(([category, categoryServices]) => (
