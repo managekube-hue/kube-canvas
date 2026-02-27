@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCrmUser } from "@/hooks/useCrmUser";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2, Users, Briefcase, Ticket, FileText, DollarSign } from "lucide-react";
+import { Building2, Users, Briefcase, Ticket, FileText, DollarSign, Activity } from "lucide-react";
 
 interface DashboardStats {
   organizations: number;
@@ -13,27 +13,32 @@ interface DashboardStats {
   totalMrr: number;
 }
 
+interface RecentActivity {
+  id: string;
+  type: string;
+  subject: string | null;
+  body: string | null;
+  created_at: string;
+}
+
 export default function CrmDashboard() {
   const { crmUser } = useCrmUser();
   const [stats, setStats] = useState<DashboardStats>({
-    organizations: 0,
-    contacts: 0,
-    openDeals: 0,
-    openTickets: 0,
-    activeContracts: 0,
-    totalMrr: 0,
+    organizations: 0, contacts: 0, openDeals: 0, openTickets: 0, activeContracts: 0, totalMrr: 0,
   });
+  const [activities, setActivities] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [orgs, contacts, deals, tickets, contracts] = await Promise.all([
+        const [orgs, contacts, deals, tickets, contracts, acts] = await Promise.all([
           supabase.from("crm_organizations").select("*", { count: "exact", head: true }),
           supabase.from("crm_contacts").select("*", { count: "exact", head: true }),
           supabase.from("crm_deals").select("*", { count: "exact", head: true }),
           supabase.from("crm_tickets").select("*", { count: "exact", head: true }).in("status", ["open", "in_progress", "escalated"]),
           supabase.from("crm_contracts").select("mrr", { count: "exact" }).eq("status", "active"),
+          supabase.from("crm_activities").select("id, type, subject, body, created_at").order("created_at", { ascending: false }).limit(10),
         ]);
 
         const totalMrr = contracts.data?.reduce((sum, c) => sum + (Number(c.mrr) || 0), 0) || 0;
@@ -46,6 +51,7 @@ export default function CrmDashboard() {
           activeContracts: contracts.count || 0,
           totalMrr,
         });
+        if (acts.data) setActivities(acts.data as RecentActivity[]);
       } catch (err) {
         console.error("Dashboard stats error:", err);
       } finally {
@@ -92,26 +98,32 @@ export default function CrmDashboard() {
         ))}
       </div>
 
-      {/* My Day Panel + Recent Activity — placeholders */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="border-border">
-          <CardHeader>
-            <CardTitle className="text-base">My Tasks Today</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">No tasks due today.</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-border">
-          <CardHeader>
-            <CardTitle className="text-base">Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
+      {/* Recent Activity */}
+      <Card className="border-border">
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <Activity className="h-4 w-4" /> Recent Activity
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {activities.length === 0 ? (
             <p className="text-sm text-muted-foreground">No recent activity.</p>
-          </CardContent>
-        </Card>
-      </div>
+          ) : (
+            <div className="space-y-3">
+              {activities.map(a => (
+                <div key={a.id} className="flex gap-3 items-start">
+                  <div className="mt-1.5 h-2 w-2 rounded-full bg-primary shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm text-foreground font-medium">{a.subject || a.type}</p>
+                    {a.body && <p className="text-xs text-muted-foreground truncate">{a.body}</p>}
+                    <p className="text-[10px] text-muted-foreground/70">{new Date(a.created_at).toLocaleString()}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
