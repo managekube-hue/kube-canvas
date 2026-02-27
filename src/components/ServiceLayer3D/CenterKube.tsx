@@ -45,7 +45,6 @@ export function CenterKube() {
         position={[0, -0.6, 0]}
         fontSize={0.14}
         color="#22d3ee"
-        font="/fonts/RobotoMono-Bold.ttf"
         anchorX="center"
         anchorY="top"
         outlineWidth={0.004}
