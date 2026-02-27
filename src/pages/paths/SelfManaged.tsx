@@ -110,7 +110,7 @@ const KUBE_CATALOG = [
 const PLATFORM_TIERS = [
   {
     name: "XRO",
-    label: "XRO — Essentials",
+    label: "XRO: Essentials",
     sub: "9 Capabilities. Foundational detection coverage. Deployable in your environment.",
     desc: "XRO deploys 9 core capabilities for unified infrastructure visibility, network monitoring, identity threat detection, vulnerability management, configuration drift, help desk, MDM, M365 management, and portal access: all running in your environment under your control.",
     cta: "Deploy XRO →",
