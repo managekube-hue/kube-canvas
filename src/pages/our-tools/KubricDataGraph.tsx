@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Kubric Data Graph (How_It_works.docx pp.10-11) */
+/** v2.0 spec copy: Kubric Data Graph (How_It_works.docx pp.10-11) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
