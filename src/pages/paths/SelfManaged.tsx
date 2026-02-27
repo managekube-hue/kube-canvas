@@ -497,7 +497,7 @@ export default function SelfManaged() {
               Free Trial. Technical Demo.<br />Or Deploy Now.
             </h2>
             <p className="text-[15px] leading-relaxed mb-12" style={{ color: TEXT_DIM }}>
-              Optional professional services for self-managed teams — deployment engineering, integration development, and security advisory available on a project basis when your team wants outside expertise on a specific challenge.
+              Optional professional services for self-managed teams: deployment engineering, integration development, and security advisory available on a project basis when your team wants outside expertise on a specific challenge.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
