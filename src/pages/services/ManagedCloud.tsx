@@ -4,7 +4,7 @@ export default function ManagedCloud() {
     category="Managed Services"
     name="Managed Cloud & FinOps"
     tagline="Cloud cost optimization, performance management, and multi-cloud governance."
-    description="Managed Cloud & FinOps optimizes cloud spend, improves performance, and ensures governance across AWS, Azure, and GCP. Expert FinOps practitioners identify waste, right-size resources, and maximize the value of every cloud dollar — turning cloud chaos into predictable, optimized operations."
+    description="Managed Cloud & FinOps optimizes cloud spend, improves performance, and ensures governance across AWS, Azure, and GCP. Expert FinOps practitioners identify waste, right-size resources, and maximize the value of every cloud dollar, turning cloud chaos into predictable, optimized operations."
     sections={[
       {
         title: "Cloud Operations",
