@@ -60,10 +60,10 @@ export default function KubricUidr() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            Traditional detection looks for known-bad patterns — signatures, indicators of compromise, hash matches. These remain necessary. They are no longer sufficient. Modern attacks use valid credentials. They traverse legitimate protocols. They blend with normal traffic until the precise moment they execute their objective.
+            Traditional detection looks for known-bad patterns: signatures, indicators of compromise, hash matches. These remain necessary. They are no longer sufficient. Modern attacks use valid credentials. They traverse legitimate protocols. They blend with normal traffic until the precise moment they execute their objective.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
-            Kubric UIDR is the detection engine that powers every ManageKube service. It does not rely on signatures alone. It analyzes behavior. It correlates across domains. It establishes what normal looks like — for your environment, your users, your systems — and alerts when activity deviates.
+            Kubric UIDR is the detection engine that powers every ManageKube service. It does not rely on signatures alone. It analyzes behavior. It correlates across domains. It establishes what normal looks like for your environment, your users, your systems, and alerts when activity deviates.
           </p>
         </div>
       </section>
