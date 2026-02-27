@@ -50,7 +50,7 @@ export default function KubricDataGraph() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            Most security platforms claim correlation. What they mean is this: you can write a manual query that joins data from two sources after both have been stored. This is not correlation. This is investigative homework. Your analyst becomes the correlation engine — and at the speed modern attacks execute, that gap is fatal.
+            Most security platforms claim correlation. What they mean is this: you can write a manual query that joins data from two sources after both have been stored. This is not correlation. This is investigative homework. Your analyst becomes the correlation engine, and at the speed modern attacks execute, that gap is fatal.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
             Kubric Data Graph is architecturally different. Correlation occurs at the exact millisecond of ingestion. Every signal — from every capability, every source, every domain — is written to a high-performance graph database that models entities and their relationships in real time. Users. Devices. IP addresses. Files. Applications. Cloud resources. Data stores. Every entity is a node. Every interaction is an edge. Every relationship is mapped continuously.
