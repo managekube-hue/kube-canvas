@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, CheckCircle, AlertTriangle,
   Shield, Server, Cloud, TrendingUp, DollarSign, Building2,
-  Phone, FileText, ChevronDown, ChevronUp, Star, Zap, ExternalLink,
+  Phone, FileText,
 } from "lucide-react";
 import {
   P0_QUESTIONS, SR_QUESTIONS, IA_QUESTIONS, CM_QUESTIONS, GE_QUESTIONS, CO_QUESTIONS,
