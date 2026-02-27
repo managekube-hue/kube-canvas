@@ -141,6 +141,7 @@ import ThreatAi from "./pages/tools/ThreatAi";
 import CVEDetailPage from "./pages/tools/CVEDetailPage";
 import CmsAdmin from "./pages/CmsAdmin";
 import Login from "./pages/auth/Login";
+import SetPassword from "./pages/auth/SetPassword";
 
 // CRM App
 import { CrmLayout } from "./components/crm/CrmLayout";
