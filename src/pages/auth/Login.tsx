@@ -3,7 +3,7 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { GitBranch, Loader2, Settings } from "lucide-react";
+import { GitBranch, Loader2, Settings, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const { user, signIn, signInWithGitHub } = useAuth();
