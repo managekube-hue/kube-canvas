@@ -13,7 +13,7 @@ const findYourSolution = [
   },
   {
     title: "By Size",
-    desc: "Organizations scale differently. SMB, SME, Enterprise — each has distinct requirements. Solutions are structured accordingly.",
+    desc: "Organizations scale differently. SMB, SME, Enterprise: each has distinct requirements. Solutions are structured accordingly.",
     href: "/solutions/by-market-size",
   },
   {
