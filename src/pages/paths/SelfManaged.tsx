@@ -38,11 +38,11 @@ const SUB_NAV = [
 ];
 
 // Per architecture doc page 27: Home page sections
-// Section 1 — Platform Architecture: How Kubric UIDR Orchestrates Your Environment
-// Section 2 — The Detection and Response Kube Catalog: 16 Modules. Each One Independently Deployable.
-// Section 3 — Platform Mechanics: Data Flows, APIs, and Integration Points
-// Section 4 — Compliance Automation at the Control Level: 100+ Frameworks. Your Team Owns the Evidence.
-// Section 5 — Start Building: Free Trial. Technical Demo. Or Deploy Now.
+// Section 1: Platform Architecture: How Kubric UIDR Orchestrates Your Environment
+// Section 2: The Detection and Response Kube Catalog: 16 Modules. Each One Independently Deployable.
+// Section 3: Platform Mechanics: Data Flows, APIs, and Integration Points
+// Section 4: Compliance Automation at the Control Level: 100+ Frameworks. Your Team Owns the Evidence.
+// Section 5: Start Building: Free Trial. Technical Demo. Or Deploy Now.
 
 const PLATFORM_MODULES = [
   {
