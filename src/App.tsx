@@ -161,6 +161,7 @@ import CrmInvoices from "./pages/crm/CrmInvoices";
 import CrmSettings from "./pages/crm/CrmSettings";
 import CrmLeadImport from "./pages/crm/CrmLeadImport";
 import CrmBulkUpload from "./pages/crm/CrmBulkUpload";
+import CrmCareers from "./pages/crm/CrmCareers";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
