@@ -163,7 +163,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-27198",
     name: "JetBrains TeamCity Auth Bypass",
     description: "Authentication bypass in JetBrains TeamCity allows an unauthenticated attacker to gain administrative control.",
-    plainEnglish: "Full admin access to CI/CD pipelines — attackers can inject code into your software supply chain.",
+    plainEnglish: "Full admin access to CI/CD pipelines. Attackers can inject code into your software supply chain.",
     cvss: 9.8,
     epss: 0.93,
     severity: "CRITICAL",
