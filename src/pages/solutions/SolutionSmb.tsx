@@ -1,4 +1,4 @@
-/** SMB Solutions — /solutions/by-market-size/smb — word-for-word from Solutions.docx pages 6-7 */
+/** SMB Solutions: /solutions/by-market-size/smb: word-for-word from Solutions.docx pages 6-7 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function SolutionSmb() {
