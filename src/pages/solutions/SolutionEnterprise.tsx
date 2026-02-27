@@ -11,7 +11,7 @@ export default function SolutionEnterprise() {
       sections={[
         {
           title: "The Enterprise Challenge",
-          body: "Enterprise organizations have security programs. Analysts, engineers, architects, and governance structures are in place. Tooling has been deployed. Processes have been established. What is required is not a replacement for the internal team — it is a partner capable of operating alongside it: extending coverage, filling operational gaps, and handling what the internal team should not have to manage at scale. Enterprise Solutions deliver depth, scale, and architectural partnership for organizations with complex, multi-regulatory requirements.",
+          body: "Enterprise organizations have security programs. Analysts, engineers, architects, and governance structures are in place. Tooling has been deployed. Processes have been established. What is required is not a replacement for the internal team. It is a partner capable of operating alongside it: extending coverage, filling operational gaps, and handling what the internal team should not have to manage at scale. Enterprise Solutions deliver depth, scale, and architectural partnership for organizations with complex, multi-regulatory requirements.",
         },
         {
           title: "What Enterprises Need",
