@@ -11,7 +11,7 @@ import childPageVideo from "@/assets/child-page.mp4";
 import { ManagedServicesWheel, CO_MANAGED_SEGMENTS } from "@/components/ManagedServicesWheel";
 
 
-/** DO NOT TOUCH — Co-Managed Home — per architecture doc page 18/15 */
+/** DO NOT TOUCH: Co-Managed Home, per architecture doc page 18/15 */
 
 // Doc: Route prefix: /co-managed
 // Doc: Brand voice: Outcome + Technical Capabilities + Differentiation
