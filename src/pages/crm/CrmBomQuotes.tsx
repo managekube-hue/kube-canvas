@@ -52,7 +52,7 @@ export default function CrmBomQuotes() {
   }, [submissions, search]);
 
   const updateStatus = async (id: string, status: string) => {
-    await supabase.from("bom_submissions" as any).update({ status } as any).eq("id", id);
+    await supabase.from("bom_submissions").update({ status }).eq("id", id);
     setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status } : s));
   };
 
