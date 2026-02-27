@@ -229,9 +229,9 @@ export const docModules: DocModule[] = [
     tagline: "MISP taxonomies and galaxies are CC0 JSON. MITRE ATT&CK STIX is CC BY 4.0.",
     description: "MISP taxonomies, galaxies, and warninglists are CC0 JSON, embed freely in the monorepo vendor directory. MITRE ATT&CK STIX is CC BY 4.0. Live feeds (OTX, AbuseIPDB, CISA KEV) are REST API pulls. Covers feed ingestion, IOC matching, threat actor tracking, and enrichment.",
     libraries: [
-      { capability: "Feed Ingestion", library: "MISP Taxonomies (JSON)", importPath: "vendor/misp/taxonomies/**/*.json", license: "CC0/MIT — embed freely", kubricModule: "SIDR TI" },
-      { capability: "Feed Ingestion", library: "MISP Galaxies (JSON)", importPath: "vendor/misp/galaxies/**/*.json", license: "CC0/MIT — embed freely", kubricModule: "SIDR TI" },
-      { capability: "Feed Ingestion", library: "MISP Warninglists (JSON)", importPath: "vendor/misp/warninglists/**/*.json", license: "CC0 — embed freely", kubricModule: "SIDR TI" },
+      { capability: "Feed Ingestion", library: "MISP Taxonomies (JSON)", importPath: "vendor/misp/taxonomies/**/*.json", license: "CC0/MIT, embed freely", kubricModule: "SIDR TI" },
+      { capability: "Feed Ingestion", library: "MISP Galaxies (JSON)", importPath: "vendor/misp/galaxies/**/*.json", license: "CC0/MIT, embed freely", kubricModule: "SIDR TI" },
+      { capability: "Feed Ingestion", library: "MISP Warninglists (JSON)", importPath: "vendor/misp/warninglists/**/*.json", license: "CC0, embed freely", kubricModule: "SIDR TI" },
       { capability: "Feed Ingestion", library: "AlienVault OTX REST API", importPath: "GET https://otx.alienvault.com/api/v1/", license: "OTX ToS — data pull", kubricModule: "SIDR TI" },
       { capability: "IP Reputation", library: "AbuseIPDB API", importPath: "GET https://api.abuseipdb.com/api/v2/check", license: "Creative Commons — data", kubricModule: "NIDR TI" },
       { capability: "IP Blocklist", library: "IPSum (TXT)", importPath: "GET https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt", license: "MIT — copy", kubricModule: "NIDR TI" },
