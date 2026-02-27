@@ -448,7 +448,7 @@ export default function SelfManaged() {
       </section>
 
       {/* ══ SECTION 4: Compliance Automation ════════════════════════════ */}
-      {/* Doc: "Compliance Automation at the Control Level — 100+ Frameworks. Your Team Owns the Evidence." */}
+      {/* Doc: "Compliance Automation at the Control Level: 100+ Frameworks. Your Team Owns the Evidence." */}
       <section className="py-24" style={{ background: BG3 }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
