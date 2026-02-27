@@ -53,7 +53,7 @@ export default function KubricAi() {
             The average enterprise generates more security telemetry than its team can physically review. Alerts fire. Logs accumulate. Findings compound. The true signal is buried. Your team spends its operational hours filtering rather than responding, and the adversary moves freely in the gap.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
-            KubricAI is the intelligence layer engineered to resolve this structural failure. It does not add more data. It extracts the actionable signal. Machine learning models analyze every finding, every relationship, and every baseline deviation — then mathematically determine what demands attention.
+            KubricAI is the intelligence layer engineered to resolve this structural failure. It does not add more data. It extracts the actionable signal. Machine learning models analyze every finding, every relationship, and every baseline deviation, then mathematically determine what demands attention.
           </p>
         </div>
       </section>
