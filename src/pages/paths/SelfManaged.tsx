@@ -487,7 +487,7 @@ export default function SelfManaged() {
       </section>
 
       {/* ══ SECTION 5: Start Building ════════════════════════════════════ */}
-      {/* Doc: "Start Building — Free Trial. Technical Demo. Or Deploy Now." */}
+      {/* Doc: "Start Building: Free Trial. Technical Demo. Or Deploy Now." */}
       <section className="py-24" style={{ background: BG }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="max-w-3xl">
