@@ -31,10 +31,10 @@ export default function Xme() {
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
-          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">Enterprise — 500+ users / regulated industries</p>
-          <h2 className="text-headline text-foreground mb-4">Complete coverage — threat intelligence, deception, and supply chain defense</h2>
+          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">Enterprise: 500+ users / regulated industries</p>
+          <h2 className="text-headline text-foreground mb-4">Complete coverage: threat intelligence, deception, and supply chain defense</h2>
           <p className="text-muted-foreground mb-12 max-w-3xl">
-            Full lifecycle: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close. Enterprise buyers are not browsing — they have a specific security problem. This tier speaks to their threat surface with precision.
+            Full lifecycle: Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document, Close. Enterprise buyers are not browsing. They have a specific security problem. This tier speaks to their threat surface with precision.
           </p>
 
           <div className="p-6 bg-secondary border border-border mb-8">

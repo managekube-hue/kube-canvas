@@ -51,7 +51,7 @@ export default function ByIndustry() {
             A financial services firm faces different adversaries than a manufacturer. A healthcare organization answers to different regulators than a government contractor. A retailer handles different data categories and regulatory obligations than a law firm or technology company. Generic security solutions are not calibrated for these distinctions.
           </p>
           <p className="text-[16px] leading-relaxed max-w-4xl mt-6" style={{ color: "#393837" }}>
-            Industry-specific solutions address what makes your sector operationally and regulatorily unique — the threats you face, the data you are obligated to protect, and the frameworks you are required to satisfy.
+            Industry-specific solutions address what makes your sector operationally and regulatorily unique: the threats you face, the data you are obligated to protect, and the frameworks you are required to satisfy.
           </p>
         </div>
       </section>

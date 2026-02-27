@@ -38,10 +38,10 @@ export default function Xro() {
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
-          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">SMB — 10 to 100 users</p>
+          <p className="text-label text-brand-orange mb-2 uppercase tracking-widest">SMB: 10 to 100 users</p>
           <h2 className="text-headline text-foreground mb-4">Your foundation for managed IT and security visibility</h2>
           <p className="text-muted-foreground mb-12 max-w-3xl">
-            Essentials is the foundation tier covering the Hunt → Identify → Alert → Triage methodology steps. The entry point — it communicates what's included, why it's enough, and why it's the right starting point without underselling the depth.
+            Essentials is the foundation tier covering the Hunt, Identify, Alert, and Triage methodology steps. The entry point: it communicates what's included, why it's enough, and why it's the right starting point without underselling the depth.
           </p>
 
           <p className="text-label text-brand-orange uppercase tracking-widest mb-6">Included Capabilities</p>

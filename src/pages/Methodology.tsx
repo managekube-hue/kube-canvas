@@ -161,7 +161,7 @@ const Methodology = () => {
             {/* Cycle indicator */}
             <div style={{ borderTop: "1px solid #CDCAC5", padding: "32px 0", textAlign: "center" }}>
               <p style={{ fontSize: "14px", fontWeight: 700, color: "#993619", letterSpacing: "0.12em" }}>
-                CLOSE → HUNT — The cycle repeats continuously
+                CLOSE → HUNT. The cycle repeats continuously.
               </p>
             </div>
           </div>
