@@ -1,9 +1,9 @@
 import { ServiceDetailPage } from "@/components/ServiceDetailPage";
 export default function ManagedIt() {
   return <ServiceDetailPage
-    category="Professional Services — BOM Add-On"
+    category="Professional Services: BOM Add-On"
     name="Managed IT"
-    tagline="Full-spectrum IT operations management — from endpoints to infrastructure — delivered as a service."
+    tagline="Full-spectrum IT operations management, from endpoints to infrastructure, delivered as a service."
     description="Managed IT provides comprehensive day-to-day technology operations for organizations that want enterprise-grade IT without building an internal team. We handle patching, monitoring, vendor management, procurement, and strategic planning so you can focus on your business. Available as a standalone BOM add-on to any Service Tier."
     sections={[
       {
