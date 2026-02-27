@@ -37,7 +37,7 @@ function SplitHero() {
             <h3 className="text-2xl font-bold text-foreground mb-3">Package Assessment</h3>
             <p className="text-sm text-muted-foreground mb-6 flex-1">
               96 weighted questions across security, infrastructure, cloud, compliance, and cost.
-              Get your Environment Maturity Score, recommended tier, custom pricing with milestone scale-down, gap flags, and a remediation roadmap — all instantly.
+              Get your Environment Maturity Score, recommended tier, custom pricing with milestone scale-down, gap flags, and a remediation roadmap, all instantly.
             </p>
             <ul className="space-y-2 mb-8">
               {[
