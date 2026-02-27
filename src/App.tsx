@@ -391,6 +391,7 @@ const App = () => (
             <Route path="leads" element={<CrmLeadImport />} />
             <Route path="bulk-upload" element={<CrmBulkUpload />} />
             <Route path="careers" element={<CrmCareers />} />
+            <Route path="assessments" element={<CrmAssessmentSessions />} />
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
