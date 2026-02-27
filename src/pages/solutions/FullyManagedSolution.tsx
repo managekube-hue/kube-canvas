@@ -70,7 +70,7 @@ export default function FullyManagedSolution() {
           <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>The Fully Managed Model</p>
           <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
           <p className="text-[16px] leading-relaxed max-w-4xl" style={{ color: "#393837" }}>
-            Fully Managed is for organizations that require security outcomes without security operational overhead. The organization does not want to manage tools, tune detections, or staff a 24/7 security operations center. It wants threats detected, incidents responded to, compliance maintained, and evidence produced — without directing internal resources toward how those outcomes are achieved. Fully Managed delivers: we operate the Kubric platform continuously. Your team receives outcomes.
+            Fully Managed is for organizations that require security outcomes without security operational overhead. The organization does not want to manage tools, tune detections, or staff a 24/7 security operations center. It wants threats detected, incidents responded to, compliance maintained, and evidence produced, without directing internal resources toward how those outcomes are achieved. Fully Managed delivers: we operate the Kubric platform continuously. Your team receives outcomes.
           </p>
         </div>
       </section>
