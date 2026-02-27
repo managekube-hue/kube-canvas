@@ -116,7 +116,7 @@ export const docModules: DocModule[] = [
     number: 5,
     code: "SDR",
     name: "SaaS Detection & Response",
-    fullName: "SDR — SaaS Detection & Response",
+    fullName: "SDR: SaaS Detection & Response",
     category: "cloud",
     tagline: "Wazuh O365 module executed as subprocess. Detection logic via Sigma rules vendored as YAML.",
     description: "Wazuh O365 module executed as subprocess. All detection logic is Sigma rules vendored as YAML. BloodHound OAuth queries vendored as Cypher data files. Covers O365 monitoring, Google Workspace, OAuth abuse, data exfiltration, and mailbox rule manipulation.",
