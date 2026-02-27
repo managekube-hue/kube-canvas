@@ -72,9 +72,13 @@ export default function CrmAssessmentSessions() {
 
   const exportCSV = (session: Session) => {
     const answers = session.answers || {};
-    const rows = [["Question", "Answer"]];
+    const rows = [["Question Code", "Question", "Answer"]];
     Object.entries(answers).forEach(([key, val]) => {
-      rows.push([key, Array.isArray(val) ? val.join("; ") : String(val ?? "")]);
+      rows.push([
+        key,
+        getQuestionLabel(key),
+        Array.isArray(val) ? val.join("; ") : String(val ?? ""),
+      ]);
     });
     const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
