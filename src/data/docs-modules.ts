@@ -224,7 +224,7 @@ export const docModules: DocModule[] = [
     number: 10,
     code: "TI",
     name: "Threat Intelligence",
-    fullName: "TI — Threat Intelligence",
+    fullName: "TI: Threat Intelligence",
     category: "intelligence",
     tagline: "MISP taxonomies and galaxies are CC0 JSON. MITRE ATT&CK STIX is CC BY 4.0.",
     description: "MISP taxonomies, galaxies, and warninglists are CC0 JSON — embed freely in the monorepo vendor directory. MITRE ATT&CK STIX is CC BY 4.0. Live feeds (OTX, AbuseIPDB, CISA KEV) are REST API pulls. Covers feed ingestion, IOC matching, threat actor tracking, and enrichment.",
