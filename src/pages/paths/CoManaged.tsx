@@ -66,7 +66,7 @@ const KUBES = [
 
 // Doc page 24: Section 3 — Where We Back You Up (Escalation)
 const ESCALATION = [
-  { icon: HeadphonesIcon, label: "Managed SOC — On-Demand Escalation", desc: "Surge capacity when your team needs reinforcement — activated when you need additional capacity for major incidents, threat hunts, or coverage gaps.", href: "/services/managed-soc" },
+  { icon: HeadphonesIcon, label: "Managed SOC: On-Demand Escalation", desc: "Surge capacity when your team needs reinforcement, activated when you need additional capacity for major incidents, threat hunts, or coverage gaps.", href: "/services/managed-soc" },
   { icon: Shield, label: "Advisory Services", desc: "Expert guidance when your environment needs more than your team. Schedule with our team on demand.", href: "/services/security-assessments" },
   { icon: BarChart3, label: "Deployment & Integration", desc: "Deployment engineering when your team wants outside expertise on a specific integration challenge.", href: "/services/custom-automation" },
 ];
