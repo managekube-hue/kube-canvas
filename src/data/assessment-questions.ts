@@ -1145,7 +1145,53 @@ export const CM_QUESTIONS: AssessmentQuestion[] = [
       { label: "No cloud skills currently", value: "none", score: { complexity: 2 } },
     ],
   },
-  // CM-05: Success metrics
+  // CM-05: Data sovereignty requirements
+  {
+    code: "CM-Q5A",
+    flow: "CM",
+    label: "Do you have data sovereignty or residency requirements?",
+    description: "Data residency mandates restrict which cloud regions and providers can be used.",
+    type: "single",
+    hubspotProperty: "mk_cf_cloud_maturity",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Yes, strict regulatory requirements (specific country/region)", value: "strict", score: { complexity: 3 } },
+      { label: "Yes, preference for domestic hosting", value: "preference", score: { complexity: 1 } },
+      { label: "No specific requirements", value: "none" },
+    ],
+  },
+  // CM-05: Cloud provider preference
+  {
+    code: "CM-Q8A",
+    flow: "CM",
+    label: "Which cloud provider(s) are you using or evaluating?",
+    type: "multi",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Microsoft Azure", value: "azure" },
+      { label: "Amazon Web Services (AWS)", value: "aws" },
+      { label: "Google Cloud Platform", value: "gcp" },
+      { label: "Oracle Cloud", value: "oracle" },
+      { label: "Multi-cloud strategy", value: "multi_cloud", score: { complexity: 2 } },
+      { label: "Not yet decided", value: "undecided" },
+    ],
+  },
+  // CM-05: Network readiness for cloud
+  {
+    code: "CM-Q10A",
+    flow: "CM",
+    label: "How would you rate your network readiness for cloud workloads?",
+    description: "Insufficient bandwidth and latency issues are the #1 cause of failed cloud migrations.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Excellent — redundant internet, SD-WAN, QoS configured", value: "excellent", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Adequate — single ISP, sufficient bandwidth", value: "adequate", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Questionable — bandwidth concerns or reliability issues", value: "questionable", score: { risk: 5 } },
+      { label: "Not assessed", value: "unknown", score: { risk: 3 } },
+    ],
+  },
+  // CM-06: Success metrics
   {
     code: "CM-Q16",
     flow: "CM",
@@ -1162,7 +1208,7 @@ export const CM_QUESTIONS: AssessmentQuestion[] = [
       { label: "Compliance achievement", value: "compliance" },
     ],
   },
-  // CM-05: Cloud budget
+  // CM-06: Cloud budget
   {
     code: "CM-Q17",
     flow: "CM",
