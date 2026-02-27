@@ -39,7 +39,7 @@ export const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 lg:pt-24 pb-24 overflow-hidden bg-black">
-      {/* Video Background — prominent, person walking into NOC */}
+      {/* Video Background: prominent, person walking into NOC */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
