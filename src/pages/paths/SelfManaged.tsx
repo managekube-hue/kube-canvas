@@ -259,7 +259,7 @@ export default function SelfManaged() {
       </div>
 
       {/* ══ SECTION 1: Platform Architecture ════════════════════════════ */}
-      {/* Doc: "Platform Architecture — How Kubric UIDR Orchestrates Your Environment" */}
+      {/* Doc: "Platform Architecture: How Kubric UIDR Orchestrates Your Environment" */}
       <section className="py-24" style={{ background: BG }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Platform Architecture</p>
