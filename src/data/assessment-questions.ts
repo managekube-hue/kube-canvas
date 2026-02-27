@@ -1377,7 +1377,37 @@ export const GE_QUESTIONS: AssessmentQuestion[] = [
       { label: "No API strategy", value: "none" },
     ],
   },
-  // GE-03: Multi-site expansion / M&A
+  // GE-03: Digital transformation maturity
+  {
+    code: "GE-Q7A",
+    flow: "GE",
+    label: "How would you describe your digital transformation maturity?",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Leading — cloud-native, data-driven decisions, AI/ML in production", value: "leading", score: { cf_automation_maturity: 3 } },
+      { label: "Progressing — some cloud, some automation, digital roadmap exists", value: "progressing", score: { cf_automation_maturity: 2 } },
+      { label: "Beginning — mostly manual, starting to explore digital tools", value: "beginning", score: { cf_automation_maturity: 1 } },
+      { label: "Traditional — paper-based, minimal technology adoption", value: "traditional", score: { complexity: 2 } },
+    ],
+  },
+  // GE-03: Customer-facing technology
+  {
+    code: "GE-Q11A",
+    flow: "GE",
+    label: "What customer-facing technology investments are planned?",
+    type: "multi",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "E-commerce / digital storefront", value: "ecommerce" },
+      { label: "Customer portal / self-service", value: "customer_portal" },
+      { label: "CRM / marketing automation", value: "crm_marketing" },
+      { label: "Mobile application", value: "mobile_app" },
+      { label: "AI/chatbot customer service", value: "ai_chatbot" },
+      { label: "None planned", value: "none" },
+    ],
+  },
+  // GE-04: Multi-site expansion / M&A
   {
     code: "GE-Q12",
     flow: "GE",
