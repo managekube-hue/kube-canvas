@@ -232,7 +232,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-30078",
     name: "Windows Wi-Fi Driver RCE",
     description: "Remote code execution vulnerability in Windows Wi-Fi driver allows nearby attackers to execute code.",
-    plainEnglish: "Nearby attackers can compromise your machine via Wi-Fi — no user interaction required.",
+    plainEnglish: "Nearby attackers can compromise your machine via Wi-Fi, no user interaction required.",
     cvss: 8.8,
     epss: 0.35,
     severity: "HIGH",
