@@ -338,10 +338,10 @@ export const docModules: DocModule[] = [
     number: 15,
     code: "MDM",
     name: "Mobile Device Management",
-    fullName: "MDM — Mobile Device Management",
+    fullName: "MDM: Mobile Device Management",
     category: "operations",
-    tagline: "MicroMDM is MIT-licensed Go — all packages import directly into the NOC module.",
-    description: "MicroMDM is MIT-licensed Go — all packages import directly into the NOC module. Headwind MDM is called via REST wrapper. Android Enterprise is Google API calls. Covers iOS MDM, Android MDM, enrollment, and compliance enforcement across all mobile platforms.",
+    tagline: "MicroMDM is MIT-licensed Go: all packages import directly into the NOC module.",
+    description: "MicroMDM is MIT-licensed Go, all packages import directly into the NOC module. Headwind MDM is called via REST wrapper. Android Enterprise is Google API calls. Covers iOS MDM, Android MDM, enrollment, and compliance enforcement across all mobile platforms.",
     libraries: [
       { capability: "iOS MDM", library: "MicroMDM (Go lib)", importPath: 'import "github.com/micromdm/micromdm/mdm"', license: "MIT — embed freely", kubricModule: "NOC iOS" },
       { capability: "iOS Commands", library: "Apple MDM Protocol (via MicroMDM)", importPath: 'import "github.com/micromdm/micromdm/mdm/mdm"', license: "MIT — embed", kubricModule: "NOC iOS" },
