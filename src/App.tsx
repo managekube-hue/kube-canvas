@@ -204,6 +204,7 @@ const App = () => (
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/assessment/start" element={<AssessmentEngine />} />
+          <Route path="/bom" element={<BomCatalogue />} />
           <Route path="/find-by-problem" element={<FindByProblem />} />
           <Route path="/find-by-size" element={<Navigate to="/solutions/by-market-size" replace />} />
           <Route path="/solutions" element={<SolutionsHub />} />
