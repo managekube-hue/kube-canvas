@@ -136,7 +136,7 @@ export const docModules: DocModule[] = [
     number: 6,
     code: "ADR",
     name: "Application Detection & Response",
-    fullName: "ADR — Application Detection & Response",
+    fullName: "ADR: Application Detection & Response",
     category: "network",
     tagline: "ModSecurity CRS rules vendored as SecLang data. Kong's Go Plugin SDK imported directly.",
     description: "ModSecurity CRS rules are vendored SecLang data. Kong's Go Plugin Development Kit is imported directly. Nuclei engine provides API/WAF scanning as an embedded Go library. Covers WAF core rules, API gateway, API vulnerability scanning, injection rules, and rate limiting.",
