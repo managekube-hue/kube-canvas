@@ -8,7 +8,7 @@ import childPageVideo from "@/assets/child-page.mp4";
 const layers = [
   { title: "The Ingestion Layer", desc: "Collects telemetry from every source in your environment: endpoints, network flows, cloud APIs, identity providers, applications, and data stores. Every raw signal is normalized into a strict, common schema at the moment of ingest." },
   { title: "The Detection Layer", desc: "Runs 20 purpose-built capabilities across four operational disciplines. Each capability is tuned for its domain. Each writes findings to the same underlying graph database." },
-  { title: "The Graph Layer", desc: "Correlates every signal against every other signal in real time. Entities — users, devices, IP addresses, files, applications — are connected automatically. Relationships are mapped continuously." },
+  { title: "The Graph Layer", desc: "Correlates every signal against every other signal in real time. Entities (users, devices, IP addresses, files, applications) are connected automatically. Relationships are mapped continuously." },
   { title: "The Intelligence Layer", desc: "Applies machine learning, behavioral baselines, and threat intelligence to every finding. Noise is filtered. Priority is assigned. Recommended actions are generated." },
 ];
 
