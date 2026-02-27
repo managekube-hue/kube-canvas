@@ -20,7 +20,7 @@ const capabilities: Record<string, string[]> = {
 };
 
 const unifiers = [
-  { title: "1. The Data Graph", desc: "Every signal from every capability writes to the same entity-relationship graph. When an identity anomaly and a network beacon occur simultaneously across the same user and device, they are connected automatically — not joined in a post-hoc query." },
+  { title: "1. The Data Graph", desc: "Every signal from every capability writes to the same entity-relationship graph. When an identity anomaly and a network beacon occur simultaneously across the same user and device, they are connected automatically, not joined in a post-hoc query." },
   { title: "2. The Methodology", desc: "Every detection follows the same eight-stage lifecycle: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close. No gaps. No shortcuts. No incident closes without a documented resolution." },
   { title: "3. The AI Layer", desc: "KubricAI learns from every detection, every analyst decision, and every closed incident. Over time, noise decreases, priority accuracy increases, and recommendations become more precise." },
 ];
