@@ -896,7 +896,53 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "No DR plan", value: "no", score: { cf_dr_bc_maturity: -2 }, flags: { no_dr_plan: true } },
     ],
   },
-  // IA-05: Cloud workload distribution (per spec IA-Q22)
+  // IA-05: Desktop / workstation OS
+  {
+    code: "IA-Q10_DESKTOP",
+    flow: "IA",
+    label: "What desktop/workstation operating systems are deployed?",
+    description: "End-of-life desktop OS is the most common lateral movement enabler in ransomware events.",
+    type: "multi",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Windows 11", value: "win11", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Windows 10 (supported)", value: "win10", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Windows 8.1 / 7 (End of Life)", value: "win_eol", score: { risk: 15 }, flags: { unsupported_os: true } },
+      { label: "macOS (latest 2 versions)", value: "macos_current", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Linux workstations", value: "linux", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Chrome OS", value: "chromeos", score: { cf_infrastructure_maturity: 1 } },
+    ],
+  },
+  // IA-05: Mobile device management
+  {
+    code: "IA-Q11_MDM",
+    flow: "IA",
+    label: "How are mobile devices managed?",
+    description: "Unmanaged mobile devices accessing corporate data represent a significant data loss risk.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Full MDM/UEM solution (Intune, JAMF, etc.)", value: "full_mdm", score: { cf_infrastructure_maturity: 3 } },
+      { label: "Basic mobile management (email only)", value: "basic_mdm", score: { cf_infrastructure_maturity: 1 } },
+      { label: "BYOD with no management", value: "byod_unmanaged", score: { risk: 10 } },
+      { label: "No mobile device policy", value: "none", score: { risk: 15 } },
+    ],
+  },
+  // IA-05: Wireless infrastructure
+  {
+    code: "IA-Q12_WIRELESS",
+    flow: "IA",
+    label: "What is the state of your wireless infrastructure?",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Enterprise-grade WiFi 6/6E with centralised management", value: "enterprise_wifi6", score: { cf_infrastructure_maturity: 3 } },
+      { label: "Managed access points (WiFi 5 or earlier)", value: "managed_wifi5", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Consumer-grade equipment", value: "consumer", score: { risk: 5 } },
+      { label: "No managed wireless", value: "none" },
+    ],
+  },
+  // IA-06: Cloud workload distribution (per spec IA-Q22)
   {
     code: "IA-Q22",
     flow: "IA",
@@ -912,7 +958,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "All on-premises", value: "all_onprem", score: { cf_cloud_maturity: 0 } },
     ],
   },
-  // IA-05: Cloud security controls (per spec IA-Q22A)
+  // IA-06: Cloud security controls (per spec IA-Q22A)
   {
     code: "IA-Q22A",
     flow: "IA",
