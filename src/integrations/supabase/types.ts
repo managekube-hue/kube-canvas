@@ -2864,6 +2864,7 @@ export type Database = {
       }
     }
     Functions: {
+      crm_users_is_empty: { Args: never; Returns: boolean }
       get_crm_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["crm_role"]
