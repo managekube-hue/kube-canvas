@@ -378,7 +378,7 @@ export const docModules: DocModule[] = [
     number: 17,
     code: "GRC",
     name: "Governance, Risk & Compliance",
-    fullName: "GRC — Governance, Risk & Compliance",
+    fullName: "GRC: Governance, Risk & Compliance",
     category: "governance",
     tagline: "NIST OSCAL JSON and CIS XCCDF are public domain/CC data files vendored in the monorepo.",
     description: "NIST OSCAL JSON and CIS XCCDF are public domain/CC data files vendored in the monorepo. OPA provides policy-as-code. ProjectDiscovery suite (Subfinder, Httpx, Naabu) all embed as Go libraries under MIT license. Covers compliance frameworks, control evidence, SBOM, supply chain, TPRM, and risk quantification.",
