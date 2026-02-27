@@ -319,7 +319,7 @@ const IndustriesBand = () => (
         {industries.map((ind, i) => (
           <motion.div key={ind.name} {...fadeUp} transition={{ delay: i * 0.06 }}>
             <Link to={ind.href}
-              className="group flex flex-col items-center p-8 bg-card border border-border hover:border-primary/30 transition-all hover:shadow-md text-center"
+              className="group flex flex-col items-center justify-center p-8 aspect-square bg-card border border-border hover:border-primary/30 transition-all hover:shadow-md text-center"
             >
               <ind.icon size={32} strokeWidth={1.3} className="mb-4 text-primary transition-colors" />
               <p className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{ind.name}</p>
