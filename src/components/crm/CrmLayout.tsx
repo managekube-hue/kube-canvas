@@ -14,6 +14,7 @@ const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/crm" },
   { label: "Lead Pipeline", icon: BarChart3, path: "/crm/leads" },
   { label: "CSV Upload", icon: Upload, path: "/crm/bulk-upload" },
+  { label: "Careers", icon: Megaphone, path: "/crm/careers" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },
