@@ -70,7 +70,7 @@ const PLATFORM_MODULES = [
     icon: BookOpen,
     label: "K-DOCS Monorepo",
     desc: "120k+ detection assets. Full library-to-module mapping.",
-    detail: "The complete K-DOCS detection library — from K-MAP-001 through K-MAP-020. Every playbook, every runbook, every detection rule available to your team immediately.",
+    detail: "The complete K-DOCS detection library, from K-MAP-001 through K-MAP-020. Every playbook, every runbook, every detection rule available to your team immediately.",
     href: "/uidr/docs",
   },
   {
