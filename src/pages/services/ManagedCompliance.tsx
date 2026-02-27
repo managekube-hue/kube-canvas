@@ -4,7 +4,7 @@ export default function ManagedCompliance() {
     category="Managed Services"
     name="Managed Compliance & GRC"
     tagline="Continuous compliance monitoring and evidence collection across 100+ frameworks."
-    description="ManageKube Managed Compliance & GRC delivers continuous monitoring, evidence collection, and audit preparation across all your regulatory obligations. Expert GRC analysts handle the heavy lifting — mapping controls, gathering evidence, tracking remediation, and preparing your organization for audits — so your team can focus on running the business."
+    description="ManageKube Managed Compliance & GRC delivers continuous monitoring, evidence collection, and audit preparation across all your regulatory obligations. Expert GRC analysts handle the heavy lifting: mapping controls, gathering evidence, tracking remediation, and preparing your organization for audits so your team can focus on running the business."
     sections={[
       {
         title: "Continuous Monitoring",

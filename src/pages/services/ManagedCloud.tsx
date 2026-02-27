@@ -22,7 +22,7 @@ export default function ManagedCloud() {
           "Cost anomaly detection and automated alerting",
           "Reserved instance and savings plan optimization",
           "Right-sizing recommendations based on utilization data",
-          "Waste elimination — orphaned resources, idle instances, unused storage",
+          "Waste elimination: orphaned resources, idle instances, unused storage",
           "Commitment management and discount program optimization",
         ],
       },

@@ -4,7 +4,7 @@ export default function SecurityAssessments() {
     category="Advisory Services"
     name="Security Assessments"
     tagline="Holistic security posture evaluation with risk prioritization and actionable remediation roadmaps."
-    description="Security Assessments provide a comprehensive evaluation of your security posture across infrastructure, applications, policies, and processes. Our certified assessors identify vulnerabilities, configuration weaknesses, compliance gaps, and policy deficiencies — delivering a prioritized remediation roadmap that maps risk to business impact."
+    description="Security Assessments provide a comprehensive evaluation of your security posture across infrastructure, applications, policies, and processes. Our certified assessors identify vulnerabilities, configuration weaknesses, compliance gaps, and policy deficiencies, delivering a prioritized remediation roadmap that maps risk to business impact."
     sections={[
       {
         title: "Infrastructure Assessment",

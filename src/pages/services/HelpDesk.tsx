@@ -4,7 +4,7 @@ export default function HelpDesk() {
     category="Professional Services: BOM Add-On"
     name="Help Desk"
     tagline="White-glove user support with tiered escalation and SLA-backed resolution times."
-    description="ManageKube Help Desk delivers Tier 1–3 end-user support for your workforce. From password resets and application troubleshooting to complex escalations, our certified technicians resolve issues fast — so your internal team can focus on strategic initiatives instead of break-fix tickets. Available as a standalone BOM add-on to any Service Tier."
+    description="ManageKube Help Desk delivers Tier 1 through 3 end-user support for your workforce. From password resets and application troubleshooting to complex escalations, our certified technicians resolve issues fast so your internal team can focus on strategic initiatives instead of break-fix tickets. Available as a standalone BOM add-on to any Service Tier."
     sections={[
       {
         title: "End-User Support",

@@ -4,7 +4,7 @@ export default function NetworkBuildouts() {
     category="Deployment & Integration"
     name="Network Infrastructure Buildouts"
     tagline="Enterprise network design, deployment, and migration for wired, wireless, and SD-WAN infrastructure."
-    description="Network Infrastructure Buildouts deliver enterprise network design and deployment for new facilities, office expansions, and technology refreshes. Structured cabling, switching and routing, wireless infrastructure, SD-WAN implementation, and security appliance deployment — engineered, deployed, and documented by certified network professionals."
+    description="Network Infrastructure Buildouts deliver enterprise network design and deployment for new facilities, office expansions, and technology refreshes. Structured cabling, switching and routing, wireless infrastructure, SD-WAN implementation, and security appliance deployment, engineered, deployed, and documented by certified network professionals."
     sections={[
       {
         title: "Network Design & Architecture",
