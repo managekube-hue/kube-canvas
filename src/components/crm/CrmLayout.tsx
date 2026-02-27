@@ -16,6 +16,7 @@ const navItems = [
   { label: "CSV Upload", icon: Upload, path: "/crm/bulk-upload" },
   { label: "Careers", icon: Megaphone, path: "/crm/careers" },
   { label: "Assessments", icon: ClipboardCheck, path: "/crm/assessments" },
+  { label: "BOM Quotes", icon: ShoppingCart, path: "/crm/bom-quotes" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },
