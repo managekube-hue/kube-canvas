@@ -1,6 +1,6 @@
 /**
- * Methodology Page — 8-Step Closed Lifecycle
- * Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close
+ * Methodology Page: 8-Step Closed Lifecycle
+ * Hunt > Identify > Alert > Triage > Diagnose > Remediate > Document > Close
  */
 
 import { PageLayout } from "@/components/PageLayout";
