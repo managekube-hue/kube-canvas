@@ -162,6 +162,8 @@ import CrmSettings from "./pages/crm/CrmSettings";
 import CrmLeadImport from "./pages/crm/CrmLeadImport";
 import CrmBulkUpload from "./pages/crm/CrmBulkUpload";
 import CrmCareers from "./pages/crm/CrmCareers";
+import CrmAssessmentSessions from "./pages/crm/CrmAssessmentSessions";
+import BomCatalogue from "./pages/BomCatalogue";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
