@@ -112,7 +112,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2023-46805",
     name: "Ivanti Connect Secure Auth Bypass",
     description: "Authentication bypass vulnerability in Ivanti Connect Secure allows remote attackers to access restricted resources.",
-    plainEnglish: "Bypass authentication on VPN appliances — chained with CVE-2024-21887 for full remote code execution.",
+    plainEnglish: "Bypass authentication on VPN appliances, chained with CVE-2024-21887 for full remote code execution.",
     cvss: 8.2,
     epss: 0.91,
     severity: "HIGH",
