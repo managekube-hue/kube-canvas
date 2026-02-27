@@ -46,15 +46,23 @@ export function CrmLayout() {
   }
 
   if (error === "no_access" || !crmUser) {
+    const handleSwitchAccount = async () => {
+      await supabase.auth.signOut();
+      navigate("/auth/login?redirect=/crm");
+    };
+
     return (
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4 max-w-md p-8">
           <Shield className="h-12 w-12 mx-auto text-destructive" />
           <h1 className="text-2xl font-bold text-foreground">Access Denied</h1>
           <p className="text-muted-foreground">
-            You don't have CRM access. Contact your administrator to be added as a CRM user.
+            You don't have CRM access. If you have CRM credentials, sign in with your CRM account below.
           </p>
-          <Button variant="outline" onClick={() => navigate("/")}>Back to Site</Button>
+          <div className="flex flex-col gap-2">
+            <Button onClick={handleSwitchAccount}>Sign in with CRM Account</Button>
+            <Button variant="outline" onClick={() => navigate("/")}>Back to Site</Button>
+          </div>
         </div>
       </div>
     );
