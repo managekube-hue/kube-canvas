@@ -14,11 +14,11 @@ const models = [
 ];
 
 const delivers = [
-  "70–90% noise reduction — your analysts receive fewer, higher-fidelity alerts",
-  "Priority-scored findings — your team addresses what minimizes actual risk",
-  "Actionable recommendations — containment and response initiate faster",
-  "Continuous learning — the platform improves with every closed incident",
-  "Analyst efficiency — more critical incidents resolved per analyst hour",
+  "70 to 90% noise reduction: your analysts receive fewer, higher-fidelity alerts",
+  "Priority-scored findings: your team addresses what minimizes actual risk",
+  "Actionable recommendations: containment and response initiate faster",
+  "Continuous learning: the platform improves with every closed incident",
+  "Analyst efficiency: more critical incidents resolved per analyst hour",
 ];
 
 export default function KubricAi() {
