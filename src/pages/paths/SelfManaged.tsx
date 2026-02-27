@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 
 
 
-/** DO NOT TOUCH — Self-Managed Home — per architecture doc page 27/23 */
+/** DO NOT TOUCH: Self-Managed Home, per architecture doc page 27/23 */
 
 // Doc: Route prefix /self-managed
 // Doc: Hero → "The Platform. No Managed Layer. Full Control."
