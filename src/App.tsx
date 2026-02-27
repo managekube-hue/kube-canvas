@@ -151,6 +151,11 @@ import CrmContacts from "./pages/crm/CrmContacts";
 import CrmContactDetail from "./pages/crm/CrmContactDetail";
 import CrmDeals from "./pages/crm/CrmDeals";
 import CrmTickets from "./pages/crm/CrmTickets";
+import CrmContracts from "./pages/crm/CrmContracts";
+import CrmAssets from "./pages/crm/CrmAssets";
+import CrmTimeTracking from "./pages/crm/CrmTimeTracking";
+import CrmDeployments from "./pages/crm/CrmDeployments";
+import CrmAuditLog from "./pages/crm/CrmAuditLog";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
 
 // UIDR Open Source Docs Site
