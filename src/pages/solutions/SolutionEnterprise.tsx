@@ -1,4 +1,4 @@
-/** Enterprise Solutions — /solutions/by-market-size/enterprise — word-for-word from Solutions.docx pages 10-11 */
+/** Enterprise Solutions: /solutions/by-market-size/enterprise: word-for-word from Solutions.docx pages 10-11 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function SolutionEnterprise() {
