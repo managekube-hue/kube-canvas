@@ -180,7 +180,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-47575",
     name: "FortiManager Missing Authentication",
     description: "Missing authentication for critical function in FortiManager allows remote unauthenticated attackers to execute arbitrary code.",
-    plainEnglish: "Take over Fortinet management — control firewalls across your entire network without credentials.",
+    plainEnglish: "Take over Fortinet management. Control firewalls across your entire network without credentials.",
     cvss: 9.8,
     epss: 0.88,
     severity: "CRITICAL",
