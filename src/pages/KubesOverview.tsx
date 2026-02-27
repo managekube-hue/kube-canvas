@@ -26,6 +26,8 @@ const modules = [
   { id: "vdr", name: "VDR", tagline: "Vulnerability Detection & Response", description: "Vulnerabilities prioritised by real exploitability risk, not just CVSS scores.", href: "/service-layer/vdr", pillar: "INTELLIGENCE" },
   { id: "grc", name: "GRC", tagline: "Governance, Risk & Compliance", description: "Compliance automation across 100+ frameworks with continuous control monitoring and evidence collection.", href: "/service-layer/grc", pillar: "INTELLIGENCE" },
   { id: "strike", name: "STRIKE", tagline: "Strategic Intelligence & Kill-chain Enrichment", description: "Advanced adversary tracking, campaign attribution, and kill-chain mapping for proactive defence.", href: "/service-layer/strike", pillar: "INTELLIGENCE" },
+  { id: "msp", name: "MSP", tagline: "Managed Service Provider", description: "Multi-tenant service delivery, SLA monitoring, and operational dashboards for managed IT.", href: "/service-layer/msp", pillar: "INTELLIGENCE" },
+  { id: "mssp", name: "MSSP", tagline: "Managed Security Service Provider", description: "Security-as-a-service delivery, SOC operations, and client reporting for managed security.", href: "/service-layer/mssp", pillar: "INTELLIGENCE" },
 ];
 
 const pillars = ["INFRASTRUCTURE", "DETECTION & RESPONSE", "INTELLIGENCE"];
@@ -35,7 +37,7 @@ const ServiceLayerOverview = () => {
     <PageLayout>
       <PageBanner
         title="The Service Layer"
-        subtitle="18 specialised detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance. Each module maps directly to a set of OSS libraries, NATS subjects, and KAI orchestration personas."
+        subtitle="20 specialised detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance. Each module maps directly to a set of OSS libraries, NATS subjects, and KAI orchestration personas."
         phase="CAPABILITIES"
       />
 
