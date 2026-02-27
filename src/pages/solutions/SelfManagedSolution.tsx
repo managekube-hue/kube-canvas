@@ -11,7 +11,7 @@ export default function SelfManagedSolution() {
       sections={[
         {
           title: "The Self-Managed Model",
-          body: "Self-Managed is for organizations with experienced security teams who intend to operate their own detection and response program — but have no interest in building and maintaining the underlying infrastructure from scratch. The same Kubric architecture that powers ManageKube managed services is available as a licensed toolset for internal operation. Self-Managed delivers: we provide the toolset, updates, and support. Your team runs detection and response.",
+          body: "Self-Managed is for organizations with experienced security teams who intend to operate their own detection and response program, but have no interest in building and maintaining the underlying infrastructure from scratch. The same Kubric architecture that powers ManageKube managed services is available as a licensed toolset for internal operation. Self-Managed delivers: we provide the toolset, updates, and support. Your team runs detection and response.",
         },
         {
           title: "What Self-Managed Includes",
