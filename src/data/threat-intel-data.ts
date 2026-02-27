@@ -262,7 +262,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-5274",
     name: "Chrome V8 Type Confusion",
     description: "Type confusion in V8 JavaScript engine in Google Chrome allows remote code execution via crafted HTML page.",
-    plainEnglish: "Visit a malicious website and your browser gets compromised — used in targeted attacks.",
+    plainEnglish: "Visit a malicious website and your browser gets compromised. Used in targeted attacks.",
     cvss: 8.8,
     epss: 0.55,
     severity: "HIGH",
