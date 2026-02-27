@@ -95,7 +95,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-1709",
     name: "ConnectWise ScreenConnect Auth Bypass",
     description: "Authentication bypass using an alternate path or channel in ConnectWise ScreenConnect allows unauthorized access to the setup wizard.",
-    plainEnglish: "Complete takeover of remote access tool — attackers bypass login entirely. Used in ransomware campaigns.",
+    plainEnglish: "Complete takeover of remote access tool. Attackers bypass login entirely. Used in ransomware campaigns.",
     cvss: 10.0,
     epss: 0.96,
     severity: "CRITICAL",
