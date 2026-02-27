@@ -76,7 +76,6 @@ export function InnerKube({ module, position }: InnerKubeProps) {
         position={[0, -0.35, 0]}
         fontSize={0.1}
         color={hovered ? "#00ff88" : baseColor}
-        font="/fonts/RobotoMono-Bold.ttf"
         anchorX="center"
         anchorY="top"
         outlineWidth={0.003}
