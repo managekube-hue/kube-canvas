@@ -58,7 +58,7 @@ export const HeroSection = () => {
       {/* Content: two-column, text left, constellation right */}
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — headline + CTAs */}
+          {/* Left: headline + CTAs */}
           <div className="max-w-2xl">
             {/* Accent line */}
             <motion.div
