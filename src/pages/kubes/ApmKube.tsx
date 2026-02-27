@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.32-33) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.32-33) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function ApmKube() {
   return <ServiceLayerPage

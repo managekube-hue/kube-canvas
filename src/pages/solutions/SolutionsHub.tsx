@@ -76,7 +76,7 @@ export default function SolutionsHub() {
             Security and IT challenges do not present identically across organizations. A fast-growing startup has different priorities than a regulated enterprise. A manufacturer faces a different threat profile than a financial services firm. An organization building its security program from the ground up requires different support than one with a mature team looking to extend coverage and fill gaps.
           </p>
           <p className="text-[16px] leading-relaxed max-w-4xl mt-6" style={{ color: "#393837" }}>
-            ManageKube solutions are structured to meet you where you are — by problem, by size, by industry, and by service model.
+            ManageKube solutions are structured to meet you where you are: by problem, by size, by industry, and by service model.
           </p>
         </div>
       </section>

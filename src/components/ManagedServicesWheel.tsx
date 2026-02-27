@@ -149,7 +149,7 @@ export const ManagedServicesWheel = ({
             </AnimatePresence>
           </div>
 
-          {/* Right — SVG wheel */}
+          {/* Right: SVG wheel */}
           <div className="flex items-center justify-center">
             <svg
               viewBox="0 0 500 500"

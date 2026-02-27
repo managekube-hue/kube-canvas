@@ -50,7 +50,7 @@ export default function Login() {
           </h1>
           <p className="text-sm text-white/50 mt-2">
             {isCrmLogin
-              ? "Access ManageKube CRM — credentials provided by your admin"
+              ? "Access ManageKube CRM. Credentials provided by your admin."
               : "Access Technical Docs & Developer Tools"}
           </p>
         </div>
