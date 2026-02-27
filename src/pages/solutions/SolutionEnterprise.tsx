@@ -16,12 +16,12 @@ export default function SolutionEnterprise() {
         {
           title: "What Enterprises Need",
           items: [
-            "Global 24/7 Coverage — Global operations span time zones. The internal team cannot maintain coverage across all of them. Coverage must match the operational footprint of the organization.",
-            "Regulatory Depth — FedRAMP. CMMC. PCI-DSS. HIPAA. GDPR. ISO 27001. Regulatory obligations are extensive and overlap. Evidence is required, not assurances.",
-            "Custom Integration — Existing tools, workflows, and governance processes represent institutional investment. Integration is required. Replacement is not on the table.",
-            "Actionable Threat Intelligence — Adversary targeting is industry-specific. Intelligence must be curated, mapped to the organization's sector, and actionable — not generic threat feeds.",
-            "Deception and Proactive Hunting — Proactive detection through honeypots, deception infrastructure, threat hunting, and external attack surface monitoring — finding adversaries before they find critical assets.",
-            "Partnership at the Architectural Level — A partner who engages at the architecture, strategy, and roadmap level — not one that executes tickets and generates reports.",
+            "Global 24/7 Coverage: Global operations span time zones. The internal team cannot maintain coverage across all of them. Coverage must match the operational footprint of the organization.",
+            "Regulatory Depth: FedRAMP. CMMC. PCI-DSS. HIPAA. GDPR. ISO 27001. Regulatory obligations are extensive and overlap. Evidence is required, not assurances.",
+            "Custom Integration: Existing tools, workflows, and governance processes represent institutional investment. Integration is required. Replacement is not on the table.",
+            "Actionable Threat Intelligence: Adversary targeting is industry-specific. Intelligence must be curated, mapped to the organization's sector, and actionable, not generic threat feeds.",
+            "Deception and Proactive Hunting: Proactive detection through honeypots, deception infrastructure, threat hunting, and external attack surface monitoring. Finding adversaries before they find critical assets.",
+            "Partnership at the Architectural Level: A partner who engages at the architecture, strategy, and roadmap level, not one that executes tickets and generates reports.",
           ],
         },
         {
