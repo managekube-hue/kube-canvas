@@ -25,7 +25,7 @@ export const docModules: DocModule[] = [
     number: 1,
     code: "EDR",
     name: "Endpoint Detection & Response",
-    fullName: "EDR — Endpoint Detection & Response",
+    fullName: "EDR: Endpoint Detection & Response",
     category: "endpoint",
     tagline: "CoreSec module. eBPF-powered process monitoring, malware detection, and memory forensics.",
     description: "CoreSec module. Libraries import directly into the Rust agent binary via Aya-rs eBPF; detection rules are vendored as data. Provides process monitoring, file integrity monitoring, malware detection via YARA-X, and memory forensics through Velociraptor artifacts.",
