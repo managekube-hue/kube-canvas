@@ -37,7 +37,7 @@ const ServiceLayerOverview = () => {
     <PageLayout>
       <PageBanner
         title="The Service Layer"
-        subtitle="18 specialised detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance. Each module maps directly to a set of OSS libraries, NATS subjects, and KAI orchestration personas."
+        subtitle="20 specialised detection, response, and operations modules delivering targeted coverage across infrastructure, security, and compliance. Each module maps directly to a set of OSS libraries, NATS subjects, and KAI orchestration personas."
         phase="CAPABILITIES"
       />
 
