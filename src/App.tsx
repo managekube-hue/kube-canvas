@@ -157,6 +157,9 @@ import CrmTimeTracking from "./pages/crm/CrmTimeTracking";
 import CrmDeployments from "./pages/crm/CrmDeployments";
 import CrmAuditLog from "./pages/crm/CrmAuditLog";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
+import CrmInvoices from "./pages/crm/CrmInvoices";
+import CrmSettings from "./pages/crm/CrmSettings";
+import CrmLeadImport from "./pages/crm/CrmLeadImport";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
