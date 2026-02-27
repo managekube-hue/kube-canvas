@@ -26,10 +26,10 @@ export default function SolutionSmb() {
         {
           title: "Recommended Solutions",
           items: [
-            "Managed SOC — 24/7 security monitoring and incident response. KubricAI reduces noise so the team sees only what matters.",
-            "Managed Compliance — Continuous monitoring against relevant frameworks. Automated evidence collection. Audit-ready always.",
-            "Core Infrastructure Orchestration — Know what is in your environment. Continuous asset discovery. Configuration baseline monitoring.",
-            "Help Desk Services — End-user support so the internal team focuses on strategic priorities.",
+            "Managed SOC: 24/7 security monitoring and incident response. KubricAI reduces noise so the team sees only what matters.",
+            "Managed Compliance: Continuous monitoring against relevant frameworks. Automated evidence collection. Audit-ready always.",
+            "Core Infrastructure Orchestration: Know what is in your environment. Continuous asset discovery. Configuration baseline monitoring.",
+            "Help Desk Services: End-user support so the internal team focuses on strategic priorities.",
           ],
         },
         {
