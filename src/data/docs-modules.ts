@@ -357,10 +357,10 @@ export const docModules: DocModule[] = [
     number: 16,
     code: "APM",
     name: "Application Performance Management",
-    fullName: "APM — Application Performance Management",
+    fullName: "APM: Application Performance Management",
     category: "operations",
-    tagline: "OpenTelemetry Go SDK is the observability foundation — traces, metrics, and logs unified.",
-    description: "OpenTelemetry Go SDK is the observability foundation — traces, metrics, and logs unified. Pyroscope and Parca provide eBPF continuous profiling. VictoriaMetrics handles TSDB storage (shared with NPM). Covers distributed tracing, profiling, service topology, and semantic conventions.",
+    tagline: "OpenTelemetry Go SDK is the observability foundation: traces, metrics, and logs unified.",
+    description: "OpenTelemetry Go SDK is the observability foundation: traces, metrics, and logs unified. Pyroscope and Parca provide eBPF continuous profiling. VictoriaMetrics handles TSDB storage (shared with NPM). Covers distributed tracing, profiling, service topology, and semantic conventions.",
     libraries: [
       { capability: "Distributed Tracing", library: "OpenTelemetry Go SDK", importPath: 'import "go.opentelemetry.io/otel/trace"', license: "Apache 2.0 — embed", kubricModule: "PerfTrace Trace" },
       { capability: "Trace Storage", library: "Jaeger Go Client", importPath: 'import "github.com/jaegertracing/jaeger/model"', license: "Apache 2.0 — embed", kubricModule: "PerfTrace" },
