@@ -56,7 +56,7 @@ const PLATFORM_MODULES = [
     icon: Database,
     label: "Kubric Data Graph",
     desc: "Graph data model: nodes, edges, relationships, and query interface.",
-    detail: "The Kubric Data Graph represents your environment as a continuously updated property graph — assets, identities, events, vulnerabilities, and their relationships modeled as nodes and edges queryable via graph API.",
+    detail: "The Kubric Data Graph represents your environment as a continuously updated property graph: assets, identities, events, vulnerabilities, and their relationships modeled as nodes and edges queryable via graph API.",
     href: "/our-tools/kubric-data-graph",
   },
   {
