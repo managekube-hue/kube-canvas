@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.30-31) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.30-31) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function MdmKube() {
   return <ServiceLayerPage
