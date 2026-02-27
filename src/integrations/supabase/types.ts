@@ -182,6 +182,51 @@ export type Database = {
         }
         Relationships: []
       }
+      bom_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          item_count: number
+          items: Json
+          last_name: string | null
+          message: string | null
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          item_count?: number
+          items?: Json
+          last_name?: string | null
+          message?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          item_count?: number
+          items?: Json
+          last_name?: string | null
+          message?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cms_career_applications: {
         Row: {
           cover_letter: string | null
