@@ -194,7 +194,7 @@ function QuoteRequestSection() {
     try {
       const bomSummary = items.map(i => `${i.name} (${i.type})`).join(", ");
       // Persist to dedicated bom_submissions table
-      const { error } = await supabase.from("bom_submissions" as any).insert({
+      const { error } = await supabase.from("bom_submissions").insert({
         first_name: form.firstName.trim(),
         last_name: form.lastName.trim() || null,
         email: form.email.trim(),

@@ -32,12 +32,12 @@ export default function CrmBomQuotes() {
   useEffect(() => {
     (async () => {
       const { data, error } = await supabase
-        .from("bom_submissions" as any)
+        .from("bom_submissions")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(200);
       if (error) console.error(error);
-      setSubmissions((data as any as BomSubmission[]) || []);
+      setSubmissions((data as unknown as BomSubmission[]) || []);
       setLoading(false);
     })();
   }, []);
@@ -52,7 +52,7 @@ export default function CrmBomQuotes() {
   }, [submissions, search]);
 
   const updateStatus = async (id: string, status: string) => {
-    await supabase.from("bom_submissions" as any).update({ status } as any).eq("id", id);
+    await supabase.from("bom_submissions").update({ status }).eq("id", id);
     setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status } : s));
   };
 
