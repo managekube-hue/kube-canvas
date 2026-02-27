@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy */
+/** DO NOT TOUCH: v2.0 spec copy */
 import { PageLayout } from "@/components/PageLayout";
 import { PageBanner } from "@/components/PageBanner";
 import { motion } from "framer-motion";
