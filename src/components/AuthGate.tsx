@@ -1,9 +1,10 @@
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 export const AuthGate = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -14,7 +15,9 @@ export const AuthGate = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!user) {
-    return <Navigate to="/auth/login" replace />;
+    // Redirect to login with return path so CRM users get password-only login
+    const redirect = encodeURIComponent(location.pathname);
+    return <Navigate to={`/auth/login?redirect=${redirect}`} replace />;
   }
 
   return <>{children}</>;

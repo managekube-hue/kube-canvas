@@ -60,7 +60,7 @@ export function CrmLayout() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/auth/login");
+    navigate("/auth/login?redirect=/crm");
   };
 
   const visibleNav = navItems.filter(item => !item.adminOnly || isAdmin);
