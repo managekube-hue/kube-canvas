@@ -300,7 +300,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
           <span className="text-[10px] text-white/25">{recommendedServices.length} recommended · {otherServices.length} additional</span>
         </div>
         <p className="text-[10px] text-white/25 mb-4">
-          One-time engagements, migrations, and project work — priced separately from your managed service tier
+          One-time engagements, migrations, and project work. Priced separately from your managed service tier.
         </p>
 
         {Object.entries(servicesByCategory).map(([category, categoryServices]) => (
