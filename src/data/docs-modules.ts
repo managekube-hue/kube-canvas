@@ -227,7 +227,7 @@ export const docModules: DocModule[] = [
     fullName: "TI: Threat Intelligence",
     category: "intelligence",
     tagline: "MISP taxonomies and galaxies are CC0 JSON. MITRE ATT&CK STIX is CC BY 4.0.",
-    description: "MISP taxonomies, galaxies, and warninglists are CC0 JSON — embed freely in the monorepo vendor directory. MITRE ATT&CK STIX is CC BY 4.0. Live feeds (OTX, AbuseIPDB, CISA KEV) are REST API pulls. Covers feed ingestion, IOC matching, threat actor tracking, and enrichment.",
+    description: "MISP taxonomies, galaxies, and warninglists are CC0 JSON, embed freely in the monorepo vendor directory. MITRE ATT&CK STIX is CC BY 4.0. Live feeds (OTX, AbuseIPDB, CISA KEV) are REST API pulls. Covers feed ingestion, IOC matching, threat actor tracking, and enrichment.",
     libraries: [
       { capability: "Feed Ingestion", library: "MISP Taxonomies (JSON)", importPath: "vendor/misp/taxonomies/**/*.json", license: "CC0/MIT — embed freely", kubricModule: "SIDR TI" },
       { capability: "Feed Ingestion", library: "MISP Galaxies (JSON)", importPath: "vendor/misp/galaxies/**/*.json", license: "CC0/MIT — embed freely", kubricModule: "SIDR TI" },
