@@ -405,7 +405,7 @@ export default function SelfManaged() {
             Pre-configured module sets matched to environment size.<br />Fully customizable from day one.
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-3xl" style={{ color: TEXT_DIM }}>
-            XRO, XMM, and XME are deployment starting points — each one a proven module configuration your team deploys, then expands by adding modules as your detection and response requirements grow.
+            XRO, XMM, and XME are deployment starting points, each one a proven module configuration your team deploys, then expands by adding modules as your detection and response requirements grow.
           </p>
 
           <div className="grid lg:grid-cols-3 gap-[1px]" style={{ background: BORDER }}>
