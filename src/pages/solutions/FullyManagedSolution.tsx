@@ -162,12 +162,12 @@ export default function FullyManagedSolution() {
           <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
           <div className="grid sm:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
             {[
-              "24/7 Platform Operations — We monitor, tune, and maintain the Kubric platform continuously. Your team has no platform management responsibilities.",
-              "Full Methodology Coverage — Every detection runs through Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document, and Close — according to your service tier.",
-              "Incident Response — We respond to incidents. We contain, remediate, document, and close. Your team is notified of outcomes, not tasked with producing them.",
-              "Compliance Evidence — Evidence is collected automatically throughout operations. Audit packages are generated on demand without manual preparation.",
-              "Quarterly Business Reviews — Incidents, trends, and forward-looking recommendations reviewed with your leadership on a defined cadence.",
-              "Dedicated Service Delivery Manager — One named point of contact. One team that maintains continuity of knowledge about your environment.",
+              "24/7 Platform Operations: We monitor, tune, and maintain the Kubric platform continuously. Your team has no platform management responsibilities.",
+              "Full Methodology Coverage: Every detection runs through Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document, and Close, according to your service tier.",
+              "Incident Response: We respond to incidents. We contain, remediate, document, and close. Your team is notified of outcomes, not tasked with producing them.",
+              "Compliance Evidence: Evidence is collected automatically throughout operations. Audit packages are generated on demand without manual preparation.",
+              "Quarterly Business Reviews: Incidents, trends, and forward-looking recommendations reviewed with your leadership on a defined cadence.",
+              "Dedicated Service Delivery Manager: One named point of contact. One team that maintains continuity of knowledge about your environment.",
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }}
                 className="p-6 flex items-start gap-3" style={{ background: "#EEE9E3" }}>
