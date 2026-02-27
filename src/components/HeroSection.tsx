@@ -55,7 +55,7 @@ export const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
       </div>
 
-      {/* Content — two-column: text left, constellation right */}
+      {/* Content: two-column, text left, constellation right */}
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left — headline + CTAs */}
