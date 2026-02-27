@@ -217,7 +217,7 @@ export function ResultsPanel({ scores, answers, flags }: ResultsPanelProps) {
 
         {criticalModules.length > 0 && (
           <div className="mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">Critical — Address Immediately</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-2">Critical: Address Immediately</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {criticalModules.map((m) => (
                 <ModuleCard key={m.name} module={m} />
