@@ -16,14 +16,12 @@ interface Module {
 }
 
 const MODULES: Module[] = [
-  // Infrastructure (6)
   { id: "CIO", label: "CIO", fullName: "Chief Infrastructure Orchestrator", pillar: "infra", desc: "Unified infrastructure visibility and control across hybrid environments.", href: "/service-layer/cio" },
   { id: "NPM", label: "NPM", fullName: "Network Performance Management", pillar: "infra", desc: "Deep packet inspection, flow analysis, and network health scoring.", href: "/service-layer/npm" },
   { id: "MDM", label: "MDM", fullName: "Mobile Device Management", pillar: "infra", desc: "Endpoint enrollment, policy enforcement, and remote wipe capabilities.", href: "/service-layer/mdm" },
   { id: "APM", label: "APM", fullName: "Application Performance Management", pillar: "infra", desc: "Real-time application tracing, latency analysis, and dependency mapping.", href: "/service-layer/apm" },
   { id: "CFDR", label: "CFDR", fullName: "Cloud Firewall Detection & Response", pillar: "infra", desc: "Cloud-native firewall policy management and anomaly detection.", href: "/service-layer/cfdr" },
   { id: "BDR", label: "BDR", fullName: "Backup & Disaster Recovery", pillar: "infra", desc: "Immutable backups, RTO validation, and automated failover testing.", href: "/service-layer/bdr" },
-  // Detection & Response (9)
   { id: "ITDR", label: "ITDR", fullName: "Identity Threat Detection & Response", pillar: "detection", desc: "Credential abuse detection, privilege escalation alerts, and identity hygiene.", href: "/service-layer/itdr" },
   { id: "NDR", label: "NDR", fullName: "Network Detection & Response", pillar: "detection", desc: "East-west traffic analysis, lateral movement detection, and network forensics.", href: "/service-layer/ndr" },
   { id: "CDR", label: "CDR", fullName: "Cloud Detection & Response", pillar: "detection", desc: "Cloud workload protection, misconfiguration detection, and runtime defense.", href: "/service-layer/cdr" },
@@ -33,7 +31,6 @@ const MODULES: Module[] = [
   { id: "STRIKE", label: "STRIKE", fullName: "Offensive Security Testing", pillar: "detection", desc: "Red team operations, penetration testing, and adversary simulation.", href: "/service-layer/strike" },
   { id: "EASM", label: "EASM", fullName: "External Attack Surface Management", pillar: "detection", desc: "Continuous asset discovery, exposure scoring, and shadow infrastructure detection.", href: "/service-layer/easm" },
   { id: "HONEYPOT", label: "HONEYPOT", fullName: "Deception Technology", pillar: "detection", desc: "Decoy infrastructure, attacker luring, and early breach indicators.", href: "/service-layer/honeypot" },
-  // Intelligence (3)
   { id: "TI", label: "TI", fullName: "Threat Intelligence", pillar: "intel", desc: "CVE enrichment, EPSS scoring, dark-web monitoring, and IOC feeds.", href: "/service-layer/ti" },
   { id: "VDR", label: "VDR", fullName: "Vulnerability Detection & Response", pillar: "intel", desc: "Continuous scanning, risk-based prioritisation, and patch orchestration.", href: "/service-layer/vdr" },
   { id: "GRC", label: "GRC", fullName: "Governance, Risk & Compliance", pillar: "intel", desc: "Policy engine, control mapping, audit evidence collection, and risk scoring.", href: "/service-layer/grc" },
@@ -45,7 +42,7 @@ const PILLAR_META: Record<Pillar, { label: string; color: string; glow: string }
   intel:     { label: "Intelligence",   color: "hsl(48, 85%, 58%)",   glow: "hsl(48, 85%, 58% / 0.4)" },
 };
 
-/* ─── Layout: place modules in a radial pattern ─── */
+/* ─── Layout: place kubes in radial pattern ─── */
 function getPositions(count: number, cx: number, cy: number, radius: number, startAngle: number, sweep: number) {
   return Array.from({ length: count }, (_, i) => {
     const angle = startAngle + (sweep / (count - 1 || 1)) * i;
@@ -54,7 +51,7 @@ function getPositions(count: number, cx: number, cy: number, radius: number, sta
   });
 }
 
-const CX = 500, CY = 400, R_INNER = 180, R_OUTER = 310;
+const CX = 500, CY = 420, R_INNER = 190, R_OUTER = 330;
 
 function buildLayout() {
   const infra = MODULES.filter(m => m.pillar === "infra");
@@ -62,7 +59,7 @@ function buildLayout() {
   const intel = MODULES.filter(m => m.pillar === "intel");
 
   const infraPos = getPositions(infra.length, CX, CY, R_INNER, 210, 120);
-  const detectPos = getPositions(detect.length, CX, CY, R_OUTER, 180, 180);
+  const detectPos = getPositions(detect.length, CX, CY, R_OUTER, 175, 190);
   const intelPos = getPositions(intel.length, CX, CY, R_INNER, 30, 60);
 
   return [
@@ -73,6 +70,20 @@ function buildLayout() {
 }
 
 const NODES = buildLayout();
+
+/* ─── Kube (square) SVG helper ─── */
+function KubeRect({ x, y, size, fill, stroke, strokeOpacity, strokeWidth, filter, style }: {
+  x: number; y: number; size: number; fill: string; stroke: string;
+  strokeOpacity: number; strokeWidth: number; filter?: string; style?: React.CSSProperties;
+}) {
+  return (
+    <rect
+      x={x - size / 2} y={y - size / 2} width={size} height={size}
+      fill={fill} stroke={stroke} strokeOpacity={strokeOpacity} strokeWidth={strokeWidth}
+      filter={filter} style={style}
+    />
+  );
+}
 
 /* ─── Component ─── */
 export function ServiceLayerConstellation() {
@@ -91,16 +102,16 @@ export function ServiceLayerConstellation() {
         >
           <p className="text-[10px] font-bold tracking-[0.24em] uppercase mb-4 text-primary">Service Layer</p>
           <h2 className="text-3xl md:text-5xl font-black text-white mb-4" style={{ fontFamily: "'Special Elite', serif" }}>
-            18 Detection &amp; Response <span className="text-primary">Modules</span>
+            18 Detection &amp; Response <span className="text-primary">Kubes</span>
           </h2>
           <p className="text-sm max-w-xl mx-auto text-white/50 mb-4">
-            Each module delivers a specific detection and response capability. Hover to explore.
+            Each kube delivers a specific detection and response capability. Hover to explore.
           </p>
           {/* Legend */}
           <div className="flex justify-center gap-6 flex-wrap">
             {(Object.entries(PILLAR_META) as [Pillar, typeof PILLAR_META["infra"]][]).map(([key, meta]) => (
               <div key={key} className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: meta.color }} />
+                <div className="w-2.5 h-2.5" style={{ background: meta.color }} />
                 <span className="text-[10px] uppercase tracking-widest text-white/40">{meta.label}</span>
               </div>
             ))}
@@ -114,66 +125,74 @@ export function ServiceLayerConstellation() {
           className="relative mx-auto"
           style={{ maxWidth: 1000 }}
         >
-          <svg viewBox="0 0 1000 800" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 1000 840" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              {/* Glow filters */}
-              <filter id="node-glow">
-                <feGaussianBlur stdDeviation="6" result="blur" />
+              <filter id="kube-glow">
+                <feGaussianBlur stdDeviation="5" result="blur" />
                 <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
-              <filter id="active-glow">
-                <feGaussianBlur stdDeviation="12" result="blur" />
+              <filter id="kube-glow-active">
+                <feGaussianBlur stdDeviation="10" result="blur" />
                 <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
-              {/* Radial gradient for center */}
-              <radialGradient id="center-grad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="hsl(var(--primary) / 0.15)" />
-                <stop offset="100%" stopColor="transparent" />
-              </radialGradient>
-              {/* Pulse animation */}
-              <radialGradient id="pulse-grad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="hsl(var(--primary) / 0.08)" />
+              <radialGradient id="hub-grad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="hsl(var(--primary) / 0.12)" />
                 <stop offset="100%" stopColor="transparent" />
               </radialGradient>
             </defs>
 
-            {/* Ambient rings */}
-            <circle cx={CX} cy={CY} r={R_INNER} fill="none" stroke="white" strokeOpacity={0.04} strokeWidth={1} strokeDasharray="4 8" />
-            <circle cx={CX} cy={CY} r={R_OUTER} fill="none" stroke="white" strokeOpacity={0.04} strokeWidth={1} strokeDasharray="4 8" />
-            <circle cx={CX} cy={CY} r={60} fill="url(#center-grad)" />
+            {/* Ambient square orbits */}
+            {[R_INNER, R_OUTER].map(r => (
+              <rect key={r} x={CX - r} y={CY - r} width={r * 2} height={r * 2}
+                fill="none" stroke="white" strokeOpacity={0.04} strokeWidth={1}
+                strokeDasharray="6 10"
+                transform={`rotate(45, ${CX}, ${CY})`}
+              />
+            ))}
 
-            {/* Animated pulse ring */}
-            <circle cx={CX} cy={CY} r={100} fill="url(#pulse-grad)">
-              <animate attributeName="r" values="80;140;80" dur="6s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.6;0;0.6" dur="6s" repeatCount="indefinite" />
-            </circle>
+            {/* Center hub glow */}
+            <rect x={CX - 80} y={CY - 80} width={160} height={160} fill="url(#hub-grad)"
+              transform={`rotate(45, ${CX}, ${CY})`} />
 
-            {/* Connection lines from center to each node */}
+            {/* Pulse kube */}
+            <rect x={CX - 60} y={CY - 60} width={120} height={120} fill="none"
+              stroke="hsl(var(--primary))" strokeOpacity={0.08}
+              transform={`rotate(45, ${CX}, ${CY})`}
+            >
+              <animate attributeName="width" values="100;160;100" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="height" values="100;160;100" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="x" values={`${CX-50};${CX-80};${CX-50}`} dur="5s" repeatCount="indefinite" />
+              <animate attributeName="y" values={`${CY-50};${CY-80};${CY-50}`} dur="5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.6;0;0.6" dur="5s" repeatCount="indefinite" />
+            </rect>
+
+            {/* Connection lines */}
             {NODES.map(n => (
               <line
                 key={`line-${n.id}`}
                 x1={CX} y1={CY} x2={n.x} y2={n.y}
                 stroke={active === n.id ? PILLAR_META[n.pillar].color : "white"}
-                strokeOpacity={active === n.id ? 0.3 : 0.05}
+                strokeOpacity={active === n.id ? 0.35 : 0.04}
                 strokeWidth={active === n.id ? 1.5 : 0.5}
                 style={{ transition: "all 0.3s ease" }}
               />
             ))}
 
             {/* Center hub text */}
-            <text x={CX} y={CY - 10} textAnchor="middle" fill="white" fillOpacity={0.6} fontSize={10} fontWeight={700} letterSpacing={3}>
+            <rect x={CX - 38} y={CY - 38} width={76} height={76} fill="none"
+              stroke="hsl(var(--primary))" strokeOpacity={0.35} strokeWidth={1.5} />
+            <text x={CX} y={CY - 8} textAnchor="middle" fill="white" fillOpacity={0.6} fontSize={10} fontWeight={700} letterSpacing={3}>
               SERVICE
             </text>
-            <text x={CX} y={CY + 8} textAnchor="middle" fill="white" fillOpacity={0.6} fontSize={10} fontWeight={700} letterSpacing={3}>
+            <text x={CX} y={CY + 10} textAnchor="middle" fill="white" fillOpacity={0.6} fontSize={10} fontWeight={700} letterSpacing={3}>
               LAYER
             </text>
-            <circle cx={CX} cy={CY} r={34} fill="none" stroke="hsl(var(--primary))" strokeOpacity={0.3} strokeWidth={1} />
 
-            {/* Module nodes */}
+            {/* Module kubes */}
             {NODES.map(n => {
               const isActive = active === n.id;
               const meta = PILLAR_META[n.pillar];
-              const nodeR = isActive ? 32 : 24;
+              const size = isActive ? 58 : 46;
 
               return (
                 <g
@@ -182,28 +201,27 @@ export function ServiceLayerConstellation() {
                   onMouseLeave={() => handleHover(null)}
                   onClick={() => handleHover(isActive ? null : n.id)}
                   className="cursor-pointer"
-                  style={{ transition: "all 0.3s ease" }}
                 >
-                  {/* Outer glow ring */}
+                  {/* Active outer glow kube */}
                   {isActive && (
-                    <circle cx={n.x} cy={n.y} r={42} fill="none" stroke={meta.color} strokeOpacity={0.3} strokeWidth={1.5} filter="url(#active-glow)">
-                      <animate attributeName="r" values="38;46;38" dur="2s" repeatCount="indefinite" />
-                      <animate attributeName="strokeOpacity" values="0.3;0.1;0.3" dur="2s" repeatCount="indefinite" />
-                    </circle>
+                    <KubeRect x={n.x} y={n.y} size={72}
+                      fill="transparent" stroke={meta.color} strokeOpacity={0.25} strokeWidth={1.5}
+                      filter="url(#kube-glow-active)"
+                    />
                   )}
 
-                  {/* Node background */}
-                  <circle
-                    cx={n.x} cy={n.y} r={nodeR}
-                    fill={isActive ? meta.color : "rgba(255,255,255,0.04)"}
+                  {/* Main kube */}
+                  <KubeRect
+                    x={n.x} y={n.y} size={size}
+                    fill={isActive ? meta.color : "rgba(255,255,255,0.03)"}
                     stroke={meta.color}
-                    strokeOpacity={isActive ? 0.9 : 0.25}
+                    strokeOpacity={isActive ? 0.9 : 0.2}
                     strokeWidth={isActive ? 2 : 1}
-                    filter={isActive ? "url(#node-glow)" : undefined}
+                    filter={isActive ? "url(#kube-glow)" : undefined}
                     style={{ transition: "all 0.3s ease" }}
                   />
 
-                  {/* Module label */}
+                  {/* Label */}
                   <text
                     x={n.x} y={n.y + 1}
                     textAnchor="middle"
@@ -222,7 +240,7 @@ export function ServiceLayerConstellation() {
             })}
           </svg>
 
-          {/* Detail panel overlay */}
+          {/* Detail panel */}
           <AnimatePresence>
             {activeModule && (
               <motion.div
@@ -253,17 +271,17 @@ export function ServiceLayerConstellation() {
                   to={activeModule.href}
                   className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary hover:underline"
                 >
-                  Explore Module <ArrowRight size={12} />
+                  Explore Kube <ArrowRight size={12} />
                 </Link>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
 
-        {/* Fallback CTA */}
+        {/* CTA */}
         <div className="text-center mt-8">
           <Link to="/service-layer" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary transition-colors hover:underline">
-            Explore All Modules <ArrowRight size={16} />
+            Explore All Kubes <ArrowRight size={16} />
           </Link>
         </div>
       </div>
