@@ -44,7 +44,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-6387",
     name: "RegreSSHion (OpenSSH)",
     description: "A signal handler race condition in OpenSSH's server (sshd) allows unauthenticated remote code execution as root on glibc-based Linux systems.",
-    plainEnglish: "Remote code execution as root — no login needed. Affects most Linux servers running OpenSSH.",
+    plainEnglish: "Remote code execution as root, no login needed. Affects most Linux servers running OpenSSH.",
     cvss: 8.1,
     epss: 0.89,
     severity: "CRITICAL",
