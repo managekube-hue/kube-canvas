@@ -592,6 +592,65 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
       { label: "No vulnerability scanning", value: "none", score: { risk: 10 }, flags: { no_vuln_scanning: true } },
     ],
   },
+  // SR-10: Patch management cadence
+  {
+    code: "SR-Q_PATCH",
+    flow: "SR",
+    label: "How quickly are critical security patches applied?",
+    description: "Unpatched vulnerabilities are the #2 attack vector after phishing. 72-hour patch SLA is the enterprise standard.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Automated patching within 72 hours of release", value: "auto_72h", score: { cf_infrastructure_maturity: 3 } },
+      { label: "Manual patching within 7 days", value: "manual_7d", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Monthly patch cycles", value: "monthly", score: { cf_infrastructure_maturity: 0, risk: 5 } },
+      { label: "Ad-hoc / when we get to it", value: "ad_hoc", score: { risk: 15 } },
+      { label: "No patch management process", value: "none", score: { risk: 20 }, flags: { no_patch_mgmt: true } },
+    ],
+  },
+  // SR-11: Email security gateway
+  {
+    code: "SR-Q_EMAIL_SEC",
+    flow: "SR",
+    label: "What email security controls are in place?",
+    description: "Email remains the #1 attack vector. Advanced threat protection blocks 99%+ of phishing before it reaches inboxes.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Advanced email security gateway with sandboxing (Proofpoint, Mimecast, etc.)", value: "advanced_gateway", score: { cf_secops_maturity: 3 } },
+      { label: "Microsoft Defender for Office 365 / Google Advanced Protection", value: "native_advanced", score: { cf_secops_maturity: 2 } },
+      { label: "Basic spam filtering only", value: "basic_spam", score: { cf_secops_maturity: 0, risk: 10 } },
+      { label: "No dedicated email security", value: "none", score: { risk: 15 } },
+    ],
+  },
+  // SR-12: DNS filtering
+  {
+    code: "SR-Q_DNS",
+    flow: "SR",
+    label: "Do you use DNS-layer security filtering?",
+    description: "DNS filtering blocks command-and-control callbacks and malicious domains before connections are established.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Yes, enterprise DNS security (Cisco Umbrella, Zscaler, etc.)", value: "enterprise_dns", score: { cf_secops_maturity: 2 } },
+      { label: "Basic DNS filtering", value: "basic_dns", score: { cf_secops_maturity: 1 } },
+      { label: "No DNS filtering", value: "none", score: { risk: 5 } },
+    ],
+  },
+  // SR-13: Dark web monitoring
+  {
+    code: "SR-Q_DARKWEB",
+    flow: "SR",
+    label: "Do you monitor for compromised credentials on the dark web?",
+    description: "Stolen credentials appear on dark web marketplaces an average of 11 months before they are used in attacks.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Yes, continuous monitoring with automated alerts", value: "continuous", score: { cf_secops_maturity: 2 } },
+      { label: "Periodic checks (quarterly or less)", value: "periodic", score: { cf_secops_maturity: 1 } },
+      { label: "No dark web monitoring", value: "none", score: { risk: 5 } },
+    ],
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════
