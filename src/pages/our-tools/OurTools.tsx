@@ -61,7 +61,7 @@ export default function OurTools() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            ManageKube was architected differently. Before a single detection capability was deployed, we built a graph capable of correlating any signal from any source—identity, network, cloud, endpoint, application, data—in real time. Detection followed. Response followed. Then came the analysts who operate it around the clock.
+            ManageKube was architected differently. Before a single detection capability was deployed, we built a graph capable of correlating any signal from any source (identity, network, cloud, endpoint, application, data) in real time. Detection followed. Response followed. Then came the analysts who operate it around the clock.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "40px" }}>
             The result is not a stack of tools with a help desk attached. It is an integrated detection and response architecture managed by practitioners who know your environment.

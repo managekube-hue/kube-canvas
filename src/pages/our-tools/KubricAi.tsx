@@ -112,7 +112,7 @@ export default function KubricAi() {
               Every alert arrives with a recommended action. Analysts do not start from zero.
             </p>
             <p style={{ fontSize: "15px", lineHeight: 1.7, color: "#393837", marginBottom: "16px" }}>
-              For known incident types, KubricAI recommends remediation steps derived from past closed incidents. For novel incidents, KubricAI analyzes the attack chain and recommends containment actions — account suspension, network isolation, credential rotation — specific to the entities involved. For vulnerabilities, KubricAI recommends patch priority, compensating controls, or risk acceptance based on environmental context.
+              For known incident types, KubricAI recommends remediation steps derived from past closed incidents. For novel incidents, KubricAI analyzes the attack chain and recommends containment actions (account suspension, network isolation, credential rotation) specific to the entities involved. For vulnerabilities, KubricAI recommends patch priority, compensating controls, or risk acceptance based on environmental context.
             </p>
             <p style={{ fontSize: "14px", fontWeight: 600, color: "#1D1D1B" }}>Result: Response time decreases. Consistency increases. Institutional knowledge becomes platform knowledge.</p>
           </div>

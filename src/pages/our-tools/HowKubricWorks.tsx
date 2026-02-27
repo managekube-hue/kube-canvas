@@ -78,7 +78,7 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>What Kubric Actually Is</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
-            Kubric is the proprietary detection and response engine that powers every ManageKube service. It is not a SIEM. It is not an open-source distribution rebranded under a managed services wrapper. It is an integrated engine engineered specifically for cross-discipline threat correlation — operated by analysts who understand your environment, delivered as a service your organization consumes.
+            Kubric is the proprietary detection and response engine that powers every ManageKube service. It is not a SIEM. It is not an open-source distribution rebranded under a managed services wrapper. It is an integrated engine engineered specifically for cross-discipline threat correlation, operated by analysts who understand your environment, delivered as a service your organization consumes.
           </p>
 
           <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#1D1D1B", marginBottom: "24px" }}>The engine is composed of four engineered layers:</h3>

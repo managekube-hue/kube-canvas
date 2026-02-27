@@ -15,10 +15,10 @@ const entityTypes = [
 
 const enables = [
   { title: "Attack Chain Reconstruction", desc: "Every incident arrives with its full context pre-assembled. Analysts do not hunt for related events. The graph delivers them." },
-  { title: "Blast Radius Assessment", desc: "When a compromise is confirmed, the graph instantly surfaces every entity the adversary could have touched — not only the initial foothold, but the full scope of potential exposure." },
-  { title: "Hunting at Graph Speed", desc: "Threat hunters traverse the graph rather than writing complex joins. \"Show me all devices this user accessed in the 72 hours before their credentials were compromised.\" The graph answers immediately." },
-  { title: "Immutable Compliance Evidence", desc: "Every relationship is timestamped and immutable. When an auditor requires proof that a compromised device was isolated, the graph produces the isolation event, the device state before and after, and the analyst who executed the action — all connected." },
-  { title: "Proactive Baseline Learning", desc: "The graph models normal relationships over time. When new relationships emerge — a user accessing a system they have never previously touched, a device communicating with an external IP it has never contacted — the graph flags them as anomalies before they escalate to alerts." },
+  { title: "Blast Radius Assessment", desc: "When a compromise is confirmed, the graph instantly surfaces every entity the adversary could have touched, not only the initial foothold, but the full scope of potential exposure." },
+  { title: "Hunting at Graph Speed", desc: "Threat hunters traverse the graph rather than writing complex joins. 'Show me all devices this user accessed in the 72 hours before their credentials were compromised.' The graph answers immediately." },
+  { title: "Immutable Compliance Evidence", desc: "Every relationship is timestamped and immutable. When an auditor requires proof that a compromised device was isolated, the graph produces the isolation event, the device state before and after, and the analyst who executed the action, all connected." },
+  { title: "Proactive Baseline Learning", desc: "The graph models normal relationships over time. When new relationships emerge (a user accessing a system they have never previously touched, a device communicating with an external IP it has never contacted) the graph flags them as anomalies before they escalate to alerts." },
 ];
 
 export default function KubricDataGraph() {
