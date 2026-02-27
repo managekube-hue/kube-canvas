@@ -159,7 +159,7 @@ export default function CoManaged() {
               className="text-[15px] leading-relaxed mb-12"
               style={{ color: "rgba(255,255,255,0.45)" }}
             >
-              Stop stitching tools together. The Kubric platform gives your team unified detection, response, and operations coverage — with our engineers on standby when escalation matters.
+              Stop stitching tools together. The Kubric platform gives your team unified detection, response, and operations coverage, with our engineers on standby when escalation matters.
             </motion.p>
 
             {/* Doc Primary CTA: "Build My Stack →"   Secondary: "See How Kubric Works →" */}
