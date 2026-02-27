@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Kubric UIDR (How_It_works.docx pp.8-9) */
+/** v2.0 spec copy: Kubric UIDR (How_It_works.docx pp.8-9) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
