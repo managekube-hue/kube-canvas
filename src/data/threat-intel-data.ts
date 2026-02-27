@@ -61,7 +61,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2023-44487",
     name: "HTTP/2 Rapid Reset",
     description: "The HTTP/2 protocol allows denial of service via rapid stream resets, exploited in massive DDoS attacks.",
-    plainEnglish: "Causes service disruption — no authentication needed. Used in record-breaking DDoS attacks worldwide.",
+    plainEnglish: "Causes service disruption, no authentication needed. Used in record-breaking DDoS attacks worldwide.",
     cvss: 7.5,
     epss: 0.76,
     severity: "HIGH",
