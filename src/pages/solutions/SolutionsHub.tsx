@@ -1,4 +1,4 @@
-/** Solutions Hub — /solutions — word-for-word from Solutions.docx pages 1-2 */
+/** Solutions Hub: /solutions, word-for-word from Solutions.docx pages 1-2 */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
