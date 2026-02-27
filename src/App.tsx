@@ -151,6 +151,11 @@ import CrmContacts from "./pages/crm/CrmContacts";
 import CrmContactDetail from "./pages/crm/CrmContactDetail";
 import CrmDeals from "./pages/crm/CrmDeals";
 import CrmTickets from "./pages/crm/CrmTickets";
+import CrmContracts from "./pages/crm/CrmContracts";
+import CrmAssets from "./pages/crm/CrmAssets";
+import CrmTimeTracking from "./pages/crm/CrmTimeTracking";
+import CrmDeployments from "./pages/crm/CrmDeployments";
+import CrmAuditLog from "./pages/crm/CrmAuditLog";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
 
 // UIDR Open Source Docs Site
@@ -372,12 +377,12 @@ const App = () => (
             <Route path="contacts/:id" element={<CrmContactDetail />} />
             <Route path="deals" element={<CrmDeals />} />
             <Route path="tickets" element={<CrmTickets />} />
-            <Route path="time" element={<CrmPlaceholder title="Time Tracking" />} />
-            <Route path="contracts" element={<CrmPlaceholder title="Contracts" />} />
+            <Route path="time" element={<CrmTimeTracking />} />
+            <Route path="contracts" element={<CrmContracts />} />
             <Route path="invoices" element={<CrmPlaceholder title="Invoices & Billing" />} />
-            <Route path="assets" element={<CrmPlaceholder title="Asset Management" />} />
-            <Route path="deployments" element={<CrmPlaceholder title="Deployment Schedules" />} />
-            <Route path="audit" element={<CrmPlaceholder title="Audit Log" />} />
+            <Route path="assets" element={<CrmAssets />} />
+            <Route path="deployments" element={<CrmDeployments />} />
+            <Route path="audit" element={<CrmAuditLog />} />
             <Route path="settings" element={<CrmPlaceholder title="Settings" />} />
             <Route path="legacy" element={<CmsAdmin />} />
           </Route>
