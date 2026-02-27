@@ -382,7 +382,8 @@ const App = () => (
             <Route path="tickets" element={<CrmTickets />} />
             <Route path="time" element={<CrmTimeTracking />} />
             <Route path="contracts" element={<CrmContracts />} />
-            <Route path="invoices" element={<CrmPlaceholder title="Invoices & Billing" />} />
+            <Route path="invoices" element={<CrmInvoices />} />
+            <Route path="leads" element={<CrmLeadImport />} />
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
