@@ -26,11 +26,11 @@ export default function SolutionSme() {
         {
           title: "Recommended Solutions",
           items: [
-            "Managed SOC — 24/7 security operations with threat hunting. Full methodology coverage through remediation and closure.",
-            "Managed Compliance — Continuous monitoring across multiple frameworks simultaneously. Automated evidence collection. Audit packages generated on demand.",
-            "Managed Cloud & FinOps — Cloud cost optimization and security monitoring across AWS, Azure, and GCP. Right-sizing recommendations with projected savings.",
-            "Network Performance Monitoring — Proactive network visibility with behavioral baselining before users report degradation.",
-            "Advisory Services — Security assessments, penetration testing, and compliance gap analysis when deep practitioner expertise is required.",
+            "Managed SOC: 24/7 security operations with threat hunting. Full methodology coverage through remediation and closure.",
+            "Managed Compliance: Continuous monitoring across multiple frameworks simultaneously. Automated evidence collection. Audit packages generated on demand.",
+            "Managed Cloud & FinOps: Cloud cost optimization and security monitoring across AWS, Azure, and GCP. Right-sizing recommendations with projected savings.",
+            "Network Performance Monitoring: Proactive network visibility with behavioral baselining before users report degradation.",
+            "Advisory Services: Security assessments, penetration testing, and compliance gap analysis when deep practitioner expertise is required.",
           ],
         },
         {
