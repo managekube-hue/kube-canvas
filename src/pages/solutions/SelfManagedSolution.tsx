@@ -16,12 +16,12 @@ export default function SelfManagedSolution() {
         {
           title: "What Self-Managed Includes",
           items: [
-             "Kubric License — Full access to the Kubric toolset with all 23 capabilities available for internal operation.",
-            "Continuous Updates — Toolset updates, new detection capabilities, and threat intelligence feeds delivered continuously without manual intervention.",
-            "Documentation and Training — Comprehensive documentation and structured training for your internal team.",
-            "Support Access — Technical support for configuration questions and capability questions.",
-            "Community Access — Access to the user community, shared detection content, and documented best practices.",
-            "Optional Advisory Services — Access to ManageKube assessments, penetration testing, and consulting engagements when deep external expertise is required.",
+             "Kubric License: Full access to the Kubric toolset with all 23 capabilities available for internal operation.",
+            "Continuous Updates: Toolset updates, new detection capabilities, and threat intelligence feeds delivered continuously without manual intervention.",
+            "Documentation and Training: Comprehensive documentation and structured training for your internal team.",
+            "Support Access: Technical support for configuration questions and capability questions.",
+            "Community Access: Access to the user community, shared detection content, and documented best practices.",
+            "Optional Advisory Services: Access to ManageKube assessments, penetration testing, and consulting engagements when deep external expertise is required.",
           ],
         },
         {
