@@ -1,4 +1,4 @@
-/** v2.0 spec copy — How It Works landing page (How_It_works.docx) */
+/** v2.0 spec copy: How It Works landing page (How_It_works.docx) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
