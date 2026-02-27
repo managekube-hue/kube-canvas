@@ -405,7 +405,7 @@ export const docModules: DocModule[] = [
     number: 18,
     code: "KAI",
     name: "AI Layer & Service Model Integration",
-    fullName: "KAI — AI Layer & Service Model Integration",
+    fullName: "KAI: AI Layer & Service Model Integration",
     category: "intelligence",
     tagline: "KAI speaks to all DR modules via NATS subjects. Durable billing/PSA flows use Temporal workflows.",
     description: "This section defines exactly how the KAI AI layer communicates with every other service module in the Kubric platform. All inter-service communication flows through NATS JetStream as the message bus, with Temporal for durable workflow orchestration. LLM inference stays local via Ollama REST.",
