@@ -72,7 +72,7 @@ export const docModules: DocModule[] = [
     number: 3,
     code: "NDR",
     name: "Network Detection & Response",
-    fullName: "NDR — Network Detection & Response",
+    fullName: "NDR: Network Detection & Response",
     category: "network",
     tagline: "nDPI provides L7 protocol detection via C library FFI. RITA algorithms imported as Go packages.",
     description: "nDPI provides L7 protocol detection via C library FFI into the Rust NetGuard agent. RITA algorithms are imported as Go packages. Suricata ET rules are vendored data. Covers flow analysis, IDS rules, C2 detection, beaconing, TLS fingerprinting, and DNS tunneling.",
