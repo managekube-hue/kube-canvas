@@ -319,8 +319,8 @@ export const docModules: DocModule[] = [
     name: "Unified Endpoint Management",
     fullName: "UEM: Unified Endpoint Management",
     category: "operations",
-    tagline: "Osquery Go SDK and FleetDM service packages are MIT/Apache 2.0 — direct imports.",
-    description: "Osquery Go SDK and FleetDM service packages are MIT/Apache 2.0 — direct imports. SaltStack Python client manages deployment. Trivy SBOM handles software inventory from the same library used in VDR. Covers inventory queries, fleet policies, software deployment, and HW monitoring.",
+    tagline: "Osquery Go SDK and FleetDM service packages are MIT/Apache 2.0, direct imports.",
+    description: "Osquery Go SDK and FleetDM service packages are MIT/Apache 2.0, direct imports. SaltStack Python client manages deployment. Trivy SBOM handles software inventory from the same library used in VDR. Covers inventory queries, fleet policies, software deployment, and HW monitoring.",
     libraries: [
       { capability: "Inventory Queries", library: "Osquery Go SDK", importPath: 'import "github.com/osquery/osquery-go"', license: "Apache 2.0 — embed", kubricModule: "NOC Inventory" },
       { capability: "Query Packs", library: "Osquery Packs (JSON)", importPath: "vendor/osquery/packs/**/*.conf", license: "Apache 2.0 — copy", kubricModule: "NOC Inventory" },
