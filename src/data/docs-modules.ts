@@ -296,7 +296,7 @@ export const docModules: DocModule[] = [
     number: 13,
     code: "NPM",
     name: "Network Performance Management",
-    fullName: "NPM — Network Performance Management",
+    fullName: "NPM: Network Performance Management",
     category: "network",
     tagline: "Prometheus Go client is the metrics foundation. VictoriaMetrics provides time series storage.",
     description: "Prometheus Go client library is the metrics foundation. VictoriaMetrics provides the time series storage layer. nDPI FFI (same as NDR) handles L7 flow classification. NetBox Python SDK manages topology. Covers device metrics, node metrics, flow analysis, probing, and alerting.",
