@@ -74,7 +74,7 @@ export default function KubricAi() {
               Every detection capability generates findings. Most are benign. Some are malicious. KubricAI learns the operational difference between them.
             </p>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, marginBottom: "12px" }}>
-              {["Behavioral baselines are constructed per entity — user, device, application, network segment — and refined continuously over time.",
+              {["Behavioral baselines are constructed per entity (user, device, application, network segment) and refined continuously over time.",
                 "Deviations are scored against hyper-local baselines. A senior finance executive authenticating at 6:00 AM is operationally normal. The identical login pattern from an IT support account is flagged.",
                 "False positive patterns are learned and encoded. When an alert type consistently resolves to a benign state, KubricAI automatically adjusts its sensitivity threshold."
               ].map(item => (
