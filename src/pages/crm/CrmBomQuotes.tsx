@@ -32,12 +32,12 @@ export default function CrmBomQuotes() {
   useEffect(() => {
     (async () => {
       const { data, error } = await supabase
-        .from("bom_submissions" as any)
+        .from("bom_submissions")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(200);
       if (error) console.error(error);
-      setSubmissions((data as any as BomSubmission[]) || []);
+      setSubmissions((data as BomSubmission[]) || []);
       setLoading(false);
     })();
   }, []);
