@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-/* ─── Module data with pillar groupings ─── */
+/* ─── Module data ─── */
 type Pillar = "infra" | "detection" | "intel";
 
 interface Module {
@@ -36,250 +36,216 @@ const MODULES: Module[] = [
   { id: "GRC", label: "GRC", fullName: "Governance, Risk & Compliance", pillar: "intel", desc: "Policy engine, control mapping, audit evidence collection, and risk scoring.", href: "/service-layer/grc" },
 ];
 
-const PILLAR_META: Record<Pillar, { label: string; color: string; glow: string }> = {
-  infra:     { label: "Infrastructure", color: "hsl(var(--primary))",   glow: "hsl(var(--primary) / 0.4)" },
-  detection: { label: "Detection & Response", color: "hsl(32, 90%, 55%)", glow: "hsl(32, 90%, 55% / 0.4)" },
-  intel:     { label: "Intelligence",   color: "hsl(48, 85%, 58%)",   glow: "hsl(48, 85%, 58% / 0.4)" },
+const PILLAR_COLORS: Record<Pillar, string> = {
+  infra: "hsl(var(--primary))",
+  detection: "hsl(32, 90%, 55%)",
+  intel: "hsl(48, 85%, 58%)",
 };
 
-/* ─── Layout: place kubes in radial pattern ─── */
-function getPositions(count: number, cx: number, cy: number, radius: number, startAngle: number, sweep: number) {
-  return Array.from({ length: count }, (_, i) => {
-    const angle = startAngle + (sweep / (count - 1 || 1)) * i;
-    const rad = (angle * Math.PI) / 180;
-    return { x: cx + Math.cos(rad) * radius, y: cy + Math.sin(rad) * radius };
-  });
-}
+const PILLAR_LABELS: Record<Pillar, string> = {
+  infra: "Infrastructure",
+  detection: "Detection & Response",
+  intel: "Intelligence",
+};
 
-const CX = 500, CY = 420, R_INNER = 190, R_OUTER = 330;
-
-function buildLayout() {
-  const infra = MODULES.filter(m => m.pillar === "infra");
-  const detect = MODULES.filter(m => m.pillar === "detection");
-  const intel = MODULES.filter(m => m.pillar === "intel");
-
-  const infraPos = getPositions(infra.length, CX, CY, R_INNER, 210, 120);
-  const detectPos = getPositions(detect.length, CX, CY, R_OUTER, 175, 190);
-  const intelPos = getPositions(intel.length, CX, CY, R_INNER, 30, 60);
-
-  return [
-    ...infra.map((m, i) => ({ ...m, ...infraPos[i] })),
-    ...detect.map((m, i) => ({ ...m, ...detectPos[i] })),
-    ...intel.map((m, i) => ({ ...m, ...intelPos[i] })),
-  ];
-}
-
-const NODES = buildLayout();
-
-/* ─── Kube (square) SVG helper ─── */
-function KubeRect({ x, y, size, fill, stroke, strokeOpacity, strokeWidth, filter, style }: {
-  x: number; y: number; size: number; fill: string; stroke: string;
-  strokeOpacity: number; strokeWidth: number; filter?: string; style?: React.CSSProperties;
+/* ─── Single Kube Cell ─── */
+function KubeCell({ mod, isActive, onHover, onLeave, onClick }: {
+  mod: Module; isActive: boolean;
+  onHover: () => void; onLeave: () => void; onClick: () => void;
 }) {
+  const color = PILLAR_COLORS[mod.pillar];
+
   return (
-    <rect
-      x={x - size / 2} y={y - size / 2} width={size} height={size}
-      fill={fill} stroke={stroke} strokeOpacity={strokeOpacity} strokeWidth={strokeWidth}
-      filter={filter} style={style}
-    />
+    <motion.div
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      onClick={onClick}
+      className="relative cursor-pointer flex flex-col items-center justify-center aspect-square transition-all duration-300"
+      style={{
+        background: isActive
+          ? `linear-gradient(135deg, ${color}22, ${color}08)`
+          : "transparent",
+      }}
+      whileHover={{ scale: 1.02 }}
+    >
+      {/* Corner accents */}
+      <div className="absolute top-0 left-0 w-3 h-3 border-t border-l transition-all duration-300"
+        style={{ borderColor: isActive ? color : "rgba(255,255,255,0.08)" }} />
+      <div className="absolute top-0 right-0 w-3 h-3 border-t border-r transition-all duration-300"
+        style={{ borderColor: isActive ? color : "rgba(255,255,255,0.08)" }} />
+      <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l transition-all duration-300"
+        style={{ borderColor: isActive ? color : "rgba(255,255,255,0.08)" }} />
+      <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r transition-all duration-300"
+        style={{ borderColor: isActive ? color : "rgba(255,255,255,0.08)" }} />
+
+      {/* Pillar indicator dot */}
+      <div className="w-1.5 h-1.5 mb-2 transition-all duration-300"
+        style={{ background: color, opacity: isActive ? 1 : 0.4 }} />
+
+      {/* Label */}
+      <span
+        className="text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-300"
+        style={{
+          fontFamily: "'Roboto Mono', monospace",
+          color: isActive ? "white" : "rgba(255,255,255,0.45)",
+        }}
+      >
+        {mod.label}
+      </span>
+
+      {/* Full name on hover */}
+      <AnimatePresence>
+        {isActive && (
+          <motion.span
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            className="absolute bottom-2 text-[7px] tracking-wider uppercase text-center px-1 leading-tight"
+            style={{ color, fontFamily: "'Roboto Mono', monospace" }}
+          >
+            {mod.fullName}
+          </motion.span>
+        )}
+      </AnimatePresence>
+
+      {/* Active glow */}
+      {isActive && (
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ boxShadow: `inset 0 0 30px ${color}15, 0 0 20px ${color}08` }} />
+      )}
+    </motion.div>
   );
 }
 
-/* ─── Component ─── */
+/* ─── Main Component ─── */
 export function ServiceLayerConstellation() {
   const [active, setActive] = useState<string | null>(null);
   const activeModule = MODULES.find(m => m.id === active);
 
   const handleHover = useCallback((id: string | null) => setActive(id), []);
 
+  // 18 modules laid out in a 6×3 grid
+  const rows = [
+    MODULES.slice(0, 6),   // Infrastructure
+    MODULES.slice(6, 12),  // Detection row 1
+    MODULES.slice(12, 18), // Detection row 2 + Intel
+  ];
+
   return (
     <section className="py-24 lg:py-32 relative overflow-hidden section-dark">
-      <div className="container mx-auto max-w-7xl px-6">
+      <div className="container mx-auto max-w-6xl px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="text-center mb-6"
+          className="text-center mb-12"
         >
           <p className="text-[10px] font-bold tracking-[0.24em] uppercase mb-4 text-primary">Service Layer</p>
           <h2 className="text-3xl md:text-5xl font-black text-white mb-4" style={{ fontFamily: "'Special Elite', serif" }}>
             18 Detection &amp; Response <span className="text-primary">Kubes</span>
           </h2>
-          <p className="text-sm max-w-xl mx-auto text-white/50 mb-4">
-            Each kube delivers a specific detection and response capability. Hover to explore.
+          <p className="text-sm max-w-xl mx-auto text-white/40">
+            Each kube delivers a specific capability. Hover to explore.
           </p>
-          {/* Legend */}
-          <div className="flex justify-center gap-6 flex-wrap">
-            {(Object.entries(PILLAR_META) as [Pillar, typeof PILLAR_META["infra"]][]).map(([key, meta]) => (
-              <div key={key} className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5" style={{ background: meta.color }} />
-                <span className="text-[10px] uppercase tracking-widest text-white/40">{meta.label}</span>
-              </div>
-            ))}
-          </div>
         </motion.div>
 
-        {/* Constellation */}
+        {/* Legend */}
+        <div className="flex justify-center gap-8 mb-10">
+          {(Object.entries(PILLAR_LABELS) as [Pillar, string][]).map(([key, label]) => (
+            <div key={key} className="flex items-center gap-2">
+              <div className="w-2.5 h-2.5" style={{ background: PILLAR_COLORS[key] }} />
+              <span className="text-[10px] uppercase tracking-widest text-white/35">{label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* THE KUBE: One large container with internal grid divisions */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative mx-auto"
-          style={{ maxWidth: 1000 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative mx-auto border border-white/[0.06] bg-white/[0.02]"
+          style={{ maxWidth: 900 }}
         >
-          <svg viewBox="0 0 1000 840" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <filter id="kube-glow">
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-              <filter id="kube-glow-active">
-                <feGaussianBlur stdDeviation="10" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-              <radialGradient id="hub-grad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="hsl(var(--primary) / 0.12)" />
-                <stop offset="100%" stopColor="transparent" />
-              </radialGradient>
-            </defs>
+          {/* Outer frame accent corners */}
+          <div className="absolute -top-px -left-px w-8 h-8 border-t-2 border-l-2 border-primary" />
+          <div className="absolute -top-px -right-px w-8 h-8 border-t-2 border-r-2 border-primary" />
+          <div className="absolute -bottom-px -left-px w-8 h-8 border-b-2 border-l-2 border-primary" />
+          <div className="absolute -bottom-px -right-px w-8 h-8 border-b-2 border-r-2 border-primary" />
 
-            {/* Ambient square orbits */}
-            {[R_INNER, R_OUTER].map(r => (
-              <rect key={r} x={CX - r} y={CY - r} width={r * 2} height={r * 2}
-                fill="none" stroke="white" strokeOpacity={0.04} strokeWidth={1}
-                strokeDasharray="6 10"
-                transform={`rotate(45, ${CX}, ${CY})`}
-              />
-            ))}
-
-            {/* Center hub glow */}
-            <rect x={CX - 80} y={CY - 80} width={160} height={160} fill="url(#hub-grad)"
-              transform={`rotate(45, ${CX}, ${CY})`} />
-
-            {/* Pulse kube */}
-            <rect x={CX - 60} y={CY - 60} width={120} height={120} fill="none"
-              stroke="hsl(var(--primary))" strokeOpacity={0.08}
-              transform={`rotate(45, ${CX}, ${CY})`}
-            >
-              <animate attributeName="width" values="100;160;100" dur="5s" repeatCount="indefinite" />
-              <animate attributeName="height" values="100;160;100" dur="5s" repeatCount="indefinite" />
-              <animate attributeName="x" values={`${CX-50};${CX-80};${CX-50}`} dur="5s" repeatCount="indefinite" />
-              <animate attributeName="y" values={`${CY-50};${CY-80};${CY-50}`} dur="5s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.6;0;0.6" dur="5s" repeatCount="indefinite" />
-            </rect>
-
-            {/* Connection lines */}
-            {NODES.map(n => (
-              <line
-                key={`line-${n.id}`}
-                x1={CX} y1={CY} x2={n.x} y2={n.y}
-                stroke={active === n.id ? PILLAR_META[n.pillar].color : "white"}
-                strokeOpacity={active === n.id ? 0.35 : 0.04}
-                strokeWidth={active === n.id ? 1.5 : 0.5}
-                style={{ transition: "all 0.3s ease" }}
-              />
-            ))}
-
-            {/* Center hub text */}
-            <rect x={CX - 38} y={CY - 38} width={76} height={76} fill="none"
-              stroke="hsl(var(--primary))" strokeOpacity={0.35} strokeWidth={1.5} />
-            <text x={CX} y={CY - 8} textAnchor="middle" fill="white" fillOpacity={0.6} fontSize={10} fontWeight={700} letterSpacing={3}>
-              SERVICE
-            </text>
-            <text x={CX} y={CY + 10} textAnchor="middle" fill="white" fillOpacity={0.6} fontSize={10} fontWeight={700} letterSpacing={3}>
-              LAYER
-            </text>
-
-            {/* Module kubes */}
-            {NODES.map(n => {
-              const isActive = active === n.id;
-              const meta = PILLAR_META[n.pillar];
-              const size = isActive ? 58 : 46;
-
-              return (
-                <g
-                  key={n.id}
-                  onMouseEnter={() => handleHover(n.id)}
-                  onMouseLeave={() => handleHover(null)}
-                  onClick={() => handleHover(isActive ? null : n.id)}
-                  className="cursor-pointer"
+          {/* Grid rows */}
+          {rows.map((row, ri) => (
+            <div key={ri} className={`grid grid-cols-6 ${ri < rows.length - 1 ? "border-b border-white/[0.06]" : ""}`}>
+              {row.map((mod, ci) => (
+                <div key={mod.id}
+                  className={ci < row.length - 1 ? "border-r border-white/[0.06]" : ""}
                 >
-                  {/* Active outer glow kube */}
-                  {isActive && (
-                    <KubeRect x={n.x} y={n.y} size={72}
-                      fill="transparent" stroke={meta.color} strokeOpacity={0.25} strokeWidth={1.5}
-                      filter="url(#kube-glow-active)"
-                    />
-                  )}
-
-                  {/* Main kube */}
-                  <KubeRect
-                    x={n.x} y={n.y} size={size}
-                    fill={isActive ? meta.color : "rgba(255,255,255,0.03)"}
-                    stroke={meta.color}
-                    strokeOpacity={isActive ? 0.9 : 0.2}
-                    strokeWidth={isActive ? 2 : 1}
-                    filter={isActive ? "url(#kube-glow)" : undefined}
-                    style={{ transition: "all 0.3s ease" }}
+                  <KubeCell
+                    mod={mod}
+                    isActive={active === mod.id}
+                    onHover={() => handleHover(mod.id)}
+                    onLeave={() => handleHover(null)}
+                    onClick={() => handleHover(active === mod.id ? null : mod.id)}
                   />
-
-                  {/* Label */}
-                  <text
-                    x={n.x} y={n.y + 1}
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fill={isActive ? "white" : meta.color}
-                    fillOpacity={isActive ? 1 : 0.7}
-                    fontSize={n.label.length > 4 ? 7 : 10}
-                    fontWeight={800}
-                    letterSpacing={1.5}
-                    style={{ fontFamily: "'Roboto Mono', monospace", transition: "all 0.3s ease" }}
-                  >
-                    {n.label}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-
-          {/* Detail panel */}
-          <AnimatePresence>
-            {activeModule && (
-              <motion.div
-                key={activeModule.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.2 }}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-6 border border-white/10 backdrop-blur-md"
-                style={{ background: "rgba(29,29,27,0.92)" }}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <span
-                    className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 border"
-                    style={{ color: PILLAR_META[activeModule.pillar].color, borderColor: PILLAR_META[activeModule.pillar].glow }}
-                  >
-                    {activeModule.label}
-                  </span>
-                  <span className="text-[10px] uppercase tracking-widest text-white/30">
-                    {PILLAR_META[activeModule.pillar].label}
-                  </span>
                 </div>
-                <h3 className="text-lg font-black text-white mb-2" style={{ fontFamily: "'Special Elite', serif" }}>
-                  {activeModule.fullName}
-                </h3>
-                <p className="text-xs leading-relaxed text-white/50 mb-4">{activeModule.desc}</p>
+              ))}
+            </div>
+          ))}
+
+          {/* Ambient scan line */}
+          <motion.div
+            className="absolute left-0 right-0 h-px pointer-events-none"
+            style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.15), transparent)" }}
+            animate={{ top: ["0%", "100%", "0%"] }}
+            transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+          />
+        </motion.div>
+
+        {/* Detail panel */}
+        <AnimatePresence>
+          {activeModule && (
+            <motion.div
+              key={activeModule.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="mx-auto mt-6 max-w-2xl p-6 border border-white/[0.08] backdrop-blur-sm flex items-start gap-6"
+              style={{ background: "rgba(29,29,27,0.85)" }}
+            >
+              {/* Kube icon */}
+              <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center border"
+                style={{ borderColor: PILLAR_COLORS[activeModule.pillar] + "40", background: PILLAR_COLORS[activeModule.pillar] + "0A" }}
+              >
+                <span className="text-xs font-black tracking-widest"
+                  style={{ color: PILLAR_COLORS[activeModule.pillar], fontFamily: "'Roboto Mono', monospace" }}>
+                  {activeModule.label}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-1.5">
+                  <h3 className="text-base font-black text-white" style={{ fontFamily: "'Special Elite', serif" }}>
+                    {activeModule.fullName}
+                  </h3>
+                </div>
+                <p className="text-[10px] uppercase tracking-widest mb-2"
+                  style={{ color: PILLAR_COLORS[activeModule.pillar] }}>
+                  {PILLAR_LABELS[activeModule.pillar]}
+                </p>
+                <p className="text-xs leading-relaxed text-white/45 mb-3">{activeModule.desc}</p>
                 <Link
                   to={activeModule.href}
                   className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary hover:underline"
                 >
                   Explore Kube <ArrowRight size={12} />
                 </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* CTA */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-10">
           <Link to="/service-layer" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary transition-colors hover:underline">
             Explore All Kubes <ArrowRight size={16} />
           </Link>
