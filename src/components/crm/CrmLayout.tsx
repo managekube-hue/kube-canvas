@@ -4,7 +4,7 @@ import { useCrmUser } from "@/hooks/useCrmUser";
 import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
-  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload,
+  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/crm" },
   { label: "Lead Pipeline", icon: BarChart3, path: "/crm/leads" },
   { label: "CSV Upload", icon: Upload, path: "/crm/bulk-upload" },
+  { label: "Careers", icon: Megaphone, path: "/crm/careers" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },
@@ -59,7 +60,7 @@ export function CrmLayout() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/auth/login");
+    navigate("/auth/login?redirect=/crm");
   };
 
   const visibleNav = navItems.filter(item => !item.adminOnly || isAdmin);
