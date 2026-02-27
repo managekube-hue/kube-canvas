@@ -36,8 +36,8 @@ export default function SolutionSmb() {
           title: "SMB Service Tiers",
           body: "SMB organizations typically engage at the Essentials or Advanced tier, depending on compliance requirements and internal team depth.",
           items: [
-            "Essentials — Detection and triage for organizations with internal IT staff who handle remediation.",
-            "Advanced — Full detection through remediation for organizations that require incidents contained without platform management.",
+            "Essentials: Detection and triage for organizations with internal IT staff who handle remediation.",
+            "Advanced: Full detection through remediation for organizations that require incidents contained without platform management.",
           ],
         },
       ]}

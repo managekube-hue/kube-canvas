@@ -160,10 +160,10 @@ export default function CoManagedSolution() {
           <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
           <div className="grid sm:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
             {[
-              "24/7 Platform Operations — We monitor, tune, and maintain the Kubric platform continuously. Your team does not manage the platform.",
-              "Business Hours Participation — Your team receives alerts during business hours. You triage, make decisions, and participate in response according to your internal processes.",
-              "After-Hours Coverage — We handle nights, weekends, and holidays. Incidents are triaged and contained. Your team is briefed at the start of the next business day with full context.",
-              "Shared Methodology — We handle Hunt, Identify, and Alert continuously. Triage, Diagnose, and Remediate are shared based on your team's availability. Document and Close are handled by whoever closes the incident.",
+              "24/7 Platform Operations: We monitor, tune, and maintain the Kubric platform continuously. Your team does not manage the platform.",
+              "Business Hours Participation: Your team receives alerts during business hours. You triage, make decisions, and participate in response according to your internal processes.",
+              "After-Hours Coverage: We handle nights, weekends, and holidays. Incidents are triaged and contained. Your team is briefed at the start of the next business day with full context.",
+              "Shared Methodology: We handle Hunt, Identify, and Alert continuously. Triage, Diagnose, and Remediate are shared based on your team's availability. Document and Close are handled by whoever closes the incident.",
               "Compliance Evidence — Evidence is collected automatically. Audit packages are generated on demand.",
               "Quarterly Business Reviews — Incidents, trends, and recommendations reviewed with your team on a defined cadence.",
             ].map((item, i) => (

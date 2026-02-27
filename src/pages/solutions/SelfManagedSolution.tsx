@@ -27,10 +27,10 @@ export default function SelfManagedSolution() {
         {
           title: "What Self-Managed Does Not Include",
           items: [
-            "24/7 operations — your team operates the toolset",
-            "Incident response — your team responds to incidents",
-            "Detection tuning and optimization — your team tunes and maintains detection logic",
-            "Compliance evidence collection configuration — your team configures evidence collection workflows",
+            "24/7 operations: your team operates the toolset",
+            "Incident response: your team responds to incidents",
+            "Detection tuning and optimization: your team tunes and maintains detection logic",
+            "Compliance evidence collection configuration: your team configures evidence collection workflows",
           ],
         },
         {

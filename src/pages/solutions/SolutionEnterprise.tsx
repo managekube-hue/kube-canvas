@@ -40,7 +40,7 @@ export default function SolutionEnterprise() {
           title: "Enterprise Service Tier",
           body: "Enterprise organizations operate at the Enterprise tier, with full methodology coverage from Hunt through Close.",
           items: [
-            "Enterprise — Complete lifecycle. Every incident documented, audited, and learned from. Compliance evidence generated automatically. Post-incident prevention recommendations filed.",
+            "Enterprise: Complete lifecycle. Every incident documented, audited, and learned from. Compliance evidence generated automatically. Post-incident prevention recommendations filed.",
             "Delivery models include Fully Managed, Co-Managed, and Self-Managed, accommodating the full range of internal team structures.",
           ],
         },

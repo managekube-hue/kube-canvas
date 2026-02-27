@@ -37,8 +37,8 @@ export default function SolutionSme() {
           title: "SME Service Tiers",
           body: "SME organizations typically engage at the Advanced tier, with Enterprise capabilities added as compliance requirements intensify.",
           items: [
-            "Advanced — Full detection through remediation. Incidents contained and resolved without overhead.",
-            "Enterprise — Complete lifecycle through documentation and closure for regulated industries requiring audit-grade evidence.",
+            "Advanced: Full detection through remediation. Incidents contained and resolved without overhead.",
+            "Enterprise: Complete lifecycle through documentation and closure for regulated industries requiring audit-grade evidence.",
           ],
         },
       ]}
