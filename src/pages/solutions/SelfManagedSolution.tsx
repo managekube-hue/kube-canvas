@@ -1,4 +1,4 @@
-/** Self-Managed — /solutions/by-service-type/self-managed — word-for-word from Solutions.docx pages 16-17 */
+/** Self-Managed: /solutions/by-service-type/self-managed: word-for-word from Solutions.docx pages 16-17 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function SelfManagedSolution() {
