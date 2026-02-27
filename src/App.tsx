@@ -15,6 +15,7 @@ import FullyManaged from "./pages/paths/FullyManaged";
 import CoManaged from "./pages/paths/CoManaged";
 import SelfManaged from "./pages/paths/SelfManaged";
 import Index from "./pages/Index";
+import UniversalHome from "./pages/UniversalHome";
 import NotFound from "./pages/NotFound";
 import Methodology from "./pages/Methodology";
 import ServiceLayerOverview from "./pages/KubesOverview";
@@ -193,8 +194,10 @@ const App = () => (
         <ScrollToTop />
         <BOMCart />
         <Routes>
+          {/* Universal Homepage */}
+          <Route path="/" element={<UniversalHome />} />
           {/* Qualification Gate */}
-          <Route path="/" element={<QualificationGate />} />
+          <Route path="/gate" element={<QualificationGate />} />
           <Route path="/fully-managed" element={<FullyManaged />} />
           <Route path="/co-managed" element={<CoManaged />} />
           <Route path="/self-managed" element={<SelfManaged />} />

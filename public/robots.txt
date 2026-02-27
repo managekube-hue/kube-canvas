@@ -1,8 +1,10 @@
 User-agent: Googlebot
 Allow: /
+Sitemap: https://managekube.com/sitemap.xml
 
 User-agent: Bingbot
 Allow: /
+Sitemap: https://managekube.com/sitemap.xml
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +14,4 @@ Allow: /
 
 User-agent: *
 Allow: /
+Sitemap: https://managekube.com/sitemap.xml
