@@ -1,4 +1,4 @@
-/** SME Solutions — /solutions/by-market-size/sme — word-for-word from Solutions.docx pages 8-9 */
+/** SME Solutions: /solutions/by-market-size/sme: word-for-word from Solutions.docx pages 8-9 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function SolutionSme() {
