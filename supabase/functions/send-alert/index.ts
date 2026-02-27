@@ -13,7 +13,6 @@ serve(async (req) => {
   try {
     const { type, data } = await req.json();
     
-    // Build email content based on alert type
     let subject = "";
     let html = "";
 
@@ -73,13 +72,27 @@ serve(async (req) => {
           </table>
         `;
         break;
+      case "job_application":
+        subject = `💼 New Job Application: ${data.first_name || ""} ${data.last_name || ""} — ${data.position || "General"}`;
+        html = `
+          <h2>New Job Application</h2>
+          <table style="border-collapse:collapse;width:100%">
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Name</td><td style="padding:8px;border:1px solid #ddd">${data.first_name || ""} ${data.last_name || ""}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${data.email || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Phone</td><td style="padding:8px;border:1px solid #ddd">${data.phone || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Position</td><td style="padding:8px;border:1px solid #ddd">${data.position || "General"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Department</td><td style="padding:8px;border:1px solid #ddd">${data.department || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">LinkedIn</td><td style="padding:8px;border:1px solid #ddd">${data.linkedin_url || "—"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Resume</td><td style="padding:8px;border:1px solid #ddd">${data.has_resume ? "✅ Uploaded" : "❌ Not provided"}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Cover Letter</td><td style="padding:8px;border:1px solid #ddd">${data.cover_letter_preview || "—"}</td></tr>
+          </table>
+        `;
+        break;
       default:
         subject = `ManageKube Alert`;
         html = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
 
-    // Send via Supabase Auth's built-in SMTP (Resend)
-    // Since Resend is configured as SMTP in Supabase Auth, we call Resend API directly
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     
     if (!RESEND_API_KEY) {
