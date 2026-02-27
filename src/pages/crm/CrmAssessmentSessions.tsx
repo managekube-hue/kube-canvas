@@ -226,14 +226,17 @@ function SessionRow({ session, isOpen, onToggle, onExport }: {
             {/* Answers breakdown */}
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
-                Answers ({answerCount} questions answered)
+                Answers ({answerCount} of {getTotalQuestionCount()} questions answered)
               </p>
-              <div className="max-h-64 overflow-y-auto space-y-1 border border-border p-3">
+              <div className="max-h-80 overflow-y-auto space-y-1 border border-border p-3">
                 {Object.entries(answers).map(([key, val]) => (
-                  <div key={key} className="flex items-start gap-3 py-1.5 border-b border-border/50 last:border-0">
-                    <span className="text-[10px] font-mono text-brand-orange flex-shrink-0 mt-0.5 w-32 truncate">{key}</span>
-                    <span className="text-xs text-foreground flex-1">
-                      {Array.isArray(val) ? val.join(", ") : String(val ?? "—")}
+                  <div key={key} className="flex items-start gap-3 py-2 border-b border-border/50 last:border-0">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-foreground leading-snug">{getQuestionLabel(key)}</p>
+                      <p className="text-[10px] font-mono text-muted-foreground mt-0.5">{key}</p>
+                    </div>
+                    <span className="text-xs text-brand-orange font-medium flex-shrink-0 max-w-[40%] text-right">
+                      {getAnswerLabel(key, val)}
                     </span>
                   </div>
                 ))}
