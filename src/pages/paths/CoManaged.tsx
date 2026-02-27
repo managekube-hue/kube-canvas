@@ -210,7 +210,7 @@ export default function CoManaged() {
             What Your Team Controls
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-2xl" style={{ color: "rgba(205,202,197,0.5)" }}>
-            The Kubric platform gives your team unified detection, response, and operations coverage — with our engineers on standby when escalation matters.
+            The Kubric platform gives your team unified detection, response, and operations coverage, with our engineers on standby when escalation matters.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-[1px]" style={{ background: CM.border }}>
