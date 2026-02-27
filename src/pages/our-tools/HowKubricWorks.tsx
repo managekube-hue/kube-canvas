@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Platform Overview (How_It_works.docx pp.5-7) */
+/** v2.0 spec copy: Platform Overview (How_It_works.docx pp.5-7) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
