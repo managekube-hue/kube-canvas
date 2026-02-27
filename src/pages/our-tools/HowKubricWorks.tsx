@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Platform Overview (How_It_works.docx pp.5-7) */
+/** v2.0 spec copy: Platform Overview (How_It_works.docx pp.5-7) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -6,9 +6,9 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import childPageVideo from "@/assets/child-page.mp4";
 
 const layers = [
-  { title: "The Ingestion Layer", desc: "Collects telemetry from every source in your environment — endpoints, network flows, cloud APIs, identity providers, applications, and data stores. Every raw signal is normalized into a strict, common schema at the moment of ingest." },
+  { title: "The Ingestion Layer", desc: "Collects telemetry from every source in your environment: endpoints, network flows, cloud APIs, identity providers, applications, and data stores. Every raw signal is normalized into a strict, common schema at the moment of ingest." },
   { title: "The Detection Layer", desc: "Runs 20 purpose-built capabilities across four operational disciplines. Each capability is tuned for its domain. Each writes findings to the same underlying graph database." },
-  { title: "The Graph Layer", desc: "Correlates every signal against every other signal in real time. Entities — users, devices, IP addresses, files, applications — are connected automatically. Relationships are mapped continuously." },
+  { title: "The Graph Layer", desc: "Correlates every signal against every other signal in real time. Entities (users, devices, IP addresses, files, applications) are connected automatically. Relationships are mapped continuously." },
   { title: "The Intelligence Layer", desc: "Applies machine learning, behavioral baselines, and threat intelligence to every finding. Noise is filtered. Priority is assigned. Recommended actions are generated." },
 ];
 
@@ -20,7 +20,7 @@ const capabilities: Record<string, string[]> = {
 };
 
 const unifiers = [
-  { title: "1. The Data Graph", desc: "Every signal from every capability writes to the same entity-relationship graph. When an identity anomaly and a network beacon occur simultaneously across the same user and device, they are connected automatically — not joined in a post-hoc query." },
+  { title: "1. The Data Graph", desc: "Every signal from every capability writes to the same entity-relationship graph. When an identity anomaly and a network beacon occur simultaneously across the same user and device, they are connected automatically, not joined in a post-hoc query." },
   { title: "2. The Methodology", desc: "Every detection follows the same eight-stage lifecycle: Hunt → Identify → Alert → Triage → Diagnose → Remediate → Document → Close. No gaps. No shortcuts. No incident closes without a documented resolution." },
   { title: "3. The AI Layer", desc: "KubricAI learns from every detection, every analyst decision, and every closed incident. Over time, noise decreases, priority accuracy increases, and recommendations become more precise." },
 ];
@@ -45,7 +45,7 @@ export default function HowKubricWorks() {
         </div>
         <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 py-32 lg:py-40">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works — Service Overview</span>
+            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works: Service Overview</span>
             <div style={{ height: "2px", width: "56px", background: "#993619", margin: "20px 0" }} />
             <h1 className="font-black text-white leading-tight" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif", marginBottom: "12px" }}>
               One Service Provider. Twenty Capabilities. Zero Tool Sprawl.
@@ -64,7 +64,7 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>The Problem with Vendors</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            Most providers assemble a collection of acquired products under a single contract vehicle. But if the data does not unify, if detection does not correlate, and if the interface does not connect — it is not a service provider. It is a reseller with a dashboard.
+            Most providers assemble a collection of acquired products under a single contract vehicle. But if the data does not unify, if detection does not correlate, and if the interface does not connect, it is not a service provider. It is a reseller with a dashboard.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
             A genuine service provider has one data layer. One detection engine. One investigation workflow. One architecture. That is what ManageKube delivers.
@@ -78,7 +78,7 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>What Kubric Actually Is</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
-            Kubric is the proprietary detection and response engine that powers every ManageKube service. It is not a SIEM. It is not an open-source distribution rebranded under a managed services wrapper. It is an integrated engine engineered specifically for cross-discipline threat correlation — operated by analysts who understand your environment, delivered as a service your organization consumes.
+            Kubric is the proprietary detection and response engine that powers every ManageKube service. It is not a SIEM. It is not an open-source distribution rebranded under a managed services wrapper. It is an integrated engine engineered specifically for cross-discipline threat correlation, operated by analysts who understand your environment, delivered as a service your organization consumes.
           </p>
 
           <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#1D1D1B", marginBottom: "24px" }}>The engine is composed of four engineered layers:</h3>

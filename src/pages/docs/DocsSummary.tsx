@@ -90,7 +90,7 @@ export default function DocsSummary() {
                     <span className="text-blue-500 mt-1 flex-shrink-0">▸</span>
                     <div>
                       <span className="font-semibold text-foreground">{item.lib}</span>
-                      <span className="text-muted-foreground text-xs"> — {item.desc}</span>
+                      <span className="text-muted-foreground text-xs"> · {item.desc}</span>
                     </div>
                   </li>
                 ))}

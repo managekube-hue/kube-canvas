@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Kubric Data Graph (How_It_works.docx pp.10-11) */
+/** v2.0 spec copy: Kubric Data Graph (How_It_works.docx pp.10-11) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -15,10 +15,10 @@ const entityTypes = [
 
 const enables = [
   { title: "Attack Chain Reconstruction", desc: "Every incident arrives with its full context pre-assembled. Analysts do not hunt for related events. The graph delivers them." },
-  { title: "Blast Radius Assessment", desc: "When a compromise is confirmed, the graph instantly surfaces every entity the adversary could have touched — not only the initial foothold, but the full scope of potential exposure." },
-  { title: "Hunting at Graph Speed", desc: "Threat hunters traverse the graph rather than writing complex joins. \"Show me all devices this user accessed in the 72 hours before their credentials were compromised.\" The graph answers immediately." },
-  { title: "Immutable Compliance Evidence", desc: "Every relationship is timestamped and immutable. When an auditor requires proof that a compromised device was isolated, the graph produces the isolation event, the device state before and after, and the analyst who executed the action — all connected." },
-  { title: "Proactive Baseline Learning", desc: "The graph models normal relationships over time. When new relationships emerge — a user accessing a system they have never previously touched, a device communicating with an external IP it has never contacted — the graph flags them as anomalies before they escalate to alerts." },
+  { title: "Blast Radius Assessment", desc: "When a compromise is confirmed, the graph instantly surfaces every entity the adversary could have touched, not only the initial foothold, but the full scope of potential exposure." },
+  { title: "Hunting at Graph Speed", desc: "Threat hunters traverse the graph rather than writing complex joins. 'Show me all devices this user accessed in the 72 hours before their credentials were compromised.' The graph answers immediately." },
+  { title: "Immutable Compliance Evidence", desc: "Every relationship is timestamped and immutable. When an auditor requires proof that a compromised device was isolated, the graph produces the isolation event, the device state before and after, and the analyst who executed the action, all connected." },
+  { title: "Proactive Baseline Learning", desc: "The graph models normal relationships over time. When new relationships emerge (a user accessing a system they have never previously touched, a device communicating with an external IP it has never contacted) the graph flags them as anomalies before they escalate to alerts." },
 ];
 
 export default function KubricDataGraph() {
@@ -35,7 +35,7 @@ export default function KubricDataGraph() {
         </div>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works — Kubric Data Graph</span>
+            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works: Kubric Data Graph</span>
             <div style={{ height: "2px", width: "56px", background: "#993619", margin: "20px 0" }} />
             <h1 className="font-black text-white leading-tight" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif", marginBottom: "12px" }}>
               The Correlation Layer That Makes Detection Actually Work
@@ -50,10 +50,10 @@ export default function KubricDataGraph() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            Most security platforms claim correlation. What they mean is this: you can write a manual query that joins data from two sources after both have been stored. This is not correlation. This is investigative homework. Your analyst becomes the correlation engine — and at the speed modern attacks execute, that gap is fatal.
+            Most security platforms claim correlation. What they mean is this: you can write a manual query that joins data from two sources after both have been stored. This is not correlation. This is investigative homework. Your analyst becomes the correlation engine, and at the speed modern attacks execute, that gap is fatal.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
-            Kubric Data Graph is architecturally different. Correlation occurs at the exact millisecond of ingestion. Every signal — from every capability, every source, every domain — is written to a high-performance graph database that models entities and their relationships in real time. Users. Devices. IP addresses. Files. Applications. Cloud resources. Data stores. Every entity is a node. Every interaction is an edge. Every relationship is mapped continuously.
+            Kubric Data Graph is architecturally different. Correlation occurs at the exact millisecond of ingestion. Every signal, from every capability, every source, every domain, is written to a high-performance graph database that models entities and their relationships in real time. Users. Devices. IP addresses. Files. Applications. Cloud resources. Data stores. Every entity is a node. Every interaction is an edge. Every relationship is mapped continuously.
           </p>
         </div>
       </section>

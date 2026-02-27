@@ -10,7 +10,7 @@ interface PageBannerProps {
 export const PageBanner = ({ title, subtitle, phase }: PageBannerProps) => {
   return (
     <section className="relative overflow-hidden bg-black min-h-screen flex items-center justify-center">
-      {/* Video background — higher visibility */}
+      {/* Video background: higher visibility */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay

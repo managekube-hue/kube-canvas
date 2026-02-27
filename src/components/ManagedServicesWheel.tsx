@@ -83,7 +83,7 @@ export const ManagedServicesWheel = ({
     <section className="py-24" style={{ background: bgColor }}>
       <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left — text + detail panel */}
+          {/* Left: text + detail panel */}
           <div>
             <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>
               Interactive Capabilities
@@ -149,7 +149,7 @@ export const ManagedServicesWheel = ({
             </AnimatePresence>
           </div>
 
-          {/* Right — SVG wheel */}
+          {/* Right: SVG wheel */}
           <div className="flex items-center justify-center">
             <svg
               viewBox="0 0 500 500"

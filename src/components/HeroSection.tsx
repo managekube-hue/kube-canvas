@@ -39,7 +39,7 @@ export const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 lg:pt-24 pb-24 overflow-hidden bg-black">
-      {/* Video Background — prominent, person walking into NOC */}
+      {/* Video Background: prominent, person walking into NOC */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -55,10 +55,10 @@ export const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
       </div>
 
-      {/* Content — two-column: text left, constellation right */}
+      {/* Content: two-column, text left, constellation right */}
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — headline + CTAs */}
+          {/* Left: headline + CTAs */}
           <div className="max-w-2xl">
             {/* Accent line */}
             <motion.div
@@ -118,7 +118,7 @@ export const HeroSection = () => {
             </motion.div>
           </div>
 
-          {/* Right — KubeConstellation overlay */}
+          {/* Right: KubeConstellation overlay */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
