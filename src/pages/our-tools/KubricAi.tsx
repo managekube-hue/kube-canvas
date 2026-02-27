@@ -95,7 +95,7 @@ export default function KubricAi() {
             </p>
             <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
               {["Asset criticality is modeled directly in the graph: internet-facing, business-critical, or containing regulated data.",
-                "Vulnerability exploitability is scored using EPSS (Exploit Prediction Scoring System) — evaluating real-world probability of exploitation, not CVSS severity alone."
+                "Vulnerability exploitability is scored using EPSS (Exploit Prediction Scoring System), evaluating real-world probability of exploitation, not CVSS severity alone."
               ].map(item => (
                 <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "10px" }}>
                   <CheckCircle size={12} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />

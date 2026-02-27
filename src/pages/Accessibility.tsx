@@ -1,5 +1,5 @@
 /**
- * Accessibility Statement — ManageKube, Inc.
+ * Accessibility Statement: ManageKube, Inc.
  * Word-for-word from provided documentation
  */
 

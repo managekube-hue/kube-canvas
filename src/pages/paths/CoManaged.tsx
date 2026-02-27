@@ -11,7 +11,7 @@ import childPageVideo from "@/assets/child-page.mp4";
 import { ManagedServicesWheel, CO_MANAGED_SEGMENTS } from "@/components/ManagedServicesWheel";
 
 
-/** DO NOT TOUCH — Co-Managed Home — per architecture doc page 18/15 */
+/** DO NOT TOUCH: Co-Managed Home, per architecture doc page 18/15 */
 
 // Doc: Route prefix: /co-managed
 // Doc: Brand voice: Outcome + Technical Capabilities + Differentiation
@@ -66,7 +66,7 @@ const KUBES = [
 
 // Doc page 24: Section 3 — Where We Back You Up (Escalation)
 const ESCALATION = [
-  { icon: HeadphonesIcon, label: "Managed SOC — On-Demand Escalation", desc: "Surge capacity when your team needs reinforcement — activated when you need additional capacity for major incidents, threat hunts, or coverage gaps.", href: "/services/managed-soc" },
+  { icon: HeadphonesIcon, label: "Managed SOC: On-Demand Escalation", desc: "Surge capacity when your team needs reinforcement, activated when you need additional capacity for major incidents, threat hunts, or coverage gaps.", href: "/services/managed-soc" },
   { icon: Shield, label: "Advisory Services", desc: "Expert guidance when your environment needs more than your team. Schedule with our team on demand.", href: "/services/security-assessments" },
   { icon: BarChart3, label: "Deployment & Integration", desc: "Deployment engineering when your team wants outside expertise on a specific integration challenge.", href: "/services/custom-automation" },
 ];
@@ -84,7 +84,7 @@ export default function CoManaged() {
   return (
     <div className="min-h-screen" style={{ background: CM.bg }}>
 
-      {/* ── Global Header (hamburger mega-menu — same as all paths) ── */}
+      {/* Global Header (hamburger mega-menu, same as all paths) */}
       <Header />
 
       {/* ── HERO WITH VIDEO (same pattern as Fully Managed) ─────────── */}
@@ -159,7 +159,7 @@ export default function CoManaged() {
               className="text-[15px] leading-relaxed mb-12"
               style={{ color: "rgba(255,255,255,0.45)" }}
             >
-              Stop stitching tools together. The Kubric platform gives your team unified detection, response, and operations coverage — with our engineers on standby when escalation matters.
+              Stop stitching tools together. The Kubric platform gives your team unified detection, response, and operations coverage, with our engineers on standby when escalation matters.
             </motion.p>
 
             {/* Doc Primary CTA: "Build My Stack →"   Secondary: "See How Kubric Works →" */}
@@ -210,7 +210,7 @@ export default function CoManaged() {
             What Your Team Controls
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-2xl" style={{ color: "rgba(205,202,197,0.5)" }}>
-            The Kubric platform gives your team unified detection, response, and operations coverage — with our engineers on standby when escalation matters.
+            The Kubric platform gives your team unified detection, response, and operations coverage, with our engineers on standby when escalation matters.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-[1px]" style={{ background: CM.border }}>
@@ -304,7 +304,7 @@ export default function CoManaged() {
             Where We Back You Up
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-2xl" style={{ color: "rgba(205,202,197,0.5)" }}>
-            On-demand escalation, expert advisory, and deployment support from the engineers who built the platform. Co-managed means your team runs it — but you're never alone.
+            On-demand escalation, expert advisory, and deployment support from the engineers who built the platform. Co-managed means your team runs it, but you're never alone.
           </p>
 
           <div className="grid lg:grid-cols-3 gap-[1px]" style={{ background: CM.border }}>

@@ -37,7 +37,7 @@ function SplitHero() {
             <h3 className="text-2xl font-bold text-foreground mb-3">Package Assessment</h3>
             <p className="text-sm text-muted-foreground mb-6 flex-1">
               96 weighted questions across security, infrastructure, cloud, compliance, and cost.
-              Get your Environment Maturity Score, recommended tier, custom pricing with milestone scale-down, gap flags, and a remediation roadmap — all instantly.
+              Get your Environment Maturity Score, recommended tier, custom pricing with milestone scale-down, gap flags, and a remediation roadmap, all instantly.
             </p>
             <ul className="space-y-2 mb-8">
               {[
@@ -74,7 +74,7 @@ function SplitHero() {
             <h3 className="text-2xl font-bold text-foreground mb-3">Service &amp; Product Catalogue</h3>
             <p className="text-sm text-muted-foreground mb-6 flex-1">
               Already know what you need? Browse our full catalogue of managed services, professional engagements, migrations, hardware, and licensing.
-              Build your Bill of Materials and submit for a quote — no assessment required.
+              Build your Bill of Materials and submit for a quote. No assessment required.
             </p>
             <ul className="space-y-2 mb-8">
               {[
@@ -357,7 +357,7 @@ export default function GetStarted() {
     <PageLayout>
       <PageBanner
         title="Get Started"
-        subtitle="Your security journey starts here. Full assessment or à la carte — choose what fits."
+        subtitle="Your security journey starts here. Full assessment or à la carte: choose what fits."
       />
       <SplitHero />
       <HowItWorks />

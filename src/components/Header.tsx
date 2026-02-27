@@ -400,7 +400,7 @@ export const Header = () => {
                           }}
                         />
                       </button>
-                      {/* Subtle divider — not after last item */}
+                      {/* Subtle divider, not after last item */}
                       {i < Object.keys(megaMenu).length - 1 && (
                         <div style={{ height: "1px", backgroundColor: DIVIDER, marginLeft: "40px", marginRight: "40px" }} />
                       )}

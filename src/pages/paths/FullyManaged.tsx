@@ -11,7 +11,7 @@ import datacenterVideo from "@/assets/datacenter-walkthrough.mp4";
 
 
 
-/** DO NOT TOUCH — Fully Managed Home — #993619 design system */
+/** DO NOT TOUCH: Fully Managed Home, #993619 design system */
 
 // Sub-nav per architecture doc
 const SUB_NAV = [
@@ -237,7 +237,7 @@ export default function FullyManaged() {
         </div>
       </section>
 
-      {/* Kube constellation removed — awaiting user-provided image */}
+      {/* Kube constellation removed, awaiting user-provided image */}
 
       {/* === PLATFORM CTA === */}
       <section className="py-24" style={{ background: "#0C0C0C" }}>
