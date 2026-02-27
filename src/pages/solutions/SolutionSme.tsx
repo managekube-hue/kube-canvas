@@ -11,7 +11,7 @@ export default function SolutionSme() {
       sections={[
         {
           title: "The SME Challenge",
-          body: "SME organizations have dedicated IT and security staff. The team has grown beyond a single generalist. But it is stretched thin. Compliance pressure is intensifying — SOC 2, ISO 27001, CMMC, HIPAA, PCI. Environments have grown more complex. The tools and processes that functioned at 50 employees are creating friction at 500. SME Solutions deliver the operational depth the organization requires without the overhead it cannot absorb.",
+          body: "SME organizations have dedicated IT and security staff. The team has grown beyond a single generalist. But it is stretched thin. Compliance pressure is intensifying: SOC 2, ISO 27001, CMMC, HIPAA, PCI. Environments have grown more complex. The tools and processes that functioned at 50 employees are creating friction at 500. SME Solutions deliver the operational depth the organization requires without the overhead it cannot absorb.",
         },
         {
           title: "What SMEs Need",
