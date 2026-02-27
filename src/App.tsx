@@ -194,8 +194,10 @@ const App = () => (
         <ScrollToTop />
         <BOMCart />
         <Routes>
+          {/* Universal Homepage */}
+          <Route path="/" element={<UniversalHome />} />
           {/* Qualification Gate */}
-          <Route path="/" element={<QualificationGate />} />
+          <Route path="/gate" element={<QualificationGate />} />
           <Route path="/fully-managed" element={<FullyManaged />} />
           <Route path="/co-managed" element={<CoManaged />} />
           <Route path="/self-managed" element={<SelfManaged />} />
