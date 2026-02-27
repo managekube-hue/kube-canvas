@@ -214,7 +214,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2023-4966",
     name: "Citrix Bleed",
     description: "Sensitive information disclosure in NetScaler ADC and Gateway allows unauthenticated attackers to hijack existing sessions.",
-    plainEnglish: "Hijack authenticated user sessions — bypass MFA entirely. Massively exploited in ransomware attacks.",
+    plainEnglish: "Hijack authenticated user sessions, bypass MFA entirely. Massively exploited in ransomware attacks.",
     cvss: 9.4,
     epss: 0.92,
     severity: "CRITICAL",
