@@ -98,7 +98,7 @@ export default function KubricUidr() {
       {/* ── Eight-Stage Lifecycle ── */}
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
-          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>How Detection Works — The Eight-Stage Lifecycle</p>
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>How Detection Works: The Eight-Stage Lifecycle</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
             This is not a checklist. It is the operational workflow the platform strictly enforces. Every detection capability follows the same process without exception:
