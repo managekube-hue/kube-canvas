@@ -9,6 +9,7 @@ import {
   ChevronDown, ChevronUp, Download, Search, Eye,
   BarChart3, AlertTriangle, CheckCircle, Clock, X,
 } from "lucide-react";
+import { getQuestionLabel, getAnswerLabel, getTotalQuestionCount } from "@/lib/question-labels";
 
 interface Session {
   id: string;
