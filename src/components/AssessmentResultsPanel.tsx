@@ -17,6 +17,7 @@ import { Slider } from "@/components/ui/slider";
 import type { ScoringResult } from "@/lib/assessment-scoring";
 import {
   getRecommendedModules, getProfessionalServices, getMilestoneDiscounts, calculateMilestonePrice,
+  type RecommendedModule,
 } from "@/lib/module-recommendations";
 
 const ORANGE = "#993619";

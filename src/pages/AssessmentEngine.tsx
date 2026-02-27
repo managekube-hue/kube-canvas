@@ -24,11 +24,7 @@ import {
   CAPTURE_FIELDS, FLOW_LABELS, PRIORITY_TO_FLOW, type AssessmentQuestion,
 } from "@/data/assessment-questions";
 import { calculateScores, shouldEscalate, type ScoringResult } from "@/lib/assessment-scoring";
-import {
-  getRecommendedModules, getProfessionalServices, getMilestoneDiscounts, calculateMilestonePrice,
-  type RecommendedModule, type ProfessionalService,
-} from "@/lib/module-recommendations";
-import { Slider } from "@/components/ui/slider";
+import { ResultsPanel } from "@/components/AssessmentResultsPanel";
 
 const ORANGE = "#993619";
 
