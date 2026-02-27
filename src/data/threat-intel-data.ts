@@ -146,7 +146,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-4577",
     name: "PHP CGI Argument Injection",
     description: "PHP CGI implementations on Windows allow argument injection via specific character encoding, leading to remote code execution.",
-    plainEnglish: "Execute code on any Windows server running PHP-CGI — no authentication required.",
+    plainEnglish: "Execute code on any Windows server running PHP-CGI, no authentication required.",
     cvss: 9.8,
     epss: 0.85,
     severity: "CRITICAL",
