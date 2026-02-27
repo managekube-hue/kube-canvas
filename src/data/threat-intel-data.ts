@@ -197,7 +197,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-0012",
     name: "PAN-OS Management Auth Bypass",
     description: "Authentication bypass in Palo Alto Networks PAN-OS management web interface allows unauthenticated attackers to gain admin privileges.",
-    plainEnglish: "Full admin access to your firewall management — attackers bypass login on exposed management interfaces.",
+    plainEnglish: "Full admin access to your firewall management. Attackers bypass login on exposed management interfaces.",
     cvss: 9.8,
     epss: 0.87,
     severity: "CRITICAL",
