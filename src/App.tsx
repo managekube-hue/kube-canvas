@@ -418,6 +418,7 @@ const App = () => (
 
           {/* Auth */}
           <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/set-password" element={<SetPassword />} />
 
           {/* UIDR Open Source Docs Site */}
           <Route path="/uidr" element={<UidrHome />} />
