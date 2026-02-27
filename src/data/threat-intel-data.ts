@@ -27,7 +27,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-3094",
     name: "XZ Utils Backdoor",
     description: "Malicious code was injected into XZ Utils versions 5.6.0 and 5.6.1, creating a backdoor in the SSH daemon via liblzma.",
-    plainEnglish: "Backdoor allows full remote system control — attackers injected malicious code into a widely-used compression library.",
+    plainEnglish: "Backdoor allows full remote system control. Attackers injected malicious code into a widely-used compression library.",
     cvss: 10.0,
     epss: 0.98,
     severity: "CRITICAL",
