@@ -95,7 +95,7 @@ export const docModules: DocModule[] = [
     number: 4,
     code: "CDR",
     name: "Cloud Detection & Response",
-    fullName: "CDR — Cloud Detection & Response",
+    fullName: "CDR: Cloud Detection & Response",
     category: "cloud",
     tagline: "CloudQuery Go plugins handle cloud asset discovery. Trivy and Kube-bench are embedded Go libraries.",
     description: "CloudQuery Go plugins handle cloud asset discovery. Trivy and Kube-bench are embedded Go libraries. Falco K8s rules and Sigma cloud rules are vendored data. Covers container runtime, cloud misconfigs, IAM analysis, and CIS cloud compliance.",
