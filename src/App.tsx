@@ -386,7 +386,7 @@ const App = () => (
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
-            <Route path="settings" element={<CrmPlaceholder title="Settings" />} />
+            <Route path="settings" element={<CrmSettings />} />
             <Route path="legacy" element={<CmsAdmin />} />
           </Route>
           <Route path="/cms" element={<Navigate to="/crm" replace />} />
