@@ -13,9 +13,9 @@ const detectionGroups = [
 ];
 
 const lifecycle = [
-  { step: "Step 1: Hunt", desc: "Continuous, proactive scanning for anomalies — not exclusively known-bad patterns. The platform hunts even when no alert has fired." },
+  { step: "Step 1: Hunt", desc: "Continuous, proactive scanning for anomalies, not exclusively known-bad patterns. The platform hunts even when no alert has fired." },
   { step: "Step 2: Identify", desc: "When a signal is detected, it is validated against context from every other capability. Is this IP associated with known threat infrastructure? Has this user exhibited this behavior previously? Is this configuration drift or an authorized change?" },
-  { step: "Step 3: Alert", desc: "Validated findings become alerts. Alerts carry context from across the full platform — not only the domain where the signal originated. Severity is assigned based on true environmental context, not raw CVSS scores." },
+  { step: "Step 3: Alert", desc: "Validated findings become alerts. Alerts carry context from across the full platform, not only the domain where the signal originated. Severity is assigned based on true environmental context, not raw CVSS scores." },
   { step: "Step 4: Triage", desc: "Analysts review every alert. False positives are eliminated with documented rationale. True positives are escalated with full context attached." },
   { step: "Step 5: Diagnose", desc: "Root cause analysis commences automatically. The platform reconstructs the attack chain using data from every affected capability." },
   { step: "Step 6: Remediate", desc: "Response actions are executed and documented: account suspension, network isolation, credential rotation, configuration restoration. Every action is recorded with analyst attribution." },
