@@ -160,6 +160,7 @@ import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
 import CrmInvoices from "./pages/crm/CrmInvoices";
 import CrmSettings from "./pages/crm/CrmSettings";
 import CrmLeadImport from "./pages/crm/CrmLeadImport";
+import CrmBulkUpload from "./pages/crm/CrmBulkUpload";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -384,6 +385,7 @@ const App = () => (
             <Route path="contracts" element={<CrmContracts />} />
             <Route path="invoices" element={<CrmInvoices />} />
             <Route path="leads" element={<CrmLeadImport />} />
+            <Route path="bulk-upload" element={<CrmBulkUpload />} />
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />

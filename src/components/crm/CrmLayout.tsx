@@ -4,7 +4,7 @@ import { useCrmUser } from "@/hooks/useCrmUser";
 import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
-  LayoutDashboard, Briefcase, Clock, Shield, Menu,
+  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/crm" },
   { label: "Lead Pipeline", icon: BarChart3, path: "/crm/leads" },
+  { label: "CSV Upload", icon: Upload, path: "/crm/bulk-upload" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },

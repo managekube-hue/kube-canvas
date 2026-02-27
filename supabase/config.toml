@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.send-alert]
 verify_jwt = false
+
+[functions.crm-sync-monitor]
+verify_jwt = false
