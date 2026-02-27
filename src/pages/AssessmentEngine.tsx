@@ -7,6 +7,7 @@
  * - Branching showIf logic
  * - Auto-save to Supabase
  * - Escalation detection (ongoing incident → immediate sales alert)
+ * - Module recommendations, milestone pricing slider, à la carte services
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -16,13 +17,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, CheckCircle, AlertTriangle,
   Shield, Server, Cloud, TrendingUp, DollarSign, Building2,
-  Phone, FileText,
+  Phone, FileText, ChevronDown, ChevronUp, Star, Zap, ExternalLink,
 } from "lucide-react";
 import {
   P0_QUESTIONS, SR_QUESTIONS, IA_QUESTIONS, CM_QUESTIONS, GE_QUESTIONS, CO_QUESTIONS,
   CAPTURE_FIELDS, FLOW_LABELS, PRIORITY_TO_FLOW, type AssessmentQuestion,
 } from "@/data/assessment-questions";
 import { calculateScores, shouldEscalate, type ScoringResult } from "@/lib/assessment-scoring";
+import {
+  getRecommendedModules, getProfessionalServices, getMilestoneDiscounts, calculateMilestonePrice,
+  type RecommendedModule, type ProfessionalService,
+} from "@/lib/module-recommendations";
+import { Slider } from "@/components/ui/slider";
 
 const ORANGE = "#993619";
 
