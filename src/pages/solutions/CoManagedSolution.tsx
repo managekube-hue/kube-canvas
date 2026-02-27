@@ -1,4 +1,4 @@
-/** Co-Managed — /solutions/by-service-type/co-managed — rich deep page */
+/** Co-Managed: /solutions/by-service-type/co-managed: rich deep page */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
