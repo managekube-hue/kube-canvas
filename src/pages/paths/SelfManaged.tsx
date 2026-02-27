@@ -126,7 +126,7 @@ const PLATFORM_TIERS = [
   },
   {
     name: "XME",
-    label: "XME — Enterprise",
+    label: "XME: Enterprise",
     sub: "All 23 Capabilities. Complete detection stack. Premium API access.",
     desc: "XME deploys the full capability set including software supply chain detection, data exfiltration response, STRIKE threat intelligence, EASM, Honeypot deception, FinOps governance, and dedicated vCISO advisory: complete coverage for regulated enterprises.",
     cta: "Deploy XME →",
