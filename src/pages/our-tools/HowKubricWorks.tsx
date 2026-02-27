@@ -64,7 +64,7 @@ export default function HowKubricWorks() {
           <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>The Problem with Vendors</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            Most providers assemble a collection of acquired products under a single contract vehicle. But if the data does not unify, if detection does not correlate, and if the interface does not connect — it is not a service provider. It is a reseller with a dashboard.
+            Most providers assemble a collection of acquired products under a single contract vehicle. But if the data does not unify, if detection does not correlate, and if the interface does not connect, it is not a service provider. It is a reseller with a dashboard.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
             A genuine service provider has one data layer. One detection engine. One investigation workflow. One architecture. That is what ManageKube delivers.
