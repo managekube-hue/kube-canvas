@@ -178,7 +178,7 @@ export const docModules: DocModule[] = [
     number: 8,
     code: "VDR",
     name: "Vulnerability Detection & Response",
-    fullName: "VDR — Vulnerability Detection & Response",
+    fullName: "VDR: Vulnerability Detection & Response",
     category: "endpoint",
     tagline: "Nuclei engine and Trivy are core Go libraries. NVD, EPSS, CISA KEV are REST API pulls.",
     description: "Nuclei engine and Trivy are the core Go libraries. NVD, EPSS, CISA KEV are REST API pulls cached in ClickHouse. Checkov and KICS provide IaC scanning as embedded libraries. Covers vuln scanning, CVE data, SBOM, risk scoring, IaC scanning, and container vulns.",
