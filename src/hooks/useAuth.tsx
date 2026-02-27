@@ -25,6 +25,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Set up auth listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
+        // If user clicked an invite or password reset link, redirect to set-password
+        if (_event === "PASSWORD_RECOVERY") {
+          window.location.href = "/auth/set-password";
+          return;
+        }
+
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
