@@ -84,7 +84,7 @@ export default function CoManaged() {
   return (
     <div className="min-h-screen" style={{ background: CM.bg }}>
 
-      {/* ── Global Header (hamburger mega-menu — same as all paths) ── */}
+      {/* Global Header (hamburger mega-menu, same as all paths) */}
       <Header />
 
       {/* ── HERO WITH VIDEO (same pattern as Fully Managed) ─────────── */}
