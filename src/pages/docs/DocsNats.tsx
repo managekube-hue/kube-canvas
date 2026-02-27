@@ -30,7 +30,7 @@ const integrations = [
   { point: "KAI → CrewAI", library: "CrewAI Python", importPath: "from crewai import Agent, Task, Crew", license: "MIT", comm: "Multi-agent orchestration" },
   { point: "KAI → Voice (COMM)", library: "Vapi REST API", importPath: "POST https://api.vapi.ai/call", license: "Commercial ToS", comm: "Voice alerts via KAI-COMM" },
   { point: "KAI → Stripe", library: "Stripe Go SDK", importPath: 'import "github.com/stripe/stripe-go/v76"', license: "MIT", comm: "Payment processing for KAI-CLERK" },
-  { point: "PSA → Zammad", library: "Zammad REST API", importPath: "GET/POST https://zammad/api/v1/tickets", license: "AGPL 3.0 — API", comm: "ITSM ticketing bridge" },
+  { point: "PSA → Zammad", library: "Zammad REST API", importPath: "GET/POST https://zammad/api/v1/tickets", license: "AGPL 3.0, API", comm: "ITSM ticketing bridge" },
   { point: "Service → Gateway", library: "go-chi Router (Go)", importPath: 'import "github.com/go-chi/chi/v5"', license: "MIT", comm: "Kubric API gateway routing" },
 ];
 
