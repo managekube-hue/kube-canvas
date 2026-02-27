@@ -279,7 +279,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-29973",
     name: "Zyxel NAS Command Injection",
     description: "OS command injection in Zyxel NAS devices allows unauthenticated attackers to execute system commands.",
-    plainEnglish: "Take over network storage devices — attackers can access or encrypt all your files.",
+    plainEnglish: "Take over network storage devices. Attackers can access or encrypt all your files.",
     cvss: 9.8,
     epss: 0.68,
     severity: "CRITICAL",
