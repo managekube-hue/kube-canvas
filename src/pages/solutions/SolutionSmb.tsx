@@ -11,7 +11,7 @@ export default function SolutionSmb() {
       sections={[
         {
           title: "The SMB Challenge",
-          body: "SMB organizations confront the same adversaries as large enterprises — phishing, ransomware, credential theft, supply chain compromise. The attacks do not scale down because the target is smaller. But the SMB does not have a 24/7 security operations center, a dedicated compliance officer, or the internal bandwidth to manage a portfolio of security tools. SMB Solutions deliver enterprise-grade protection without enterprise-grade operational complexity.",
+          body: "SMB organizations confront the same adversaries as large enterprises: phishing, ransomware, credential theft, supply chain compromise. The attacks do not scale down because the target is smaller. But the SMB does not have a 24/7 security operations center, a dedicated compliance officer, or the internal bandwidth to manage a portfolio of security tools. SMB Solutions deliver enterprise-grade protection without enterprise-grade operational complexity.",
         },
         {
           title: "What SMBs Need",
