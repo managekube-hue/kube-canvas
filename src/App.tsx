@@ -385,6 +385,7 @@ const App = () => (
             <Route path="contracts" element={<CrmContracts />} />
             <Route path="invoices" element={<CrmInvoices />} />
             <Route path="leads" element={<CrmLeadImport />} />
+            <Route path="bulk-upload" element={<CrmBulkUpload />} />
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
