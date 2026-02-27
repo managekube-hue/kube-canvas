@@ -129,7 +129,7 @@ export const curatedThreats: ThreatCve[] = [
     id: "CVE-2024-23897",
     name: "Jenkins CLI Arbitrary File Read",
     description: "Jenkins CLI allows attackers to read arbitrary files on the Jenkins controller file system via args4j library.",
-    plainEnglish: "Read any file on Jenkins servers — including credentials and secrets. Public exploits available.",
+    plainEnglish: "Read any file on Jenkins servers, including credentials and secrets. Public exploits available.",
     cvss: 9.8,
     epss: 0.82,
     severity: "CRITICAL",
