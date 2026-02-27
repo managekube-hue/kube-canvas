@@ -338,7 +338,7 @@ export default function SelfManaged() {
       </section>
 
       {/* ══ SECTION 2: Kube Catalog ══════════════════════════════════════ */}
-      {/* Doc: "The Detection and Response Kube Catalog — 16 Modules. Each One Independently Deployable." */}
+      {/* Doc: "The Detection and Response Kube Catalog: 16 Modules. Each One Independently Deployable." */}
       <section className="py-24" style={{ background: BG3 }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Detection & Response</p>
