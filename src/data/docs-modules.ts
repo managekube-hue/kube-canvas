@@ -202,7 +202,7 @@ export const docModules: DocModule[] = [
     number: 9,
     code: "MDR",
     name: "Managed Detection & Response",
-    fullName: "MDR — Managed Detection & Response",
+    fullName: "MDR: Managed Detection & Response",
     category: "intelligence",
     tagline: "TheHive schemas model Kubric case structures. Cortex analyzers executed as subprocesses.",
     description: "TheHive schemas used as JSON data to model Kubric case structures. Cortex analyzers and responders executed as subprocesses. Shuffle workflows loaded as YAML config. Covers case management, analyst workflows, SOAR playbooks, threat hunting, and observable enrichment.",
