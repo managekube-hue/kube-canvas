@@ -112,7 +112,7 @@ const CAPABILITIES = [
   },
   {
     title: "Audit-Ready Reporting",
-    desc: "Pre-formatted audit packages, evidence bundles, and executive reporting delivered on your schedule.",
+    desc: "Pre-formatted audit deliverables, evidence bundles, and executive reporting delivered on your schedule.",
   },
   {
     title: "Multi-Framework Mapping",

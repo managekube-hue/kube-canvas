@@ -462,7 +462,7 @@ export default function SelfManaged() {
                 100+ Frameworks. Your Team Owns the Evidence.
               </p>
               <p className="text-[14px] leading-relaxed mb-6" style={{ color: TEXT_DIM }}>
-                The GRC module maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit packages via API — the GRC module gives your team programmatic access to your entire compliance posture.
+                The GRC module maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit-ready deliverables via API — the GRC module gives your team programmatic access to your entire compliance posture.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link to="/service-layer/grc" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: ORANGE, letterSpacing: "0.1em" }}>
