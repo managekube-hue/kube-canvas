@@ -176,6 +176,51 @@ export default function Documentation() {
             </Link>
           </div>
 
+          {/* REACH Policies & Compliance */}
+          <div className="border border-border bg-background p-8 mt-6">
+            <div className="flex items-start gap-5 mb-6">
+              <div className="w-14 h-14 flex items-center justify-center border border-border bg-secondary flex-shrink-0">
+                <Shield size={22} className="text-brand-orange" />
+              </div>
+              <div>
+                <div className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-1">
+                  Governance & Compliance
+                </div>
+                <h3 className="text-2xl font-black text-foreground mb-2">
+                  REACH Platform Policies
+                </h3>
+                <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
+                  Security, privacy, and operational policies governing the Kubric REACH collaboration platform. These documents support SOC 2, ISO 27001, and Zoom Marketplace compliance requirements.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {[
+                { label: "Vulnerability Management Policy", file: "01_Vulnerability_Management_Policy.pdf" },
+                { label: "Security Policy", file: "02_Security_Policy.pdf" },
+                { label: "Privacy Policy", file: "03_Privacy_Policy.pdf" },
+                { label: "Data Retention & Protection", file: "04_Data_Retention_Protection_Policy.pdf" },
+                { label: "Incident Management & Response", file: "05_Incident_Management_Response_Policy.pdf" },
+                { label: "Infrastructure & Dependency Mgmt", file: "06_Infrastructure_Dependency_Management_Policy.pdf" },
+                { label: "SOC 2 / ISO 27001 Statement", file: "07_Security_Compliance_Statement_SOC2_ISO27001.pdf" },
+                { label: "SSDLC Policy (SAST/DAST)", file: "08_SSDLC_Policy_SAST_DAST.pdf" },
+                { label: "REACH Architecture Overview", file: "kubric-reach-architecture.pdf" },
+              ].map((doc) => (
+                <a
+                  key={doc.file}
+                  href={`/docs/${doc.file}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 px-4 py-3 border border-border hover:border-brand-orange/40 hover:bg-secondary/50 transition-all group"
+                >
+                  <FileText size={16} className="text-muted-foreground group-hover:text-brand-orange transition-colors flex-shrink-0" />
+                  <span className="text-sm text-foreground/70 group-hover:text-foreground transition-colors">{doc.label}</span>
+                  <ExternalLink size={12} className="ml-auto text-muted-foreground/40 group-hover:text-brand-orange transition-colors flex-shrink-0" />
+                </a>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
     </PageLayout>
