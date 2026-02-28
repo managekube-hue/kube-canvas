@@ -332,7 +332,7 @@ export default function UidrIde() {
 
   if (workspace.loading) {
     return (
-      <UidrLayout>
+      <IdeShell>
         <div className="flex items-center justify-center" style={{ height: "calc(100vh - 3.5rem)" }}>
           <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
         </div>
