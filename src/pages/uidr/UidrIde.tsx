@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { UidrLayout } from "@/components/UidrLayout";
 import { useAuth } from "@/hooks/useAuth";
-import { useGitHubProxy, type GitTreeItem } from "@/hooks/useGitHubProxy";
+import { useGitHubProxy, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHubProxy";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
@@ -10,20 +10,18 @@ import { IdeActivityBar, type ViewMode } from "@/components/ide/IdeActivityBar";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
 import { IdeSearchPanel } from "@/components/ide/IdeSearchPanel";
 import { IdeIssuesPanel } from "@/components/ide/IdeIssuesPanel";
+import { IdeIssueDetail } from "@/components/ide/IdeIssueDetail";
 import { IdeChatPanel } from "@/components/ide/IdeChatPanel";
 import { IdeCommitsPanel } from "@/components/ide/IdeCommitsPanel";
 import { IdeNotificationsPanel } from "@/components/ide/IdeNotificationsPanel";
+import { IdePullRequestsPanel, IdePrDetail } from "@/components/ide/IdePullRequestsPanel";
+import { IdeMilestonesPanel } from "@/components/ide/IdeMilestonesPanel";
+import { IdeSettingsPanel } from "@/components/ide/IdeSettingsPanel";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 import { Loader2 } from "lucide-react";
 
-interface OpenTab {
-  path: string;
-  content: string;
-  dirty: boolean;
-  language: string;
-  loading: boolean;
-}
+interface OpenTab { path: string; content: string; dirty: boolean; language: string; loading: boolean; }
 
 function detectLanguage(path: string): string {
   const ext = path.split(".").pop()?.toLowerCase();
@@ -40,8 +38,6 @@ function detectLanguage(path: string): string {
 export default function UidrIde() {
   const { user } = useAuth();
   const workspace = useReachWorkspace();
-
-  // Derived config from active workspace
   const owner = workspace.activeWorkspace?.github_owner || "";
   const repo = workspace.activeWorkspace?.github_repo || "";
   const gh = useGitHubProxy(owner, repo);
@@ -55,75 +51,63 @@ export default function UidrIde() {
   const [tabs, setTabs] = useState<OpenTab[]>([]);
   const [activeTab, setActiveTab] = useState<string | null>(null);
 
-  // Issues & commits
-  const [issues, setIssues] = useState<any[]>([]);
+  // Issues
+  const [issues, setIssues] = useState<GitIssue[]>([]);
   const [issuesLoading, setIssuesLoading] = useState(false);
+  const [selectedIssue, setSelectedIssue] = useState<GitIssue | null>(null);
+  const [availableLabels, setAvailableLabels] = useState<GitLabel[]>([]);
+  const [availableAssignees, setAvailableAssignees] = useState<Array<{ login: string; avatar_url: string }>>([]);
+
+  // PRs
+  const [pulls, setPulls] = useState<GitPullRequest[]>([]);
+  const [pullsLoading, setPullsLoading] = useState(false);
+  const [selectedPr, setSelectedPr] = useState<GitPullRequest | null>(null);
+
+  // Milestones
+  const [milestones, setMilestones] = useState<GitMilestone[]>([]);
+  const [milestonesLoading, setMilestonesLoading] = useState(false);
+
+  // Commits
   const [commits, setCommits] = useState<any[]>([]);
   const [commitsLoading, setCommitsLoading] = useState(false);
 
-  // Real-time
-  const { onlineUsers } = useReachPresence(
-    workspace.activeWorkspace?.id || null,
-    activeTab
-  );
-  const { notifications, unreadCount, markRead, markAllRead } = useReachNotifications(
-    workspace.activeWorkspace?.id || null
-  );
+  // Collaborators
+  const [collaborators, setCollaborators] = useState<GitCollaborator[]>([]);
 
-  // ── Load tree ────────────────────────────
+  // Real-time
+  const { onlineUsers } = useReachPresence(workspace.activeWorkspace?.id || null, activeTab);
+  const { notifications, unreadCount, markRead, markAllRead } = useReachNotifications(workspace.activeWorkspace?.id || null);
+
+  // ── Load tree ──────────────────────────────
   const loadTree = useCallback(async () => {
     if (!owner || !repo) return;
     setTreeLoading(true);
     try {
       const data = await gh.getTree(branch);
       setTree(buildTree(data.tree));
-    } catch (err) {
-      console.error("Failed to load tree:", err);
-    } finally {
-      setTreeLoading(false);
-    }
+    } catch (err) { console.error("Failed to load tree:", err); }
+    finally { setTreeLoading(false); }
   }, [branch, owner, repo]);
 
   useEffect(() => { if (owner && repo) loadTree(); }, [loadTree, owner, repo]);
 
-  // ── Load branches ────────────────────────
+  // ── Load branches ──────────────────────────
   useEffect(() => {
     if (!owner || !repo) return;
-    gh.getBranches()
-      .then(b => setBranches(b.map(x => x.name)))
-      .catch(console.error);
+    gh.getBranches().then(b => setBranches(b.map(x => x.name))).catch(console.error);
   }, [owner, repo]);
 
-  // ── Open file into tab ───────────────────
+  // ── Open file ──────────────────────────────
   const openFile = async (path: string) => {
-    // If already open, just switch
-    if (tabs.find(t => t.path === path)) {
-      setActiveTab(path);
-      return;
-    }
-
-    const newTab: OpenTab = {
-      path,
-      content: "",
-      dirty: false,
-      language: detectLanguage(path),
-      loading: true,
-    };
+    if (tabs.find(t => t.path === path)) { setActiveTab(path); return; }
+    const newTab: OpenTab = { path, content: "", dirty: false, language: detectLanguage(path), loading: true };
     setTabs(prev => [...prev, newTab]);
     setActiveTab(path);
-
     try {
       const data = await gh.getFile(path, branch);
       const decoded = data.encoding === "base64" ? atob(data.content) : data.content;
-      setTabs(prev =>
-        prev.map(t => t.path === path ? { ...t, content: decoded, loading: false } : t)
-      );
-    } catch (err) {
-      console.error("Failed to load file:", err);
-      setTabs(prev =>
-        prev.map(t => t.path === path ? { ...t, content: `// Error loading ${path}`, loading: false } : t)
-      );
-    }
+      setTabs(prev => prev.map(t => t.path === path ? { ...t, content: decoded, loading: false } : t));
+    } catch { setTabs(prev => prev.map(t => t.path === path ? { ...t, content: `// Error loading ${path}`, loading: false } : t)); }
   };
 
   const closeTab = (path: string) => {
@@ -135,138 +119,145 @@ export default function UidrIde() {
   };
 
   const updateContent = (path: string, content: string) => {
-    setTabs(prev =>
-      prev.map(t => t.path === path ? { ...t, content, dirty: true } : t)
-    );
+    setTabs(prev => prev.map(t => t.path === path ? { ...t, content, dirty: true } : t));
   };
 
-  // ── Commit workflow ──────────────────────
+  // ── Commit workflow ────────────────────────
   const commitFile = async (path: string, message: string) => {
     const tab = tabs.find(t => t.path === path);
     if (!tab) return;
     try {
       const refData = await gh.getRef(`heads/${branch}`);
-      const parentSha = refData.object.sha;
       const blob = await gh.createBlob(tab.content, "utf-8");
-      const newTree = await gh.createTree(parentSha, [
-        { path, mode: "100644", type: "blob", sha: blob.sha },
-      ]);
-      const commit = await gh.createCommit(message, newTree.sha, [parentSha]);
+      const newTree = await gh.createTree(refData.object.sha, [{ path, mode: "100644", type: "blob", sha: blob.sha }]);
+      const commit = await gh.createCommit(message, newTree.sha, [refData.object.sha]);
       await gh.updateRef(`heads/${branch}`, commit.sha);
       setTabs(prev => prev.map(t => t.path === path ? { ...t, dirty: false } : t));
-      loadCommits();
-      loadTree();
-    } catch (err) {
-      console.error("Commit failed:", err);
-    }
+      loadCommits(); loadTree();
+    } catch (err) { console.error("Commit failed:", err); }
   };
 
-  // ── Create new file ──────────────────────
+  // ── Create file ────────────────────────────
   const createNewFile = async (filePath: string) => {
     try {
       const refData = await gh.getRef(`heads/${branch}`);
-      const parentSha = refData.object.sha;
       const blob = await gh.createBlob("", "utf-8");
-      const newTree = await gh.createTree(parentSha, [
-        { path: filePath, mode: "100644", type: "blob", sha: blob.sha },
-      ]);
-      const commit = await gh.createCommit(`Create ${filePath}`, newTree.sha, [parentSha]);
+      const newTree = await gh.createTree(refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
+      const commit = await gh.createCommit(`Create ${filePath}`, newTree.sha, [refData.object.sha]);
       await gh.updateRef(`heads/${branch}`, commit.sha);
-      await loadTree();
-      openFile(filePath);
-    } catch (err) {
-      console.error("Create file failed:", err);
-    }
+      await loadTree(); openFile(filePath);
+    } catch (err) { console.error("Create file failed:", err); }
   };
 
-  // ── Delete file ──────────────────────────
+  // ── Delete file ────────────────────────────
   const deleteFile = async (path: string) => {
     try {
-      // Get file SHA first
       const fileData = await gh.getFile(path, branch);
       await gh.deleteFile(path, fileData.sha, `Delete ${path}`, branch);
-      closeTab(path);
-      loadTree();
-    } catch (err) {
-      console.error("Delete file failed:", err);
-    }
+      closeTab(path); loadTree();
+    } catch (err) { console.error("Delete file failed:", err); }
   };
 
-  // ── Create branch ────────────────────────
+  // ── Create branch ──────────────────────────
   const createBranch = async (name: string) => {
     try {
       const refData = await gh.getRef(`heads/${branch}`);
-      // Create a new ref via the proxy
-      const PROJECT_ID = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-      const BASE = `https://${PROJECT_ID}.supabase.co/functions/v1/github-proxy`;
-
-      const { data: { session } } = await (await import("@/integrations/supabase/client")).supabase.auth.getSession();
-      if (!session) throw new Error("Not authenticated");
-
-      const res = await fetch(
-        `${BASE}?action=create_ref&owner=${owner}&repo=${repo}&ref=refs/heads/${name}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${session.access_token}`,
-            "Content-Type": "application/json",
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          },
-          body: JSON.stringify({ sha: refData.object.sha }),
-        }
-      );
-      if (!res.ok) throw new Error("Failed to create branch");
-
+      await gh.createRef(`refs/heads/${name}`, refData.object.sha);
       setBranches(prev => [...prev, name]);
       setBranch(name);
-    } catch (err) {
-      console.error("Create branch failed:", err);
-    }
+    } catch (err) { console.error("Create branch failed:", err); }
   };
 
-  // ── Load issues ──────────────────────────
+  // ── Issues ─────────────────────────────────
   const loadIssues = async () => {
     if (!owner || !repo) return;
     setIssuesLoading(true);
+    try { setIssues(await gh.getIssues("open")); } catch (err) { console.error(err); }
+    finally { setIssuesLoading(false); }
+  };
+
+  const loadLabelsAndAssignees = async () => {
+    if (!owner || !repo) return;
     try {
-      setIssues(await gh.getIssues("open"));
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIssuesLoading(false);
-    }
+      const [labels, assignees] = await Promise.all([gh.getLabels(), gh.getAssignees()]);
+      setAvailableLabels(labels);
+      setAvailableAssignees(assignees);
+    } catch { /* non-critical */ }
   };
 
-  const createIssue = async (title: string, body: string) => {
-    await gh.createIssue(title, body);
-    loadIssues();
+  const createIssue = async (title: string, body: string) => { await gh.createIssue(title, body); loadIssues(); };
+  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
+    const updated = await gh.updateIssue(num, updates);
+    setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
+    if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
   };
 
-  // ── Load commits ─────────────────────────
+  // ── PRs ────────────────────────────────────
+  const loadPulls = async () => {
+    if (!owner || !repo) return;
+    setPullsLoading(true);
+    try { setPulls(await gh.getPulls("all")); } catch (err) { console.error(err); }
+    finally { setPullsLoading(false); }
+  };
+
+  const createPr = async (title: string, head: string, base: string, body: string) => {
+    await gh.createPull(title, head, base, body); loadPulls();
+  };
+
+  const mergePr = async (num: number, method: "merge" | "squash" | "rebase") => {
+    await gh.mergePull(num, undefined, method); loadPulls();
+  };
+
+  // ── Milestones ─────────────────────────────
+  const loadMilestones = async () => {
+    if (!owner || !repo) return;
+    setMilestonesLoading(true);
+    try { setMilestones(await gh.getMilestones("open")); } catch (err) { console.error(err); }
+    finally { setMilestonesLoading(false); }
+  };
+
+  const createMilestone = async (title: string, desc: string, dueOn?: string) => {
+    await gh.createMilestone(title, desc, dueOn); loadMilestones();
+  };
+
+  const updateMilestone = async (num: number, updates: { state?: string }) => {
+    await gh.updateMilestone(num, updates); loadMilestones();
+  };
+
+  // ── Commits ────────────────────────────────
   const loadCommits = async () => {
     if (!owner || !repo) return;
     setCommitsLoading(true);
-    try {
-      setCommits(await gh.getCommits(branch));
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setCommitsLoading(false);
-    }
+    try { setCommits(await gh.getCommits(branch)); } catch (err) { console.error(err); }
+    finally { setCommitsLoading(false); }
   };
 
-  // ── Load data per view mode ──────────────
+  const loadCommitDetail = async (sha: string): Promise<GitCommitDetail> => gh.getCommitDetail(sha);
+
+  // ── Search ─────────────────────────────────
+  const searchCode = async (query: string): Promise<GitSearchResult> => gh.searchCode(query);
+
+  // ── Collaborators ──────────────────────────
+  const loadCollaborators = async () => {
+    if (!owner || !repo) return;
+    try { setCollaborators(await gh.getCollaborators()); } catch { /* non-critical */ }
+  };
+
+  // ── Load data per view mode ────────────────
   useEffect(() => {
-    if (viewMode === "issues") loadIssues();
+    if (viewMode === "issues") { loadIssues(); loadLabelsAndAssignees(); }
     if (viewMode === "commits") loadCommits();
+    if (viewMode === "pulls") loadPulls();
+    if (viewMode === "milestones") loadMilestones();
+    if (viewMode === "settings") loadCollaborators();
   }, [viewMode, owner, repo, branch]);
 
-  // ── Create workspace ─────────────────────
+  // ── Create workspace ──────────────────────
   const handleCreateWorkspace = async (name: string, ghOwner: string, ghRepo: string) => {
     await workspace.createWorkspace(name, ghOwner, ghRepo);
   };
 
-  // ── Loading state ────────────────────────
+  // ── Loading ────────────────────────────────
   if (workspace.loading) {
     return (
       <UidrLayout>
@@ -277,7 +268,6 @@ export default function UidrIde() {
     );
   }
 
-  // ── No workspace → setup ─────────────────
   if (!workspace.activeWorkspace) {
     return (
       <UidrLayout>
@@ -286,99 +276,78 @@ export default function UidrIde() {
     );
   }
 
-  // ── Side panel content ───────────────────
+  // ── Side panel content ─────────────────────
   const renderSidePanel = () => {
     switch (viewMode) {
       case "explorer":
         return (
-          <IdeFileTree
-            owner={owner} repo={repo}
-            branch={branch} setBranch={setBranch}
-            branches={branches}
-            onSelectFile={openFile}
-            selectedFile={activeTab}
-            onRefresh={loadTree}
-            onCreateBranch={createBranch}
-            tree={tree}
-            treeLoading={treeLoading}
-            onNewFile={createNewFile}
-            onDeleteFile={deleteFile}
-          />
+          <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
+            branches={branches} onSelectFile={openFile} selectedFile={activeTab}
+            onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
+            treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
         );
       case "search":
-        return <IdeSearchPanel tree={tree} onSelectFile={openFile} />;
+        return <IdeSearchPanel tree={tree} onSelectFile={openFile} onSearchCode={searchCode} />;
       case "issues":
-        return (
-          <IdeIssuesPanel
-            issues={issues}
-            onCreateIssue={createIssue}
-            loading={issuesLoading}
-          />
+        return selectedIssue ? (
+          <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
+            onLoadComments={(num) => gh.getIssueComments(num)}
+            onAddComment={(num, body) => gh.createIssueComment(num, body).then(() => {})}
+            onUpdateIssue={updateIssue}
+            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+        ) : (
+          <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
+            onSelectIssue={setSelectedIssue} />
         );
+      case "pulls":
+        return selectedPr ? (
+          <IdePrDetail pr={selectedPr} onBack={() => setSelectedPr(null)}
+            onLoadFiles={(num) => gh.getPullFiles(num)}
+            onLoadComments={(num) => gh.getPullComments(num)}
+            onAddComment={(num, body) => gh.createPullComment(num, body).then(() => {})}
+            onMerge={mergePr} />
+        ) : (
+          <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
+            onSelectPr={setSelectedPr} onCreatePr={createPr}
+            branches={branches} currentBranch={branch} />
+        );
+      case "milestones":
+        return <IdeMilestonesPanel milestones={milestones} loading={milestonesLoading}
+          onCreateMilestone={createMilestone} onUpdateMilestone={updateMilestone} />;
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "commits":
-        return <IdeCommitsPanel commits={commits} loading={commitsLoading} />;
+        return <IdeCommitsPanel commits={commits} loading={commitsLoading} onLoadCommitDetail={loadCommitDetail} />;
       case "notifications":
-        return (
-          <IdeNotificationsPanel
-            notifications={notifications}
-            onMarkRead={markRead}
-            onMarkAllRead={markAllRead}
-          />
-        );
+        return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
+      case "settings":
+        return <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
+          onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />;
     }
   };
 
   return (
     <UidrLayout>
       <div className="flex" style={{ height: "calc(100vh - 3.5rem)", overflow: "hidden" }}>
-        <IdeActivityBar
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-          unreadCount={unreadCount}
-          onlineCount={onlineUsers.length}
-        />
-
-        {/* Side Panel */}
+        <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} />
         <div className="w-[280px] flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden">
-          {/* Workspace selector */}
           <div className="px-3 py-2 border-b border-white/5">
-            <select
-              value={workspace.activeWorkspace?.id || ""}
+            <select value={workspace.activeWorkspace?.id || ""}
               onChange={(e) => {
                 const ws = workspace.workspaces.find(w => w.id === e.target.value);
                 if (ws) workspace.setActiveWorkspace(ws);
               }}
-              className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none truncate"
-            >
+              className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none truncate">
               {workspace.workspaces.map(ws => (
-                <option key={ws.id} value={ws.id} className="bg-[#0c0c0c]">
-                  {ws.name}
-                </option>
+                <option key={ws.id} value={ws.id} className="bg-[#0c0c0c]">{ws.name}</option>
               ))}
             </select>
           </div>
-
-          {/* Panel content */}
-          <div className="flex-1 overflow-hidden flex flex-col">
-            {renderSidePanel()}
-          </div>
+          <div className="flex-1 overflow-hidden flex flex-col">{renderSidePanel()}</div>
         </div>
-
-        {/* Editor area */}
-        <IdeEditor
-          tabs={tabs}
-          activeTab={activeTab}
-          onTabSelect={setActiveTab}
-          onTabClose={closeTab}
-          onContentChange={updateContent}
-          onCommit={commitFile}
-          branch={branch}
-          onlineUsers={onlineUsers}
-          owner={owner}
-          repo={repo}
-        />
+        <IdeEditor tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
+          onContentChange={updateContent} onCommit={commitFile} branch={branch}
+          onlineUsers={onlineUsers} owner={owner} repo={repo} />
       </div>
     </UidrLayout>
   );
