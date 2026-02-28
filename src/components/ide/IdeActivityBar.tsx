@@ -49,6 +49,11 @@ export function IdeActivityBar({ viewMode, setViewMode, unreadCount, onlineCount
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           )}
+          {mode === "staging" && dirtyCount > 0 && (
+            <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-blue-500 rounded-full text-[7px] flex items-center justify-center text-white font-bold">
+              {dirtyCount > 9 ? "9+" : dirtyCount}
+            </span>
+          )}
           {mode === "chat" && onlineCount > 1 && (
             <span className="absolute bottom-0.5 right-0.5 w-2 h-2 bg-green-500 rounded-full" />
           )}
