@@ -29,7 +29,7 @@ async function ghProxy<T = unknown>(
   return res.json() as Promise<T>;
 }
 
-// ── Public API ────────────────────────────────
+// ── Types ────────────────────────────────────
 
 export interface GitTreeItem {
   path: string;
@@ -38,6 +38,33 @@ export interface GitTreeItem {
   sha: string;
   size?: number;
 }
+
+export interface GitRepo {
+  id: number;
+  full_name: string;
+  name: string;
+  owner: { login: string; avatar_url: string };
+  description: string | null;
+  language: string | null;
+  default_branch: string;
+  private: boolean;
+  updated_at: string;
+  stargazers_count: number;
+}
+
+// ── Global helpers (no owner/repo needed) ────
+
+export function useGitHubGlobal() {
+  return {
+    listRepos: (perPage = 100, page = 1, sort = "updated") =>
+      ghProxy<GitRepo[]>({ action: "repos", per_page: String(perPage), page: String(page), sort }),
+
+    getUser: () =>
+      ghProxy<{ login: string; avatar_url: string; name: string }>({ action: "user" }),
+  };
+}
+
+// ── Repo-scoped helpers ──────────────────────
 
 export function useGitHubProxy(owner: string, repo: string) {
   const p = (action: string, extra?: Record<string, string>) => ({
@@ -72,7 +99,10 @@ export function useGitHubProxy(owner: string, repo: string) {
         state: string;
         labels: Array<{ name: string; color: string }>;
         user: { login: string; avatar_url: string };
+        assignees?: Array<{ login: string; avatar_url: string }>;
         created_at: string;
+        body?: string;
+        comments: number;
       }>>(p("issues", { state })),
 
     getBranches: () =>
@@ -111,16 +141,22 @@ export function useGitHubProxy(owner: string, repo: string) {
     getRef: (ref = "heads/main") =>
       ghProxy<{ object: { sha: string } }>(p("get_ref", { ref })),
 
-    createIssue: (title: string, body?: string, labels?: string[]) =>
+    createIssue: (title: string, body?: string, labels?: string[], assignees?: string[]) =>
       ghProxy<{ number: number; html_url: string }>(p("create_issue"), {
         method: "POST",
-        body: { title, body, labels },
+        body: { title, body, labels, assignees },
       }),
 
-    updateIssue: (issueNumber: number, updates: { title?: string; body?: string; state?: string; labels?: string[] }) =>
+    updateIssue: (issueNumber: number, updates: { title?: string; body?: string; state?: string; labels?: string[]; assignees?: string[] }) =>
       ghProxy<{ number: number }>(p("update_issue", { issue_number: String(issueNumber) }), {
         method: "POST",
         body: updates,
+      }),
+
+    deleteFile: (path: string, sha: string, message: string, branch: string) =>
+      ghProxy<{ commit: { sha: string } }>(p("delete_file", { path }), {
+        method: "POST",
+        body: { message, sha, branch },
       }),
   };
 }
