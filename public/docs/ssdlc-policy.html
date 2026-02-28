@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ManageKube — Secure Software Development Lifecycle (SSDLC) Policy</title>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; line-height: 1.7; }
+  h1 { font-size: 22px; border-bottom: 2px solid #0a2540; padding-bottom: 8px; }
+  h2 { font-size: 16px; margin-top: 28px; color: #0a2540; }
+  .meta { color: #666; font-size: 13px; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+  th { background: #f0f4f8; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  .footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 12px; font-size: 12px; color: #888; }
+  @media print { body { margin: 20px; } }
+</style>
+</head>
+<body>
+
+<h1>Secure Software Development Lifecycle (SSDLC) Policy</h1>
+<p class="meta">
+  <strong>Organization:</strong> ManageKube LLC<br>
+  <strong>Application:</strong> Kubric Reach Collaboration IDE<br>
+  <strong>Document Version:</strong> 1.0<br>
+  <strong>Effective Date:</strong> February 28, 2026<br>
+  <strong>Owner:</strong> Engineering &amp; Security Team
+</p>
+
+<h2>1. Purpose</h2>
+<p>This document defines ManageKube's Secure Software Development Lifecycle (SSDLC) practices for the Kubric Reach application. It ensures security is embedded at every phase of development, from design through deployment and maintenance.</p>
+
+<h2>2. Scope</h2>
+<p>This policy applies to all code, infrastructure, and third-party integrations within the Kubric Reach platform, including the Zoom meeting integration.</p>
+
+<h2>3. SSDLC Phases</h2>
+<table>
+  <tr><th>Phase</th><th>Security Activities</th></tr>
+  <tr><td>Requirements &amp; Design</td><td>Threat modeling for new features; security requirements defined per integration (OAuth flows, token storage, RLS policies).</td></tr>
+  <tr><td>Development</td><td>TypeScript strict mode enforced; ESLint security rules; secrets managed via environment variables (never hardcoded); all database queries parameterized via Supabase SDK.</td></tr>
+  <tr><td>Code Review</td><td>All changes require pull request review before merge; security-sensitive changes (auth, tokens, RLS) require senior review.</td></tr>
+  <tr><td>Build &amp; Deploy</td><td>Automated CI/CD via GitHub Actions; dependency vulnerability scanning; builds fail on critical vulnerabilities.</td></tr>
+  <tr><td>Runtime</td><td>Row Level Security (RLS) enforced on all database tables; JWT-based authentication via Supabase Auth; HTTPS enforced on all endpoints.</td></tr>
+  <tr><td>Monitoring</td><td>Edge Function logging; database audit trails (crm_audit_log); error alerting via Resend email notifications.</td></tr>
+</table>
+
+<h2>4. Authentication &amp; Authorization Controls</h2>
+<ul>
+  <li>All users authenticate via Supabase Auth (email/password with JWT tokens).</li>
+  <li>OAuth 2.0 authorization code flow for Zoom integration with per-user token isolation.</li>
+  <li>Role-Based Access Control (RBAC) enforced at database level via RLS policies and helper functions (<code>is_reach_member</code>, <code>get_reach_role</code>).</li>
+  <li>Zoom tokens stored in <code>reach_zoom_tokens</code> table with RLS restricting access to token owner only.</li>
+</ul>
+
+<h2>5. Secret Management</h2>
+<ul>
+  <li>All API keys and secrets stored in Supabase Edge Function environment variables.</li>
+  <li>No secrets committed to source code repositories.</li>
+  <li>Client-side code only has access to the Supabase anon (publishable) key.</li>
+  <li>GitHub tokens, Zoom credentials, and service role keys are server-side only.</li>
+</ul>
+
+<h2>6. Data Protection</h2>
+<ul>
+  <li>All data in transit encrypted via TLS 1.2+.</li>
+  <li>Database hosted on Supabase (AWS infrastructure) with encryption at rest.</li>
+  <li>Zoom OAuth tokens stored in PostgreSQL with RLS — only the owning user can read/write their tokens.</li>
+  <li>No meeting recordings or participant PII are stored.</li>
+</ul>
+
+<h2>7. Dependency Management</h2>
+<ul>
+  <li>Package dependencies managed via <code>package.json</code> with lock files for reproducible builds.</li>
+  <li>Regular dependency audits using <code>npm audit</code>.</li>
+  <li>Edge Functions use pinned Deno module versions from <code>esm.sh</code> and <code>deno.land/std</code>.</li>
+</ul>
+
+<h2>8. Incident Response</h2>
+<ul>
+  <li>Security incidents reported to <strong>security@managekube.com</strong>.</li>
+  <li>Token compromise triggers immediate revocation via the <code>zoom-oauth-callback?action=disconnect</code> endpoint.</li>
+  <li>Stale/expired Zoom tokens are automatically purged on refresh failure.</li>
+</ul>
+
+<div class="footer">
+  ManageKube LLC — 240-257-2029 — This document is confidential and intended for Zoom Marketplace review purposes.
+</div>
+
+</body>
+</html>
