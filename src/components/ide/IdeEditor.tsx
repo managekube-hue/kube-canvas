@@ -4,6 +4,7 @@ import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import type { PresenceUser } from "@/hooks/useReachPresence";
+import { IdeFileIcon } from "@/components/ide/IdeFileIcon";
 
 interface OpenTab {
   path: string;
