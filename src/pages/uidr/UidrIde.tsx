@@ -361,13 +361,22 @@ export default function UidrIde() {
           <IdeKanbanBoard issues={issues} loading={issuesLoading}
             onSelectIssue={setSelectedIssue} onUpdateIssue={updateIssue} onCreateIssue={createIssue} />
         );
+      case "staging":
+        return <IdeStagingPanel
+          dirtyFiles={tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }))}
+          branch={branch}
+          onCommitMultiple={commitMultipleFiles}
+          onDiscardFile={discardFile}
+        />;
       case "pulls":
         return selectedPr ? (
-          <IdePrDetail pr={selectedPr} onBack={() => setSelectedPr(null)}
+          <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
             onLoadFiles={(num) => gh.getPullFiles(num)}
             onLoadComments={(num) => gh.getPullComments(num)}
+            onLoadReviews={(num) => gh.getPullReviews(num)}
             onAddComment={(num, body) => gh.createPullComment(num, body).then(() => {})}
-            onMerge={mergePr} />
+            onMerge={mergePr}
+            onUpdatePr={async (num, updates) => { await gh.updatePull(num, updates); loadPulls(); }} />
         ) : (
           <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
             onSelectPr={setSelectedPr} onCreatePr={createPr}
