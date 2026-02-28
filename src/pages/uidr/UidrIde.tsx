@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { UidrLayout } from "@/components/UidrLayout";
+import { Link } from "react-router-dom";
+import { Settings, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useGitHubProxy, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHubProxy";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";

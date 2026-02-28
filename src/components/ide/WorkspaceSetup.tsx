@@ -87,9 +87,17 @@ export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
 
       {error && (
         <div className="px-8 pb-4">
-          <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
-            {error}
-          </p>
+          <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 space-y-2">
+            <p className="font-semibold">Repository access failed</p>
+            {error.includes("401") || error.includes("Bad credentials") ? (
+              <p className="text-white/40">The GitHub access token has expired or is invalid. Please contact your workspace admin to update the <code className="text-red-300 bg-red-500/10 px-1 rounded">GITHUB_TOKEN</code> secret in Supabase.</p>
+            ) : (
+              <p className="text-white/40">{error}</p>
+            )}
+            <button onClick={loadRepos} className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
+              Retry
+            </button>
+          </div>
         </div>
       )}
 
