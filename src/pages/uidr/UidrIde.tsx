@@ -344,7 +344,7 @@ export default function UidrIde() {
     return (
       <IdeShell>
         <WorkspaceSetup onCreateWorkspace={handleCreateWorkspace} />
-      </UidrLayout>
+      </IdeShell>
     );
   }
 
