@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Hash, Send, Users, Plus, Loader2 } from "lucide-react";
+import { Hash, Send, Plus, Loader2, AtSign, Reply, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import ReactMarkdown from "react-markdown";
@@ -14,6 +14,7 @@ interface Message {
   body: string;
   user_id: string;
   created_at: string;
+  thread_id?: string | null;
 }
 
 interface Props {
@@ -28,7 +29,10 @@ export function IdeChatPanel({ workspaceId }: Props) {
   const [input, setInput] = useState("");
   const [showNewChannel, setShowNewChannel] = useState(false);
   const [newChannelName, setNewChannelName] = useState("");
+  const [replyTo, setReplyTo] = useState<Message | null>(null);
+  const [showMentions, setShowMentions] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Load channels
   useEffect(() => {
@@ -72,18 +76,22 @@ export function IdeChatPanel({ workspaceId }: Props) {
 
   // Auto-scroll
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim() || !activeChannel || !user) return;
+    const body = replyTo
+      ? `> _replying to ${replyTo.user_id === user.id ? "yourself" : replyTo.user_id.slice(0, 8)}_\n\n${input.trim()}`
+      : input.trim();
     await supabase.from("reach_messages").insert({
       channel_id: activeChannel,
       workspace_id: workspaceId,
       user_id: user.id,
-      body: input.trim(),
+      body,
     });
     setInput("");
+    setReplyTo(null);
   };
 
   const createChannel = async () => {
@@ -105,9 +113,27 @@ export function IdeChatPanel({ workspaceId }: Props) {
     setShowNewChannel(false);
   };
 
+  const insertMention = () => {
+    setInput(prev => prev + "@");
+    setShowMentions(false);
+    inputRef.current?.focus();
+  };
+
+  // Render message body with @mention highlighting
+  const renderBody = (body: string) => {
+    const parts = body.split(/(@\w+)/g);
+    return parts.map((part, i) =>
+      part.startsWith("@") ? (
+        <span key={i} className="bg-blue-500/20 text-blue-400 px-0.5 rounded">{part}</span>
+      ) : (
+        <span key={i}>{part}</span>
+      )
+    );
+  };
+
   return (
     <div className="flex flex-col h-full">
-      {/* Channel list in sidebar */}
+      {/* Channel list */}
       <div className="px-3 py-2 border-b border-white/5 flex items-center justify-between">
         <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Channels</span>
         <button onClick={() => setShowNewChannel(!showNewChannel)} className="text-white/30 hover:text-white/60">
@@ -144,43 +170,74 @@ export function IdeChatPanel({ workspaceId }: Props) {
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-2 space-y-2" style={{ scrollbarWidth: "thin" }}>
-        {messages.map(msg => (
-          <div key={msg.id} className="group">
-            <div className="flex items-start gap-2">
-              <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Users size={10} className="text-blue-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-baseline gap-2">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-2 space-y-1" style={{ scrollbarWidth: "thin" }}>
+        {messages.map((msg, idx) => {
+          const isOwn = msg.user_id === user?.id;
+          const showAvatar = idx === 0 || messages[idx - 1].user_id !== msg.user_id;
+          return (
+            <div key={msg.id} className="group hover:bg-white/[0.02] rounded px-1 py-0.5 -mx-1">
+              {showAvatar && (
+                <div className="flex items-baseline gap-2 mt-1.5">
                   <span className="text-[10px] font-bold text-white/60">
-                    {msg.user_id === user?.id ? "You" : msg.user_id.slice(0, 8)}
+                    {isOwn ? "You" : msg.user_id.slice(0, 8)}
                   </span>
                   <span className="text-[9px] text-white/20">
                     {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
-                <div className="text-xs text-white/70 mt-0.5 prose prose-invert prose-xs max-w-none">
-                  <ReactMarkdown>{msg.body}</ReactMarkdown>
+              )}
+              <div className="flex items-start gap-1 pl-0">
+                <div className="text-xs text-white/70 flex-1 leading-relaxed">
+                  {msg.body.startsWith(">") ? (
+                    <div className="prose prose-invert prose-xs max-w-none">
+                      <ReactMarkdown>{msg.body}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <span>{renderBody(msg.body)}</span>
+                  )}
                 </div>
+                <button
+                  onClick={() => setReplyTo(msg)}
+                  className="text-white/0 group-hover:text-white/20 hover:!text-white/50 flex-shrink-0 mt-0.5"
+                  title="Reply"
+                >
+                  <Reply size={10} />
+                </button>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      {/* Reply indicator */}
+      {replyTo && (
+        <div className="px-3 py-1.5 border-t border-white/5 flex items-center gap-2 bg-blue-500/5">
+          <Reply size={10} className="text-blue-400 flex-shrink-0" />
+          <span className="text-[10px] text-white/40 truncate flex-1">
+            Replying to {replyTo.user_id === user?.id ? "yourself" : replyTo.user_id.slice(0, 8)}
+          </span>
+          <button onClick={() => setReplyTo(null)} className="text-white/30 hover:text-white/60">
+            <X size={10} />
+          </button>
+        </div>
+      )}
 
       {/* Input */}
       <div className="px-3 py-2 border-t border-white/5">
-        <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+        <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+          <button onClick={insertMention} className="text-white/20 hover:text-blue-400" title="Mention">
+            <AtSign size={14} />
+          </button>
           <input
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            placeholder={activeChannel ? "Type a message..." : "Select a channel"}
+            placeholder={activeChannel ? "Message..." : "Select a channel"}
             disabled={!activeChannel}
             className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/20"
           />
-          <button onClick={sendMessage} className="text-blue-400 hover:text-blue-300">
+          <button onClick={sendMessage} className="text-blue-400 hover:text-blue-300 disabled:opacity-30" disabled={!input.trim()}>
             <Send size={14} />
           </button>
         </div>

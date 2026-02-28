@@ -204,7 +204,7 @@ export function IdeEditor({
       {/* Status Bar */}
       <div className="h-6 bg-blue-600 flex items-center px-3 gap-4 text-[10px] text-white/80">
         <span className="flex items-center gap-1"><GitBranch size={10} /> {branch}</span>
-        {activeTab && <span className="flex items-center gap-1"><FileCode size={10} /> {activeTab}</span>}
+        {activeTab && <span className="flex items-center gap-1"><IdeFileIcon filename={activeTab.split("/").pop() || ""} size={10} /> {activeTab}</span>}
         <div className="flex-1" />
         {activeTabData && <span>{activeTabData.language}</span>}
         <span>UTF-8</span>
