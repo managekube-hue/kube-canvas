@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ManageKube — Security &amp; Data Privacy Policy (Zoom Integration)</title>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; line-height: 1.7; }
+  h1 { font-size: 22px; border-bottom: 2px solid #0a2540; padding-bottom: 8px; }
+  h2 { font-size: 16px; margin-top: 28px; color: #0a2540; }
+  .meta { color: #666; font-size: 13px; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+  th { background: #f0f4f8; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  .footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 12px; font-size: 12px; color: #888; }
+  @media print { body { margin: 20px; } }
+</style>
+</head>
+<body>
+
+<h1>Security &amp; Data Privacy Policy — Zoom Integration</h1>
+<p class="meta">
+  <strong>Organization:</strong> ManageKube LLC<br>
+  <strong>Application:</strong> Kubric Reach Collaboration IDE<br>
+  <strong>Document Version:</strong> 1.0<br>
+  <strong>Effective Date:</strong> February 28, 2026<br>
+</p>
+
+<h2>1. Data Collected from Zoom</h2>
+<table>
+  <tr><th>Data Type</th><th>Purpose</th><th>Storage</th><th>Retention</th></tr>
+  <tr><td>OAuth access token</td><td>API authentication to create/end meetings</td><td>PostgreSQL (RLS-protected)</td><td>Until user disconnects or token expires</td></tr>
+  <tr><td>OAuth refresh token</td><td>Token renewal without re-authorization</td><td>PostgreSQL (RLS-protected)</td><td>Until user disconnects</td></tr>
+  <tr><td>Zoom user email</td><td>Display connection status in IDE</td><td>PostgreSQL (RLS-protected)</td><td>Until user disconnects</td></tr>
+  <tr><td>Zoom user ID</td><td>Internal mapping</td><td>PostgreSQL (RLS-protected)</td><td>Until user disconnects</td></tr>
+  <tr><td>Meeting ID &amp; join URL</td><td>Allow workspace members to join meetings</td><td>PostgreSQL (RLS-protected)</td><td>Meeting lifecycle</td></tr>
+</table>
+
+<h2>2. Data NOT Collected</h2>
+<ul>
+  <li>Meeting recordings (audio, video, transcripts)</li>
+  <li>Meeting participant lists or attendance data</li>
+  <li>Chat messages within Zoom meetings</li>
+  <li>Screen sharing content</li>
+  <li>Zoom account billing or subscription information</li>
+</ul>
+
+<h2>3. Data Access Controls</h2>
+<ul>
+  <li><strong>Row Level Security (RLS):</strong> Zoom tokens are restricted to the owning user — no other user, including administrators, can read another user's tokens via the API.</li>
+  <li><strong>Server-side only:</strong> All Zoom API calls are made from Supabase Edge Functions (Deno runtime). Client-side JavaScript never has access to Zoom tokens.</li>
+  <li><strong>Dual authentication:</strong> Meeting creation requires both a valid Supabase JWT session AND a valid per-user Zoom OAuth token.</li>
+</ul>
+
+<h2>4. Data Deletion &amp; User Rights</h2>
+<ul>
+  <li>Users can disconnect their Zoom account at any time via the IDE settings, which immediately deletes all stored tokens.</li>
+  <li>Expired tokens that fail refresh are automatically purged from the database.</li>
+  <li>Users may request complete data deletion by contacting <strong>privacy@managekube.com</strong>.</li>
+</ul>
+
+<h2>5. Third-Party Sub-Processors</h2>
+<table>
+  <tr><th>Service</th><th>Purpose</th><th>Data Shared</th></tr>
+  <tr><td>Supabase (AWS us-east-1)</td><td>Database &amp; Edge Function hosting</td><td>Zoom tokens (encrypted at rest)</td></tr>
+</table>
+<p>No Zoom data is shared with any other third party.</p>
+
+<h2>6. Vulnerability Management</h2>
+<ul>
+  <li>Dependencies audited regularly via automated tooling.</li>
+  <li>Edge Functions use pinned dependency versions to prevent supply-chain attacks.</li>
+  <li>Security vulnerabilities reported to <strong>security@managekube.com</strong> are triaged within 24 hours.</li>
+</ul>
+
+<h2>7. Compliance</h2>
+<p>ManageKube's data handling practices align with SOC 2 Type II principles (via Supabase infrastructure), GDPR data minimization requirements, and CCPA user rights provisions.</p>
+
+<div class="footer">
+  ManageKube LLC — 240-257-2029 — This document is confidential and intended for Zoom Marketplace review purposes.
+</div>
+
+</body>
+</html>
