@@ -189,7 +189,7 @@ export function IdeEditor({
           )
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-white/20">
-            <FileCode size={48} className="mb-4" />
+            <IdeFileIcon filename="welcome.md" size={48} className="mb-4 !text-white/10" />
             <p className="text-sm">Select a file from the explorer</p>
             <p className="text-xs mt-1 text-white/10">{owner}/{repo} · {branch}</p>
             <div className="mt-6 flex flex-col items-center gap-1 text-[10px] text-white/15">
