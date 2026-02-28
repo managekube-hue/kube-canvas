@@ -26,6 +26,7 @@ const items: { mode: ViewMode; icon: typeof FolderTree; label: string }[] = [
   { mode: "commits", icon: GitBranch, label: "History" },
   { mode: "activity", icon: Activity, label: "Activity Feed" },
   { mode: "chat", icon: MessageSquare, label: "Chat" },
+  { mode: "video", icon: Video, label: "Video Rooms" },
   { mode: "notifications", icon: Bell, label: "Notifications" },
 ];
 
