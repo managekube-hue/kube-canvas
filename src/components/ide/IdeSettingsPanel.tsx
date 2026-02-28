@@ -65,7 +65,7 @@ export function IdeSettingsPanel({ workspace, members, onRefreshMembers, collabo
 
   const updateRole = async (memberId: string, role: string) => {
     await supabase.from("reach_workspace_members")
-      .update({ role })
+      .update({ role: role as "admin" | "contributor" | "maintainer" | "owner" | "viewer" })
       .eq("id", memberId);
     onRefreshMembers();
   };
