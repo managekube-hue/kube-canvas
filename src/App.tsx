@@ -161,6 +161,7 @@ import CrmAuditLog from "./pages/crm/CrmAuditLog";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
 import CrmInvoices from "./pages/crm/CrmInvoices";
 import CrmSettings from "./pages/crm/CrmSettings";
+import CrmHelp from "./pages/crm/CrmHelp";
 import CrmLeadImport from "./pages/crm/CrmLeadImport";
 import CrmBulkUpload from "./pages/crm/CrmBulkUpload";
 import CrmCareers from "./pages/crm/CrmCareers";
