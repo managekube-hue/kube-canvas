@@ -405,6 +405,8 @@ export default function UidrIde() {
           onLoadCommits={() => gh.getCommits(branch)}
           onLoadIssueEvents={() => gh.getIssues("all")}
           onLoadPullEvents={() => gh.getPulls("all")} />;
+      case "video":
+        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
       case "settings":
