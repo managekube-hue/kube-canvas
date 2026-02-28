@@ -1,24 +1,16 @@
 import { useState } from "react";
 import { Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface Issue {
-  number: number;
-  title: string;
-  state: string;
-  labels: Array<{ name: string; color: string }>;
-  user: { login: string; avatar_url: string };
-  created_at: string;
-}
+import type { GitIssue } from "@/hooks/useGitHubProxy";
 
 interface Props {
-  issues: Issue[];
+  issues: GitIssue[];
   onCreateIssue: (title: string, body: string) => Promise<void>;
   loading: boolean;
-  onSelectIssue?: (issue: Issue) => void;
+  onSelectIssue?: (issue: GitIssue) => void;
 }
 
-export function IdeIssuesPanel({ issues, onCreateIssue, loading }: Props) {
+export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }: Props) {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
