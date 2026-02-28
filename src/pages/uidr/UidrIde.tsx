@@ -181,8 +181,15 @@ export default function UidrIde() {
 
   // ── Delete file ──────────────────────────
   const deleteFile = async (path: string) => {
-    // GitHub API doesn't have a tree-level delete via our proxy, so we skip for now
-    console.log("Delete not yet implemented for:", path);
+    try {
+      // Get file SHA first
+      const fileData = await gh.getFile(path, branch);
+      await gh.deleteFile(path, fileData.sha, `Delete ${path}`, branch);
+      closeTab(path);
+      loadTree();
+    } catch (err) {
+      console.error("Delete file failed:", err);
+    }
   };
 
   // ── Create branch ────────────────────────
