@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.zoom-meetings]
 verify_jwt = false
+
+[functions.zoom-oauth-callback]
+verify_jwt = false
