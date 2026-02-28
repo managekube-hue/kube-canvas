@@ -1,27 +1,29 @@
 import {
   FolderTree, Bug, MessageSquare, GitBranch, Bell,
   Search, Settings, GitPullRequest, Target,
-  BookOpen, LayoutDashboard, Activity,
+  BookOpen, LayoutDashboard, Activity, GitCommitHorizontal,
 } from "lucide-react";
 
-export type ViewMode = "explorer" | "search" | "issues" | "chat" | "commits" | "notifications" | "pulls" | "milestones" | "settings" | "docs" | "kanban" | "activity";
+export type ViewMode = "explorer" | "search" | "issues" | "chat" | "commits" | "notifications" | "pulls" | "milestones" | "settings" | "docs" | "kanban" | "activity" | "staging";
 
 interface Props {
   viewMode: ViewMode;
   setViewMode: (v: ViewMode) => void;
   unreadCount: number;
   onlineCount: number;
+  dirtyCount?: number;
 }
 
 const items: { mode: ViewMode; icon: typeof FolderTree; label: string }[] = [
   { mode: "explorer", icon: FolderTree, label: "Explorer" },
   { mode: "search", icon: Search, label: "Search" },
   { mode: "docs", icon: BookOpen, label: "Documentation" },
+  { mode: "staging", icon: GitCommitHorizontal, label: "Source Control" },
   { mode: "issues", icon: Bug, label: "Issues" },
   { mode: "kanban", icon: LayoutDashboard, label: "Issue Board" },
   { mode: "pulls", icon: GitPullRequest, label: "Pull Requests" },
   { mode: "milestones", icon: Target, label: "Milestones" },
-  { mode: "commits", icon: GitBranch, label: "Source Control" },
+  { mode: "commits", icon: GitBranch, label: "History" },
   { mode: "activity", icon: Activity, label: "Activity Feed" },
   { mode: "chat", icon: MessageSquare, label: "Chat" },
   { mode: "notifications", icon: Bell, label: "Notifications" },
