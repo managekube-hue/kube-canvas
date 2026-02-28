@@ -14,12 +14,14 @@ import { IdeIssueDetail } from "@/components/ide/IdeIssueDetail";
 import { IdeChatPanel } from "@/components/ide/IdeChatPanel";
 import { IdeCommitsPanel } from "@/components/ide/IdeCommitsPanel";
 import { IdeNotificationsPanel } from "@/components/ide/IdeNotificationsPanel";
-import { IdePullRequestsPanel, IdePrDetail } from "@/components/ide/IdePullRequestsPanel";
+import { IdePullRequestsPanel } from "@/components/ide/IdePullRequestsPanel";
+import { IdePrReviewPanel } from "@/components/ide/IdePrReviewPanel";
 import { IdeMilestonesPanel } from "@/components/ide/IdeMilestonesPanel";
 import { IdeSettingsPanel } from "@/components/ide/IdeSettingsPanel";
 import { IdeDocsPanel } from "@/components/ide/IdeDocsPanel";
 import { IdeKanbanBoard } from "@/components/ide/IdeKanbanBoard";
 import { IdeActivityFeed } from "@/components/ide/IdeActivityFeed";
+import { IdeStagingPanel } from "@/components/ide/IdeStagingPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
@@ -156,6 +158,30 @@ export default function UidrIde() {
       setTabs(prev => prev.map(t => t.path === path ? { ...t, dirty: false } : t));
       loadCommits(); loadTree();
     } catch (err) { console.error("Commit failed:", err); }
+  };
+
+  const commitMultipleFiles = async (paths: string[], message: string) => {
+    const dirtyTabs = tabs.filter(t => paths.includes(t.path) && t.dirty);
+    if (dirtyTabs.length === 0) return;
+    try {
+      const refData = await gh.getRef(`heads/${branch}`);
+      const blobs = await Promise.all(
+        dirtyTabs.map(async t => {
+          const blob = await gh.createBlob(t.content, "utf-8");
+          return { path: t.path, mode: "100644" as const, type: "blob" as const, sha: blob.sha };
+        })
+      );
+      const newTree = await gh.createTree(refData.object.sha, blobs);
+      const commit = await gh.createCommit(message, newTree.sha, [refData.object.sha]);
+      await gh.updateRef(`heads/${branch}`, commit.sha);
+      setTabs(prev => prev.map(t => paths.includes(t.path) ? { ...t, dirty: false } : t));
+      loadCommits(); loadTree();
+    } catch (err) { console.error("Multi-file commit failed:", err); }
+  };
+
+  const discardFile = (path: string) => {
+    setTabs(prev => prev.filter(t => t.path !== path));
+    if (activeTab === path) setActiveTab(null);
   };
 
   const createNewFile = async (filePath: string) => {
@@ -335,13 +361,22 @@ export default function UidrIde() {
           <IdeKanbanBoard issues={issues} loading={issuesLoading}
             onSelectIssue={setSelectedIssue} onUpdateIssue={updateIssue} onCreateIssue={createIssue} />
         );
+      case "staging":
+        return <IdeStagingPanel
+          dirtyFiles={tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }))}
+          branch={branch}
+          onCommitMultiple={commitMultipleFiles}
+          onDiscardFile={discardFile}
+        />;
       case "pulls":
         return selectedPr ? (
-          <IdePrDetail pr={selectedPr} onBack={() => setSelectedPr(null)}
+          <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
             onLoadFiles={(num) => gh.getPullFiles(num)}
             onLoadComments={(num) => gh.getPullComments(num)}
+            onLoadReviews={(num) => gh.getPullReviews(num)}
             onAddComment={(num, body) => gh.createPullComment(num, body).then(() => {})}
-            onMerge={mergePr} />
+            onMerge={mergePr}
+            onUpdatePr={async (num, updates) => { await gh.updatePull(num, updates); loadPulls(); }} />
         ) : (
           <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
             onSelectPr={setSelectedPr} onCreatePr={createPr}
@@ -370,7 +405,7 @@ export default function UidrIde() {
   return (
     <UidrLayout>
       <div className="flex" style={{ height: "calc(100vh - 3.5rem)", overflow: "hidden" }}>
-        <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} />
+        <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} dirtyCount={dirtyCount} />
         <div className={`${viewMode === "kanban" ? "w-full" : "w-[280px]"} flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden`}>
           <div className="px-3 py-2 border-b border-white/5">
             <select value={workspace.activeWorkspace?.id || ""}

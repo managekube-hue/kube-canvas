@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { FileCode, GitBranch, Loader2, Save, X, ChevronRight, Eye, Columns2 } from "lucide-react";
+import { useState } from "react";
+import { GitBranch, Loader2, Save, X, ChevronRight, Eye, Columns2 } from "lucide-react";
 import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import type { PresenceUser } from "@/hooks/useReachPresence";
+import { IdeFileIcon } from "@/components/ide/IdeFileIcon";
 
 interface OpenTab {
   path: string;
@@ -74,7 +75,7 @@ export function IdeEditor({
                 : "bg-[#0e0e0e] text-white/40 hover:text-white/60 border-t-2 border-t-transparent"
             }`}
           >
-            <FileCode size={12} className={activeTab === tab.path ? "text-blue-400" : "text-white/20"} />
+            <IdeFileIcon filename={tab.path.split("/").pop() || ""} size={12} />
             <span className="max-w-[120px] truncate">{tab.path.split("/").pop()}</span>
             {tab.dirty && <span className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />}
             <button onClick={(e) => { e.stopPropagation(); onTabClose(tab.path); }}
@@ -188,7 +189,7 @@ export function IdeEditor({
           )
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-white/20">
-            <FileCode size={48} className="mb-4" />
+            <IdeFileIcon filename="welcome.md" size={48} className="mb-4 !text-white/10" />
             <p className="text-sm">Select a file from the explorer</p>
             <p className="text-xs mt-1 text-white/10">{owner}/{repo} · {branch}</p>
             <div className="mt-6 flex flex-col items-center gap-1 text-[10px] text-white/15">
@@ -203,7 +204,7 @@ export function IdeEditor({
       {/* Status Bar */}
       <div className="h-6 bg-blue-600 flex items-center px-3 gap-4 text-[10px] text-white/80">
         <span className="flex items-center gap-1"><GitBranch size={10} /> {branch}</span>
-        {activeTab && <span className="flex items-center gap-1"><FileCode size={10} /> {activeTab}</span>}
+        {activeTab && <span className="flex items-center gap-1"><IdeFileIcon filename={activeTab.split("/").pop() || ""} size={10} /> {activeTab}</span>}
         <div className="flex-1" />
         {activeTabData && <span>{activeTabData.language}</span>}
         <span>UTF-8</span>
