@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useAuth } from "@/hooks/useAuth";
 import { useGitHubProxy, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHubProxy";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
@@ -28,7 +27,27 @@ import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
-import { Loader2 } from "lucide-react";
+
+/** Minimal IDE-only shell — no footer, no CTA, full-screen dev environment */
+function IdeShell({ children }: { children: React.ReactNode }) {
+  const { signOut } = useAuth();
+  return (
+    <div className="h-screen bg-[#0a0a0a] text-white font-sans flex flex-col overflow-hidden">
+      <nav className="flex items-center justify-between px-4 h-10 border-b border-white/5 bg-[#0a0a0a] flex-shrink-0">
+        <Link to="/uidr" className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full border-2 border-blue-500 flex items-center justify-center">
+            <Settings size={11} className="text-blue-500" />
+          </div>
+          <span className="font-bold text-xs tracking-wider text-white">KUBRIC REACH</span>
+        </Link>
+        <button onClick={() => signOut()} className="flex items-center gap-1.5 text-white/40 hover:text-white text-[11px] transition-colors">
+          <LogOut size={12} /> Sign Out
+        </button>
+      </nav>
+      <div className="flex-1 overflow-hidden">{children}</div>
+    </div>
+  );
+}
 
 interface OpenTab { path: string; content: string; dirty: boolean; language: string; loading: boolean; }
 
