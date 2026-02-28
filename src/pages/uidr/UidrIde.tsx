@@ -17,6 +17,10 @@ import { IdeNotificationsPanel } from "@/components/ide/IdeNotificationsPanel";
 import { IdePullRequestsPanel, IdePrDetail } from "@/components/ide/IdePullRequestsPanel";
 import { IdeMilestonesPanel } from "@/components/ide/IdeMilestonesPanel";
 import { IdeSettingsPanel } from "@/components/ide/IdeSettingsPanel";
+import { IdeDocsPanel } from "@/components/ide/IdeDocsPanel";
+import { IdeKanbanBoard } from "@/components/ide/IdeKanbanBoard";
+import { IdeActivityFeed } from "@/components/ide/IdeActivityFeed";
+import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 import { Loader2 } from "lucide-react";
@@ -42,7 +46,6 @@ export default function UidrIde() {
   const repo = workspace.activeWorkspace?.github_repo || "";
   const gh = useGitHubProxy(owner, repo);
 
-  // Core state
   const [viewMode, setViewMode] = useState<ViewMode>("explorer");
   const [tree, setTree] = useState<TreeNode[]>([]);
   const [treeLoading, setTreeLoading] = useState(false);
@@ -50,6 +53,7 @@ export default function UidrIde() {
   const [branches, setBranches] = useState<string[]>([]);
   const [tabs, setTabs] = useState<OpenTab[]>([]);
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
   // Issues
   const [issues, setIssues] = useState<GitIssue[]>([]);
@@ -78,6 +82,25 @@ export default function UidrIde() {
   const { onlineUsers } = useReachPresence(workspace.activeWorkspace?.id || null, activeTab);
   const { notifications, unreadCount, markRead, markAllRead } = useReachNotifications(workspace.activeWorkspace?.id || null);
 
+  // ── Keyboard shortcuts ─────────────────────
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const meta = e.metaKey || e.ctrlKey;
+      if (meta && e.key === "k") { e.preventDefault(); setCommandPaletteOpen(true); }
+      if (meta && e.key === "p" && !e.shiftKey) { e.preventDefault(); setCommandPaletteOpen(true); }
+      if (meta && e.key === "s") {
+        e.preventDefault();
+        const tab = tabs.find(t => t.path === activeTab && t.dirty);
+        if (tab) {
+          const msg = `Update ${tab.path.split("/").pop()}`;
+          commitFile(tab.path, msg);
+        }
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [tabs, activeTab]);
+
   // ── Load tree ──────────────────────────────
   const loadTree = useCallback(async () => {
     if (!owner || !repo) return;
@@ -91,13 +114,12 @@ export default function UidrIde() {
 
   useEffect(() => { if (owner && repo) loadTree(); }, [loadTree, owner, repo]);
 
-  // ── Load branches ──────────────────────────
   useEffect(() => {
     if (!owner || !repo) return;
     gh.getBranches().then(b => setBranches(b.map(x => x.name))).catch(console.error);
   }, [owner, repo]);
 
-  // ── Open file ──────────────────────────────
+  // ── File operations ────────────────────────
   const openFile = async (path: string) => {
     if (tabs.find(t => t.path === path)) { setActiveTab(path); return; }
     const newTab: OpenTab = { path, content: "", dirty: false, language: detectLanguage(path), loading: true };
@@ -122,7 +144,6 @@ export default function UidrIde() {
     setTabs(prev => prev.map(t => t.path === path ? { ...t, content, dirty: true } : t));
   };
 
-  // ── Commit workflow ────────────────────────
   const commitFile = async (path: string, message: string) => {
     const tab = tabs.find(t => t.path === path);
     if (!tab) return;
@@ -137,7 +158,6 @@ export default function UidrIde() {
     } catch (err) { console.error("Commit failed:", err); }
   };
 
-  // ── Create file ────────────────────────────
   const createNewFile = async (filePath: string) => {
     try {
       const refData = await gh.getRef(`heads/${branch}`);
@@ -149,7 +169,6 @@ export default function UidrIde() {
     } catch (err) { console.error("Create file failed:", err); }
   };
 
-  // ── Delete file ────────────────────────────
   const deleteFile = async (path: string) => {
     try {
       const fileData = await gh.getFile(path, branch);
@@ -158,7 +177,6 @@ export default function UidrIde() {
     } catch (err) { console.error("Delete file failed:", err); }
   };
 
-  // ── Create branch ──────────────────────────
   const createBranch = async (name: string) => {
     try {
       const refData = await gh.getRef(`heads/${branch}`);
@@ -168,11 +186,17 @@ export default function UidrIde() {
     } catch (err) { console.error("Create branch failed:", err); }
   };
 
+  // ── Load file content for docs panel ───────
+  const loadFileContent = async (path: string): Promise<string> => {
+    const data = await gh.getFile(path, branch);
+    return data.encoding === "base64" ? atob(data.content) : data.content;
+  };
+
   // ── Issues ─────────────────────────────────
   const loadIssues = async () => {
     if (!owner || !repo) return;
     setIssuesLoading(true);
-    try { setIssues(await gh.getIssues("open")); } catch (err) { console.error(err); }
+    try { setIssues(await gh.getIssues("all")); } catch (err) { console.error(err); }
     finally { setIssuesLoading(false); }
   };
 
@@ -245,19 +269,19 @@ export default function UidrIde() {
 
   // ── Load data per view mode ────────────────
   useEffect(() => {
-    if (viewMode === "issues") { loadIssues(); loadLabelsAndAssignees(); }
+    if (viewMode === "issues" || viewMode === "kanban") { loadIssues(); loadLabelsAndAssignees(); }
     if (viewMode === "commits") loadCommits();
     if (viewMode === "pulls") loadPulls();
     if (viewMode === "milestones") loadMilestones();
     if (viewMode === "settings") loadCollaborators();
   }, [viewMode, owner, repo, branch]);
 
-  // ── Create workspace ──────────────────────
   const handleCreateWorkspace = async (name: string, ghOwner: string, ghRepo: string) => {
     await workspace.createWorkspace(name, ghOwner, ghRepo);
   };
 
-  // ── Loading ────────────────────────────────
+  const dirtyCount = tabs.filter(t => t.dirty).length;
+
   if (workspace.loading) {
     return (
       <UidrLayout>
@@ -276,7 +300,6 @@ export default function UidrIde() {
     );
   }
 
-  // ── Side panel content ─────────────────────
   const renderSidePanel = () => {
     switch (viewMode) {
       case "explorer":
@@ -288,6 +311,8 @@ export default function UidrIde() {
         );
       case "search":
         return <IdeSearchPanel tree={tree} onSelectFile={openFile} onSearchCode={searchCode} />;
+      case "docs":
+        return <IdeDocsPanel tree={tree} onLoadFile={loadFileContent} onOpenInEditor={openFile} />;
       case "issues":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
@@ -296,8 +321,19 @@ export default function UidrIde() {
             onUpdateIssue={updateIssue}
             availableLabels={availableLabels} availableAssignees={availableAssignees} />
         ) : (
-          <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
+          <IdeIssuesPanel issues={issues.filter(i => i.state === "open")} onCreateIssue={createIssue} loading={issuesLoading}
             onSelectIssue={setSelectedIssue} />
+        );
+      case "kanban":
+        return selectedIssue ? (
+          <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
+            onLoadComments={(num) => gh.getIssueComments(num)}
+            onAddComment={(num, body) => gh.createIssueComment(num, body).then(() => {})}
+            onUpdateIssue={updateIssue}
+            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+        ) : (
+          <IdeKanbanBoard issues={issues} loading={issuesLoading}
+            onSelectIssue={setSelectedIssue} onUpdateIssue={updateIssue} onCreateIssue={createIssue} />
         );
       case "pulls":
         return selectedPr ? (
@@ -318,6 +354,11 @@ export default function UidrIde() {
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "commits":
         return <IdeCommitsPanel commits={commits} loading={commitsLoading} onLoadCommitDetail={loadCommitDetail} />;
+      case "activity":
+        return <IdeActivityFeed owner={owner} repo={repo}
+          onLoadCommits={() => gh.getCommits(branch)}
+          onLoadIssueEvents={() => gh.getIssues("all")}
+          onLoadPullEvents={() => gh.getPulls("all")} />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
       case "settings":
@@ -330,7 +371,7 @@ export default function UidrIde() {
     <UidrLayout>
       <div className="flex" style={{ height: "calc(100vh - 3.5rem)", overflow: "hidden" }}>
         <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} />
-        <div className="w-[280px] flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden">
+        <div className={`${viewMode === "kanban" ? "w-full" : "w-[280px]"} flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden`}>
           <div className="px-3 py-2 border-b border-white/5">
             <select value={workspace.activeWorkspace?.id || ""}
               onChange={(e) => {
@@ -345,10 +386,22 @@ export default function UidrIde() {
           </div>
           <div className="flex-1 overflow-hidden flex flex-col">{renderSidePanel()}</div>
         </div>
-        <IdeEditor tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
-          onContentChange={updateContent} onCommit={commitFile} branch={branch}
-          onlineUsers={onlineUsers} owner={owner} repo={repo} />
+        {viewMode !== "kanban" && (
+          <IdeEditor tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
+            onContentChange={updateContent} onCommit={commitFile} branch={branch}
+            onlineUsers={onlineUsers} owner={owner} repo={repo} />
+        )}
       </div>
+
+      {/* Command Palette */}
+      <IdeCommandPalette
+        open={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        tree={tree}
+        onSelectFile={(path) => { openFile(path); setCommandPaletteOpen(false); }}
+        onSetViewMode={setViewMode}
+        dirtyCount={dirtyCount}
+      />
     </UidrLayout>
   );
 }
