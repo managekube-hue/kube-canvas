@@ -52,7 +52,7 @@ export function IdeSettingsPanel({ workspace, members, onRefreshMembers, collabo
       await supabase.from("reach_workspace_members").insert({
         workspace_id: workspace.id,
         user_id: profile.user_id,
-        role: inviteRole,
+        role: inviteRole as "admin" | "contributor" | "maintainer" | "owner" | "viewer",
       });
       setInviteEmail("");
       onRefreshMembers();
