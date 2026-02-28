@@ -75,7 +75,7 @@ export function IdeEditor({
                 : "bg-[#0e0e0e] text-white/40 hover:text-white/60 border-t-2 border-t-transparent"
             }`}
           >
-            <FileCode size={12} className={activeTab === tab.path ? "text-blue-400" : "text-white/20"} />
+            <IdeFileIcon filename={tab.path.split("/").pop() || ""} size={12} />
             <span className="max-w-[120px] truncate">{tab.path.split("/").pop()}</span>
             {tab.dirty && <span className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />}
             <button onClick={(e) => { e.stopPropagation(); onTabClose(tab.path); }}
