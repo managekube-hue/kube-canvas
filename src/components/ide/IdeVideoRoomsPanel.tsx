@@ -50,30 +50,11 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
     setConnecting(true);
     setError(null);
     try {
-      const { data, error: fnErr } = await supabase.functions.invoke("zoom-oauth-callback", {
-        body: {},
-        headers: {},
-      });
-      // We need to call with query param, so construct the URL manually
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      if (!token) throw new Error("Not authenticated");
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
-      const resp = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/zoom-oauth-callback?action=authorize_url`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          },
-        }
-      );
-      const result = await resp.json();
-      if (result.error) throw new Error(result.error);
-      if (result.authorize_url) {
-        window.open(result.authorize_url, "_blank", "noopener,width=600,height=700");
-      }
+      const authorizeUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=Ocgqp6sLSRe0E8c1FWzWoA&redirect_uri=${encodeURIComponent("https://psxskwerldhfjmanzbpk.supabase.co/functions/v1/zoom-oauth-callback?action=callback")}&state=${btoa(JSON.stringify({ user_id: user.id }))}`;
+      window.open(authorizeUrl, "_blank", "noopener,width=600,height=700");
     } catch (err: any) {
       setError(err.message || "Failed to start Zoom connection");
     } finally {
