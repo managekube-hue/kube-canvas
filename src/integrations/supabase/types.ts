@@ -3079,6 +3079,42 @@ export type Database = {
         }
         Relationships: []
       }
+      reach_zoom_tokens: {
+        Row: {
+          access_token: string
+          created_at: string
+          expires_at: string
+          id: string
+          refresh_token: string
+          updated_at: string
+          user_id: string
+          zoom_email: string | null
+          zoom_user_id: string | null
+        }
+        Insert: {
+          access_token: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          refresh_token: string
+          updated_at?: string
+          user_id: string
+          zoom_email?: string | null
+          zoom_user_id?: string | null
+        }
+        Update: {
+          access_token?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          refresh_token?: string
+          updated_at?: string
+          user_id?: string
+          zoom_email?: string | null
+          zoom_user_id?: string | null
+        }
+        Relationships: []
+      }
       sync_metadata: {
         Row: {
           created_at: string | null
