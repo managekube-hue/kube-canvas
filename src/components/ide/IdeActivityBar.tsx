@@ -1,10 +1,10 @@
 import {
   FolderTree, Bug, MessageSquare, GitBranch, Bell,
   Search, Settings, GitPullRequest, Target,
-  BookOpen, LayoutDashboard, Activity, GitCommitHorizontal,
+  BookOpen, LayoutDashboard, Activity, GitCommitHorizontal, Video,
 } from "lucide-react";
 
-export type ViewMode = "explorer" | "search" | "issues" | "chat" | "commits" | "notifications" | "pulls" | "milestones" | "settings" | "docs" | "kanban" | "activity" | "staging";
+export type ViewMode = "explorer" | "search" | "issues" | "chat" | "commits" | "notifications" | "pulls" | "milestones" | "settings" | "docs" | "kanban" | "activity" | "staging" | "video";
 
 interface Props {
   viewMode: ViewMode;
