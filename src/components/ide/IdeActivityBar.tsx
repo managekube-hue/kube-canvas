@@ -1,10 +1,10 @@
 import {
   FolderTree, Bug, MessageSquare, GitBranch, Bell,
   Search, Settings, GitPullRequest, Target,
-  BookOpen, LayoutDashboard, Activity, GitCommitHorizontal,
+  BookOpen, LayoutDashboard, Activity, GitCommitHorizontal, Video,
 } from "lucide-react";
 
-export type ViewMode = "explorer" | "search" | "issues" | "chat" | "commits" | "notifications" | "pulls" | "milestones" | "settings" | "docs" | "kanban" | "activity" | "staging";
+export type ViewMode = "explorer" | "search" | "issues" | "chat" | "commits" | "notifications" | "pulls" | "milestones" | "settings" | "docs" | "kanban" | "activity" | "staging" | "video";
 
 interface Props {
   viewMode: ViewMode;
@@ -26,6 +26,7 @@ const items: { mode: ViewMode; icon: typeof FolderTree; label: string }[] = [
   { mode: "commits", icon: GitBranch, label: "History" },
   { mode: "activity", icon: Activity, label: "Activity Feed" },
   { mode: "chat", icon: MessageSquare, label: "Chat" },
+  { mode: "video", icon: Video, label: "Video Rooms" },
   { mode: "notifications", icon: Bell, label: "Notifications" },
 ];
 

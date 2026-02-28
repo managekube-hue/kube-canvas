@@ -22,6 +22,7 @@ import { IdeDocsPanel } from "@/components/ide/IdeDocsPanel";
 import { IdeKanbanBoard } from "@/components/ide/IdeKanbanBoard";
 import { IdeActivityFeed } from "@/components/ide/IdeActivityFeed";
 import { IdeStagingPanel } from "@/components/ide/IdeStagingPanel";
+import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
@@ -404,6 +405,8 @@ export default function UidrIde() {
           onLoadCommits={() => gh.getCommits(branch)}
           onLoadIssueEvents={() => gh.getIssues("all")}
           onLoadPullEvents={() => gh.getPulls("all")} />;
+      case "video":
+        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
       case "settings":
