@@ -15,6 +15,7 @@ interface Props {
   issues: Issue[];
   onCreateIssue: (title: string, body: string) => Promise<void>;
   loading: boolean;
+  onSelectIssue?: (issue: Issue) => void;
 }
 
 export function IdeIssuesPanel({ issues, onCreateIssue, loading }: Props) {
