@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const SITE_URL = "https://managekube.com";
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -45,12 +47,8 @@ serve(async (req) => {
         });
       }
 
-      // The redirect_uri points back to this edge function with action=callback
       const redirectUri = `${supabaseUrl}/functions/v1/zoom-oauth-callback?action=callback`;
-
-      // State contains user_id so we can link the token after callback
       const state = btoa(JSON.stringify({ user_id: user.id }));
-
       const authorizeUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(state)}`;
 
       return new Response(JSON.stringify({ authorize_url: authorizeUrl }), {
@@ -61,18 +59,13 @@ serve(async (req) => {
     // Action: handle the OAuth callback from Zoom
     if (action === "callback") {
       const code = url.searchParams.get("code");
-      const stateParam = url.searchParams.get("state");
 
-      if (!code || !stateParam) {
-        return new Response("Missing code or state", { status: 400 });
-      }
-
-      let userId: string;
-      try {
-        const parsed = JSON.parse(atob(stateParam));
-        userId = parsed.user_id;
-      } catch {
-        return new Response("Invalid state parameter", { status: 400 });
+      if (!code) {
+        // No code at all — redirect user back with error rather than blank page
+        return new Response(null, {
+          status: 302,
+          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=missing_code` },
+        });
       }
 
       const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -97,14 +90,17 @@ serve(async (req) => {
       if (!tokenResp.ok) {
         const err = await tokenResp.text();
         console.error("Zoom token exchange failed:", err);
-        return new Response(`Zoom authorization failed: ${err}`, { status: 500 });
+        return new Response(null, {
+          status: 302,
+          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=token_exchange` },
+        });
       }
 
       const tokenData = await tokenResp.json();
 
       // Get Zoom user info
-      let zoomEmail = null;
-      let zoomUserId = null;
+      let zoomEmail: string | null = null;
+      let zoomUserId: string | null = null;
       try {
         const userResp = await fetch("https://api.zoom.us/v2/users/me", {
           headers: { Authorization: `Bearer ${tokenData.access_token}` },
@@ -119,6 +115,38 @@ serve(async (req) => {
       }
 
       const expiresAt = new Date(Date.now() + tokenData.expires_in * 1000).toISOString();
+
+      // Determine user_id: prefer state param, fallback to matching by Zoom email
+      const stateParam = url.searchParams.get("state");
+      let userId: string | null = null;
+
+      if (stateParam) {
+        try {
+          const parsed = JSON.parse(atob(stateParam));
+          userId = parsed.user_id;
+        } catch {
+          console.warn("Failed to parse state param, will try email fallback");
+        }
+      }
+
+      // Fallback: look up auth user by Zoom email
+      if (!userId && zoomEmail) {
+        const { data: authUsers } = await supabase.auth.admin.listUsers();
+        const match = authUsers?.users?.find(
+          (u: { email?: string }) => u.email?.toLowerCase() === zoomEmail!.toLowerCase()
+        );
+        if (match) {
+          userId = match.id;
+        }
+      }
+
+      if (!userId) {
+        console.error("Could not determine user_id from state or email lookup");
+        return new Response(null, {
+          status: 302,
+          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=no_user` },
+        });
+      }
 
       // Upsert the token
       const { error: upsertErr } = await supabase
@@ -137,16 +165,16 @@ serve(async (req) => {
 
       if (upsertErr) {
         console.error("Token upsert error:", upsertErr);
-        return new Response("Failed to save Zoom tokens", { status: 500 });
+        return new Response(null, {
+          status: 302,
+          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=save_failed` },
+        });
       }
 
-      // Redirect user back to the IDE
+      // Redirect user back to ManageKube IDE
       return new Response(null, {
         status: 302,
-        headers: {
-          Location: "/uidr/ide?zoom=connected",
-          ...corsHeaders,
-        },
+        headers: { Location: `${SITE_URL}/uidr/ide?zoom=connected` },
       });
     }
 
