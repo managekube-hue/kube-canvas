@@ -106,50 +106,33 @@ function SideLabel({
 }) {
   if (!module) return null;
 
-  // Hitbox covers the full side edge between the two corner marks
-  const hitbox: Record<string, string> = {
-    top: "top-0 left-[10px] right-[10px] h-[20px] -translate-y-1/2 cursor-pointer",
-    bottom: "bottom-0 left-[10px] right-[10px] h-[20px] translate-y-1/2 cursor-pointer",
-    left: "left-0 top-[10px] bottom-[10px] w-[20px] -translate-x-1/2 cursor-pointer",
-    right: "right-0 top-[10px] bottom-[10px] w-[20px] translate-x-1/2 cursor-pointer",
+  // Each side is a wide clickable strip along the edge
+  const hitboxStyles: Record<string, React.CSSProperties> = {
+    top:    { position: "absolute", top: -14, left: 12, right: 12, height: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+    bottom: { position: "absolute", bottom: -14, left: 12, right: 12, height: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+    left:   { position: "absolute", left: -14, top: 12, bottom: 12, width: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+    right:  { position: "absolute", right: -14, top: 12, bottom: 12, width: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
   };
 
-  // Text positioning: centered on the side
-  const textPos: Record<string, string> = {
-    top: "left-1/2 -translate-x-1/2 top-[-18px]",
-    bottom: "left-1/2 -translate-x-1/2 bottom-[-18px]",
-    left: "top-1/2 -translate-y-1/2 left-[-6px] -translate-x-full",
-    right: "top-1/2 -translate-y-1/2 right-[-6px] translate-x-full",
-  };
-
-  // Highlight bar on hover
-  const bar: Record<string, React.CSSProperties> = {
-    top: { position: "absolute", top: 0, left: 10, right: 10, height: 2 },
-    bottom: { position: "absolute", bottom: 0, left: 10, right: 10, height: 2 },
-    left: { position: "absolute", left: 0, top: 10, bottom: 10, width: 2 },
-    right: { position: "absolute", right: 0, top: 10, bottom: 10, width: 2 },
-  };
+  // Writing mode for vertical sides
+  const isVertical = side === "left" || side === "right";
 
   return (
     <Link
       to={module.href}
-      className={`absolute z-30 ${hitbox[side]} group`}
+      className="absolute z-30"
+      style={hitboxStyles[side]}
       onMouseEnter={(e) => onHover(module, e)}
       onMouseLeave={onLeave}
     >
-      {/* Highlight bar */}
-      <div
-        className={`transition-all duration-200 ${isActive ? "bg-brand-orange" : "bg-transparent"}`}
-        style={bar[side] as React.CSSProperties}
-      />
-
-      {/* Module label text on the side */}
+      {/* The text label — always visible */}
       <span
-        className={`absolute ${textPos[side]} whitespace-nowrap font-mono font-black tracking-[0.12em] uppercase transition-colors duration-200 pointer-events-none select-none ${
+        className={`font-mono font-black tracking-[0.15em] uppercase transition-all duration-200 select-none ${
           isActive
             ? "text-brand-orange text-[11px]"
-            : "text-muted-foreground text-[9px]"
+            : "text-muted-foreground/70 text-[9px] hover:text-muted-foreground"
         }`}
+        style={isVertical ? { writingMode: "vertical-lr", textOrientation: "mixed" } : undefined}
       >
         {module.label}
       </span>
