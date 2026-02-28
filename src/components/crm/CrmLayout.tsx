@@ -5,6 +5,7 @@ import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
   LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck, ShoppingCart,
+  BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ const navItems = [
   { label: "Deployments", icon: Calendar, path: "/crm/deployments" },
   { label: "Audit Log", icon: Shield, path: "/crm/audit", adminOnly: true },
   { label: "Settings", icon: Settings, path: "/crm/settings", adminOnly: true },
+  { label: "Help & Guides", icon: BookOpen, path: "/crm/help" },
 ];
 
 export function CrmLayout() {
