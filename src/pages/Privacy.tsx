@@ -169,24 +169,43 @@ const Privacy = () => {
                 <p>Assessment data is retained to provide historical context and track improvement over time. You may request deletion of your data as described below.</p>
               </Section>
 
-              <Section title="Your Rights and Choices">
-                <p>Depending on your jurisdiction, you may have the following rights:</p>
-                <SubHead>Access and Portability</SubHead>
-                <ul><li>Request a copy of the personal information we hold about you</li></ul>
-                <SubHead>Correction</SubHead>
-                <ul><li>Request correction of inaccurate or incomplete information</li></ul>
-                <SubHead>Deletion</SubHead>
-                <ul><li>Request deletion of your personal information (subject to legal obligations)</li></ul>
-                <SubHead>Opt-Out of Marketing</SubHead>
+              <Section title="Your Data Subject Rights">
+                <p>ManageKube is committed to ensuring you can exercise your rights over your personal data. Depending on your jurisdiction (including under the GDPR, CCPA/CPRA, and other applicable privacy laws), you have the following rights:</p>
+                <SubHead>Right of Access</SubHead>
+                <ul><li>You have the right to request confirmation of whether we process your personal data and to obtain a copy of the specific personal information we hold about you, provided in a commonly used, machine-readable format (data portability).</li></ul>
+                <SubHead>Right to Rectification</SubHead>
+                <ul><li>You have the right to request that we correct any inaccurate personal data or complete any incomplete personal data we hold about you without undue delay.</li></ul>
+                <SubHead>Right to Erasure ("Right to Be Forgotten")</SubHead>
+                <ul><li>You have the right to request the deletion of your personal data where it is no longer necessary for the purposes for which it was collected, where you withdraw consent, or where there is no overriding legitimate interest for continued processing. Certain legal obligations may require us to retain some data.</li></ul>
+                <SubHead>Right to Restriction of Processing</SubHead>
+                <ul><li>You have the right to request that we restrict the processing of your personal data in certain circumstances, such as when you contest the accuracy of the data or object to processing.</li></ul>
+                <SubHead>Right to Object</SubHead>
+                <ul><li>You have the right to object to the processing of your personal data where processing is based on our legitimate interests. We will cease processing unless we demonstrate compelling legitimate grounds that override your interests, rights, and freedoms.</li></ul>
+                <SubHead>Right to Data Portability</SubHead>
+                <ul><li>You have the right to receive your personal data in a structured, commonly used, and machine-readable format (e.g., JSON or CSV) and to transmit that data to another controller without hindrance.</li></ul>
+                <SubHead>Right to Withdraw Consent</SubHead>
+                <ul><li>Where processing is based on your consent, you have the right to withdraw that consent at any time. Withdrawal does not affect the lawfulness of processing conducted prior to withdrawal.</li></ul>
+                <SubHead>Right to Opt-Out of Marketing</SubHead>
                 <ul>
-                  <li>Unsubscribe from marketing communications via link in emails</li>
-                  <li>Contact us to opt out</li>
+                  <li>Unsubscribe from marketing communications via the link provided in every email</li>
+                  <li>Contact us directly to opt out of all marketing communications</li>
                 </ul>
+                <SubHead>Right to Lodge a Complaint</SubHead>
+                <ul><li>If you believe your data protection rights have been violated, you have the right to lodge a complaint with a supervisory authority in your country of residence, place of work, or the location of the alleged infringement.</li></ul>
                 <SubHead>Cookie Choices</SubHead>
                 <ul><li>Adjust browser settings to refuse cookies</li><li>Use our cookie consent manager</li></ul>
                 <SubHead>Do Not Track</SubHead>
                 <ul><li>Our systems do not currently respond to Do Not Track signals</li></ul>
-                <p>To exercise any of these rights, contact us at <strong>privacy@managekube.com</strong> or <strong>240-257-2029</strong>.</p>
+
+                <div style={{ background: "#EEE9E3", border: "1px solid #CDCAC5", padding: "24px", marginTop: "24px", borderRadius: "4px" }}>
+                  <p style={{ fontWeight: 700, color: "#1D1D1B", marginBottom: "8px" }}>How to Exercise Your Rights</p>
+                  <p>To submit a data subject request, contact our Data Protection Officer:</p>
+                  <ul>
+                    <li>Email: <strong>dpo@managekube.com</strong></li>
+                    <li>Phone: <strong>240-257-2029 ext. 310</strong></li>
+                  </ul>
+                  <p>We will respond to all verifiable requests within <strong>30 days</strong> (or within the timeframe required by applicable law). We may request additional information to verify your identity before processing your request. We will not discriminate against you for exercising any of your data subject rights.</p>
+                </div>
               </Section>
 
               <Section title="Cookies and Tracking Technologies">
