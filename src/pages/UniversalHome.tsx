@@ -472,7 +472,7 @@ export default function UniversalHome() {
       <StatsBand />
       <GatePathsBand />
       <ServicesBand />
-      <ServiceLayerConstellation />
+      
       <TiersBand />
       <ComplianceBand />
       <IndustriesBand />
