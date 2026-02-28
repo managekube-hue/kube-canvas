@@ -33,22 +33,17 @@ const MODULES: KubeModule[] = [
   { id: "GRC", label: "GRC", fullName: "Governance, Risk & Compliance", pillar: "intel", desc: "Policy engine, control mapping, audit evidence collection, and risk scoring.", href: "/service-layer/grc" },
 ];
 
-// 5 layers: first 4 have 4 modules (corners), last has 2
-const LAYERS = [
-  [0, 1, 2, 3],       // Layer 1 (outermost): CIO, NPM, MDM, APM
-  [4, 5, 6, 7],       // Layer 2: CFDR, BDR, ITDR, NDR
-  [8, 9, 10, 11],     // Layer 3: CDR, SDR, ADR, DDR
-  [12, 13, 14, 15],   // Layer 4: STRIKE, EASM, HONEYPOT, TI
-  [16, 17],           // Layer 5 (innermost): VDR, GRC
+// 5 layers × 4 sides. 18 modules + 2 empty on innermost layer
+// Each array: [top, right, bottom, left]
+const LAYERS: (number | null)[][] = [
+  [0, 1, 2, 3],
+  [4, 5, 6, 7],
+  [8, 9, 10, 11],
+  [12, 13, 14, 15],
+  [16, 17, null, null], // innermost: only top & right have modules
 ];
 
 const LAYER_SIZES = [100, 80, 60, 42, 26];
-
-const PILLAR_COLORS: Record<string, string> = {
-  infra: "bg-foreground",
-  detection: "bg-brand-orange",
-  intel: "bg-muted-foreground",
-};
 
 const PILLAR_LABELS: Record<string, string> = {
   infra: "Infrastructure",
@@ -56,21 +51,111 @@ const PILLAR_LABELS: Record<string, string> = {
   intel: "Intelligence",
 };
 
-// Corner positions: tl, tr, br, bl
-const CORNER_POSITIONS = [
-  { key: "tl", style: { top: -5, left: -5 } },
-  { key: "tr", style: { top: -5, right: -5 } },
-  { key: "br", style: { bottom: -5, right: -5 } },
-  { key: "bl", style: { bottom: -5, left: -5 } },
-];
-
-// Label offsets per corner
-const LABEL_OFFSETS: Record<string, string> = {
-  tl: "-top-7 -left-1",
-  tr: "-top-7 -right-1",
-  br: "-bottom-7 -right-1",
-  bl: "-bottom-7 -left-1",
+const PILLAR_COLORS: Record<string, string> = {
+  infra: "bg-foreground",
+  detection: "bg-brand-orange",
+  intel: "bg-muted-foreground",
 };
+
+/* ── Corner seam line ── */
+function CornerMark({ corner }: { corner: "tl" | "tr" | "bl" | "br" }) {
+  const len = 10;
+  const w = 2;
+  const marks: Record<string, React.ReactNode> = {
+    tl: (
+      <div className="absolute top-0 left-0 z-20">
+        <div className="absolute top-0 left-0 bg-brand-orange" style={{ width: len, height: w }} />
+        <div className="absolute top-0 left-0 bg-brand-orange" style={{ width: w, height: len }} />
+      </div>
+    ),
+    tr: (
+      <div className="absolute top-0 right-0 z-20">
+        <div className="absolute top-0 right-0 bg-brand-orange" style={{ width: len, height: w }} />
+        <div className="absolute top-0 right-0 bg-brand-orange" style={{ width: w, height: len }} />
+      </div>
+    ),
+    bl: (
+      <div className="absolute bottom-0 left-0 z-20">
+        <div className="absolute bottom-0 left-0 bg-brand-orange" style={{ width: len, height: w }} />
+        <div className="absolute bottom-0 left-0 bg-brand-orange" style={{ width: w, height: len }} />
+      </div>
+    ),
+    br: (
+      <div className="absolute bottom-0 right-0 z-20">
+        <div className="absolute bottom-0 right-0 bg-brand-orange" style={{ width: len, height: w }} />
+        <div className="absolute bottom-0 right-0 bg-brand-orange" style={{ width: w, height: len }} />
+      </div>
+    ),
+  };
+  return <>{marks[corner]}</>;
+}
+
+/* ── Side button with TEXT label centered on the side ── */
+function SideLabel({
+  side,
+  module,
+  isActive,
+  onHover,
+  onLeave,
+}: {
+  side: "top" | "right" | "bottom" | "left";
+  module: KubeModule | null;
+  isActive: boolean;
+  onHover: (mod: KubeModule, e: React.MouseEvent) => void;
+  onLeave: () => void;
+}) {
+  if (!module) return null;
+
+  // Hitbox covers the full side edge between the two corner marks
+  const hitbox: Record<string, string> = {
+    top: "top-0 left-[10px] right-[10px] h-[20px] -translate-y-1/2 cursor-pointer",
+    bottom: "bottom-0 left-[10px] right-[10px] h-[20px] translate-y-1/2 cursor-pointer",
+    left: "left-0 top-[10px] bottom-[10px] w-[20px] -translate-x-1/2 cursor-pointer",
+    right: "right-0 top-[10px] bottom-[10px] w-[20px] translate-x-1/2 cursor-pointer",
+  };
+
+  // Text positioning: centered on the side
+  const textPos: Record<string, string> = {
+    top: "left-1/2 -translate-x-1/2 top-[-18px]",
+    bottom: "left-1/2 -translate-x-1/2 bottom-[-18px]",
+    left: "top-1/2 -translate-y-1/2 left-[-6px] -translate-x-full",
+    right: "top-1/2 -translate-y-1/2 right-[-6px] translate-x-full",
+  };
+
+  // Highlight bar on hover
+  const bar: Record<string, React.CSSProperties> = {
+    top: { position: "absolute", top: 0, left: 10, right: 10, height: 2 },
+    bottom: { position: "absolute", bottom: 0, left: 10, right: 10, height: 2 },
+    left: { position: "absolute", left: 0, top: 10, bottom: 10, width: 2 },
+    right: { position: "absolute", right: 0, top: 10, bottom: 10, width: 2 },
+  };
+
+  return (
+    <Link
+      to={module.href}
+      className={`absolute z-30 ${hitbox[side]} group`}
+      onMouseEnter={(e) => onHover(module, e)}
+      onMouseLeave={onLeave}
+    >
+      {/* Highlight bar */}
+      <div
+        className={`transition-all duration-200 ${isActive ? "bg-brand-orange" : "bg-transparent"}`}
+        style={bar[side] as React.CSSProperties}
+      />
+
+      {/* Module label text on the side */}
+      <span
+        className={`absolute ${textPos[side]} whitespace-nowrap font-mono font-black tracking-[0.12em] uppercase transition-colors duration-200 pointer-events-none select-none ${
+          isActive
+            ? "text-brand-orange text-[11px]"
+            : "text-muted-foreground text-[9px]"
+        }`}
+      >
+        {module.label}
+      </span>
+    </Link>
+  );
+}
 
 export function ServiceLayerConstellation() {
   const [activeModule, setActiveModule] = useState<KubeModule | null>(null);
@@ -132,9 +217,10 @@ export function ServiceLayerConstellation() {
           className="relative mx-auto constellation-root"
           style={{ width: "100%", maxWidth: 560, aspectRatio: "1 / 1" }}
         >
-          {LAYERS.map((moduleIndices, li) => {
+          {LAYERS.map((sideIndices, li) => {
             const size = LAYER_SIZES[li];
             const offset = (100 - size) / 2;
+            const sides: ("top" | "right" | "bottom" | "left")[] = ["top", "right", "bottom", "left"];
 
             return (
               <div
@@ -147,38 +233,25 @@ export function ServiceLayerConstellation() {
                   left: `${offset}%`,
                 }}
               >
-                {/* Corner modules */}
-                {moduleIndices.map((modIdx, ci) => {
-                  const mod = MODULES[modIdx];
-                  const corner = CORNER_POSITIONS[ci];
-                  const isActive = activeModule?.id === mod.id;
+                {/* Corner seam lines */}
+                <CornerMark corner="tl" />
+                <CornerMark corner="tr" />
+                <CornerMark corner="bl" />
+                <CornerMark corner="br" />
 
+                {/* Side labels — text on each side */}
+                {sides.map((side, si) => {
+                  const modIdx = sideIndices[si];
+                  const mod = modIdx !== null && modIdx !== undefined ? MODULES[modIdx] : null;
                   return (
-                    <Link
-                      key={mod.id}
-                      to={mod.href}
-                      className="absolute z-30 group"
-                      style={corner.style}
-                      onMouseEnter={(e) => handleHover(mod, e)}
-                      onMouseLeave={handleLeave}
-                    >
-                      {/* Corner dot */}
-                      <div
-                        className={`w-[10px] h-[10px] rounded-full border-2 border-background transition-all duration-200 cursor-pointer ${PILLAR_COLORS[mod.pillar]} ${
-                          isActive ? "scale-[2] shadow-[0_0_8px_hsl(var(--brand-orange)/0.5)]" : "hover:scale-150"
-                        }`}
-                      />
-                      {/* Label on hover */}
-                      {isActive && (
-                        <motion.span
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          className={`absolute ${LABEL_OFFSETS[corner.key]} whitespace-nowrap text-[8px] font-mono font-black tracking-[0.15em] uppercase px-1.5 py-0.5 rounded bg-brand-orange text-white pointer-events-none`}
-                        >
-                          {mod.label}
-                        </motion.span>
-                      )}
-                    </Link>
+                    <SideLabel
+                      key={side}
+                      side={side}
+                      module={mod}
+                      isActive={activeModule?.id === mod?.id}
+                      onHover={handleHover}
+                      onLeave={handleLeave}
+                    />
                   );
                 })}
               </div>
