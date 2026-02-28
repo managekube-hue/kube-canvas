@@ -13,10 +13,13 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@blocknote/mantine": "^0.47.0",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/roboto-mono": "^5.2.8",
     "@fontsource/special-elite": "^5.2.8",
     "@hookform/resolvers": "^3.10.0",
+    "@mantine/core": "^8.3.15",
+    "@mantine/hooks": "^8.3.15",
     "@monaco-editor/react": "4.6.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",

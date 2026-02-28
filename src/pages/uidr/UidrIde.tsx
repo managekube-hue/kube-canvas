@@ -338,7 +338,17 @@ export default function UidrIde() {
       case "search":
         return <IdeSearchPanel tree={tree} onSelectFile={openFile} onSearchCode={searchCode} />;
       case "docs":
-        return <IdeDocsPanel tree={tree} onLoadFile={loadFileContent} onOpenInEditor={openFile} />;
+        return <IdeDocsPanel tree={tree} onLoadFile={loadFileContent} onOpenInEditor={openFile}
+          onSaveDoc={(path, content) => {
+            // Update or create the tab with new content so it appears as dirty for staging
+            const existing = tabs.find(t => t.path === path);
+            if (existing) {
+              updateContent(path, content);
+            } else {
+              setTabs(prev => [...prev, { path, content, dirty: true, language: "markdown", loading: false }]);
+            }
+          }}
+          onCreateDoc={createNewFile} />;
       case "issues":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
