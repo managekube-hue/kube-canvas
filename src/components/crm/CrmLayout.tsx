@@ -29,6 +29,7 @@ const navItems = [
   { label: "Deployments", icon: Calendar, path: "/crm/deployments" },
   { label: "Audit Log", icon: Shield, path: "/crm/audit", adminOnly: true },
   { label: "Settings", icon: Settings, path: "/crm/settings", adminOnly: true },
+  { label: "Help & Guides", icon: BookOpen, path: "/crm/help" },
 ];
 
 export function CrmLayout() {
