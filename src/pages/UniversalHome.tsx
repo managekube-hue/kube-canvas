@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PathfinderCTA } from "@/components/PathfinderCTA";
-import { ServiceLayerConstellation } from "@/components/ServiceLayerConstellation";
+
 import {
   Shield, Server, Eye, BarChart3, Network, Lock,
   ArrowRight, CheckCircle2, Layers, Cpu, Globe,
@@ -472,7 +472,7 @@ export default function UniversalHome() {
       <StatsBand />
       <GatePathsBand />
       <ServicesBand />
-      <ServiceLayerConstellation />
+      
       <TiersBand />
       <ComplianceBand />
       <IndustriesBand />
