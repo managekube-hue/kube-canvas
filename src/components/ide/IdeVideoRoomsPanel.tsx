@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Video, VideoOff, Plus, ExternalLink, Loader2, Users, Clock, PhoneOff } from "lucide-react";
+import { Video, VideoOff, Plus, ExternalLink, Loader2, Clock, PhoneOff, Link2, Unlink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
@@ -28,6 +28,83 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
   const [topic, setTopic] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  // Zoom OAuth status
+  const [zoomConnected, setZoomConnected] = useState<boolean | null>(null);
+  const [zoomEmail, setZoomEmail] = useState<string | null>(null);
+  const [connecting, setConnecting] = useState(false);
+
+  const checkZoomStatus = async () => {
+    try {
+      const { data, error: fnErr } = await supabase.functions.invoke("zoom-meetings", {
+        body: { action: "status" },
+      });
+      if (fnErr) throw fnErr;
+      setZoomConnected(data.connected);
+      setZoomEmail(data.zoom_email);
+    } catch {
+      setZoomConnected(false);
+    }
+  };
+
+  const connectZoom = async () => {
+    setConnecting(true);
+    setError(null);
+    try {
+      const { data, error: fnErr } = await supabase.functions.invoke("zoom-oauth-callback", {
+        body: {},
+        headers: {},
+      });
+      // We need to call with query param, so construct the URL manually
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) throw new Error("Not authenticated");
+
+      const resp = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/zoom-oauth-callback?action=authorize_url`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+        }
+      );
+      const result = await resp.json();
+      if (result.error) throw new Error(result.error);
+      if (result.authorize_url) {
+        window.open(result.authorize_url, "_blank", "noopener,width=600,height=700");
+      }
+    } catch (err: any) {
+      setError(err.message || "Failed to start Zoom connection");
+    } finally {
+      setConnecting(false);
+    }
+  };
+
+  const disconnectZoom = async () => {
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) return;
+
+      await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/zoom-oauth-callback?action=disconnect`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+        }
+      );
+      setZoomConnected(false);
+      setZoomEmail(null);
+    } catch (err: any) {
+      setError(err.message || "Failed to disconnect");
+    }
+  };
+
   const loadRooms = async () => {
     setLoading(true);
     try {
@@ -38,13 +115,25 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
       setRooms(data.rooms || []);
     } catch (err: any) {
       console.error("Load rooms failed:", err);
-      setError(err.message || "Failed to load rooms");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { loadRooms(); }, [workspaceId]);
+  useEffect(() => {
+    checkZoomStatus();
+    loadRooms();
+
+    // Listen for zoom=connected query param (user returning from OAuth)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("zoom") === "connected") {
+      checkZoomStatus();
+      // Clean up URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("zoom");
+      window.history.replaceState({}, "", url.pathname);
+    }
+  }, [workspaceId]);
 
   const createRoom = async () => {
     if (!topic.trim()) return;
@@ -55,15 +144,24 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
         body: { action: "create", workspace_id: workspaceId, topic: topic.trim() },
       });
       if (fnErr) throw fnErr;
+      if (data.error === "ZOOM_NOT_CONNECTED" || data.error === "ZOOM_TOKEN_EXPIRED") {
+        setZoomConnected(false);
+        setError("Please connect your Zoom account first");
+        return;
+      }
       setRooms(prev => [data.room, ...prev]);
       setTopic("");
       setShowCreate(false);
-      // Auto-open the join URL
       if (data.zoom?.join_url) {
         window.open(data.zoom.join_url, "_blank", "noopener");
       }
     } catch (err: any) {
-      setError(err.message || "Failed to create meeting");
+      if (err.message?.includes("ZOOM_NOT_CONNECTED") || err.message?.includes("ZOOM_TOKEN_EXPIRED")) {
+        setZoomConnected(false);
+        setError("Connect your Zoom account to create meetings");
+      } else {
+        setError(err.message || "Failed to create meeting");
+      }
     } finally {
       setCreating(false);
     }
@@ -85,12 +183,42 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
 
   return (
     <div className="flex flex-col h-full">
+      {/* Header */}
       <div className="px-3 py-2 border-b border-white/5 flex items-center gap-2">
         <Video size={12} className="text-blue-400" />
         <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest flex-1">Video Rooms</span>
-        <button onClick={() => setShowCreate(!showCreate)} className="text-white/30 hover:text-blue-400">
-          <Plus size={12} />
-        </button>
+        {zoomConnected && (
+          <button onClick={() => setShowCreate(!showCreate)} className="text-white/30 hover:text-blue-400">
+            <Plus size={12} />
+          </button>
+        )}
+      </div>
+
+      {/* Zoom Connection Status */}
+      <div className="px-3 py-2 border-b border-white/5">
+        {zoomConnected === null ? (
+          <div className="flex items-center gap-2 text-[10px] text-white/20">
+            <Loader2 size={10} className="animate-spin" /> Checking Zoom...
+          </div>
+        ) : zoomConnected ? (
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 flex-1">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+              <span className="text-[10px] text-emerald-400/80">Zoom connected</span>
+              {zoomEmail && <span className="text-[9px] text-white/20 truncate">({zoomEmail})</span>}
+            </div>
+            <button onClick={disconnectZoom} title="Disconnect Zoom"
+              className="text-white/20 hover:text-red-400 transition-colors">
+              <Unlink size={10} />
+            </button>
+          </div>
+        ) : (
+          <Button size="sm" onClick={connectZoom} disabled={connecting}
+            className="w-full h-7 text-[10px] bg-blue-600 hover:bg-blue-700 gap-1.5">
+            {connecting ? <Loader2 size={10} className="animate-spin" /> : <Link2 size={10} />}
+            Connect Your Zoom Account
+          </Button>
+        )}
       </div>
 
       {error && (
@@ -100,7 +228,8 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
         </div>
       )}
 
-      {showCreate && (
+      {/* Create Meeting */}
+      {showCreate && zoomConnected && (
         <div className="px-3 py-2 border-b border-white/5 space-y-2">
           <input
             autoFocus
@@ -118,6 +247,7 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
         </div>
       )}
 
+      {/* Room List */}
       <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#1e293b transparent" }}>
         {loading && (
           <div className="flex justify-center py-8">
@@ -129,11 +259,12 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
           <div className="flex flex-col items-center justify-center py-12 text-white/20">
             <Video size={28} className="mb-3" />
             <p className="text-xs">No meetings yet</p>
-            <p className="text-[10px] text-white/15 mt-1">Create one to start collaborating</p>
+            <p className="text-[10px] text-white/15 mt-1">
+              {zoomConnected ? "Create one to start collaborating" : "Connect Zoom to get started"}
+            </p>
           </div>
         )}
 
-        {/* Active Rooms */}
         {activeRooms.length > 0 && (
           <div>
             <div className="px-3 py-1.5 text-[10px] font-bold text-emerald-400/60 uppercase tracking-widest">
@@ -150,14 +281,12 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
                   {room.zoom_join_url && (
                     <button onClick={() => window.open(room.zoom_join_url!, "_blank", "noopener")}
                       className="flex items-center gap-1 text-[10px] text-blue-400 hover:text-blue-300 bg-blue-500/10 px-2 py-0.5 rounded">
-                      <ExternalLink size={9} />
-                      Join
+                      <ExternalLink size={9} /> Join
                     </button>
                   )}
                   <button onClick={() => endRoom(room.id)}
                     className="flex items-center gap-1 text-[10px] text-red-400 hover:text-red-300 bg-red-500/10 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                    <PhoneOff size={9} />
-                    End
+                    <PhoneOff size={9} /> End
                   </button>
                   {room.started_at && (
                     <span className="text-[9px] text-white/20 ml-auto flex items-center gap-1">
@@ -176,7 +305,6 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
           </div>
         )}
 
-        {/* Past Rooms */}
         {pastRooms.length > 0 && (
           <div>
             <div className="px-3 py-1.5 text-[10px] font-bold text-white/20 uppercase tracking-widest">
