@@ -1,24 +1,62 @@
-import { useState, useEffect, useRef } from "react";
-import { Hash, Send, Plus, Loader2, AtSign, Reply, X } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Hash, Send, Plus, AtSign, Reply, X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import ReactMarkdown from "react-markdown";
 
-interface Channel {
-  id: string;
-  name: string;
-}
+interface Channel { id: string; name: string; }
+interface Message { id: string; body: string; user_id: string; created_at: string; thread_id?: string | null; }
+interface Props { workspaceId: string; }
 
-interface Message {
-  id: string;
-  body: string;
-  user_id: string;
-  created_at: string;
-  thread_id?: string | null;
-}
+// Typing indicator hook using Supabase presence (free, no VPS)
+function useTypingIndicator(channelId: string | null, userId: string | null, userEmail: string | null) {
+  const [typingUsers, setTypingUsers] = useState<string[]>([]);
+  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-interface Props {
-  workspaceId: string;
+  useEffect(() => {
+    if (!channelId || !userId) return;
+    if (channelRef.current) supabase.removeChannel(channelRef.current);
+
+    const ch = supabase.channel(`typing-${channelId}`, {
+      config: { presence: { key: userId } },
+    });
+
+    ch.on("presence", { event: "sync" }, () => {
+      const state = ch.presenceState();
+      const users: string[] = [];
+      for (const key of Object.keys(state)) {
+        if (key === userId) continue;
+        const presences = state[key] as any[];
+        if (presences?.[0]?.is_typing) {
+          users.push(presences[0].email || key.slice(0, 8));
+        }
+      }
+      setTypingUsers(users);
+    });
+
+    ch.subscribe(async (status) => {
+      if (status === "SUBSCRIBED") {
+        await ch.track({ user_id: userId, email: userEmail || "unknown", is_typing: false });
+      }
+    });
+
+    channelRef.current = ch;
+    return () => { if (channelRef.current) supabase.removeChannel(channelRef.current); };
+  }, [channelId, userId, userEmail]);
+
+  const setTyping = useCallback((isTyping: boolean) => {
+    if (!channelRef.current || !userId) return;
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    channelRef.current.track({ user_id: userId, email: userEmail || "unknown", is_typing: isTyping });
+    if (isTyping) {
+      timeoutRef.current = setTimeout(() => {
+        channelRef.current?.track({ user_id: userId, email: userEmail || "unknown", is_typing: false });
+      }, 3000);
+    }
+  }, [userId, userEmail]);
+
+  return { typingUsers, setTyping };
 }
 
 export function IdeChatPanel({ workspaceId }: Props) {
@@ -30,9 +68,12 @@ export function IdeChatPanel({ workspaceId }: Props) {
   const [showNewChannel, setShowNewChannel] = useState(false);
   const [newChannelName, setNewChannelName] = useState("");
   const [replyTo, setReplyTo] = useState<Message | null>(null);
-  const [showMentions, setShowMentions] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { typingUsers, setTyping } = useTypingIndicator(
+    activeChannel, user?.id || null, user?.email || null
+  );
 
   // Load channels
   useEffect(() => {
@@ -92,6 +133,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
     });
     setInput("");
     setReplyTo(null);
+    setTyping(false);
   };
 
   const createChannel = async () => {
@@ -113,13 +155,11 @@ export function IdeChatPanel({ workspaceId }: Props) {
     setShowNewChannel(false);
   };
 
-  const insertMention = () => {
-    setInput(prev => prev + "@");
-    setShowMentions(false);
-    inputRef.current?.focus();
+  const handleInputChange = (val: string) => {
+    setInput(val);
+    setTyping(val.length > 0);
   };
 
-  // Render message body with @mention highlighting
   const renderBody = (body: string) => {
     const parts = body.split(/(@\w+)/g);
     return parts.map((part, i) =>
@@ -143,26 +183,19 @@ export function IdeChatPanel({ workspaceId }: Props) {
 
       {showNewChannel && (
         <div className="px-3 py-2 border-b border-white/5 flex gap-1">
-          <input
-            autoFocus
-            value={newChannelName}
-            onChange={(e) => setNewChannelName(e.target.value)}
+          <input autoFocus value={newChannelName} onChange={(e) => setNewChannelName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && createChannel()}
             placeholder="channel-name"
-            className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none"
-          />
+            className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none" />
         </div>
       )}
 
       <div className="border-b border-white/5">
         {channels.map(ch => (
-          <button
-            key={ch.id}
-            onClick={() => setActiveChannel(ch.id)}
+          <button key={ch.id} onClick={() => setActiveChannel(ch.id)}
             className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs transition-colors ${
               activeChannel === ch.id ? "bg-blue-500/10 text-blue-400" : "text-white/50 hover:bg-white/5"
-            }`}
-          >
+            }`}>
             <Hash size={12} />
             <span>{ch.name}</span>
           </button>
@@ -196,11 +229,8 @@ export function IdeChatPanel({ workspaceId }: Props) {
                     <span>{renderBody(msg.body)}</span>
                   )}
                 </div>
-                <button
-                  onClick={() => setReplyTo(msg)}
-                  className="text-white/0 group-hover:text-white/20 hover:!text-white/50 flex-shrink-0 mt-0.5"
-                  title="Reply"
-                >
+                <button onClick={() => setReplyTo(msg)}
+                  className="text-white/0 group-hover:text-white/20 hover:!text-white/50 flex-shrink-0 mt-0.5" title="Reply">
                   <Reply size={10} />
                 </button>
               </div>
@@ -208,6 +238,22 @@ export function IdeChatPanel({ workspaceId }: Props) {
           );
         })}
       </div>
+
+      {/* Typing indicator */}
+      {typingUsers.length > 0 && (
+        <div className="px-3 py-1 border-t border-white/5 flex items-center gap-2">
+          <div className="flex gap-0.5">
+            <span className="w-1 h-1 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+            <span className="w-1 h-1 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+            <span className="w-1 h-1 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+          </div>
+          <span className="text-[10px] text-white/30">
+            {typingUsers.length === 1
+              ? `${typingUsers[0]} is typing...`
+              : `${typingUsers.length} people typing...`}
+          </span>
+        </div>
+      )}
 
       {/* Reply indicator */}
       {replyTo && (
@@ -225,18 +271,15 @@ export function IdeChatPanel({ workspaceId }: Props) {
       {/* Input */}
       <div className="px-3 py-2 border-t border-white/5">
         <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-          <button onClick={insertMention} className="text-white/20 hover:text-blue-400" title="Mention">
+          <button onClick={() => { setInput(prev => prev + "@"); inputRef.current?.focus(); }}
+            className="text-white/20 hover:text-blue-400" title="Mention">
             <AtSign size={14} />
           </button>
-          <input
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+          <input ref={inputRef} value={input} onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             placeholder={activeChannel ? "Message..." : "Select a channel"}
             disabled={!activeChannel}
-            className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/20"
-          />
+            className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/20" />
           <button onClick={sendMessage} className="text-blue-400 hover:text-blue-300 disabled:opacity-30" disabled={!input.trim()}>
             <Send size={14} />
           </button>
