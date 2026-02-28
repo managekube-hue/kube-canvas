@@ -77,10 +77,10 @@ function SideLabel({
 
   // Position: centered on each edge, text always horizontal
   const posStyles: Record<string, React.CSSProperties> = {
-    top:    { position: "absolute", top: -10, left: "50%", transform: "translateX(-50%)" },
-    bottom: { position: "absolute", bottom: -10, left: "50%", transform: "translateX(-50%)" },
-    left:   { position: "absolute", left: -4, top: "50%", transform: "translate(-100%, -50%)" },
-    right:  { position: "absolute", right: -4, top: "50%", transform: "translate(100%, -50%)" },
+    top:    { position: "absolute", top: 0, left: "50%", transform: "translate(-50%, -50%)" },
+    bottom: { position: "absolute", bottom: 0, left: "50%", transform: "translate(-50%, 50%)" },
+    left:   { position: "absolute", left: 0, top: "50%", transform: "translate(-50%, -50%)" },
+    right:  { position: "absolute", right: 0, top: "50%", transform: "translate(50%, -50%)" },
   };
 
   return (
