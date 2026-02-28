@@ -402,6 +402,7 @@ const App = () => (
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
             <Route path="settings" element={<CrmSettings />} />
+            <Route path="help" element={<CrmHelp />} />
             <Route path="legacy" element={<CmsAdmin />} />
           </Route>
           <Route path="/cms" element={<Navigate to="/crm" replace />} />
