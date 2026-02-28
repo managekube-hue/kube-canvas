@@ -160,6 +160,30 @@ export default function UidrIde() {
     } catch (err) { console.error("Commit failed:", err); }
   };
 
+  const commitMultipleFiles = async (paths: string[], message: string) => {
+    const dirtyTabs = tabs.filter(t => paths.includes(t.path) && t.dirty);
+    if (dirtyTabs.length === 0) return;
+    try {
+      const refData = await gh.getRef(`heads/${branch}`);
+      const blobs = await Promise.all(
+        dirtyTabs.map(async t => {
+          const blob = await gh.createBlob(t.content, "utf-8");
+          return { path: t.path, mode: "100644" as const, type: "blob" as const, sha: blob.sha };
+        })
+      );
+      const newTree = await gh.createTree(refData.object.sha, blobs);
+      const commit = await gh.createCommit(message, newTree.sha, [refData.object.sha]);
+      await gh.updateRef(`heads/${branch}`, commit.sha);
+      setTabs(prev => prev.map(t => paths.includes(t.path) ? { ...t, dirty: false } : t));
+      loadCommits(); loadTree();
+    } catch (err) { console.error("Multi-file commit failed:", err); }
+  };
+
+  const discardFile = (path: string) => {
+    setTabs(prev => prev.filter(t => t.path !== path));
+    if (activeTab === path) setActiveTab(null);
+  };
+
   const createNewFile = async (filePath: string) => {
     try {
       const refData = await gh.getRef(`heads/${branch}`);
