@@ -29,7 +29,7 @@ const items: { mode: ViewMode; icon: typeof FolderTree; label: string }[] = [
   { mode: "notifications", icon: Bell, label: "Notifications" },
 ];
 
-export function IdeActivityBar({ viewMode, setViewMode, unreadCount, onlineCount }: Props) {
+export function IdeActivityBar({ viewMode, setViewMode, unreadCount, onlineCount, dirtyCount = 0 }: Props) {
   return (
     <div className="w-12 flex-shrink-0 bg-[#080808] border-r border-white/5 flex flex-col items-center py-2 gap-0.5">
       {items.map(({ mode, icon: Icon, label }) => (
