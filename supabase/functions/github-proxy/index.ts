@@ -74,13 +74,31 @@ serve(async (req) => {
   const owner = url.searchParams.get("owner");
   const repo = url.searchParams.get("repo");
 
-  if (!action || !owner || !repo) {
-    return json({ error: "Missing action, owner, or repo params" }, 400);
+  if (!action) {
+    return json({ error: "Missing action param" }, 400);
   }
 
-  const base = `/repos/${owner}/${repo}`;
-
+  // Actions that don't require owner/repo
   try {
+    switch (action) {
+      case "repos": {
+        const perPage = url.searchParams.get("per_page") || "100";
+        const page = url.searchParams.get("page") || "1";
+        const sort = url.searchParams.get("sort") || "updated";
+        return json(await ghFetch("GET", `/user/repos?per_page=${perPage}&page=${page}&sort=${sort}&affiliation=owner,collaborator,organization_member`, GITHUB_TOKEN));
+      }
+      case "user": {
+        return json(await ghFetch("GET", "/user", GITHUB_TOKEN));
+      }
+    }
+
+    // All other actions require owner/repo
+    if (!owner || !repo) {
+      return json({ error: "Missing owner or repo params" }, 400);
+    }
+
+    const base = `/repos/${owner}/${repo}`;
+
     switch (action) {
       case "tree": {
         const sha = url.searchParams.get("sha") || "main";
