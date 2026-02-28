@@ -185,11 +185,7 @@ export function ServiceLayerConstellation() {
                   left: `${offset}%`,
                 }}
               >
-                {/* Corner seam lines */}
-                <CornerMark corner="tl" />
-                <CornerMark corner="tr" />
-                <CornerMark corner="bl" />
-                <CornerMark corner="br" />
+                {/* Clean borders only — no corner decorations */}
 
                 {/* Side labels — text on each side */}
                 {sides.map((side, si) => {
