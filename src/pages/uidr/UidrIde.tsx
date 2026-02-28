@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Settings, LogOut, Loader2 } from "lucide-react";
+import { Settings, LogOut, Loader2, Plus } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useGitHubProxy, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHubProxy";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
@@ -63,9 +63,31 @@ function detectLanguage(path: string): string {
   return map[ext || ""] || "plaintext";
 }
 
+/* ── Default scratch files for fresh IDE ─────────────────── */
+const DEFAULT_SCRATCH: OpenTab[] = [
+  {
+    path: "scratch.ts",
+    content: `// Welcome to KUBRIC REACH IDE
+// Start typing — this is a local scratch pad.
+// Connect a GitHub workspace via Settings to unlock full features.
+
+function hello(): string {
+  return "Hello from REACH IDE!";
+}
+
+console.log(hello());
+`,
+    dirty: false,
+    language: "typescript",
+    loading: false,
+  },
+];
+
 export default function UidrIde() {
   const { user } = useAuth();
   const workspace = useReachWorkspace();
+
+  const hasWorkspace = !!workspace.activeWorkspace;
   const owner = workspace.activeWorkspace?.github_owner || "";
   const repo = workspace.activeWorkspace?.github_repo || "";
   const gh = useGitHubProxy(owner, repo);
@@ -75,9 +97,10 @@ export default function UidrIde() {
   const [treeLoading, setTreeLoading] = useState(false);
   const [branch, setBranch] = useState("main");
   const [branches, setBranches] = useState<string[]>([]);
-  const [tabs, setTabs] = useState<OpenTab[]>([]);
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [tabs, setTabs] = useState<OpenTab[]>(DEFAULT_SCRATCH);
+  const [activeTab, setActiveTab] = useState<string | null>("scratch.ts");
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [showWorkspaceSetup, setShowWorkspaceSetup] = useState(false);
 
   // Issues
   const [issues, setIssues] = useState<GitIssue[]>([]);
@@ -114,6 +137,7 @@ export default function UidrIde() {
       if (meta && e.key === "p" && !e.shiftKey) { e.preventDefault(); setCommandPaletteOpen(true); }
       if (meta && e.key === "s") {
         e.preventDefault();
+        if (!hasWorkspace) return; // local-only, no commit
         const tab = tabs.find(t => t.path === activeTab && t.dirty);
         if (tab) {
           const msg = `Update ${tab.path.split("/").pop()}`;
@@ -123,7 +147,7 @@ export default function UidrIde() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [tabs, activeTab]);
+  }, [tabs, activeTab, hasWorkspace]);
 
   // ── Load tree ──────────────────────────────
   const loadTree = useCallback(async () => {
@@ -149,6 +173,11 @@ export default function UidrIde() {
     const newTab: OpenTab = { path, content: "", dirty: false, language: detectLanguage(path), loading: true };
     setTabs(prev => [...prev, newTab]);
     setActiveTab(path);
+    if (!hasWorkspace) {
+      // Local-only mode — just open empty
+      setTabs(prev => prev.map(t => t.path === path ? { ...t, content: `// ${path}`, loading: false } : t));
+      return;
+    }
     try {
       const data = await gh.getFile(path, branch);
       const decoded = data.encoding === "base64" ? atob(data.content) : data.content;
@@ -169,6 +198,7 @@ export default function UidrIde() {
   };
 
   const commitFile = async (path: string, message: string) => {
+    if (!hasWorkspace) return;
     const tab = tabs.find(t => t.path === path);
     if (!tab) return;
     try {
@@ -183,6 +213,7 @@ export default function UidrIde() {
   };
 
   const commitMultipleFiles = async (paths: string[], message: string) => {
+    if (!hasWorkspace) return;
     const dirtyTabs = tabs.filter(t => paths.includes(t.path) && t.dirty);
     if (dirtyTabs.length === 0) return;
     try {
@@ -207,6 +238,13 @@ export default function UidrIde() {
   };
 
   const createNewFile = async (filePath: string) => {
+    if (!hasWorkspace) {
+      // Local-only: just open a new tab
+      const newTab: OpenTab = { path: filePath, content: "", dirty: true, language: detectLanguage(filePath), loading: false };
+      setTabs(prev => [...prev, newTab]);
+      setActiveTab(filePath);
+      return;
+    }
     try {
       const refData = await gh.getRef(`heads/${branch}`);
       const blob = await gh.createBlob("", "utf-8");
@@ -218,6 +256,7 @@ export default function UidrIde() {
   };
 
   const deleteFile = async (path: string) => {
+    if (!hasWorkspace) { closeTab(path); return; }
     try {
       const fileData = await gh.getFile(path, branch);
       await gh.deleteFile(path, fileData.sha, `Delete ${path}`, branch);
@@ -226,6 +265,7 @@ export default function UidrIde() {
   };
 
   const createBranch = async (name: string) => {
+    if (!hasWorkspace) return;
     try {
       const refData = await gh.getRef(`heads/${branch}`);
       await gh.createRef(`refs/heads/${name}`, refData.object.sha);
@@ -236,6 +276,7 @@ export default function UidrIde() {
 
   // ── Load file content for docs panel ───────
   const loadFileContent = async (path: string): Promise<string> => {
+    if (!hasWorkspace) return `// ${path} (local mode)`;
     const data = await gh.getFile(path, branch);
     return data.encoding === "base64" ? atob(data.content) : data.content;
   };
@@ -257,8 +298,9 @@ export default function UidrIde() {
     } catch { /* non-critical */ }
   };
 
-  const createIssue = async (title: string, body: string) => { await gh.createIssue(title, body); loadIssues(); };
+  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(title, body); loadIssues(); };
   const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
+    if (!hasWorkspace) return;
     const updated = await gh.updateIssue(num, updates);
     setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
     if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
@@ -273,10 +315,12 @@ export default function UidrIde() {
   };
 
   const createPr = async (title: string, head: string, base: string, body: string) => {
+    if (!hasWorkspace) return;
     await gh.createPull(title, head, base, body); loadPulls();
   };
 
   const mergePr = async (num: number, method: "merge" | "squash" | "rebase") => {
+    if (!hasWorkspace) return;
     await gh.mergePull(num, undefined, method); loadPulls();
   };
 
@@ -289,10 +333,12 @@ export default function UidrIde() {
   };
 
   const createMilestone = async (title: string, desc: string, dueOn?: string) => {
+    if (!hasWorkspace) return;
     await gh.createMilestone(title, desc, dueOn); loadMilestones();
   };
 
   const updateMilestone = async (num: number, updates: { state?: string }) => {
+    if (!hasWorkspace) return;
     await gh.updateMilestone(num, updates); loadMilestones();
   };
 
@@ -317,15 +363,17 @@ export default function UidrIde() {
 
   // ── Load data per view mode ────────────────
   useEffect(() => {
+    if (!hasWorkspace) return;
     if (viewMode === "issues" || viewMode === "kanban") { loadIssues(); loadLabelsAndAssignees(); }
     if (viewMode === "commits") loadCommits();
     if (viewMode === "pulls") loadPulls();
     if (viewMode === "milestones") loadMilestones();
     if (viewMode === "settings") loadCollaborators();
-  }, [viewMode, owner, repo, branch]);
+  }, [viewMode, owner, repo, branch, hasWorkspace]);
 
   const handleCreateWorkspace = async (name: string, ghOwner: string, ghRepo: string) => {
     await workspace.createWorkspace(name, ghOwner, ghRepo);
+    setShowWorkspaceSetup(false);
   };
 
   const dirtyCount = tabs.filter(t => t.dirty).length;
@@ -340,7 +388,8 @@ export default function UidrIde() {
     );
   }
 
-  if (!workspace.activeWorkspace) {
+  // ── Workspace setup modal (optional, not blocking) ──
+  if (showWorkspaceSetup) {
     return (
       <IdeShell>
         <WorkspaceSetup onCreateWorkspace={handleCreateWorkspace} />
@@ -348,7 +397,44 @@ export default function UidrIde() {
     );
   }
 
+  /* ── Local-only side panel when no workspace ── */
+  const renderLocalExplorer = () => (
+    <div className="flex-1 flex flex-col">
+      <div className="px-3 py-2 border-b border-white/5 flex items-center justify-between">
+        <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Local Files</span>
+        <button
+          onClick={() => {
+            const name = prompt("New file name (e.g. main.ts):");
+            if (name) createNewFile(name);
+          }}
+          className="text-white/30 hover:text-white/60"
+        >
+          <Plus size={14} />
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto px-1 py-1">
+        {tabs.map(t => (
+          <button key={t.path} onClick={() => setActiveTab(t.path)}
+            className={`w-full text-left px-3 py-1.5 text-xs rounded flex items-center gap-2 ${
+              activeTab === t.path ? "bg-white/10 text-white" : "text-white/50 hover:text-white/70 hover:bg-white/5"
+            }`}>
+            <span className="truncate">{t.path}</span>
+            {t.dirty && <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />}
+          </button>
+        ))}
+      </div>
+      <div className="px-3 py-3 border-t border-white/5">
+        <button onClick={() => setShowWorkspaceSetup(true)}
+          className="w-full text-center text-[10px] py-2 rounded border border-dashed border-white/10 text-white/30 hover:text-white/60 hover:border-white/20 transition-colors">
+          + Connect GitHub Workspace
+        </button>
+      </div>
+    </div>
+  );
+
   const renderSidePanel = () => {
+    if (!hasWorkspace) return renderLocalExplorer();
+
     switch (viewMode) {
       case "explorer":
         return (
@@ -362,7 +448,6 @@ export default function UidrIde() {
       case "docs":
         return <IdeDocsPanel tree={tree} onLoadFile={loadFileContent} onOpenInEditor={openFile}
           onSaveDoc={(path, content) => {
-            // Update or create the tab with new content so it appears as dirty for staging
             const existing = tabs.find(t => t.path === path);
             if (existing) {
               updateContent(path, content);
@@ -440,19 +525,21 @@ export default function UidrIde() {
     <IdeShell>
       <div className="flex h-full overflow-hidden">
         <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} dirtyCount={dirtyCount} />
-        <div className={`${viewMode === "kanban" ? "w-full" : "w-[280px]"} flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden`}>
-          <div className="px-3 py-2 border-b border-white/5">
-            <select value={workspace.activeWorkspace?.id || ""}
-              onChange={(e) => {
-                const ws = workspace.workspaces.find(w => w.id === e.target.value);
-                if (ws) workspace.setActiveWorkspace(ws);
-              }}
-              className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none truncate">
-              {workspace.workspaces.map(ws => (
-                <option key={ws.id} value={ws.id} className="bg-[#0c0c0c]">{ws.name}</option>
-              ))}
-            </select>
-          </div>
+        <div className={`${viewMode === "kanban" && hasWorkspace ? "w-full" : "w-[280px]"} flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden`}>
+          {hasWorkspace && (
+            <div className="px-3 py-2 border-b border-white/5">
+              <select value={workspace.activeWorkspace?.id || ""}
+                onChange={(e) => {
+                  const ws = workspace.workspaces.find(w => w.id === e.target.value);
+                  if (ws) workspace.setActiveWorkspace(ws);
+                }}
+                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none truncate">
+                {workspace.workspaces.map(ws => (
+                  <option key={ws.id} value={ws.id} className="bg-[#0c0c0c]">{ws.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="flex-1 overflow-hidden flex flex-col">{renderSidePanel()}</div>
         </div>
         {viewMode !== "kanban" && (
