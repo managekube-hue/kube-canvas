@@ -141,6 +141,17 @@ serve(async (req) => {
         const body = await req.json();
         return json(await ghFetch("PATCH", `${base}/git/refs/${ref}`, GITHUB_TOKEN, body));
       }
+      case "create_ref": {
+        const ref = url.searchParams.get("ref") || "refs/heads/main";
+        const body = await req.json();
+        return json(await ghFetch("POST", `${base}/git/refs`, GITHUB_TOKEN, { ref, ...body }));
+      }
+      case "delete_file": {
+        const path = url.searchParams.get("path");
+        if (!path) return json({ error: "Missing path" }, 400);
+        const body = await req.json();
+        return json(await ghFetch("DELETE", `${base}/contents/${path}`, GITHUB_TOKEN, body));
+      }
       case "repo":
         return json(await ghFetch("GET", base, GITHUB_TOKEN));
       default:
