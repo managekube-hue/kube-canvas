@@ -1,4 +1,5 @@
-import { createClient } from "npm:@supabase/supabase-js@2.49.4";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -8,7 +9,7 @@ const corsHeaders = {
 
 const GITHUB_API = "https://api.github.com";
 
-Deno.serve(async (req) => {
+serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -34,135 +35,6 @@ Deno.serve(async (req) => {
   const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN");
   if (!GITHUB_TOKEN) {
     return json({ error: "GITHUB_TOKEN not configured" }, 500);
-  }
-
-  // ── Route ─────────────────────────────────
-  const url = new URL(req.url);
-  const action = url.searchParams.get("action");
-  const owner = url.searchParams.get("owner");
-  const repo = url.searchParams.get("repo");
-
-  if (!action || !owner || !repo) {
-    return json({ error: "Missing action, owner, or repo params" }, 400);
-  }
-
-  try {
-    switch (action) {
-      // ── File Tree ───────────────────────────
-      case "tree": {
-        const sha = url.searchParams.get("sha") || "main";
-        const data = await ghGet(`/repos/${owner}/${repo}/git/trees/${sha}?recursive=1`);
-        return json(data);
-      }
-
-      // ── File Content ────────────────────────
-      case "file": {
-        const path = url.searchParams.get("path");
-        if (!path) return json({ error: "Missing path param" }, 400);
-        const ref = url.searchParams.get("ref") || "main";
-        const data = await ghGet(`/repos/${owner}/${repo}/contents/${path}?ref=${ref}`);
-        return json(data);
-      }
-
-      // ── Commits List ────────────────────────
-      case "commits": {
-        const perPage = url.searchParams.get("per_page") || "30";
-        const page = url.searchParams.get("page") || "1";
-        const sha = url.searchParams.get("sha") || "main";
-        const data = await ghGet(
-          `/repos/${owner}/${repo}/commits?sha=${sha}&per_page=${perPage}&page=${page}`
-        );
-        return json(data);
-      }
-
-      // ── Single Commit ───────────────────────
-      case "commit": {
-        const sha = url.searchParams.get("sha");
-        if (!sha) return json({ error: "Missing sha param" }, 400);
-        const data = await ghGet(`/repos/${owner}/${repo}/commits/${sha}`);
-        return json(data);
-      }
-
-      // ── Issues List ─────────────────────────
-      case "issues": {
-        const state = url.searchParams.get("state") || "open";
-        const perPage = url.searchParams.get("per_page") || "30";
-        const data = await ghGet(
-          `/repos/${owner}/${repo}/issues?state=${state}&per_page=${perPage}`
-        );
-        return json(data);
-      }
-
-      // ── Create Issue ────────────────────────
-      case "create_issue": {
-        const body = await req.json();
-        const data = await ghPost(`/repos/${owner}/${repo}/issues`, body);
-        return json(data);
-      }
-
-      // ── Update Issue ────────────────────────
-      case "update_issue": {
-        const issueNumber = url.searchParams.get("issue_number");
-        if (!issueNumber) return json({ error: "Missing issue_number" }, 400);
-        const body = await req.json();
-        const data = await ghPatch(`/repos/${owner}/${repo}/issues/${issueNumber}`, body);
-        return json(data);
-      }
-
-      // ── Branches ────────────────────────────
-      case "branches": {
-        const data = await ghGet(`/repos/${owner}/${repo}/branches`);
-        return json(data);
-      }
-
-      // ── Get Ref (for commit workflow) ───────
-      case "get_ref": {
-        const ref = url.searchParams.get("ref") || "heads/main";
-        const data = await ghGet(`/repos/${owner}/${repo}/git/ref/${ref}`);
-        return json(data);
-      }
-
-      // ── Create Blob ─────────────────────────
-      case "create_blob": {
-        const body = await req.json();
-        const data = await ghPost(`/repos/${owner}/${repo}/git/blobs`, body);
-        return json(data);
-      }
-
-      // ── Create Tree ─────────────────────────
-      case "create_tree": {
-        const body = await req.json();
-        const data = await ghPost(`/repos/${owner}/${repo}/git/trees`, body);
-        return json(data);
-      }
-
-      // ── Create Commit ───────────────────────
-      case "create_commit": {
-        const body = await req.json();
-        const data = await ghPost(`/repos/${owner}/${repo}/git/commits`, body);
-        return json(data);
-      }
-
-      // ── Update Ref ──────────────────────────
-      case "update_ref": {
-        const ref = url.searchParams.get("ref") || "heads/main";
-        const body = await req.json();
-        const data = await ghPatch(`/repos/${owner}/${repo}/git/refs/${ref}`, body);
-        return json(data);
-      }
-
-      // ── Repo Info ───────────────────────────
-      case "repo": {
-        const data = await ghGet(`/repos/${owner}/${repo}`);
-        return json(data);
-      }
-
-      default:
-        return json({ error: `Unknown action: ${action}` }, 400);
-    }
-  } catch (err) {
-    console.error("github-proxy error:", err);
-    return json({ error: err.message || "GitHub API error" }, 502);
   }
 
   // ── Helpers ─────────────────────────────────
@@ -215,6 +87,103 @@ Deno.serve(async (req) => {
       throw new Error(`GitHub PATCH ${path} failed [${res.status}]: ${text}`);
     }
     return res.json();
+  }
+
+  // ── Route ─────────────────────────────────
+  const url = new URL(req.url);
+  const action = url.searchParams.get("action");
+  const owner = url.searchParams.get("owner");
+  const repo = url.searchParams.get("repo");
+
+  if (!action || !owner || !repo) {
+    return json({ error: "Missing action, owner, or repo params" }, 400);
+  }
+
+  try {
+    switch (action) {
+      case "tree": {
+        const sha = url.searchParams.get("sha") || "main";
+        const data = await ghGet(`/repos/${owner}/${repo}/git/trees/${sha}?recursive=1`);
+        return json(data);
+      }
+      case "file": {
+        const path = url.searchParams.get("path");
+        if (!path) return json({ error: "Missing path param" }, 400);
+        const ref = url.searchParams.get("ref") || "main";
+        const data = await ghGet(`/repos/${owner}/${repo}/contents/${path}?ref=${ref}`);
+        return json(data);
+      }
+      case "commits": {
+        const perPage = url.searchParams.get("per_page") || "30";
+        const page = url.searchParams.get("page") || "1";
+        const sha = url.searchParams.get("sha") || "main";
+        const data = await ghGet(`/repos/${owner}/${repo}/commits?sha=${sha}&per_page=${perPage}&page=${page}`);
+        return json(data);
+      }
+      case "commit": {
+        const sha = url.searchParams.get("sha");
+        if (!sha) return json({ error: "Missing sha param" }, 400);
+        const data = await ghGet(`/repos/${owner}/${repo}/commits/${sha}`);
+        return json(data);
+      }
+      case "issues": {
+        const state = url.searchParams.get("state") || "open";
+        const perPage = url.searchParams.get("per_page") || "30";
+        const data = await ghGet(`/repos/${owner}/${repo}/issues?state=${state}&per_page=${perPage}`);
+        return json(data);
+      }
+      case "create_issue": {
+        const body = await req.json();
+        const data = await ghPost(`/repos/${owner}/${repo}/issues`, body);
+        return json(data);
+      }
+      case "update_issue": {
+        const issueNumber = url.searchParams.get("issue_number");
+        if (!issueNumber) return json({ error: "Missing issue_number" }, 400);
+        const body = await req.json();
+        const data = await ghPatch(`/repos/${owner}/${repo}/issues/${issueNumber}`, body);
+        return json(data);
+      }
+      case "branches": {
+        const data = await ghGet(`/repos/${owner}/${repo}/branches`);
+        return json(data);
+      }
+      case "get_ref": {
+        const ref = url.searchParams.get("ref") || "heads/main";
+        const data = await ghGet(`/repos/${owner}/${repo}/git/ref/${ref}`);
+        return json(data);
+      }
+      case "create_blob": {
+        const body = await req.json();
+        const data = await ghPost(`/repos/${owner}/${repo}/git/blobs`, body);
+        return json(data);
+      }
+      case "create_tree": {
+        const body = await req.json();
+        const data = await ghPost(`/repos/${owner}/${repo}/git/trees`, body);
+        return json(data);
+      }
+      case "create_commit": {
+        const body = await req.json();
+        const data = await ghPost(`/repos/${owner}/${repo}/git/commits`, body);
+        return json(data);
+      }
+      case "update_ref": {
+        const ref = url.searchParams.get("ref") || "heads/main";
+        const body = await req.json();
+        const data = await ghPatch(`/repos/${owner}/${repo}/git/refs/${ref}`, body);
+        return json(data);
+      }
+      case "repo": {
+        const data = await ghGet(`/repos/${owner}/${repo}`);
+        return json(data);
+      }
+      default:
+        return json({ error: `Unknown action: ${action}` }, 400);
+    }
+  } catch (err) {
+    console.error("github-proxy error:", err);
+    return json({ error: err.message || "GitHub API error" }, 502);
   }
 });
 
