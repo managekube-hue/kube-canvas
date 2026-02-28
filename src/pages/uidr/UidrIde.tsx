@@ -342,7 +342,7 @@ export default function UidrIde() {
 
   if (!workspace.activeWorkspace) {
     return (
-      <UidrLayout>
+      <IdeShell>
         <WorkspaceSetup onCreateWorkspace={handleCreateWorkspace} />
       </UidrLayout>
     );
