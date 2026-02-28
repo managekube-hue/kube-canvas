@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -44,22 +43,26 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // ── Auth ──────────────────────────────────
+  // Auth check: require Bearer token (JWT verified by Supabase gateway via config)
   const authHeader = req.headers.get("Authorization");
   if (!authHeader?.startsWith("Bearer ")) {
     return json({ error: "Unauthorized" }, 401);
   }
 
-  const supabase = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_ANON_KEY")!,
-    { global: { headers: { Authorization: authHeader } } }
-  );
-
-  const { data: { user }, error: userErr } = await supabase.auth.getUser();
-  if (userErr || !user) {
+  // Validate the JWT via Supabase auth API
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const token = authHeader.replace("Bearer ", "");
+  const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      apikey: Deno.env.get("SUPABASE_ANON_KEY")!,
+    },
+  });
+  if (!userRes.ok) {
+    await userRes.text(); // consume body
     return json({ error: "Invalid token" }, 401);
   }
+  await userRes.json(); // consume body
 
   const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN");
   if (!GITHUB_TOKEN) {
