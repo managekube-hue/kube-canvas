@@ -13,7 +13,7 @@ export default function SdrKube() {
     capabilities={[
       "Continuous SBOM generation and maintenance across all applications and workloads. Your software inventory is always current.",
       "Dependency vulnerability correlation mapping known CVEs to components in your environment in real time.",
-      "Integrity monitoring for software packages, build artifacts, and deployment pipeline configurations.",
+      "Integrity monitoring for software components, build artifacts, and deployment pipeline configurations.",
       "CI/CD pipeline security monitoring identifying unauthorized changes to build processes, the most common supply chain attack vector.",
       "Container image provenance verification ensuring deployed containers match signed, approved images.",
       "Post-deployment behavioral monitoring detecting supply chain compromise via runtime behavioral anomalies.",
