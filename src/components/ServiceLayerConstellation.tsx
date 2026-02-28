@@ -39,10 +39,118 @@ const MODULES: KubeModule[] = [
 
 const LAYER_SIZES = [100, 80, 60, 40, 22];
 
+// Small separating line at each corner seam
+function CornerSeam({ position, layerIndex }: { position: "tl" | "tr" | "bl" | "br"; layerIndex: number }) {
+  const len = 12;
+  const posStyles: Record<string, React.CSSProperties> = {
+    tl: { top: -1, left: -1 },
+    tr: { top: -1, right: -1 },
+    bl: { bottom: -1, left: -1 },
+    br: { bottom: -1, right: -1 },
+  };
+
+  // Two small lines forming an L at each corner
+  const lines: Record<string, React.ReactNode> = {
+    tl: (
+      <>
+        <div className="absolute top-0 left-0 bg-brand-orange" style={{ width: len, height: 2 }} />
+        <div className="absolute top-0 left-0 bg-brand-orange" style={{ width: 2, height: len }} />
+      </>
+    ),
+    tr: (
+      <>
+        <div className="absolute top-0 right-0 bg-brand-orange" style={{ width: len, height: 2 }} />
+        <div className="absolute top-0 right-0 bg-brand-orange" style={{ width: 2, height: len }} />
+      </>
+    ),
+    bl: (
+      <>
+        <div className="absolute bottom-0 left-0 bg-brand-orange" style={{ width: len, height: 2 }} />
+        <div className="absolute bottom-0 left-0 bg-brand-orange" style={{ width: 2, height: len }} />
+      </>
+    ),
+    br: (
+      <>
+        <div className="absolute bottom-0 right-0 bg-brand-orange" style={{ width: len, height: 2 }} />
+        <div className="absolute bottom-0 right-0 bg-brand-orange" style={{ width: 2, height: len }} />
+      </>
+    ),
+  };
+
+  return (
+    <div className="absolute z-20" style={posStyles[position]}>
+      {lines[position]}
+    </div>
+  );
+}
+
+// Clickable side that acts as a button
+function SideButton({
+  side,
+  module,
+  onHover,
+  onLeave,
+  isActive,
+}: {
+  side: "top" | "right" | "bottom" | "left";
+  module: KubeModule;
+  onHover: (mod: KubeModule, e: React.MouseEvent) => void;
+  onLeave: () => void;
+  isActive: boolean;
+}) {
+  const sideClass: Record<string, string> = {
+    top: "top-0 left-[14px] right-[14px] h-[2px]",
+    bottom: "bottom-0 left-[14px] right-[14px] h-[2px]",
+    left: "left-0 top-[14px] bottom-[14px] w-[2px]",
+    right: "right-0 top-[14px] bottom-[14px] w-[2px]",
+  };
+
+  // Label position
+  const labelClass: Record<string, string> = {
+    top: "left-1/2 -translate-x-1/2 -top-6",
+    bottom: "left-1/2 -translate-x-1/2 -bottom-6",
+    left: "top-1/2 -translate-y-1/2 -left-10",
+    right: "top-1/2 -translate-y-1/2 -right-10",
+  };
+
+  return (
+    <Link
+      to={module.href}
+      className={`absolute z-30 cursor-pointer transition-all duration-200 group ${sideClass[side]}`}
+      onMouseEnter={(e) => onHover(module, e)}
+      onMouseLeave={onLeave}
+    >
+      {/* Hover highlight - thickens the side */}
+      <div
+        className={`absolute inset-0 transition-all duration-200 ${
+          isActive ? "bg-brand-orange shadow-[0_0_8px_hsl(var(--brand-orange)/0.5)]" : "bg-transparent"
+        }`}
+        style={
+          side === "top" || side === "bottom"
+            ? { height: isActive ? 3 : 2 }
+            : { width: isActive ? 3 : 2 }
+        }
+      />
+      {/* Label on hover */}
+      {isActive && (
+        <motion.span
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`absolute ${labelClass[side]} whitespace-nowrap text-[9px] font-mono font-bold tracking-[0.15em] uppercase px-2 py-0.5 rounded bg-brand-orange text-white pointer-events-none`}
+        >
+          {module.label}
+        </motion.span>
+      )}
+    </Link>
+  );
+}
+
 export function ServiceLayerConstellation() {
   const [activeModule, setActiveModule] = useState<KubeModule | null>(null);
-  const [activeCornerPos, setActiveCornerPos] = useState<{ x: number; y: number } | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
 
+  // 5 layers × 4 modules each = 20 modules
+  // Each layer has: top side, right side, bottom side, left side
   const layers = [
     MODULES.slice(0, 4),
     MODULES.slice(4, 8),
@@ -51,17 +159,18 @@ export function ServiceLayerConstellation() {
     MODULES.slice(16, 20),
   ];
 
-  const handleCornerHover = (mod: KubeModule | null, e?: React.MouseEvent) => {
-    if (mod && e) {
-      const rect = (e.currentTarget as HTMLElement).closest('.constellation-container')?.getBoundingClientRect();
-      if (rect) {
-        setActiveCornerPos({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
+  const handleHover = (mod: KubeModule, e: React.MouseEvent) => {
+    const container = (e.currentTarget as HTMLElement).closest(".constellation-container");
+    if (container) {
+      const rect = container.getBoundingClientRect();
+      setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     }
     setActiveModule(mod);
+  };
+
+  const handleLeave = () => {
+    setActiveModule(null);
+    setTooltipPos(null);
   };
 
   return (
@@ -81,7 +190,7 @@ export function ServiceLayerConstellation() {
             18 Detection &amp; Response <span className="text-brand-orange">Kubes</span>
           </h2>
           <p className="text-sm max-w-xl mx-auto text-muted-foreground">
-            Each kube delivers a specific capability. Hover to explore.
+            Each kube delivers a specific capability. Hover a side to explore.
           </p>
         </motion.div>
 
@@ -108,22 +217,16 @@ export function ServiceLayerConstellation() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="relative mx-auto constellation-container"
-          style={{ width: "100%", maxWidth: 640, aspectRatio: "1 / 1" }}
+          style={{ width: "100%", maxWidth: 600, aspectRatio: "1 / 1" }}
         >
           {layers.map((layerModules, li) => {
             const size = LAYER_SIZES[li];
             const offset = (100 - size) / 2;
-            const corners: { pos: string; style: React.CSSProperties }[] = [
-              { pos: "tl", style: { top: -5, left: -5 } },
-              { pos: "tr", style: { top: -5, right: -5 } },
-              { pos: "bl", style: { bottom: -5, left: -5 } },
-              { pos: "br", style: { bottom: -5, right: -5 } },
-            ];
 
             return (
               <div
                 key={li}
-                className="absolute border border-border transition-all duration-300"
+                className="absolute border border-border/40"
                 style={{
                   width: `${size}%`,
                   height: `${size}%`,
@@ -131,50 +234,23 @@ export function ServiceLayerConstellation() {
                   left: `${offset}%`,
                 }}
               >
-                {/* Clickable sides */}
-                {(["top", "right", "bottom", "left"] as const).map((side) => {
-                  const sideStyles: Record<string, string> = {
-                    top: "top-0 left-3 right-3 h-[3px] cursor-pointer",
-                    bottom: "bottom-0 left-3 right-3 h-[3px] cursor-pointer",
-                    left: "left-0 top-3 bottom-3 w-[3px] cursor-pointer",
-                    right: "right-0 top-3 bottom-3 w-[3px] cursor-pointer",
-                  };
-                  return (
-                    <div
-                      key={side}
-                      className={`absolute ${sideStyles[side]} bg-transparent hover:bg-brand-orange/60 transition-colors duration-200`}
-                      title={`Layer ${li + 1}`}
-                    />
-                  );
-                })}
+                {/* Corner seam separating lines at all 4 corners */}
+                <CornerSeam position="tl" layerIndex={li} />
+                <CornerSeam position="tr" layerIndex={li} />
+                <CornerSeam position="bl" layerIndex={li} />
+                <CornerSeam position="br" layerIndex={li} />
 
-                {/* Corner nodes */}
-                {corners.map((c, ci) => {
-                  const mod = layerModules[ci];
-                  const isActive = activeModule?.id === mod.id;
-                  const pillarColor =
-                    mod.pillar === "infra" ? "bg-foreground" :
-                    mod.pillar === "detection" ? "bg-brand-orange" :
-                    "bg-muted-foreground";
-
-                  return (
-                    <div
-                      key={mod.id}
-                      className="absolute z-10 group"
-                      style={c.style}
-                      onMouseEnter={(e) => handleCornerHover(mod, e)}
-                      onMouseLeave={() => handleCornerHover(null)}
-                    >
-                      <Link to={mod.href} className="block">
-                        <div
-                          className={`w-[10px] h-[10px] rounded-full transition-all duration-200 ${pillarColor} ${
-                            isActive ? "scale-[1.8] ring-2 ring-brand-orange/40" : "opacity-70 hover:opacity-100"
-                          }`}
-                        />
-                      </Link>
-                    </div>
-                  );
-                })}
+                {/* 4 clickable sides — each is a module */}
+                {(["top", "right", "bottom", "left"] as const).map((side, si) => (
+                  <SideButton
+                    key={side}
+                    side={side}
+                    module={layerModules[si]}
+                    onHover={handleHover}
+                    onLeave={handleLeave}
+                    isActive={activeModule?.id === layerModules[si].id}
+                  />
+                ))}
               </div>
             );
           })}
@@ -193,15 +269,15 @@ export function ServiceLayerConstellation() {
 
           {/* Floating tooltip */}
           <AnimatePresence>
-            {activeModule && activeCornerPos && (
+            {activeModule && tooltipPos && (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
-                className="absolute z-50 w-64 p-4 rounded-lg border border-border bg-card shadow-xl pointer-events-auto"
+                className="absolute z-50 w-64 p-4 rounded-lg border border-border bg-card shadow-xl pointer-events-none"
                 style={{
-                  left: Math.min(activeCornerPos.x + 16, 640 - 270),
-                  top: Math.min(activeCornerPos.y - 20, 640 - 200),
+                  left: Math.min(Math.max(tooltipPos.x + 16, 0), 600 - 270),
+                  top: Math.min(Math.max(tooltipPos.y - 20, 0), 600 - 200),
                 }}
               >
                 <span className="text-[9px] font-mono font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded bg-brand-orange/10 text-brand-orange">
@@ -215,13 +291,13 @@ export function ServiceLayerConstellation() {
                 <div className="flex gap-2 mt-3">
                   <Link
                     to={activeModule.href}
-                    className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded bg-brand-orange text-white"
+                    className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded bg-brand-orange text-white pointer-events-auto"
                   >
                     Explore Kube <ArrowRight size={10} />
                   </Link>
                   <Link
                     to="/service-layer"
-                    className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded border border-border text-muted-foreground"
+                    className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded border border-border text-muted-foreground pointer-events-auto"
                   >
                     All Kubes
                   </Link>
