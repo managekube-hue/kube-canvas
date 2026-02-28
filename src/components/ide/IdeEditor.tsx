@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { FileCode, GitBranch, Loader2, Save, X, ChevronRight, Eye, Columns2 } from "lucide-react";
+import { useState } from "react";
+import { GitBranch, Loader2, Save, X, ChevronRight, Eye, Columns2 } from "lucide-react";
 import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
