@@ -471,6 +471,6 @@ export default function UidrIde() {
         onSetViewMode={setViewMode}
         dirtyCount={dirtyCount}
       />
-    </UidrLayout>
+    </IdeShell>
   );
 }
