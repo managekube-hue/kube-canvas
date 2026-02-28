@@ -437,8 +437,8 @@ export default function UidrIde() {
   };
 
   return (
-    <UidrLayout>
-      <div className="flex" style={{ height: "calc(100vh - 3.5rem)", overflow: "hidden" }}>
+    <IdeShell>
+      <div className="flex h-full overflow-hidden">
         <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} dirtyCount={dirtyCount} />
         <div className={`${viewMode === "kanban" ? "w-full" : "w-[280px]"} flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden`}>
           <div className="px-3 py-2 border-b border-white/5">
