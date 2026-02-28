@@ -59,7 +59,7 @@ const PILLAR_COLORS: Record<string, string> = {
 
 /* Corner marks removed — user only wants borders + side text */
 
-/* ── Side button with TEXT label centered on the side ── */
+/* ── Side label: HORIZONTAL text on all four sides ── */
 function SideLabel({
   side,
   module,
@@ -75,33 +75,29 @@ function SideLabel({
 }) {
   if (!module) return null;
 
-  // Each side is a wide clickable strip along the edge
-  const hitboxStyles: Record<string, React.CSSProperties> = {
-    top:    { position: "absolute", top: -14, left: 12, right: 12, height: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
-    bottom: { position: "absolute", bottom: -14, left: 12, right: 12, height: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
-    left:   { position: "absolute", left: -14, top: 12, bottom: 12, width: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
-    right:  { position: "absolute", right: -14, top: 12, bottom: 12, width: 28, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+  // Position: centered on each edge, text always horizontal
+  const posStyles: Record<string, React.CSSProperties> = {
+    top:    { position: "absolute", top: -10, left: "50%", transform: "translateX(-50%)" },
+    bottom: { position: "absolute", bottom: -10, left: "50%", transform: "translateX(-50%)" },
+    left:   { position: "absolute", left: -4, top: "50%", transform: "translate(-100%, -50%)" },
+    right:  { position: "absolute", right: -4, top: "50%", transform: "translate(100%, -50%)" },
   };
-
-  // Writing mode for vertical sides
-  const isVertical = side === "left" || side === "right";
 
   return (
     <Link
       to={module.href}
-      className="absolute z-30"
-      style={hitboxStyles[side]}
+      className="z-30 whitespace-nowrap"
+      style={{ ...posStyles[side], cursor: "pointer" }}
       onMouseEnter={(e) => onHover(module, e)}
       onMouseLeave={onLeave}
     >
-      {/* The text label — always visible */}
       <span
-        className={`font-mono font-black tracking-[0.15em] uppercase transition-all duration-200 select-none ${
+        className={`font-mono font-black tracking-[0.15em] uppercase transition-all duration-200 select-none px-1 ${
           isActive
-            ? "text-brand-orange text-[11px]"
-            : "text-muted-foreground/70 text-[9px] hover:text-muted-foreground"
+            ? "text-brand-orange text-xs"
+            : "text-foreground/60 text-[11px] hover:text-foreground"
         }`}
-        style={isVertical ? { writingMode: "vertical-lr", textOrientation: "mixed" } : undefined}
+        style={{ backgroundColor: "hsl(var(--background))" }}
       >
         {module.label}
       </span>
