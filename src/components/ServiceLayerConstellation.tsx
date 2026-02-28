@@ -57,38 +57,7 @@ const PILLAR_COLORS: Record<string, string> = {
   intel: "bg-muted-foreground",
 };
 
-/* ── Corner seam line ── */
-function CornerMark({ corner }: { corner: "tl" | "tr" | "bl" | "br" }) {
-  const len = 10;
-  const w = 2;
-  const marks: Record<string, React.ReactNode> = {
-    tl: (
-      <div className="absolute top-0 left-0 z-20">
-        <div className="absolute top-0 left-0 bg-brand-orange" style={{ width: len, height: w }} />
-        <div className="absolute top-0 left-0 bg-brand-orange" style={{ width: w, height: len }} />
-      </div>
-    ),
-    tr: (
-      <div className="absolute top-0 right-0 z-20">
-        <div className="absolute top-0 right-0 bg-brand-orange" style={{ width: len, height: w }} />
-        <div className="absolute top-0 right-0 bg-brand-orange" style={{ width: w, height: len }} />
-      </div>
-    ),
-    bl: (
-      <div className="absolute bottom-0 left-0 z-20">
-        <div className="absolute bottom-0 left-0 bg-brand-orange" style={{ width: len, height: w }} />
-        <div className="absolute bottom-0 left-0 bg-brand-orange" style={{ width: w, height: len }} />
-      </div>
-    ),
-    br: (
-      <div className="absolute bottom-0 right-0 z-20">
-        <div className="absolute bottom-0 right-0 bg-brand-orange" style={{ width: len, height: w }} />
-        <div className="absolute bottom-0 right-0 bg-brand-orange" style={{ width: w, height: len }} />
-      </div>
-    ),
-  };
-  return <>{marks[corner]}</>;
-}
+/* Corner marks removed — user only wants borders + side text */
 
 /* ── Side button with TEXT label centered on the side ── */
 function SideLabel({
