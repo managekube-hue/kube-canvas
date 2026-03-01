@@ -28,6 +28,7 @@ import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface OpenTab { path: string; content: string; dirty: boolean; language: string; loading: boolean; }
 
