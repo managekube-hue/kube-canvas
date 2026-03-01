@@ -193,10 +193,12 @@ export default function Reach() {
       // Step 1: Get branch ref
       setCommitStep(1);
       const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+      const commitSha = refData.object.sha;
 
-      // Step 2: Get base tree SHA (from the commit the ref points to)
+      // Step 2: Get tree SHA from the commit object
       setCommitStep(2);
-      const baseSha = refData.object.sha;
+      const commitDetail = await gh.getCommitDetail(owner, repo, commitSha);
+      const baseTreeSha = (commitDetail as any).commit?.tree?.sha || commitSha;
 
       // Step 3: Create blob(s)
       setCommitStep(3);
@@ -209,7 +211,7 @@ export default function Reach() {
 
       // Step 4: Create new tree
       setCommitStep(4);
-      const newTree = await gh.createTree(owner, repo, baseSha, blobs);
+      const newTree = await gh.createTree(owner, repo, baseTreeSha, blobs);
 
       // Step 5: Create commit
       setCommitStep(5);
