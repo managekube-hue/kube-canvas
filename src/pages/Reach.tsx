@@ -593,7 +593,7 @@ export default function Reach() {
           }}
           onCreateDoc={createNewFile} />;
       case "meetings":
-        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
+        return workspace.activeWorkspace ? <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead}
           onNavigate={(type) => {
