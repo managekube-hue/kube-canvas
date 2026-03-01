@@ -350,8 +350,8 @@ export default function UidrIde() {
 
   // ── Load data per view mode ────────────────
   useEffect(() => {
+    if (viewMode === "issues" || viewMode === "kanban") { reachIssues.loadIssues(); }
     if (!hasWorkspace) return;
-    if (viewMode === "issues" || viewMode === "kanban") { loadIssues(); loadLabelsAndAssignees(); }
     if (viewMode === "commits") loadCommits();
     if (viewMode === "pulls") loadPulls();
     if (viewMode === "milestones") loadMilestones();
