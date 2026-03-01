@@ -538,6 +538,18 @@ export default function Reach() {
         </div>
       )}
 
+      {/* Commit Modal */}
+      <IdeCommitModal
+        open={showCommitModal}
+        onClose={() => { setShowCommitModal(false); setCommitError(null); }}
+        onCommit={(message) => commitWithProgress(commitTargetPaths, message)}
+        branch={branch}
+        stagedFiles={commitTargetPaths}
+        commitStep={commitStep}
+        commitError={commitError}
+        committing={commitCommitting}
+      />
+
       {/* Command Palette */}
       <IdeCommandPalette
         open={commandPaletteOpen}
@@ -545,7 +557,6 @@ export default function Reach() {
         tree={tree}
         onSelectFile={(path) => { openFile(path); setActiveView("files"); setCommandPaletteOpen(false); }}
         onSetViewMode={(mode) => {
-          // Map old ViewMode to ReachView
           const mapping: Record<string, ReachView> = {
             explorer: "files", search: "files", issues: "issues", kanban: "issues",
             chat: "chat", commits: "files", pulls: "prs", milestones: "issues",
