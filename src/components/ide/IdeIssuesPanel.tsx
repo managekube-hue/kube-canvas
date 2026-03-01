@@ -10,11 +10,16 @@ interface Props {
   onSelectIssue?: (issue: GitIssue) => void;
 }
 
+type IssueFilter = "open" | "closed" | "all";
+
 export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }: Props) {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [filter, setFilter] = useState<IssueFilter>("open");
+
+  const filteredIssues = filter === "all" ? issues : issues.filter(i => i.state === filter);
 
   const handleCreate = async () => {
     if (!title.trim()) return;
@@ -33,6 +38,19 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
         <button onClick={() => setShowCreate(!showCreate)} className="text-white/30 hover:text-white/60">
           <Plus size={14} />
         </button>
+      </div>
+
+      {/* Filter tabs */}
+      <div className="px-3 py-1.5 border-b border-white/5 flex gap-1">
+        {(["open", "closed", "all"] as IssueFilter[]).map(f => (
+          <button key={f} onClick={() => setFilter(f)}
+            className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors ${
+              filter === f ? "bg-blue-600/20 text-blue-400" : "text-white/30 hover:text-white/50"
+            }`}>
+            {f.charAt(0).toUpperCase() + f.slice(1)}
+          </button>
+        ))}
+        <span className="text-[9px] text-white/20 ml-auto">{filteredIssues.length}</span>
       </div>
 
       {showCreate && (
