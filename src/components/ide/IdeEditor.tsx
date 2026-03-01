@@ -166,6 +166,7 @@ export function IdeEditor({
                     </div>
                   }
                   onMount={(editor) => {
+                    monacoMounted.current = true;
                     editor.focus();
                   }}
                   options={{
