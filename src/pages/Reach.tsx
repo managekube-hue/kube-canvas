@@ -65,6 +65,11 @@ export default function Reach() {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [showRepoModal, setShowRepoModal] = useState(false);
+  const [showCommitModal, setShowCommitModal] = useState(false);
+  const [commitStep, setCommitStep] = useState<CommitStep | null>(null);
+  const [commitError, setCommitError] = useState<string | null>(null);
+  const [commitCommitting, setCommitCommitting] = useState(false);
+  const [commitTargetPaths, setCommitTargetPaths] = useState<string[]>([]);
 
   // ── Issues ─────────────────────────────────
   const [issues, setIssues] = useState<GitIssue[]>([]);
