@@ -6,7 +6,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
-import { useGitHub, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
+import { useReachIssues, type ReachIssue } from "@/hooks/useReachIssues";
+import { useGitHub, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { IdeCommitModal, type CommitStep } from "@/components/ide/IdeCommitModal";
@@ -73,12 +74,9 @@ export default function Reach() {
   const [showStaging, setShowStaging] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // ── Issues ─────────────────────────────────
-  const [issues, setIssues] = useState<GitIssue[]>([]);
-  const [issuesLoading, setIssuesLoading] = useState(false);
-  const [selectedIssue, setSelectedIssue] = useState<GitIssue | null>(null);
-  const [availableLabels, setAvailableLabels] = useState<GitLabel[]>([]);
-  const [availableAssignees, setAvailableAssignees] = useState<Array<{ login: string; avatar_url: string }>>([]);
+  // ── Issues (local-first, Supabase) ─────────
+  const reachIssues = useReachIssues(workspace.activeWorkspace?.id || null);
+  const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
   const [issueSubView, setIssueSubView] = useState<"list" | "kanban">("list");
 
   // ── PRs ────────────────────────────────────
@@ -300,38 +298,8 @@ export default function Reach() {
     return data.encoding === "base64" ? atob(data.content) : data.content;
   };
 
-  // ── Issues ─────────────────────────────────
-  const loadIssues = async () => {
-    if (!owner || !repo) return;
-    setIssuesLoading(true);
-    try {
-      console.log("[Reach] Fetching issues for:", { owner, repo });
-      const data = await gh.listIssues(owner, repo, "all");
-      console.log("[Reach] Issues returned:", data.length, "items. Shape:", data[0] ? Object.keys(data[0]) : "empty");
-      setIssues(data);
-    } catch (err) { console.error("[Reach] Issues fetch failed:", err); }
-    finally { setIssuesLoading(false); }
-  };
-
-  const loadLabelsAndAssignees = async () => {
-    if (!owner || !repo) return;
-    try {
-      const [labels, assignees] = await Promise.all([gh.getLabels(owner, repo), gh.getAssignees(owner, repo)]);
-      setAvailableLabels(labels); setAvailableAssignees(assignees);
-    } catch { /* non-critical */ }
-  };
-
-  const createIssue = async (title: string, body: string, labels?: string[], assignees?: string[], milestone?: number) => {
-    if (!hasWorkspace) return;
-    await gh.createIssue(owner, repo, title, body, labels, assignees, milestone);
-    loadIssues();
-  };
-  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[]; milestone?: number | null }) => {
-    if (!hasWorkspace) return;
-    const updated = await gh.updateIssue(owner, repo, num, updates);
-    setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
-    if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
-  };
+  // ── Issues (powered by useReachIssues — no GitHub dependency) ──
+  // loadIssues, createIssue, updateIssue all come from reachIssues hook
 
   // ── PRs ────────────────────────────────────
   const loadPulls = async () => {
@@ -403,15 +371,18 @@ export default function Reach() {
 
   // ── Load data per view ─────────────────────
   useEffect(() => {
+    // Issues load from Supabase (no GitHub needed)
+    if (activeView === "home" || activeView === "issues") {
+      reachIssues.loadIssues();
+    }
     if (!hasWorkspace) return;
-    if (activeView === "home") { loadIssues(); loadCommits(); loadPulls(); }
-    if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
-    if (activeView === "activity") { loadIssues(); loadCommits(); loadPulls(); }
+    if (activeView === "home") { loadCommits(); loadPulls(); }
+    if (activeView === "activity") { loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
     if (activeView === "milestones") loadAllMilestones();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
-  }, [activeView, owner, repo, branch, hasWorkspace]);
+  }, [activeView, owner, repo, branch, hasWorkspace, workspace.activeWorkspace?.id]);
 
   // ── Workspace creation ─────────────────────
   const handleCreateWorkspace = async (name: string, ghOwner: string, ghRepo: string) => {
@@ -440,7 +411,7 @@ export default function Reach() {
           displayName={displayName}
           hasWorkspace={hasWorkspace}
           onConnectRepo={() => setShowRepoModal(true)}
-          issues={issues}
+          issues={reachIssues.issues}
           commits={commits}
           pulls={pulls}
           unreadMessages={unreadCount}
@@ -498,7 +469,7 @@ export default function Reach() {
     }
 
     // Git-dependent views need a workspace; Supabase-only views don't
-    const gitViews: ReachView[] = ["files", "issues", "prs", "search", "milestones", "activity"];
+    const gitViews: ReachView[] = ["files", "prs", "search", "milestones", "activity"];
     if (!hasWorkspace && gitViews.includes(activeView)) return <ConnectPrompt />;
 
     switch (activeView) {
@@ -506,11 +477,10 @@ export default function Reach() {
         if (selectedIssue) {
           return (
             <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-              onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-              onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-              onUpdateIssue={updateIssue}
-              availableLabels={availableLabels} availableAssignees={availableAssignees}
-              milestones={milestones} />
+              onUpdateIssue={async (id, updates) => {
+                const updated = await reachIssues.updateIssue(id, updates);
+                setSelectedIssue(updated);
+              }} />
           );
         }
         return (
@@ -532,16 +502,16 @@ export default function Reach() {
             </div>
             {issueSubView === "kanban" ? (
               <IdeKanbanBoard
-                issues={issues} loading={issuesLoading}
+                issues={reachIssues.issues} loading={reachIssues.loading}
                 onSelectIssue={setSelectedIssue}
-                onUpdateIssue={updateIssue}
-                onCreateIssue={createIssue}
+                onUpdateIssue={async (id, updates) => { await reachIssues.updateIssue(id, updates); }}
+                onCreateIssue={async (title, body, status) => { await reachIssues.createIssue(title, body, status); }}
               />
             ) : (
-              <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
-                onSelectIssue={setSelectedIssue}
-                availableLabels={availableLabels} availableAssignees={availableAssignees}
-                milestones={milestones} />
+              <IdeIssuesPanel issues={reachIssues.issues}
+                onCreateIssue={async (title, body, status, priority) => { await reachIssues.createIssue(title, body, status, priority); }}
+                loading={reachIssues.loading}
+                onSelectIssue={setSelectedIssue} />
             )}
           </div>
         );

@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Loader2, Plus } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useGitHub, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
+import { useGitHub, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
+import { useReachIssues, type ReachIssue } from "@/hooks/useReachIssues";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
@@ -116,12 +117,9 @@ export default function UidrIde() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [showWorkspaceSetup, setShowWorkspaceSetup] = useState(false);
 
-  // Issues
-  const [issues, setIssues] = useState<GitIssue[]>([]);
-  const [issuesLoading, setIssuesLoading] = useState(false);
-  const [selectedIssue, setSelectedIssue] = useState<GitIssue | null>(null);
-  const [availableLabels, setAvailableLabels] = useState<GitLabel[]>([]);
-  const [availableAssignees, setAvailableAssignees] = useState<Array<{ login: string; avatar_url: string }>>([]);
+  // Issues (local-first)
+  const reachIssues = useReachIssues(workspace.activeWorkspace?.id || null);
+  const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
 
   // PRs
   const [pulls, setPulls] = useState<GitPullRequest[]>([]);
@@ -293,30 +291,7 @@ export default function UidrIde() {
     return data.encoding === "base64" ? atob(data.content) : data.content;
   };
 
-  // ── Issues ─────────────────────────────────
-  const loadIssues = async () => {
-    if (!owner || !repo) return;
-    setIssuesLoading(true);
-    try { setIssues(await gh.listIssues(owner, repo, "all")); } catch (err) { console.error(err); }
-    finally { setIssuesLoading(false); }
-  };
-
-  const loadLabelsAndAssignees = async () => {
-    if (!owner || !repo) return;
-    try {
-      const [labels, assignees] = await Promise.all([gh.getLabels(owner, repo), gh.getAssignees(owner, repo)]);
-      setAvailableLabels(labels);
-      setAvailableAssignees(assignees);
-    } catch { /* non-critical */ }
-  };
-
-  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(owner, repo, title, body); loadIssues(); };
-  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
-    if (!hasWorkspace) return;
-    const updated = await gh.updateIssue(owner, repo, num, updates);
-    setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
-    if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
-  };
+  // ── Issues (local-first via useReachIssues) ──
 
   // ── PRs ────────────────────────────────────
   const loadPulls = async () => {
@@ -375,8 +350,8 @@ export default function UidrIde() {
 
   // ── Load data per view mode ────────────────
   useEffect(() => {
+    if (viewMode === "issues" || viewMode === "kanban") { reachIssues.loadIssues(); }
     if (!hasWorkspace) return;
-    if (viewMode === "issues" || viewMode === "kanban") { loadIssues(); loadLabelsAndAssignees(); }
     if (viewMode === "commits") loadCommits();
     if (viewMode === "pulls") loadPulls();
     if (viewMode === "milestones") loadMilestones();
@@ -492,24 +467,20 @@ export default function UidrIde() {
       case "issues":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-            onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+            onUpdateIssue={async (id, updates) => { const u = await reachIssues.updateIssue(id, updates); setSelectedIssue(u); }} />
         ) : (
-          <IdeIssuesPanel issues={issues.filter(i => i.state === "open")} onCreateIssue={createIssue} loading={issuesLoading}
+          <IdeIssuesPanel issues={reachIssues.issues} onCreateIssue={async (t, b, s, p) => { await reachIssues.createIssue(t, b, s, p); }} loading={reachIssues.loading}
             onSelectIssue={setSelectedIssue} />
         );
       case "kanban":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-            onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+            onUpdateIssue={async (id, updates) => { const u = await reachIssues.updateIssue(id, updates); setSelectedIssue(u); }} />
         ) : (
-          <IdeKanbanBoard issues={issues} loading={issuesLoading}
-            onSelectIssue={setSelectedIssue} onUpdateIssue={updateIssue} onCreateIssue={createIssue} />
+          <IdeKanbanBoard issues={reachIssues.issues} loading={reachIssues.loading}
+            onSelectIssue={setSelectedIssue}
+            onUpdateIssue={async (id, updates) => { await reachIssues.updateIssue(id, updates); }}
+            onCreateIssue={async (t, b, s) => { await reachIssues.createIssue(t, b, s); }} />
         );
       case "staging":
         return <IdeStagingPanel

@@ -1,90 +1,67 @@
 import { useState } from "react";
 import { Loader2, Plus, LayoutDashboard, GripVertical } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import type { GitIssue } from "@/hooks/useGitHub";
+import type { ReachIssue, IssueColumn } from "@/hooks/useReachIssues";
 
 interface Props {
-  issues: GitIssue[];
+  issues: ReachIssue[];
   loading: boolean;
-  onSelectIssue: (issue: GitIssue) => void;
-  onUpdateIssue: (num: number, updates: { state?: string; labels?: string[] }) => Promise<void>;
-  onCreateIssue: (title: string, body: string) => Promise<void>;
+  onSelectIssue: (issue: ReachIssue) => void;
+  onUpdateIssue: (id: string, updates: { status?: string }) => Promise<void>;
+  onCreateIssue: (title: string, body: string, status?: string) => Promise<void>;
 }
 
-type Column = "backlog" | "todo" | "in_progress" | "review" | "done";
-
-const columns: { id: Column; label: string; color: string; matchLabels: string[]; matchState?: string }[] = [
-  { id: "backlog", label: "Backlog", color: "bg-white/10", matchLabels: ["backlog"] },
-  { id: "todo", label: "To Do", color: "bg-blue-500/20", matchLabels: ["todo", "to do", "to-do"] },
-  { id: "in_progress", label: "In Progress", color: "bg-yellow-500/20", matchLabels: ["in progress", "in-progress", "wip"] },
-  { id: "review", label: "Review", color: "bg-purple-500/20", matchLabels: ["review", "needs review", "pr"] },
-  { id: "done", label: "Done", color: "bg-green-500/20", matchLabels: [], matchState: "closed" },
+const columns: { id: IssueColumn; label: string; color: string }[] = [
+  { id: "backlog", label: "Backlog", color: "bg-white/10" },
+  { id: "todo", label: "To Do", color: "bg-blue-500/20" },
+  { id: "in_progress", label: "In Progress", color: "bg-yellow-500/20" },
+  { id: "review", label: "Review", color: "bg-purple-500/20" },
+  { id: "done", label: "Done", color: "bg-green-500/20" },
 ];
 
-function categorizeIssue(issue: GitIssue): Column {
-  if (issue.state === "closed") return "done";
-  const labelNames = issue.labels.map(l => l.name.toLowerCase());
-  for (const col of columns) {
-    if (col.matchLabels.some(ml => labelNames.includes(ml))) return col.id;
-  }
-  // Default open issues → in_progress if assigned, else todo
-  if (issue.assignees.length > 0) return "in_progress";
-  return "todo";
-}
+const priorityColors: Record<string, string> = {
+  urgent: "text-red-400",
+  high: "text-orange-400",
+  medium: "text-yellow-400",
+  low: "text-white/30",
+};
 
 export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, onCreateIssue }: Props) {
-  const [quickAdd, setQuickAdd] = useState<Column | null>(null);
+  const [quickAdd, setQuickAdd] = useState<IssueColumn | null>(null);
   const [quickTitle, setQuickTitle] = useState("");
-  const [draggedIssue, setDraggedIssue] = useState<GitIssue | null>(null);
-  const [dragOverCol, setDragOverCol] = useState<Column | null>(null);
-  const [updatingIssues, setUpdatingIssues] = useState<Set<number>>(new Set());
+  const [draggedIssue, setDraggedIssue] = useState<ReachIssue | null>(null);
+  const [dragOverCol, setDragOverCol] = useState<IssueColumn | null>(null);
+  const [updatingIssues, setUpdatingIssues] = useState<Set<string>>(new Set());
 
-  // Filter out PRs
-  const pureIssues = issues.filter(i => !(i as any).pull_request);
-
-  const buckets: Record<Column, GitIssue[]> = { backlog: [], todo: [], in_progress: [], review: [], done: [] };
-  for (const issue of pureIssues) {
-    const col = categorizeIssue(issue);
-    buckets[col].push(issue);
+  // Bucket issues by status
+  const buckets: Record<IssueColumn, ReachIssue[]> = { backlog: [], todo: [], in_progress: [], review: [], done: [] };
+  for (const issue of issues) {
+    const col = (issue.status === "closed" ? "done" : issue.status) as IssueColumn;
+    if (buckets[col]) buckets[col].push(issue);
+    else buckets.backlog.push(issue); // fallback
   }
 
-  const handleDrop = async (targetCol: Column) => {
+  const handleDrop = async (targetCol: IssueColumn) => {
     if (!draggedIssue) return;
     setDragOverCol(null);
-    const currentCol = categorizeIssue(draggedIssue);
+    const currentCol = draggedIssue.status === "closed" ? "done" : draggedIssue.status;
     if (currentCol === targetCol) { setDraggedIssue(null); return; }
 
-    const issueNum = draggedIssue.number;
-    setUpdatingIssues(prev => new Set(prev).add(issueNum));
-
+    setUpdatingIssues(prev => new Set(prev).add(draggedIssue.id));
     try {
-      if (targetCol === "done") {
-        await onUpdateIssue(issueNum, { state: "closed" });
-        toast.success(`Issue #${issueNum} closed`);
-      } else {
-        const currentLabels = draggedIssue.labels.map(l => l.name);
-        const allColumnLabels = columns.flatMap(c => c.matchLabels);
-        const cleanedLabels = currentLabels.filter(l => !allColumnLabels.includes(l.toLowerCase()));
-        const targetLabel = columns.find(c => c.id === targetCol)?.matchLabels[0];
-        if (targetLabel) cleanedLabels.push(targetLabel);
-        const updates: { state?: string; labels?: string[] } = { labels: cleanedLabels };
-        if (draggedIssue.state === "closed") updates.state = "open";
-        await onUpdateIssue(issueNum, updates);
-        toast.success(`Issue #${issueNum} → ${columns.find(c => c.id === targetCol)?.label}`);
-      }
-    } catch (err) {
-      toast.error(`Failed to move issue #${issueNum}`);
-      // State reverts automatically since we re-render from parent issues array
+      await onUpdateIssue(draggedIssue.id, { status: targetCol });
+      toast.success(`Issue #${draggedIssue.number} → ${columns.find(c => c.id === targetCol)?.label}`);
+    } catch {
+      toast.error(`Failed to move issue #${draggedIssue.number}`);
     } finally {
-      setUpdatingIssues(prev => { const n = new Set(prev); n.delete(issueNum); return n; });
+      setUpdatingIssues(prev => { const n = new Set(prev); n.delete(draggedIssue.id); return n; });
       setDraggedIssue(null);
     }
   };
 
-  const handleQuickCreate = async (col: Column) => {
+  const handleQuickCreate = async (col: IssueColumn) => {
     if (!quickTitle.trim()) return;
-    await onCreateIssue(quickTitle.trim(), "");
+    await onCreateIssue(quickTitle.trim(), "", col);
     setQuickTitle(""); setQuickAdd(null);
   };
 
@@ -101,7 +78,7 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
       <div className="px-3 py-2 border-b border-white/5 flex items-center gap-2">
         <LayoutDashboard size={12} className="text-blue-400" />
         <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Issue Board</span>
-        <span className="text-[9px] text-white/20 ml-auto">{pureIssues.length} issues</span>
+        <span className="text-[9px] text-white/20 ml-auto">{issues.length} issues</span>
       </div>
 
       <div className="flex-1 flex gap-2 p-2 overflow-x-auto" style={{ scrollbarWidth: "thin" }}>
@@ -135,14 +112,14 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
 
             <div className="flex-1 overflow-y-auto px-1.5 pb-1.5 space-y-1" style={{ scrollbarWidth: "thin" }}>
               {buckets[col.id].map(issue => {
-                const isUpdating = updatingIssues.has(issue.number);
+                const isUpdating = updatingIssues.has(issue.id);
                 return (
-                  <div key={issue.number} draggable={!isUpdating}
+                  <div key={issue.id} draggable={!isUpdating}
                     onDragStart={() => setDraggedIssue(issue)}
                     onDragEnd={() => { setDraggedIssue(null); setDragOverCol(null); }}
                     onClick={() => !isUpdating && onSelectIssue(issue)}
                     className={`group bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-white/10 rounded-lg p-2 cursor-pointer transition-all relative ${
-                      draggedIssue?.number === issue.number ? "opacity-40" : ""
+                      draggedIssue?.id === issue.id ? "opacity-40" : ""
                     } ${isUpdating ? "pointer-events-none" : ""}`}
                   >
                     {isUpdating && (
@@ -156,16 +133,15 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
                         <p className="text-[11px] text-white/80 font-medium leading-tight line-clamp-2">{issue.title}</p>
                         <div className="flex items-center gap-1.5 mt-1.5">
                           <span className="text-[9px] text-white/25">#{issue.number}</span>
-                          {issue.assignees.slice(0, 2).map(a => (
-                            <img key={a.login} src={a.avatar_url} className="w-3.5 h-3.5 rounded-full" alt={a.login} title={a.login} />
-                          ))}
+                          <span className={`text-[8px] ${priorityColors[issue.priority] || "text-white/30"}`}>
+                            {issue.priority}
+                          </span>
                         </div>
                         {issue.labels.length > 0 && (
                           <div className="flex gap-1 mt-1.5 flex-wrap">
                             {issue.labels.slice(0, 2).map(l => (
-                              <span key={l.name} className="text-[8px] px-1 py-0.5 rounded"
-                                style={{ backgroundColor: `#${l.color}20`, color: `#${l.color}` }}>
-                                {l.name}
+                              <span key={l} className="text-[8px] px-1 py-0.5 rounded bg-blue-500/15 text-blue-300">
+                                {l}
                               </span>
                             ))}
                           </div>
