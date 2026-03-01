@@ -404,6 +404,7 @@ export default function Reach() {
   // ── Load data per view ─────────────────────
   useEffect(() => {
     if (!hasWorkspace) return;
+    if (activeView === "home") { loadIssues(); loadCommits(); loadPulls(); }
     if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
     if (activeView === "activity") { loadIssues(); loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
@@ -439,6 +440,11 @@ export default function Reach() {
           displayName={displayName}
           hasWorkspace={hasWorkspace}
           onConnectRepo={() => setShowRepoModal(true)}
+          issues={issues}
+          commits={commits}
+          pulls={pulls}
+          unreadMessages={unreadCount}
+          onNavigate={(view) => setActiveView(view as ReachView)}
         />
       );
     }
