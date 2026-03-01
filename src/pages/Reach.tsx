@@ -305,54 +305,7 @@ export default function Reach() {
   // ── Issues (powered by useReachIssues — no GitHub dependency) ──
   // loadIssues, createIssue, updateIssue all come from reachIssues hook
 
-  // ── PRs ────────────────────────────────────
-  const loadPulls = async () => {
-    if (!owner || !repo) return;
-    setPullsLoading(true);
-    try { setPulls(await gh.listPRs(owner, repo, "all")); } catch (err) { console.error(err); }
-    finally { setPullsLoading(false); }
-  };
-
-  const createPr = async (title: string, head: string, base: string, body: string) => {
-    if (!hasWorkspace) return;
-    await gh.createPR(owner, repo, title, head, base, body); loadPulls();
-  };
-
-  const mergePr = async (num: number, method: "merge" | "squash" | "rebase") => {
-    if (!hasWorkspace) return;
-    await gh.mergePR(owner, repo, num, undefined, method); loadPulls();
-  };
-
-  // ── Milestones ─────────────────────────────
-  const loadMilestones = async () => {
-    if (!owner || !repo) return;
-    setMilestonesLoading(true);
-    try { setMilestones(await gh.listMilestones(owner, repo, "open")); } catch (err) { console.error(err); }
-    finally { setMilestonesLoading(false); }
-  };
-
-  const loadAllMilestones = async () => {
-    if (!owner || !repo) return;
-    setMilestonesLoading(true);
-    try {
-      const [open, closed] = await Promise.all([
-        gh.listMilestones(owner, repo, "open"),
-        gh.listMilestones(owner, repo, "closed"),
-      ]);
-      setMilestones([...open, ...closed]);
-    } catch (err) { console.error(err); }
-    finally { setMilestonesLoading(false); }
-  };
-
-  const createMilestone = async (title: string, desc: string, dueOn?: string) => {
-    if (!hasWorkspace) return;
-    await gh.createMilestone(owner, repo, title, desc, dueOn); loadAllMilestones();
-  };
-
-  const updateMilestone = async (num: number, updates: { state?: string }) => {
-    if (!hasWorkspace) return;
-    await gh.updateMilestone(owner, repo, num, updates); loadAllMilestones();
-  };
+  // ── PRs, Milestones, Activity all come from Supabase hooks now ──
 
   // ── Commits ────────────────────────────────
   const loadCommits = async () => {
