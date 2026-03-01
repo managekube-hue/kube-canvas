@@ -384,6 +384,7 @@ export default function Reach() {
     if (!hasWorkspace) return;
     if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); }
     if (activeView === "prs") loadPulls();
+    if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
   }, [activeView, owner, repo, branch, hasWorkspace]);
 
