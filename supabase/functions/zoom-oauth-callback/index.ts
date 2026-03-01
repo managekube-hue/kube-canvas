@@ -171,10 +171,10 @@ serve(async (req) => {
         });
       }
 
-      // Redirect user back to ManageKube IDE
+      // Redirect user back to REACH dashboard
       return new Response(null, {
         status: 302,
-        headers: { Location: `${SITE_URL}/uidr/ide?zoom=connected` },
+        headers: { Location: `${SITE_URL}/reach?zoom=connected` },
       });
     }
 
