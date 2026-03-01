@@ -9,15 +9,17 @@ const corsHeaders = {
 
 const COMETCHAT_APP_ID = Deno.env.get("COMETCHAT_APP_ID")!;
 const COMETCHAT_AUTH_KEY = Deno.env.get("COMETCHAT_AUTH_KEY")!;
+const COMETCHAT_REST_API_KEY = Deno.env.get("COMETCHAT_REST_API_KEY")!;
 const COMETCHAT_REGION = Deno.env.get("COMETCHAT_REGION") || "us";
 
 const ccBase = `https://${COMETCHAT_APP_ID}.api-${COMETCHAT_REGION}.cometchat.io/v3`;
 
+// Use REST API Key for all server-side REST API calls
 async function ccFetch(path: string, method = "GET", body?: Record<string, unknown>) {
   const res = await fetch(`${ccBase}${path}`, {
     method,
     headers: {
-      apikey: COMETCHAT_AUTH_KEY,
+      apikey: COMETCHAT_REST_API_KEY,
       "Content-Type": "application/json",
       Accept: "application/json",
     },
