@@ -50,18 +50,7 @@ export function IdeEditor({
   const isMarkdown = activeTab?.match(/\.(md|mdx)$/i);
 
   const startCommit = (path: string) => {
-    setCommitTarget(path);
-    setCommitMsg(`Update ${path.split("/").pop()}`);
-    setShowCommitDialog(true);
-  };
-
-  const doCommit = () => {
-    if (commitTarget && commitMsg.trim()) {
-      onCommit(commitTarget, commitMsg.trim());
-      setShowCommitDialog(false);
-      setCommitMsg("");
-      setCommitTarget(null);
-    }
+    onCommit(path);
   };
 
   const fileUsers = activeTab
