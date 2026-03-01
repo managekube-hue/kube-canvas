@@ -429,7 +429,8 @@ export default function Reach() {
     }
 
     if (activeView === "files") {
-      if (!hasWorkspace) return <ConnectPrompt />;
+      if (!hasWorkspace) return <CreateWorkspacePrompt />;
+      if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Connect a repository in Settings to browse files</span></div></div>;
       const dirtyTabsForStaging = tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }));
       return (
         <div className="flex h-full overflow-hidden">
