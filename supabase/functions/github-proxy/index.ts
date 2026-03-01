@@ -1,3 +1,4 @@
+// github-proxy v2 — repo-scoped GitHub API relay
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
