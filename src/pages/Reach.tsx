@@ -573,13 +573,13 @@ export default function Reach() {
             branches={branches} currentBranch={branch} />
         );
       case "docs":
-        return <IdeDocsPanel tree={tree} onLoadFile={loadFileContent} onOpenInEditor={(path) => { openFile(path); setActiveView("files"); }}
+        return <IdeDocsPanel tree={hasGitHub ? tree : []} onLoadFile={hasGitHub ? loadFileContent : async (p) => `// ${p}`} onOpenInEditor={(path) => { openFile(path); setActiveView("files"); }}
           onSaveDoc={(path, content) => {
             const existing = tabs.find(t => t.path === path);
             if (existing) updateContent(path, content);
             else setTabs(prev => [...prev, { path, content, dirty: true, language: "markdown", loading: false }]);
           }}
-          onCreateDoc={createNewFile} />;
+          onCreateDoc={hasGitHub ? createNewFile : async (p) => { setTabs(prev => [...prev, { path: p, content: "", dirty: true, language: "markdown", loading: false }]); setActiveTab(p); }} />;
       case "meetings":
         return workspace.activeWorkspace ? <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
       case "notifications":
