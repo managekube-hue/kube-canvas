@@ -384,7 +384,7 @@ export default function Reach() {
   // ── Load data per view ─────────────────────
   useEffect(() => {
     if (!hasWorkspace) return;
-    if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); }
+    if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
     if (activeView === "prs") loadPulls();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
