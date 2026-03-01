@@ -1,9 +1,8 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 // Refresh a user's Zoom token if expired
@@ -18,7 +17,6 @@ async function getValidToken(supabaseAdmin: any, userId: string): Promise<{ acce
     throw new Error("ZOOM_NOT_CONNECTED");
   }
 
-  // Check if token is still valid (with 5min buffer)
   const expiresAt = new Date(token.expires_at).getTime();
   const now = Date.now() + 5 * 60 * 1000;
 
@@ -26,7 +24,6 @@ async function getValidToken(supabaseAdmin: any, userId: string): Promise<{ acce
     return { access_token: token.access_token, zoom_email: token.zoom_email };
   }
 
-  // Refresh the token
   const clientId = Deno.env.get("ZOOM_CLIENT_ID");
   const clientSecret = Deno.env.get("ZOOM_CLIENT_SECRET");
   if (!clientId || !clientSecret) {
@@ -48,7 +45,6 @@ async function getValidToken(supabaseAdmin: any, userId: string): Promise<{ acce
   if (!resp.ok) {
     const err = await resp.text();
     console.error("Zoom refresh failed:", err);
-    // Delete stale token so user can re-auth
     await supabaseAdmin.from("reach_zoom_tokens").delete().eq("user_id", userId);
     throw new Error("ZOOM_TOKEN_EXPIRED");
   }
@@ -65,7 +61,7 @@ async function getValidToken(supabaseAdmin: any, userId: string): Promise<{ acce
   return { access_token: data.access_token, zoom_email: token.zoom_email };
 }
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -100,7 +96,6 @@ serve(async (req) => {
 
     switch (action) {
       case "status": {
-        // Check if the current user has Zoom connected
         const { data: token } = await supabaseAdmin
           .from("reach_zoom_tokens")
           .select("zoom_email, expires_at")
@@ -145,7 +140,7 @@ serve(async (req) => {
         const meeting = await meetingResp.json();
 
         const { data: room, error: roomErr } = await supabase
-          .from("reach_rooms")
+          .from("reach_video_rooms")
           .insert({
             workspace_id,
             name: topic || "REACH Meeting",
@@ -170,7 +165,7 @@ serve(async (req) => {
         if (!room_id) throw new Error("room_id required");
 
         const { data: room } = await supabase
-          .from("reach_rooms")
+          .from("reach_video_rooms")
           .select("zoom_meeting_id")
           .eq("id", room_id)
           .single();
@@ -192,7 +187,7 @@ serve(async (req) => {
         }
 
         await supabase
-          .from("reach_rooms")
+          .from("reach_video_rooms")
           .update({ is_active: false, ended_at: new Date().toISOString() })
           .eq("id", room_id);
 
@@ -203,7 +198,7 @@ serve(async (req) => {
 
       case "list": {
         const { data: rooms } = await supabase
-          .from("reach_rooms")
+          .from("reach_video_rooms")
           .select("*")
           .eq("workspace_id", workspace_id)
           .order("created_at", { ascending: false })

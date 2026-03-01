@@ -3002,6 +3002,59 @@ export type Database = {
           },
         ]
       }
+      reach_video_rooms: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          id: string
+          is_active: boolean
+          name: string
+          started_at: string | null
+          started_by: string | null
+          updated_at: string
+          workspace_id: string
+          zoom_join_url: string | null
+          zoom_meeting_id: string | null
+          zoom_password: string | null
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          started_at?: string | null
+          started_by?: string | null
+          updated_at?: string
+          workspace_id: string
+          zoom_join_url?: string | null
+          zoom_meeting_id?: string | null
+          zoom_password?: string | null
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          started_at?: string | null
+          started_by?: string | null
+          updated_at?: string
+          workspace_id?: string
+          zoom_join_url?: string | null
+          zoom_meeting_id?: string | null
+          zoom_password?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_video_rooms_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reach_workspace_members: {
         Row: {
           avatar_url: string | null
@@ -3045,6 +3098,7 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           created_by: string | null
+          default_branch: string
           description: string | null
           github_owner: string | null
           github_repo: string | null
@@ -3057,6 +3111,7 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           created_by?: string | null
+          default_branch?: string
           description?: string | null
           github_owner?: string | null
           github_repo?: string | null
@@ -3069,6 +3124,7 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           created_by?: string | null
+          default_branch?: string
           description?: string | null
           github_owner?: string | null
           github_repo?: string | null

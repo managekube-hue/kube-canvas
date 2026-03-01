@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import ReactMarkdown from "react-markdown";
 
 interface Channel { id: string; name: string; }
-interface Message { id: string; body: string; user_id: string; created_at: string; thread_id?: string | null; }
+interface Message { id: string; body: string; user_id: string; created_at: string; parent_id?: string | null; }
 interface Props { workspaceId: string; }
 
 // Typing indicator hook using Supabase presence (free, no VPS)
