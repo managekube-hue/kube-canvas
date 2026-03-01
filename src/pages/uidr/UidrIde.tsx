@@ -152,6 +152,29 @@ export default function UidrIde() {
   const { onlineUsers } = useReachPresence(workspace.activeWorkspace?.id || null, activeTab);
   const { notifications, unreadCount, markRead, markAllRead } = useReachNotifications(workspace.activeWorkspace?.id || null);
 
+  // ── Auto-save to Supabase (debounced) ───────
+  const autoSaveToSupabase = useCallback((path: string, content: string) => {
+    if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
+    autoSaveTimerRef.current = setTimeout(async () => {
+      const file = fileEditor.getFileByPath(path);
+      if (file) {
+        await fileEditor.saveFile(file.id, content);
+        setTabs(prev => prev.map(t => t.path === path ? { ...t, dirty: false } : t));
+      }
+    }, 1500);
+  }, [fileEditor]);
+
+  // ── Load Supabase files when workspace changes ──
+  useEffect(() => {
+    if (workspace.activeWorkspace?.id) {
+      fileEditor.load().then(() => {
+        // Clear scratch tabs when loading workspace files
+        setTabs([]);
+        setActiveTab(null);
+      });
+    }
+  }, [workspace.activeWorkspace?.id]);
+
   // ── Keyboard shortcuts ─────────────────────
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
