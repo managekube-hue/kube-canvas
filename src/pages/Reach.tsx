@@ -74,12 +74,9 @@ export default function Reach() {
   const [showStaging, setShowStaging] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // ── Issues ─────────────────────────────────
-  const [issues, setIssues] = useState<GitIssue[]>([]);
-  const [issuesLoading, setIssuesLoading] = useState(false);
-  const [selectedIssue, setSelectedIssue] = useState<GitIssue | null>(null);
-  const [availableLabels, setAvailableLabels] = useState<GitLabel[]>([]);
-  const [availableAssignees, setAvailableAssignees] = useState<Array<{ login: string; avatar_url: string }>>([]);
+  // ── Issues (local-first, Supabase) ─────────
+  const reachIssues = useReachIssues(workspace.activeWorkspace?.id || null);
+  const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
   const [issueSubView, setIssueSubView] = useState<"list" | "kanban">("list");
 
   // ── PRs ────────────────────────────────────
