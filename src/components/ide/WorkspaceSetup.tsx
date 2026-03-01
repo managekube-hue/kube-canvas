@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Loader2, FolderGit2, Lock, Globe, Star, GitBranch } from "lucide-react";
+import { Loader2, FolderGit2, Lock, Globe, Star, GitBranch, Plus } from "lucide-react";
 import { useGitHub, type GitRepo } from "@/hooks/useGitHub";
 
 interface WorkspaceSetupProps {
@@ -14,10 +14,13 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
   const [error, setError] = useState<string | null>(null);
   const [importing, setImporting] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
+  const [mode, setMode] = useState<"blank" | "repo">("blank");
+  const [blankName, setBlankName] = useState("");
+  const [creatingBlank, setCreatingBlank] = useState(false);
 
   useEffect(() => {
-    loadRepos();
-  }, []);
+    if (mode === "repo") loadRepos();
+  }, [mode]);
 
   const loadRepos = async () => {
     setLoading(true);
@@ -36,16 +39,27 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
   const handleImport = async (repo: GitRepo) => {
     setImporting(repo.full_name);
     setError(null);
-    console.log("[WorkspaceSetup] Importing repo:", { name: repo.name, owner: repo.owner.login, full_name: repo.full_name });
     try {
       await onCreateWorkspace(repo.name, repo.owner.login, repo.name);
-      console.log("[WorkspaceSetup] Import succeeded:", repo.full_name);
     } catch (err: unknown) {
-      console.error("[WorkspaceSetup] Import failed:", err);
       const msg = err instanceof Error ? err.message : "Failed to import repository";
       setError(msg);
     } finally {
       setImporting(null);
+    }
+  };
+
+  const handleCreateBlank = async () => {
+    if (!blankName.trim()) return;
+    setCreatingBlank(true);
+    setError(null);
+    try {
+      await onCreateWorkspace(blankName.trim(), "", "");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to create workspace";
+      setError(msg);
+    } finally {
+      setCreatingBlank(false);
     }
   };
 
@@ -56,17 +70,6 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
       )
     : repos;
 
-  if (loading) {
-    return (
-      <div className="flex-1 flex items-center justify-center bg-[#0a0a0a]">
-        <div className="text-center">
-          <Loader2 size={32} className="animate-spin text-blue-400 mx-auto mb-4" />
-          <p className="text-sm text-white/40">Detecting repositories…</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex-1 flex flex-col bg-[#0a0a0a] overflow-hidden">
       {/* Header */}
@@ -76,8 +79,8 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
             <FolderGit2 size={20} className="text-blue-400" />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-white">Open Repository</h2>
-            <p className="text-xs text-white/40">Select a repo to start working</p>
+            <h2 className="text-lg font-bold text-white">New Workspace</h2>
+            <p className="text-xs text-white/40">Start blank or import a repo</p>
           </div>
           {onClose && (
             <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg transition-colors">✕</button>
@@ -85,89 +88,106 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
         </div>
       </div>
 
-      {/* Search */}
-      <div className="px-8 pb-4">
-        <input
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          placeholder="Filter repositories…"
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-blue-500/50 transition-colors placeholder:text-white/20"
-        />
+      {/* Mode tabs */}
+      <div className="px-8 pb-4 flex gap-2">
+        <button onClick={() => setMode("blank")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === "blank" ? "bg-blue-600/20 text-blue-400 border border-blue-500/30" : "bg-white/5 text-white/40 border border-white/10 hover:text-white/60"}`}>
+          <Plus size={14} className="inline mr-1.5 -mt-0.5" />
+          Blank Workspace
+        </button>
+        <button onClick={() => setMode("repo")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === "repo" ? "bg-blue-600/20 text-blue-400 border border-blue-500/30" : "bg-white/5 text-white/40 border border-white/10 hover:text-white/60"}`}>
+          <FolderGit2 size={14} className="inline mr-1.5 -mt-0.5" />
+          From Repository
+        </button>
       </div>
 
       {error && (
         <div className="px-8 pb-4">
-          <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 space-y-2">
-            <p className="font-semibold">Repository access failed</p>
-            <p className="text-white/40">{error}</p>
-            <button onClick={loadRepos} className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
-              Retry
-            </button>
+          <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+            <p>{error}</p>
           </div>
         </div>
       )}
 
-      {/* Repo grid */}
-      <div className="flex-1 overflow-y-auto px-8 pb-8" style={{ scrollbarWidth: "thin", scrollbarColor: "#1e293b transparent" }}>
-        {filtered.length === 0 && !error && (
-          <p className="text-sm text-white/30 text-center py-12">No repositories found</p>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {filtered.map(repo => (
-            <button
-              key={repo.id}
-              onClick={() => handleImport(repo)}
-              disabled={importing !== null}
-              className="group relative text-left bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 hover:border-blue-500/30 rounded-xl p-4 transition-all duration-200 disabled:opacity-50"
-            >
-              {importing === repo.full_name && (
-                <div className="absolute inset-0 bg-black/60 rounded-xl flex items-center justify-center z-10">
-                  <Loader2 size={20} className="animate-spin text-blue-400" />
-                </div>
-              )}
-              <div className="flex items-start gap-3">
-                <img
-                  src={repo.owner.avatar_url}
-                  alt=""
-                  className="w-8 h-8 rounded-lg flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity"
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-semibold text-white truncate">{repo.name}</span>
-                    {repo.private ? (
-                      <Lock size={10} className="text-yellow-500/60 flex-shrink-0" />
-                    ) : (
-                      <Globe size={10} className="text-green-500/60 flex-shrink-0" />
-                    )}
-                  </div>
-                  <p className="text-[10px] text-white/30 truncate">{repo.owner.login}</p>
-                  {repo.description && (
-                    <p className="text-[11px] text-white/40 mt-1.5 line-clamp-2">{repo.description}</p>
-                  )}
-                  <div className="flex items-center gap-3 mt-2 text-[10px] text-white/25">
-                    {repo.language && (
-                      <span className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-blue-400/60" />
-                        {repo.language}
-                      </span>
-                    )}
-                    {repo.stargazers_count > 0 && (
-                      <span className="flex items-center gap-1">
-                        <Star size={9} />
-                        {repo.stargazers_count}
-                      </span>
-                    )}
-                    <span className="flex items-center gap-1">
-                      <GitBranch size={9} />
-                      {repo.default_branch}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </button>
-          ))}
+      {mode === "blank" && (
+        <div className="px-8 pb-8 flex-1 flex flex-col">
+          <p className="text-xs text-white/40 mb-4">Create a workspace to use Issues, Chat, Meetings, Docs and more. You can connect a repository later.</p>
+          <input
+            value={blankName}
+            onChange={(e) => setBlankName(e.target.value)}
+            placeholder="Workspace name…"
+            autoFocus
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white outline-none focus:border-blue-500/50 transition-colors placeholder:text-white/20 mb-4"
+            onKeyDown={(e) => { if (e.key === "Enter") handleCreateBlank(); }}
+          />
+          <button onClick={handleCreateBlank} disabled={!blankName.trim() || creatingBlank}
+            className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-500 disabled:opacity-40 transition-colors flex items-center gap-2 w-fit">
+            {creatingBlank && <Loader2 size={14} className="animate-spin" />}
+            Create Workspace
+          </button>
         </div>
-      </div>
+      )}
+
+      {mode === "repo" && (
+        <>
+          {/* Search */}
+          <div className="px-8 pb-4">
+            <input
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Filter repositories…"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-blue-500/50 transition-colors placeholder:text-white/20"
+            />
+          </div>
+
+          {/* Repo grid */}
+          <div className="flex-1 overflow-y-auto px-8 pb-8" style={{ scrollbarWidth: "thin", scrollbarColor: "#1e293b transparent" }}>
+            {loading && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 size={32} className="animate-spin text-blue-400" />
+              </div>
+            )}
+            {!loading && filtered.length === 0 && !error && (
+              <p className="text-sm text-white/30 text-center py-12">No repositories found</p>
+            )}
+            {!loading && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {filtered.map(repo => (
+                  <button
+                    key={repo.id}
+                    onClick={() => handleImport(repo)}
+                    disabled={importing !== null}
+                    className="group relative text-left bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 hover:border-blue-500/30 rounded-xl p-4 transition-all duration-200 disabled:opacity-50"
+                  >
+                    {importing === repo.full_name && (
+                      <div className="absolute inset-0 bg-black/60 rounded-xl flex items-center justify-center z-10">
+                        <Loader2 size={20} className="animate-spin text-blue-400" />
+                      </div>
+                    )}
+                    <div className="flex items-start gap-3">
+                      <img src={repo.owner.avatar_url} alt="" className="w-8 h-8 rounded-lg flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-semibold text-white truncate">{repo.name}</span>
+                          {repo.private ? <Lock size={10} className="text-yellow-500/60 flex-shrink-0" /> : <Globe size={10} className="text-green-500/60 flex-shrink-0" />}
+                        </div>
+                        <p className="text-[10px] text-white/30 truncate">{repo.owner.login}</p>
+                        {repo.description && <p className="text-[11px] text-white/40 mt-1.5 line-clamp-2">{repo.description}</p>}
+                        <div className="flex items-center gap-3 mt-2 text-[10px] text-white/25">
+                          {repo.language && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-400/60" />{repo.language}</span>}
+                          {repo.stargazers_count > 0 && <span className="flex items-center gap-1"><Star size={9} />{repo.stargazers_count}</span>}
+                          <span className="flex items-center gap-1"><GitBranch size={9} />{repo.default_branch}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

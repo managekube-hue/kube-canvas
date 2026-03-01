@@ -375,7 +375,8 @@ export default function Reach() {
     if (activeView === "home" || activeView === "issues") {
       reachIssues.loadIssues();
     }
-    if (!hasWorkspace) return;
+    // GitHub-dependent loads only when repo is connected
+    if (!owner || !repo) return;
     if (activeView === "home") { loadCommits(); loadPulls(); }
     if (activeView === "activity") { loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
@@ -392,14 +393,22 @@ export default function Reach() {
 
   const dirtyCount = tabs.filter(t => t.dirty).length;
 
-  // ── No-workspace guard for panels ──────────
-  const ConnectPrompt = () => (
+  // ── No-workspace guard (only for workspace-scoped features) ──
+  const hasGitHub = !!(owner && repo);
+
+  const CreateWorkspacePrompt = () => (
     <div className="flex-1 flex flex-col items-center justify-center px-4 text-center gap-3">
-      <span className="text-xs text-white/30">Connect a GitHub workspace to use this panel</span>
+      <span className="text-xs text-white/30">Create a workspace to get started</span>
       <button onClick={() => setShowRepoModal(true)}
         className="text-[10px] py-1.5 px-3 rounded border border-dashed border-white/10 text-white/40 hover:text-white/60 hover:border-white/20 transition-colors">
-        + Connect Workspace
+        + New Workspace
       </button>
+    </div>
+  );
+
+  const NoGitHubNotice = () => (
+    <div className="px-4 py-2 bg-yellow-500/5 border-b border-yellow-500/10">
+      <span className="text-[10px] text-yellow-400/60">No repository connected — connect one in Settings to enable this feature</span>
     </div>
   );
 
@@ -421,7 +430,8 @@ export default function Reach() {
     }
 
     if (activeView === "files") {
-      if (!hasWorkspace) return <ConnectPrompt />;
+      if (!hasWorkspace) return <CreateWorkspacePrompt />;
+      if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Connect a repository in Settings to browse files</span></div></div>;
       const dirtyTabsForStaging = tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }));
       return (
         <div className="flex h-full overflow-hidden">
@@ -468,9 +478,8 @@ export default function Reach() {
       );
     }
 
-    // Git-dependent views need a workspace; Supabase-only views don't
-    const gitViews: ReachView[] = ["files", "prs", "search", "milestones", "activity"];
-    if (!hasWorkspace && gitViews.includes(activeView)) return <ConnectPrompt />;
+    // All views are accessible — no GitHub gate. Views that need GitHub show empty states.
+    if (!hasWorkspace) return <CreateWorkspacePrompt />;
 
     switch (activeView) {
       case "issues":
@@ -516,6 +525,7 @@ export default function Reach() {
           </div>
         );
       case "activity":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Activity feed requires a connected repository</span></div></div>;
         return (
           <IdeActivityFeed
             owner={owner} repo={repo}
@@ -525,6 +535,7 @@ export default function Reach() {
           />
         );
       case "search":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Code search requires a connected repository</span></div></div>;
         return (
           <IdeSearchPanel
             tree={tree}
@@ -533,6 +544,7 @@ export default function Reach() {
           />
         );
       case "milestones":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Milestones require a connected repository</span></div></div>;
         return (
           <IdeMilestonesPanel
             milestones={milestones} loading={milestonesLoading}
@@ -541,8 +553,9 @@ export default function Reach() {
           />
         );
       case "chat":
-        return workspace.activeWorkspace ? <IdeChatPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
+        return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "prs":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Pull requests require a connected repository</span></div></div>;
         return selectedPr ? (
           <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
             onLoadFiles={(num) => gh.getPRFiles(owner, repo, num)}
@@ -561,15 +574,15 @@ export default function Reach() {
             branches={branches} currentBranch={branch} />
         );
       case "docs":
-        return <IdeDocsPanel tree={tree} onLoadFile={loadFileContent} onOpenInEditor={(path) => { openFile(path); setActiveView("files"); }}
+        return <IdeDocsPanel tree={hasGitHub ? tree : []} onLoadFile={hasGitHub ? loadFileContent : async (p) => `// ${p}`} onOpenInEditor={(path) => { openFile(path); setActiveView("files"); }}
           onSaveDoc={(path, content) => {
             const existing = tabs.find(t => t.path === path);
             if (existing) updateContent(path, content);
             else setTabs(prev => [...prev, { path, content, dirty: true, language: "markdown", loading: false }]);
           }}
-          onCreateDoc={createNewFile} />;
+          onCreateDoc={hasGitHub ? createNewFile : async (p) => { setTabs(prev => [...prev, { path: p, content: "", dirty: true, language: "markdown", loading: false }]); setActiveTab(p); }} />;
       case "meetings":
-        return workspace.activeWorkspace ? <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
+        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead}
           onNavigate={(type) => {
@@ -577,10 +590,10 @@ export default function Reach() {
             setActiveView(viewMap[type] || "home");
           }} />;
       case "settings":
-        return workspace.activeWorkspace ? (
-          <IdeSettingsPanel workspace={workspace.activeWorkspace} members={workspace.members}
+        return (
+          <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
             onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />
-        ) : <ConnectPrompt />;
+        );
       default:
         return null;
     }
