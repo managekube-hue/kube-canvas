@@ -581,7 +581,7 @@ export default function UidrIde() {
         </div>
         {viewMode !== "kanban" && (
           <IdeEditor tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
-            onContentChange={updateContent} onCommit={commitFile} branch={branch}
+            onContentChange={updateContent} onCommit={(path) => commitFile(path, `Update ${path.split("/").pop()}`)} branch={branch}
             onlineUsers={onlineUsers} owner={owner} repo={repo} />
         )}
       </div>

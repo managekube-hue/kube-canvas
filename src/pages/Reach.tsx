@@ -9,6 +9,7 @@ import { useReachNotifications } from "@/hooks/useReachNotifications";
 import { useGitHub, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
 import { IdeEditor } from "@/components/ide/IdeEditor";
+import { IdeCommitModal, type CommitStep } from "@/components/ide/IdeCommitModal";
 import { IdeSearchPanel } from "@/components/ide/IdeSearchPanel";
 import { IdeIssuesPanel } from "@/components/ide/IdeIssuesPanel";
 import { IdeIssueDetail } from "@/components/ide/IdeIssueDetail";
@@ -27,6 +28,7 @@ import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface OpenTab { path: string; content: string; dirty: boolean; language: string; loading: boolean; }
 
@@ -63,6 +65,11 @@ export default function Reach() {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [showRepoModal, setShowRepoModal] = useState(false);
+  const [showCommitModal, setShowCommitModal] = useState(false);
+  const [commitStep, setCommitStep] = useState<CommitStep | null>(null);
+  const [commitError, setCommitError] = useState<string | null>(null);
+  const [commitCommitting, setCommitCommitting] = useState(false);
+  const [commitTargetPaths, setCommitTargetPaths] = useState<string[]>([]);
 
   // ── Issues ─────────────────────────────────
   const [issues, setIssues] = useState<GitIssue[]>([]);
@@ -100,8 +107,11 @@ export default function Reach() {
       if (meta && e.key === "s") {
         e.preventDefault();
         if (!hasWorkspace) return;
-        const tab = tabs.find(t => t.path === activeTab && t.dirty);
-        if (tab) commitFile(tab.path, `Update ${tab.path.split("/").pop()}`);
+        const dirtyPaths = tabs.filter(t => t.dirty).map(t => t.path);
+        if (dirtyPaths.length > 0) {
+          setCommitTargetPaths(dirtyPaths);
+          setShowCommitModal(true);
+        }
       }
     };
     window.addEventListener("keydown", handler);
@@ -172,39 +182,69 @@ export default function Reach() {
     setTabs(prev => prev.map(t => t.path === path ? { ...t, content, dirty: true } : t));
   };
 
-  const commitFile = async (path: string, message: string) => {
-    if (!hasWorkspace) return;
-    const tab = tabs.find(t => t.path === path);
-    if (!tab) return;
-    try {
-      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
-      const blob = await gh.createBlob(owner, repo, tab.content, "utf-8");
-      const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path, mode: "100644", type: "blob", sha: blob.sha }]);
-      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [refData.object.sha]);
-      await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
-      setTabs(prev => prev.map(t => t.path === path ? { ...t, dirty: false } : t));
-      loadCommits(); loadTree();
-    } catch (err) { console.error("[Reach] Commit failed:", err); }
-  };
-
-  const commitMultipleFiles = async (paths: string[], message: string) => {
+  const commitWithProgress = async (paths: string[], message: string) => {
     if (!hasWorkspace) return;
     const dirtyTabs = tabs.filter(t => paths.includes(t.path) && t.dirty);
     if (dirtyTabs.length === 0) return;
+
+    setCommitCommitting(true);
+    setCommitError(null);
     try {
+      // Step 1: Get branch ref
+      setCommitStep(1);
       const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+
+      // Step 2: Get base tree SHA (from the commit the ref points to)
+      setCommitStep(2);
+      const baseSha = refData.object.sha;
+
+      // Step 3: Create blob(s)
+      setCommitStep(3);
       const blobs = await Promise.all(
         dirtyTabs.map(async t => {
           const blob = await gh.createBlob(owner, repo, t.content, "utf-8");
           return { path: t.path, mode: "100644" as const, type: "blob" as const, sha: blob.sha };
         })
       );
-      const newTree = await gh.createTree(owner, repo, refData.object.sha, blobs);
-      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [refData.object.sha]);
+
+      // Step 4: Create new tree
+      setCommitStep(4);
+      const newTree = await gh.createTree(owner, repo, baseSha, blobs);
+
+      // Step 5: Create commit
+      setCommitStep(5);
+      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [baseSha]);
+
+      // Step 6: Update branch ref
+      setCommitStep(6);
       await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
+
+      // Post-commit actions
       setTabs(prev => prev.map(t => paths.includes(t.path) ? { ...t, dirty: false } : t));
-      loadCommits(); loadTree();
-    } catch (err) { console.error("[Reach] Multi-file commit failed:", err); }
+      setShowCommitModal(false);
+      setCommitTargetPaths([]);
+      toast.success(`Committed: ${message}`);
+      loadCommits();
+      loadTree();
+    } catch (err: any) {
+      const errMsg = err?.message || "Commit failed";
+      setCommitError(errMsg);
+      console.error("[Reach] Commit failed:", err);
+    } finally {
+      setCommitCommitting(false);
+      setCommitStep(null);
+    }
+  };
+
+  // Legacy single-file commit (used by inline commit bar)
+  const commitFile = async (path: string, message: string) => {
+    setCommitTargetPaths([path]);
+    await commitWithProgress([path], message);
+  };
+
+  const commitMultipleFiles = async (paths: string[], message: string) => {
+    setCommitTargetPaths(paths);
+    await commitWithProgress(paths, message);
   };
 
   const discardFile = (path: string) => {
@@ -390,7 +430,12 @@ export default function Reach() {
           </div>
           <IdeEditor
             tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
-            onContentChange={updateContent} onCommit={commitFile} branch={branch}
+            onContentChange={updateContent}
+            onCommit={(path) => {
+              setCommitTargetPaths([path]);
+              setShowCommitModal(true);
+            }}
+            branch={branch}
             onlineUsers={onlineUsers} owner={owner} repo={repo}
           />
         </div>
@@ -409,7 +454,7 @@ export default function Reach() {
             onUpdateIssue={updateIssue}
             availableLabels={availableLabels} availableAssignees={availableAssignees} />
         ) : (
-          <IdeIssuesPanel issues={issues.filter(i => i.state === "open")} onCreateIssue={createIssue} loading={issuesLoading}
+          <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
             onSelectIssue={setSelectedIssue} />
         );
       case "chat":
@@ -493,6 +538,18 @@ export default function Reach() {
         </div>
       )}
 
+      {/* Commit Modal */}
+      <IdeCommitModal
+        open={showCommitModal}
+        onClose={() => { setShowCommitModal(false); setCommitError(null); }}
+        onCommit={(message) => commitWithProgress(commitTargetPaths, message)}
+        branch={branch}
+        stagedFiles={commitTargetPaths}
+        commitStep={commitStep}
+        commitError={commitError}
+        committing={commitCommitting}
+      />
+
       {/* Command Palette */}
       <IdeCommandPalette
         open={commandPaletteOpen}
@@ -500,7 +557,6 @@ export default function Reach() {
         tree={tree}
         onSelectFile={(path) => { openFile(path); setActiveView("files"); setCommandPaletteOpen(false); }}
         onSetViewMode={(mode) => {
-          // Map old ViewMode to ReachView
           const mapping: Record<string, ReachView> = {
             explorer: "files", search: "files", issues: "issues", kanban: "issues",
             chat: "chat", commits: "files", pulls: "prs", milestones: "issues",
