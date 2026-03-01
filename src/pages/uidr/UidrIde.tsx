@@ -463,8 +463,8 @@ export default function UidrIde() {
   );
 
   const renderSidePanel = () => {
+    // ── Panels that work WITHOUT a workspace ──
     if (viewMode === "explorer") {
-      // If workspace has GitHub, show GitHub tree; otherwise show Supabase file tree
       if (hasWorkspace && owner && repo) {
         return (
           <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
@@ -476,6 +476,25 @@ export default function UidrIde() {
       return renderLocalExplorer();
     }
 
+    if (viewMode === "ai") {
+      return <IdeAiCopilotPanel workspaceId={workspace.activeWorkspace?.id || "local"} activeFile={activeTab} />;
+    }
+
+    if (viewMode === "chat") {
+      if (!hasWorkspace) return <ConnectWorkspacePrompt />;
+      return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
+    }
+
+    if (viewMode === "video") {
+      if (!hasWorkspace) return <ConnectWorkspacePrompt />;
+      return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
+    }
+
+    if (viewMode === "notifications") {
+      return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
+    }
+
+    // ── Panels that require a workspace ──
     if (!hasWorkspace) return <ConnectWorkspacePrompt />;
 
     switch (viewMode) {
@@ -530,18 +549,10 @@ export default function UidrIde() {
         return <IdeMilestonesPanel milestones={reachMilestones.milestones} loading={reachMilestones.loading}
           onCreateMilestone={async (title, desc, due) => { await reachMilestones.create(title, desc, due); }}
           onUpdateMilestone={async (id, updates) => { await reachMilestones.update(id, updates); }} />;
-      case "chat":
-        return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "commits":
         return <IdeCommitsPanel commits={commits} loading={commitsLoading} onLoadCommitDetail={loadCommitDetail} />;
       case "activity":
         return <IdeActivityFeed entries={reachActivity.entries} loading={reachActivity.loading} onRefresh={reachActivity.load} />;
-      case "video":
-        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
-      case "ai":
-        return <IdeAiCopilotPanel workspaceId={workspace.activeWorkspace!.id} activeFile={activeTab} />;
-      case "notifications":
-        return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
       case "settings":
         return <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
           onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />;
