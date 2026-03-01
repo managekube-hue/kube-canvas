@@ -113,6 +113,10 @@ export default function UidrIde() {
   const owner = workspace.activeWorkspace?.github_owner || "";
   const repo = workspace.activeWorkspace?.github_repo || "";
 
+  // Supabase file editor for local-first file storage
+  const fileEditor = useReachFileEditor(workspace.activeWorkspace?.id || null);
+  const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [viewMode, setViewMode] = useState<ViewMode>("explorer");
   const [tree, setTree] = useState<TreeNode[]>([]);
   const [treeLoading, setTreeLoading] = useState(false);
