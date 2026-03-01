@@ -19,9 +19,12 @@ const topItems: { view: ReachView; icon: typeof Home; label: string }[] = [
 interface Props {
   activeView: ReachView;
   setActiveView: (v: ReachView) => void;
+  unreadCount?: number;
+  onlineCount?: number;
+  dirtyCount?: number;
 }
 
-export function ReachActivityBar({ activeView, setActiveView }: Props) {
+export function ReachActivityBar({ activeView, setActiveView, unreadCount = 0, onlineCount = 0, dirtyCount = 0 }: Props) {
   return (
     <div className="w-[52px] flex-shrink-0 bg-[#080808] border-r border-white/5 flex flex-col items-center py-3 gap-1">
       {/* Logo mark */}
@@ -34,13 +37,26 @@ export function ReachActivityBar({ activeView, setActiveView }: Props) {
           key={view}
           onClick={() => setActiveView(view)}
           title={label}
-          className={`w-10 h-9 flex items-center justify-center rounded-lg transition-colors ${
+          className={`relative w-10 h-9 flex items-center justify-center rounded-lg transition-colors ${
             activeView === view
               ? "bg-blue-500/15 text-blue-400"
               : "text-white/30 hover:text-white/60 hover:bg-white/5"
           }`}
         >
           <Icon size={18} />
+          {view === "notifications" && unreadCount > 0 && (
+            <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-red-500 rounded-full text-[7px] flex items-center justify-center text-white font-bold">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+          {view === "files" && dirtyCount > 0 && (
+            <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-blue-500 rounded-full text-[7px] flex items-center justify-center text-white font-bold">
+              {dirtyCount > 9 ? "9+" : dirtyCount}
+            </span>
+          )}
+          {view === "chat" && onlineCount > 1 && (
+            <span className="absolute bottom-0.5 right-0.5 w-2 h-2 bg-green-500 rounded-full" />
+          )}
         </button>
       ))}
 
