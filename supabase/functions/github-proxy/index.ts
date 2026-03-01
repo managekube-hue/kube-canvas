@@ -294,8 +294,9 @@ serve(async (req) => {
       default:
         return json({ error: `Unknown action: ${action}` }, 400);
     }
-  } catch (err) {
-    console.error("github-proxy error:", err);
-    return json({ error: err.message || "GitHub API error" }, 502);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("github-proxy error:", message);
+    return json({ error: message || "GitHub API error" }, 502);
   }
 });
