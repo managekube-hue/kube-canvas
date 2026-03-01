@@ -7,7 +7,10 @@ import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
 import { useReachIssues, type ReachIssue } from "@/hooks/useReachIssues";
-import { useGitHub, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
+import { useReachMilestones } from "@/hooks/useReachMilestones";
+import { useReachActivity } from "@/hooks/useReachActivity";
+import { useReachPullRequests, type ReachPullRequest } from "@/hooks/useReachPullRequests";
+import { useGitHub, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { IdeCommitModal, type CommitStep } from "@/components/ide/IdeCommitModal";
@@ -79,14 +82,15 @@ export default function Reach() {
   const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
   const [issueSubView, setIssueSubView] = useState<"list" | "kanban">("list");
 
-  // ── PRs ────────────────────────────────────
-  const [pulls, setPulls] = useState<GitPullRequest[]>([]);
-  const [pullsLoading, setPullsLoading] = useState(false);
-  const [selectedPr, setSelectedPr] = useState<GitPullRequest | null>(null);
+  // ── PRs (local-first, Supabase) ─────────────
+  const reachPRs = useReachPullRequests(workspace.activeWorkspace?.id || null);
+  const [selectedPr, setSelectedPr] = useState<ReachPullRequest | null>(null);
 
-  // ── Milestones ─────────────────────────────
-  const [milestones, setMilestones] = useState<GitMilestone[]>([]);
-  const [milestonesLoading, setMilestonesLoading] = useState(false);
+  // ── Milestones (local-first, Supabase) ─────
+  const reachMilestones = useReachMilestones(workspace.activeWorkspace?.id || null);
+
+  // ── Activity (local-first, Supabase) ───────
+  const reachActivity = useReachActivity(workspace.activeWorkspace?.id || null);
 
   // ── Commits ────────────────────────────────
   const [commits, setCommits] = useState<any[]>([]);
@@ -301,54 +305,7 @@ export default function Reach() {
   // ── Issues (powered by useReachIssues — no GitHub dependency) ──
   // loadIssues, createIssue, updateIssue all come from reachIssues hook
 
-  // ── PRs ────────────────────────────────────
-  const loadPulls = async () => {
-    if (!owner || !repo) return;
-    setPullsLoading(true);
-    try { setPulls(await gh.listPRs(owner, repo, "all")); } catch (err) { console.error(err); }
-    finally { setPullsLoading(false); }
-  };
-
-  const createPr = async (title: string, head: string, base: string, body: string) => {
-    if (!hasWorkspace) return;
-    await gh.createPR(owner, repo, title, head, base, body); loadPulls();
-  };
-
-  const mergePr = async (num: number, method: "merge" | "squash" | "rebase") => {
-    if (!hasWorkspace) return;
-    await gh.mergePR(owner, repo, num, undefined, method); loadPulls();
-  };
-
-  // ── Milestones ─────────────────────────────
-  const loadMilestones = async () => {
-    if (!owner || !repo) return;
-    setMilestonesLoading(true);
-    try { setMilestones(await gh.listMilestones(owner, repo, "open")); } catch (err) { console.error(err); }
-    finally { setMilestonesLoading(false); }
-  };
-
-  const loadAllMilestones = async () => {
-    if (!owner || !repo) return;
-    setMilestonesLoading(true);
-    try {
-      const [open, closed] = await Promise.all([
-        gh.listMilestones(owner, repo, "open"),
-        gh.listMilestones(owner, repo, "closed"),
-      ]);
-      setMilestones([...open, ...closed]);
-    } catch (err) { console.error(err); }
-    finally { setMilestonesLoading(false); }
-  };
-
-  const createMilestone = async (title: string, desc: string, dueOn?: string) => {
-    if (!hasWorkspace) return;
-    await gh.createMilestone(owner, repo, title, desc, dueOn); loadAllMilestones();
-  };
-
-  const updateMilestone = async (num: number, updates: { state?: string }) => {
-    if (!hasWorkspace) return;
-    await gh.updateMilestone(owner, repo, num, updates); loadAllMilestones();
-  };
+  // ── PRs, Milestones, Activity all come from Supabase hooks now ──
 
   // ── Commits ────────────────────────────────
   const loadCommits = async () => {
@@ -371,16 +328,13 @@ export default function Reach() {
 
   // ── Load data per view ─────────────────────
   useEffect(() => {
-    // Issues load from Supabase (no GitHub needed)
-    if (activeView === "home" || activeView === "issues") {
-      reachIssues.loadIssues();
-    }
+    // All local-first Supabase loads
+    if (activeView === "home" || activeView === "issues") reachIssues.loadIssues();
+    if (activeView === "home" || activeView === "prs") reachPRs.load();
+    if (activeView === "home" || activeView === "milestones") reachMilestones.load();
+    if (activeView === "home" || activeView === "activity") reachActivity.load();
     // GitHub-dependent loads only when repo is connected
     if (!owner || !repo) return;
-    if (activeView === "home") { loadCommits(); loadPulls(); }
-    if (activeView === "activity") { loadCommits(); loadPulls(); }
-    if (activeView === "prs") loadPulls();
-    if (activeView === "milestones") loadAllMilestones();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
   }, [activeView, owner, repo, branch, hasWorkspace, workspace.activeWorkspace?.id]);
@@ -422,7 +376,7 @@ export default function Reach() {
           onConnectRepo={() => setShowRepoModal(true)}
           issues={reachIssues.issues}
           commits={commits}
-          pulls={pulls}
+          pulls={reachPRs.pullRequests}
           unreadMessages={unreadCount}
           onNavigate={(view) => setActiveView(view as ReachView)}
         />
@@ -525,13 +479,11 @@ export default function Reach() {
           </div>
         );
       case "activity":
-        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Activity feed requires a connected repository</span></div></div>;
         return (
           <IdeActivityFeed
-            owner={owner} repo={repo}
-            onLoadCommits={() => gh.listCommits(owner, repo, branch)}
-            onLoadIssueEvents={() => gh.listIssues(owner, repo, "all")}
-            onLoadPullEvents={() => gh.listPRs(owner, repo, "all")}
+            entries={reachActivity.entries}
+            loading={reachActivity.loading}
+            onRefresh={reachActivity.load}
           />
         );
       case "search":
@@ -544,34 +496,23 @@ export default function Reach() {
           />
         );
       case "milestones":
-        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Milestones require a connected repository</span></div></div>;
         return (
           <IdeMilestonesPanel
-            milestones={milestones} loading={milestonesLoading}
-            onCreateMilestone={createMilestone}
-            onUpdateMilestone={updateMilestone}
+            milestones={reachMilestones.milestones} loading={reachMilestones.loading}
+            onCreateMilestone={async (title, desc, due) => { await reachMilestones.create(title, desc, due); }}
+            onUpdateMilestone={async (id, updates) => { await reachMilestones.update(id, updates); }}
           />
         );
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "prs":
-        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Pull requests require a connected repository</span></div></div>;
-        return selectedPr ? (
-          <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
-            onLoadFiles={(num) => gh.getPRFiles(owner, repo, num)}
-            onLoadComments={(num) => gh.getPRComments(owner, repo, num)}
-            onLoadReviews={(num) => gh.getPRReviews(owner, repo, num)}
-            onAddComment={(num, body) => gh.createPRComment(owner, repo, num, body).then(() => {})}
-            onMerge={mergePr}
-            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }}
-            onLoadFileContent={async (path, ref) => {
-              const data = await gh.getFile(owner, repo, path, ref);
-              return data.encoding === "base64" ? atob(data.content) : data.content;
-            }} />
-        ) : (
-          <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
-            onSelectPr={setSelectedPr} onCreatePr={createPr}
-            branches={branches} currentBranch={branch} />
+        return (
+          <IdePullRequestsPanel
+            pullRequests={reachPRs.pullRequests}
+            loading={reachPRs.loading}
+            onSelectPr={setSelectedPr}
+            onCreatePr={async (title, source, target, body) => { await reachPRs.create(title, source, target, body); }}
+          />
         );
       case "docs":
         return <IdeDocsPanel tree={hasGitHub ? tree : []} onLoadFile={hasGitHub ? loadFileContent : async (p) => `// ${p}`} onOpenInEditor={(path) => { openFile(path); setActiveView("files"); }}
