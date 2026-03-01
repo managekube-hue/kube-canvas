@@ -213,9 +213,23 @@ export default function UidrIde() {
     gh.listBranches(owner, repo).then(b => setBranches(b.map(x => x.name))).catch(console.error);
   }, [owner, repo]);
 
-  // ── File operations ────────────────────────
+  // ── File operations (Supabase-first, GitHub fallback) ──
   const openFile = async (path: string) => {
     if (tabs.find(t => t.path === path)) { setActiveTab(path); return; }
+
+    // Try Supabase first
+    const localFile = fileEditor.getFileByPath(path);
+    if (localFile) {
+      const newTab: OpenTab = {
+        path, content: localFile.content, dirty: false,
+        language: localFile.language, loading: false,
+      };
+      setTabs(prev => [...prev, newTab]);
+      setActiveTab(path);
+      return;
+    }
+
+    // Fall back to GitHub
     const newTab: OpenTab = { path, content: "", dirty: false, language: detectLanguage(path), loading: true };
     setTabs(prev => [...prev, newTab]);
     setActiveTab(path);
