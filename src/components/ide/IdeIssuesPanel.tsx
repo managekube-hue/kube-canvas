@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ReachIssue } from "@/hooks/useReachIssues";
 
 interface Props {
   issues: ReachIssue[];
-  onCreateIssue: (title: string, body: string, status?: string, priority?: string) => Promise<void>;
+  onCreateIssue: (title: string, body: string, status?: string, priority?: string, labels?: string[], extra?: { story_points?: number; sprint_id?: string; due_date?: string }) => Promise<void>;
   loading: boolean;
   onSelectIssue?: (issue: ReachIssue) => void;
 }
@@ -26,6 +26,8 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [priority, setPriority] = useState("medium");
+  const [storyPoints, setStoryPoints] = useState<string>("");
+  const [dueDate, setDueDate] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [filter, setFilter] = useState<IssueFilter>("open");
 
@@ -40,8 +42,11 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
     if (!title.trim()) return;
     setSubmitting(true);
     try {
-      await onCreateIssue(title.trim(), body.trim(), "todo", priority);
-      setTitle(""); setBody(""); setPriority("medium"); setShowCreate(false);
+      const extra: { story_points?: number; due_date?: string } = {};
+      if (storyPoints && !isNaN(parseInt(storyPoints))) extra.story_points = parseInt(storyPoints);
+      if (dueDate) extra.due_date = dueDate;
+      await onCreateIssue(title.trim(), body.trim(), "todo", priority, [], extra);
+      setTitle(""); setBody(""); setPriority("medium"); setStoryPoints(""); setDueDate(""); setShowCreate(false);
     } finally { setSubmitting(false); }
   };
 
@@ -73,13 +78,24 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
             className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white outline-none" />
           <textarea value={body} onChange={(e) => setBody(e.target.value)} placeholder="Description"
             rows={3} className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white outline-none resize-none" />
-          <select value={priority} onChange={e => setPriority(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] text-white outline-none">
-            <option value="low" className="bg-[#0c0c0c]">Low</option>
-            <option value="medium" className="bg-[#0c0c0c]">Medium</option>
-            <option value="high" className="bg-[#0c0c0c]">High</option>
-            <option value="urgent" className="bg-[#0c0c0c]">Urgent</option>
-          </select>
+          <div className="flex gap-2">
+            <select value={priority} onChange={e => setPriority(e.target.value)}
+              className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] text-white outline-none">
+              <option value="low" className="bg-[#0c0c0c]">Low</option>
+              <option value="medium" className="bg-[#0c0c0c]">Medium</option>
+              <option value="high" className="bg-[#0c0c0c]">High</option>
+              <option value="urgent" className="bg-[#0c0c0c]">Urgent</option>
+            </select>
+            <input
+              type="number" min="0" max="100" value={storyPoints}
+              onChange={e => setStoryPoints(e.target.value)}
+              placeholder="SP"
+              className="w-16 bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] text-white outline-none placeholder:text-white/20"
+              title="Story points"
+            />
+          </div>
+          <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)}
+            className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] text-white outline-none" />
           <Button size="sm" onClick={handleCreate} disabled={submitting} className="w-full h-7 text-[10px] bg-blue-600 gap-1">
             {submitting ? <Loader2 size={10} className="animate-spin" /> : <Plus size={10} />}
             Create Issue
@@ -99,13 +115,29 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
               <span className="text-xs font-medium text-white truncate flex-1">{issue.title}</span>
               <span className="text-[10px] text-white/30">#{issue.number}</span>
             </div>
-            <div className="flex items-center gap-2 mt-1.5">
+            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
               <span className="text-[9px] text-white/20 capitalize">{issue.status.replace("_", " ")}</span>
               <span className="text-[9px] text-white/15">·</span>
               <span className="text-[9px] text-white/20 capitalize">{issue.priority}</span>
+              {issue.story_points != null && (
+                <>
+                  <span className="text-[9px] text-white/15">·</span>
+                  <span className="text-[9px] text-white/30 flex items-center gap-0.5">
+                    <Zap size={8} className="text-yellow-400/60" />{issue.story_points}sp
+                  </span>
+                </>
+              )}
+              {issue.due_date && (
+                <>
+                  <span className="text-[9px] text-white/15">·</span>
+                  <span className="text-[9px] text-white/25">
+                    due {new Date(issue.due_date).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+                  </span>
+                </>
+              )}
               {issue.labels.length > 0 && (
                 <div className="flex gap-1">
-                  {issue.labels.slice(0, 3).map(l => (
+                  {issue.labels.slice(0, 2).map(l => (
                     <span key={l} className="text-[8px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300">{l}</span>
                   ))}
                 </div>

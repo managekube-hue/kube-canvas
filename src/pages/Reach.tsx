@@ -33,6 +33,7 @@ import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 import { Loader2, List, LayoutDashboard } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface OpenTab { path: string; content: string; dirty: boolean; language: string; loading: boolean; }
 
@@ -305,8 +306,6 @@ export default function Reach() {
   // ── Issues (powered by useReachIssues — no GitHub dependency) ──
   // loadIssues, createIssue, updateIssue all come from reachIssues hook
 
-  // ── PRs, Milestones, Activity all come from Supabase hooks now ──
-
   // ── Commits ────────────────────────────────
   const loadCommits = async () => {
     if (!owner || !repo) return;
@@ -326,13 +325,96 @@ export default function Reach() {
     try { setCollaborators(await gh.listCollaborators(owner, repo)); } catch { /* non-critical */ }
   };
 
+  // ── Sync GitHub PRs → Supabase ─────────────
+  const syncGitHubPRs = useCallback(async () => {
+    if (!owner || !repo || !workspace.activeWorkspace?.id || !user) return;
+    const wsId = workspace.activeWorkspace.id;
+    try {
+      const ghPRs = await gh.listPRs(owner, repo, "all");
+      // Get existing github PR numbers for this workspace
+      const { data: existing } = await supabase
+        .from("reach_pull_requests")
+        .select("id, github_pr_number")
+        .eq("workspace_id", wsId)
+        .not("github_pr_number", "is", null);
+      const existingNums = new Set((existing || []).map((r: any) => r.github_pr_number));
+
+      for (const pr of ghPRs) {
+        const status = pr.state === "closed" && (pr as any).merged_at ? "merged" : pr.state as "open" | "closed";
+        const payload = {
+          workspace_id: wsId,
+          title: pr.title,
+          body: pr.body || null,
+          status,
+          source_branch: pr.head.ref,
+          target_branch: pr.base.ref,
+          github_pr_number: pr.number,
+          github_synced_at: new Date().toISOString(),
+          merged_at: (pr as any).merged_at || null,
+          closed_at: pr.closed_at || null,
+        };
+        if (existingNums.has(pr.number)) {
+          await supabase.from("reach_pull_requests").update(payload)
+            .eq("workspace_id", wsId).eq("github_pr_number", pr.number);
+        } else {
+          await supabase.from("reach_pull_requests").insert({ ...payload, created_by: user.id });
+          existingNums.add(pr.number);
+        }
+      }
+    } catch (err) { console.error("[syncGitHubPRs]", err); }
+  }, [owner, repo, workspace.activeWorkspace?.id, user]);
+
+  // ── Sync GitHub Milestones → Supabase ──────
+  const syncGitHubMilestones = useCallback(async () => {
+    if (!owner || !repo || !workspace.activeWorkspace?.id || !user) return;
+    const wsId = workspace.activeWorkspace.id;
+    try {
+      const [open, closed] = await Promise.all([
+        gh.listMilestones(owner, repo, "open"),
+        gh.listMilestones(owner, repo, "closed"),
+      ]);
+      const { data: existing } = await supabase
+        .from("reach_milestones")
+        .select("id, github_milestone_number")
+        .eq("workspace_id", wsId)
+        .not("github_milestone_number", "is", null);
+      const existingNums = new Set((existing || []).map((r: any) => r.github_milestone_number));
+
+      for (const ms of [...open, ...closed]) {
+        const payload = {
+          workspace_id: wsId,
+          title: ms.title,
+          description: ms.description || null,
+          due_date: ms.due_on ? ms.due_on.slice(0, 10) : null,
+          status: ms.state as "open" | "closed",
+          closed_at: ms.closed_at || null,
+          github_milestone_number: ms.number,
+          github_synced_at: new Date().toISOString(),
+        };
+        if (existingNums.has(ms.number)) {
+          await supabase.from("reach_milestones").update(payload)
+            .eq("workspace_id", wsId).eq("github_milestone_number", ms.number);
+        } else {
+          await supabase.from("reach_milestones").insert({ ...payload, created_by: user.id });
+          existingNums.add(ms.number);
+        }
+      }
+    } catch (err) { console.error("[syncGitHubMilestones]", err); }
+  }, [owner, repo, workspace.activeWorkspace?.id, user]);
+
   // ── Load data per view ─────────────────────
   useEffect(() => {
     // All local-first Supabase loads
     if (activeView === "home" || activeView === "issues") reachIssues.loadIssues();
-    if (activeView === "home" || activeView === "prs") reachPRs.load();
-    if (activeView === "home" || activeView === "milestones") reachMilestones.load();
     if (activeView === "home" || activeView === "activity") reachActivity.load();
+    if (activeView === "home" || activeView === "prs") {
+      reachPRs.load();
+      if (owner && repo) syncGitHubPRs().then(() => reachPRs.load());
+    }
+    if (activeView === "home" || activeView === "milestones") {
+      reachMilestones.load();
+      if (owner && repo) syncGitHubMilestones().then(() => reachMilestones.load());
+    }
     // GitHub-dependent loads only when repo is connected
     if (!owner || !repo) return;
     if (activeView === "files") loadCommits();

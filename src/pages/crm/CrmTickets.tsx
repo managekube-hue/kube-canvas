@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/select";
 import { Plus, Search, Ticket, AlertCircle, Clock, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { BulkActions } from "@/components/crm/BulkActions";
+import { AdvancedFilters } from "@/components/crm/AdvancedFilters";
+import { SkeletonTable } from "@/components/crm/SkeletonLoaders";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface TicketRow {
   id: string;
@@ -44,6 +48,8 @@ export default function CrmTickets() {
   const [form, setForm] = useState({
     subject: "", description: "", priority: "medium", type: "incident", organization_id: "",
   });
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [filters, setFilters] = useState<any>({});
 
   const fetchTickets = async () => {
     const [ticketsRes, orgsRes] = await Promise.all([
@@ -98,8 +104,42 @@ export default function CrmTickets() {
       t.ticket_number.toLowerCase().includes(search.toLowerCase()) ||
       t.org_name?.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || t.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesPriority = !filters.priority || t.priority === filters.priority;
+    return matchesSearch && matchesStatus && matchesPriority;
   });
+
+  const toggleSelect = (id: string) => {
+    const newSelected = new Set(selected);
+    if (newSelected.has(id)) newSelected.delete(id);
+    else newSelected.add(id);
+    setSelected(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selected.size === filtered.length) setSelected(new Set());
+    else setSelected(new Set(filtered.map(t => t.id)));
+  };
+
+  const handleBulkDelete = async () => {
+    if (!confirm(`Delete ${selected.size} tickets?`)) return;
+    const { error } = await supabase.from("crm_tickets").delete().in("id", Array.from(selected));
+    if (error) toast.error("Bulk delete failed");
+    else { toast.success(`Deleted ${selected.size} tickets`); setSelected(new Set()); fetchTickets(); }
+  };
+
+  const handleBulkExport = () => {
+    const data = tickets.filter(t => selected.has(t.id));
+    const csv = ["Ticket #,Subject,Status,Priority,Organization,Created",
+      ...data.map(t => `${t.ticket_number},${t.subject},${t.status},${t.priority},${t.org_name || ""},${t.created_at}`)
+    ].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `tickets-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    toast.success("Exported to CSV");
+  };
 
   const priorityColor: Record<string, string> = {
     critical: "bg-red-500 text-white",
@@ -134,6 +174,16 @@ export default function CrmTickets() {
             <SelectItem value="closed">Closed</SelectItem>
           </SelectContent>
         </Select>
+        <AdvancedFilters
+          filters={filters}
+          onFiltersChange={setFilters}
+          priorityOptions={[
+            { label: "Low", value: "low" },
+            { label: "Medium", value: "medium" },
+            { label: "High", value: "high" },
+            { label: "Critical", value: "critical" },
+          ]}
+        />
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button size="sm"><Plus className="h-4 w-4 mr-1" /> New Ticket</Button>
@@ -184,8 +234,14 @@ export default function CrmTickets() {
         </Dialog>
       </div>
 
+      <BulkActions
+        selectedCount={selected.size}
+        onDelete={handleBulkDelete}
+        onExport={handleBulkExport}
+      />
+
       {loading ? (
-        <div className="text-center py-12 text-muted-foreground">Loading...</div>
+        <SkeletonTable rows={8} />
       ) : filtered.length === 0 ? (
         <div className="text-center py-12">
           <Ticket className="h-12 w-12 mx-auto text-muted-foreground/50 mb-3" />
@@ -193,9 +249,23 @@ export default function CrmTickets() {
         </div>
       ) : (
         <div className="space-y-2">
+          {filtered.length > 0 && (
+            <div className="flex items-center gap-2 px-4 py-2 border-b border-border">
+              <Checkbox
+                checked={selected.size === filtered.length && filtered.length > 0}
+                onCheckedChange={toggleSelectAll}
+              />
+              <span className="text-xs text-muted-foreground">Select all</span>
+            </div>
+          )}
           {filtered.map(t => (
             <Card key={t.id} className="border-border hover:shadow-sm transition-shadow">
               <CardContent className="p-4 flex items-center gap-4">
+                <Checkbox
+                  checked={selected.has(t.id)}
+                  onCheckedChange={() => toggleSelect(t.id)}
+                  onClick={e => e.stopPropagation()}
+                />
                 <div className="shrink-0">{statusIcon[t.status] || statusIcon.open}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">

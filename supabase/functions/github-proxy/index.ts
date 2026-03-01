@@ -62,7 +62,7 @@ serve(async (req: Request) => {
   }
   await userRes.json();
 
-  const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN");
+  const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN") || Deno.env.get("GITHUB_PAT");
   if (!GITHUB_TOKEN) {
     return json({ error: "GITHUB_TOKEN not configured" }, 500);
   }

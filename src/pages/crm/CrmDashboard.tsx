@@ -3,6 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCrmUser } from "@/hooks/useCrmUser";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Users, Briefcase, Ticket, FileText, DollarSign, Activity } from "lucide-react";
+import { RevenueTrendsChart } from "@/components/crm/RevenueTrendsChart";
+import { TicketVolumeChart } from "@/components/crm/TicketVolumeChart";
+import { DealPipelineFunnel } from "@/components/crm/DealPipelineFunnel";
+import { MRRGrowthChart } from "@/components/crm/MRRGrowthChart";
+import { SkeletonKPI } from "@/components/crm/SkeletonLoaders";
 
 interface DashboardStats {
   organizations: number;
@@ -83,19 +88,29 @@ export default function CrmDashboard() {
 
       {/* KPI Strip */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {kpis.map((kpi) => (
-          <Card key={kpi.label} className="border-border">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <kpi.icon className={`h-5 w-5 ${kpi.color}`} />
-              </div>
-              <p className="text-2xl font-bold text-foreground">
-                {loading ? "—" : kpi.value}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">{kpi.label}</p>
-            </CardContent>
-          </Card>
-        ))}
+        {loading ? (
+          Array.from({ length: 6 }).map((_, i) => <SkeletonKPI key={i} />)
+        ) : (
+          kpis.map((kpi) => (
+            <Card key={kpi.label} className="border-border">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <kpi.icon className={`h-5 w-5 ${kpi.color}`} />
+                </div>
+                <p className="text-2xl font-bold text-foreground">{kpi.value}</p>
+                <p className="text-xs text-muted-foreground mt-1">{kpi.label}</p>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
+
+      {/* Analytics Charts */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <MRRGrowthChart />
+        <RevenueTrendsChart />
+        <DealPipelineFunnel />
+        <TicketVolumeChart />
       </div>
 
       {/* Recent Activity */}

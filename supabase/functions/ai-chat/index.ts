@@ -55,7 +55,7 @@ serve(async (req) => {
       );
     }
 
-    const selectedModel = model || "anthropic/claude-sonnet-4-20250514";
+    const selectedModel = model || "anthropic/claude-sonnet-4-5";
 
     // Call OpenRouter
     const response = await fetch(OPENROUTER_URL, {

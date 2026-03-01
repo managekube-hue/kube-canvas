@@ -152,6 +152,7 @@ import CrmOrgDetail from "./pages/crm/CrmOrgDetail";
 import CrmContacts from "./pages/crm/CrmContacts";
 import CrmContactDetail from "./pages/crm/CrmContactDetail";
 import CrmDeals from "./pages/crm/CrmDeals";
+import DragDropPipeline from "./pages/crm/DragDropPipeline";
 import CrmTickets from "./pages/crm/CrmTickets";
 import CrmContracts from "./pages/crm/CrmContracts";
 import CrmAssets from "./pages/crm/CrmAssets";
@@ -168,6 +169,13 @@ import CrmCareers from "./pages/crm/CrmCareers";
 import CrmAssessmentSessions from "./pages/crm/CrmAssessmentSessions";
 import CrmBomQuotes from "./pages/crm/CrmBomQuotes";
 import BomCatalogue from "./pages/BomCatalogue";
+import CustomerPortal from "./pages/CustomerPortal";
+import InteractivePortal from "./pages/InteractivePortal";
+import EmailTemplates from "./pages/crm/EmailTemplates";
+import HubSpotSync from "./pages/crm/HubSpotSync";
+import WorkflowBuilder from "./pages/crm/WorkflowBuilder";
+import LeadNurturing from "./pages/crm/LeadNurturing";
+import DuplicateDetection from "./pages/crm/DuplicateDetection";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -390,7 +398,7 @@ const App = () => (
             <Route path="organizations/:id" element={<CrmOrgDetail />} />
             <Route path="contacts" element={<CrmContacts />} />
             <Route path="contacts/:id" element={<CrmContactDetail />} />
-            <Route path="deals" element={<CrmDeals />} />
+            <Route path="deals" element={<DragDropPipeline />} />
             <Route path="tickets" element={<CrmTickets />} />
             <Route path="time" element={<CrmTimeTracking />} />
             <Route path="contracts" element={<CrmContracts />} />
@@ -403,6 +411,11 @@ const App = () => (
             <Route path="assets" element={<CrmAssets />} />
             <Route path="deployments" element={<CrmDeployments />} />
             <Route path="audit" element={<CrmAuditLog />} />
+            <Route path="email-templates" element={<EmailTemplates />} />
+            <Route path="hubspot-sync" element={<HubSpotSync />} />
+            <Route path="workflows" element={<WorkflowBuilder />} />
+            <Route path="lead-nurturing" element={<LeadNurturing />} />
+            <Route path="duplicates" element={<DuplicateDetection />} />
             <Route path="settings" element={<CrmSettings />} />
             <Route path="help" element={<CrmHelp />} />
             <Route path="legacy" element={<CmsAdmin />} />
@@ -412,6 +425,7 @@ const App = () => (
           {/* Login Portals */}
           <Route path="/login/partner" element={<PartnerPortal />} />
           <Route path="/login/client" element={<ClientPortal />} />
+          <Route path="/portal" element={<AuthGate><InteractivePortal /></AuthGate>} />
 
           {/* Legal */}
           <Route path="/privacy" element={<Privacy />} />

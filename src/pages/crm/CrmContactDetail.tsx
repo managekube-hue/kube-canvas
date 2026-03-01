@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { ArrowLeft, Save, Activity, User, Plus, Building2 } from "lucide-react";
 import { toast } from "sonner";
+import { Breadcrumbs } from "@/components/crm/Breadcrumbs";
 
 interface ContactData {
   id: string;
@@ -133,6 +134,10 @@ export default function CrmContactDetail() {
 
   return (
     <div className="space-y-6">
+      <Breadcrumbs items={[
+        { label: "Contacts", href: "/crm/contacts" },
+        { label: `${contact.first_name} ${contact.last_name}` },
+      ]} />
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={() => navigate("/crm/contacts")}>
