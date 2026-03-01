@@ -454,7 +454,7 @@ export default function Reach() {
             onUpdateIssue={updateIssue}
             availableLabels={availableLabels} availableAssignees={availableAssignees} />
         ) : (
-          <IdeIssuesPanel issues={issues.filter(i => i.state === "open")} onCreateIssue={createIssue} loading={issuesLoading}
+          <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
             onSelectIssue={setSelectedIssue} />
         );
       case "chat":
