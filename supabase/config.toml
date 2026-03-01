@@ -44,3 +44,6 @@ verify_jwt = false
 
 [functions.ai-chat]
 verify_jwt = false
+
+[functions.litellm]
+verify_jwt = false
