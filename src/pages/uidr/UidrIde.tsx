@@ -467,24 +467,20 @@ export default function UidrIde() {
       case "issues":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-            onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+            onUpdateIssue={async (id, updates) => { const u = await reachIssues.updateIssue(id, updates); setSelectedIssue(u); }} />
         ) : (
-          <IdeIssuesPanel issues={issues.filter(i => i.state === "open")} onCreateIssue={createIssue} loading={issuesLoading}
+          <IdeIssuesPanel issues={reachIssues.issues} onCreateIssue={async (t, b, s, p) => { await reachIssues.createIssue(t, b, s, p); }} loading={reachIssues.loading}
             onSelectIssue={setSelectedIssue} />
         );
       case "kanban":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-            onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+            onUpdateIssue={async (id, updates) => { const u = await reachIssues.updateIssue(id, updates); setSelectedIssue(u); }} />
         ) : (
-          <IdeKanbanBoard issues={issues} loading={issuesLoading}
-            onSelectIssue={setSelectedIssue} onUpdateIssue={updateIssue} onCreateIssue={createIssue} />
+          <IdeKanbanBoard issues={reachIssues.issues} loading={reachIssues.loading}
+            onSelectIssue={setSelectedIssue}
+            onUpdateIssue={async (id, updates) => { await reachIssues.updateIssue(id, updates); }}
+            onCreateIssue={async (t, b, s) => { await reachIssues.createIssue(t, b, s); }} />
         );
       case "staging":
         return <IdeStagingPanel
