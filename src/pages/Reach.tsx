@@ -298,7 +298,13 @@ export default function Reach() {
   const loadIssues = async () => {
     if (!owner || !repo) return;
     setIssuesLoading(true);
-    try { setIssues(await gh.listIssues(owner, repo, "all")); } catch (err) { console.error(err); }
+    try {
+      console.log("[Reach] Fetching issues for:", { owner, repo });
+      const data = await gh.listIssues(owner, repo, "all");
+      console.log("[Reach] Issues returned:", data.length, "items. Shape:", data[0] ? Object.keys(data[0]) : "empty");
+      console.log("[Reach] First issue sample:", data[0] ? { number: data[0].number, title: data[0].title, state: data[0].state, labels: data[0].labels.length } : "none");
+      setIssues(data);
+    } catch (err) { console.error("[Reach] Issues fetch failed:", err); }
     finally { setIssuesLoading(false); }
   };
 
@@ -378,6 +384,7 @@ export default function Reach() {
     if (!hasWorkspace) return;
     if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); }
     if (activeView === "prs") loadPulls();
+    if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
   }, [activeView, owner, repo, branch, hasWorkspace]);
 
