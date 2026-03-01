@@ -375,7 +375,8 @@ export default function Reach() {
     if (activeView === "home" || activeView === "issues") {
       reachIssues.loadIssues();
     }
-    if (!hasWorkspace) return;
+    // GitHub-dependent loads only when repo is connected
+    if (!owner || !repo) return;
     if (activeView === "home") { loadCommits(); loadPulls(); }
     if (activeView === "activity") { loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
