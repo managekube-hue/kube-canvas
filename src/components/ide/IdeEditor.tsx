@@ -35,6 +35,16 @@ export function IdeEditor({
   const [showCommitDialog, setShowCommitDialog] = useState(false);
   const [commitTarget, setCommitTarget] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const monacoMounted = useRef(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!monacoMounted.current) {
+        console.error("[IdeEditor] Monaco failed to mount within 3 seconds");
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
 
   const activeTabData = tabs.find(t => t.path === activeTab);
   const isMarkdown = activeTab?.match(/\.(md|mdx)$/i);
