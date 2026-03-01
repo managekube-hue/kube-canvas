@@ -33,8 +33,6 @@ export function IdeEditor({
 }: Props) {
   const [showPreview, setShowPreview] = useState(false);
   const monacoMounted = useRef(false);
-  const [showPreview, setShowPreview] = useState(false);
-  const monacoMounted = useRef(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
