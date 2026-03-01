@@ -107,8 +107,11 @@ export default function Reach() {
       if (meta && e.key === "s") {
         e.preventDefault();
         if (!hasWorkspace) return;
-        const tab = tabs.find(t => t.path === activeTab && t.dirty);
-        if (tab) commitFile(tab.path, `Update ${tab.path.split("/").pop()}`);
+        const dirtyPaths = tabs.filter(t => t.dirty).map(t => t.path);
+        if (dirtyPaths.length > 0) {
+          setCommitTargetPaths(dirtyPaths);
+          setShowCommitModal(true);
+        }
       }
     };
     window.addEventListener("keydown", handler);
