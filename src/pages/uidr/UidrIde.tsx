@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Loader2, Plus } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,6 +10,7 @@ import { useReachPullRequests, type ReachPullRequest } from "@/hooks/useReachPul
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
+import { useReachFileEditor } from "@/hooks/useReachFileEditor";
 
 import { IdeActivityBar, type ViewMode } from "@/components/ide/IdeActivityBar";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
