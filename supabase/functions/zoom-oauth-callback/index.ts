@@ -64,7 +64,7 @@ serve(async (req) => {
         // No code at all — redirect user back with error rather than blank page
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=missing_code` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=missing_code` },
         });
       }
 
