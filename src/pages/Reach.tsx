@@ -601,8 +601,10 @@ export default function Reach() {
             setActiveView(viewMap[type] || "home");
           }} />;
       case "settings":
-        return <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
-          onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />;
+        return workspace.activeWorkspace ? (
+          <IdeSettingsPanel workspace={workspace.activeWorkspace} members={workspace.members}
+            onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />
+        ) : <ConnectPrompt />;
       default:
         return null;
     }
