@@ -31,9 +31,8 @@ export function IdeEditor({
   tabs, activeTab, onTabSelect, onTabClose,
   onContentChange, onCommit, branch, onlineUsers, owner, repo,
 }: Props) {
-  const [commitMsg, setCommitMsg] = useState("");
-  const [showCommitDialog, setShowCommitDialog] = useState(false);
-  const [commitTarget, setCommitTarget] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const monacoMounted = useRef(false);
   const [showPreview, setShowPreview] = useState(false);
   const monacoMounted = useRef(false);
 
