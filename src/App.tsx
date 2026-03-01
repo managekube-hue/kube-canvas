@@ -434,6 +434,7 @@ const App = () => (
           <Route path="/uidr/contributors" element={<AuthGate><UidrContributors /></AuthGate>} />
           <Route path="/uidr/open-source" element={<AuthGate><UidrOpenSource /></AuthGate>} />
           <Route path="/uidr/ide" element={<AuthGate><UidrIde /></AuthGate>} />
+          <Route path="/reach" element={<AuthGate><Reach /></AuthGate>} />
           <Route path="/uidr/contact" element={<UidrContact />} />
 
           <Route path="*" element={<NotFound />} />
