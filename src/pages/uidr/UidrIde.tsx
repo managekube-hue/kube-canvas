@@ -291,30 +291,7 @@ export default function UidrIde() {
     return data.encoding === "base64" ? atob(data.content) : data.content;
   };
 
-  // ── Issues ─────────────────────────────────
-  const loadIssues = async () => {
-    if (!owner || !repo) return;
-    setIssuesLoading(true);
-    try { setIssues(await gh.listIssues(owner, repo, "all")); } catch (err) { console.error(err); }
-    finally { setIssuesLoading(false); }
-  };
-
-  const loadLabelsAndAssignees = async () => {
-    if (!owner || !repo) return;
-    try {
-      const [labels, assignees] = await Promise.all([gh.getLabels(owner, repo), gh.getAssignees(owner, repo)]);
-      setAvailableLabels(labels);
-      setAvailableAssignees(assignees);
-    } catch { /* non-critical */ }
-  };
-
-  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(owner, repo, title, body); loadIssues(); };
-  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
-    if (!hasWorkspace) return;
-    const updated = await gh.updateIssue(owner, repo, num, updates);
-    setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
-    if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
-  };
+  // ── Issues (local-first via useReachIssues) ──
 
   // ── PRs ────────────────────────────────────
   const loadPulls = async () => {
