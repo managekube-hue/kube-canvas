@@ -376,7 +376,7 @@ export default function Reach() {
           onConnectRepo={() => setShowRepoModal(true)}
           issues={reachIssues.issues}
           commits={commits}
-          pulls={pulls}
+          pulls={reachPRs.pullRequests}
           unreadMessages={unreadCount}
           onNavigate={(view) => setActiveView(view as ReachView)}
         />
