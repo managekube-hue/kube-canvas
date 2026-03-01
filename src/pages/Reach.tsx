@@ -491,7 +491,9 @@ export default function Reach() {
       );
     }
 
-    if (!hasWorkspace) return <ConnectPrompt />;
+    // Git-dependent views need a workspace; Supabase-only views don't
+    const gitViews: ReachView[] = ["files", "issues", "prs", "search", "milestones", "activity"];
+    if (!hasWorkspace && gitViews.includes(activeView)) return <ConnectPrompt />;
 
     switch (activeView) {
       case "issues":
@@ -563,7 +565,7 @@ export default function Reach() {
           />
         );
       case "chat":
-        return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
+        return workspace.activeWorkspace ? <IdeChatPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
       case "prs":
         return selectedPr ? (
           <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
@@ -591,7 +593,7 @@ export default function Reach() {
           }}
           onCreateDoc={createNewFile} />;
       case "meetings":
-        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
+        return workspace.activeWorkspace ? <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead}
           onNavigate={(type) => {
@@ -599,8 +601,10 @@ export default function Reach() {
             setActiveView(viewMap[type] || "home");
           }} />;
       case "settings":
-        return <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
-          onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />;
+        return workspace.activeWorkspace ? (
+          <IdeSettingsPanel workspace={workspace.activeWorkspace} members={workspace.members}
+            onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />
+        ) : <ConnectPrompt />;
       default:
         return null;
     }
