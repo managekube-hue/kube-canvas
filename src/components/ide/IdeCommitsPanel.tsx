@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Loader2, ChevronDown, ChevronRight, FileCode } from "lucide-react";
-import type { GitCommitDetail } from "@/hooks/useGitHubProxy";
+import type { GitCommitDetail } from "@/hooks/useGitHub";
 
 interface Commit {
   sha: string;

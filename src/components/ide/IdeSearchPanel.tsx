@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Search, File, Loader2, Code } from "lucide-react";
 import type { TreeNode } from "./IdeFileTree";
-import type { GitSearchResult } from "@/hooks/useGitHubProxy";
+import type { GitSearchResult } from "@/hooks/useGitHub";
 
 interface Props {
   tree: TreeNode[];

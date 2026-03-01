@@ -3,7 +3,7 @@ import {
   ChevronRight, ChevronDown, File, Folder, Loader2,
   RefreshCw, Plus, FilePlus, FolderPlus, Trash2, GitBranch,
 } from "lucide-react";
-import { useGitHubProxy, type GitTreeItem } from "@/hooks/useGitHubProxy";
+import type { GitTreeItem } from "@/hooks/useGitHub";
 import { Button } from "@/components/ui/button";
 
 // ── Tree data ──────────────────────────────

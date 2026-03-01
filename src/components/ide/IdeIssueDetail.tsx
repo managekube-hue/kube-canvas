@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, Loader2, MessageSquare, Tag, User, Calendar, X, Send, Clock, CheckCircle2, Circle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
-import type { GitIssue, GitComment, GitLabel } from "@/hooks/useGitHubProxy";
+import type { GitIssue, GitComment, GitLabel } from "@/hooks/useGitHub";
 
 interface Props {
   issue: GitIssue;
