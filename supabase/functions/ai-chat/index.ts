@@ -13,7 +13,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // --- Auth ---
+    // Auth — verify the user is logged in
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -36,7 +36,7 @@ serve(async (req) => {
       });
     }
 
-    // --- Parse request ---
+    // Parse request
     const { messages, model, stream = true } = await req.json();
 
     if (!messages || !Array.isArray(messages)) {
@@ -46,34 +46,22 @@ serve(async (req) => {
       });
     }
 
-    // --- Lookup user's BYOK OpenRouter key ---
-    const adminClient = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
-
-    const { data: config } = await adminClient
-      .from("developer_ai_configs")
-      .select("api_key_encrypted, model_preference")
-      .eq("user_id", user.id)
-      .eq("is_default", true)
-      .maybeSingle();
-
-    if (!config?.api_key_encrypted) {
+    // OpenRouter API key — single org-wide key
+    const OPENROUTER_API_KEY = Deno.env.get("OPENROUTER_API_KEY");
+    if (!OPENROUTER_API_KEY) {
       return new Response(
-        JSON.stringify({ error: "No OpenRouter API key configured. Add your key in IDE Settings." }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: "OPENROUTER_API_KEY not configured." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const apiKey = config.api_key_encrypted;
-    const selectedModel = model || config.model_preference || "openai/gpt-4o";
+    const selectedModel = model || "anthropic/claude-sonnet-4-20250514";
 
-    // --- Call OpenRouter ---
+    // Call OpenRouter
     const response = await fetch(OPENROUTER_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://managekube.lovable.app",
         "X-Title": "ManageKube REACH IDE",
