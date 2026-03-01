@@ -25,7 +25,7 @@ export function ReachHomeDashboard({
   const openIssues = issues.filter(i => i.status !== "done" && i.status !== "closed");
   const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
   const commitsToday = commits.filter(c => new Date(c.commit?.author?.date || c.created_at) >= todayStart);
-  const openPrs = pulls.filter(p => p.state === "open");
+  const openPrs = pulls.filter(p => (p.state || p.status) === "open");
 
   const recentIssues = openIssues.slice(0, 5);
   const recentCommits = commits.slice(0, 8);
