@@ -506,23 +506,13 @@ export default function Reach() {
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "prs":
-        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Pull requests require a connected repository</span></div></div>;
-        return selectedPr ? (
-          <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
-            onLoadFiles={(num) => gh.getPRFiles(owner, repo, num)}
-            onLoadComments={(num) => gh.getPRComments(owner, repo, num)}
-            onLoadReviews={(num) => gh.getPRReviews(owner, repo, num)}
-            onAddComment={(num, body) => gh.createPRComment(owner, repo, num, body).then(() => {})}
-            onMerge={mergePr}
-            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }}
-            onLoadFileContent={async (path, ref) => {
-              const data = await gh.getFile(owner, repo, path, ref);
-              return data.encoding === "base64" ? atob(data.content) : data.content;
-            }} />
-        ) : (
-          <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
-            onSelectPr={setSelectedPr} onCreatePr={createPr}
-            branches={branches} currentBranch={branch} />
+        return (
+          <IdePullRequestsPanel
+            pullRequests={reachPRs.pullRequests}
+            loading={reachPRs.loading}
+            onSelectPr={setSelectedPr}
+            onCreatePr={async (title, source, target, body) => { await reachPRs.create(title, source, target, body); }}
+          />
         );
       case "docs":
         return <IdeDocsPanel tree={hasGitHub ? tree : []} onLoadFile={hasGitHub ? loadFileContent : async (p) => `// ${p}`} onOpenInEditor={(path) => { openFile(path); setActiveView("files"); }}
