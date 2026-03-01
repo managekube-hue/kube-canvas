@@ -7,7 +7,7 @@ interface WorkspaceSetupProps {
   onClose?: () => void;
 }
 
-export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
+export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupProps) {
   const gh = useGitHub();
   const [repos, setRepos] = useState<GitRepo[]>([]);
   const [loading, setLoading] = useState(true);
