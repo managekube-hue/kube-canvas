@@ -20,7 +20,7 @@ interface Props {
   onTabSelect: (path: string) => void;
   onTabClose: (path: string) => void;
   onContentChange: (path: string, content: string) => void;
-  onCommit: (path: string, message: string) => void;
+  onCommit: (path: string) => void;
   branch: string;
   onlineUsers: PresenceUser[];
   owner: string;
