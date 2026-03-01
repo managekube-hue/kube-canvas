@@ -67,16 +67,30 @@ function detectLanguage(path: string): string {
 const DEFAULT_SCRATCH: OpenTab[] = [
   {
     path: "scratch.ts",
-    content: `// Welcome to KUBRIC REACH IDE
-// Start typing — this is a local scratch pad.
-// Connect a GitHub workspace via Settings to unlock full features.
-
-function hello(): string {
-  return "Hello from REACH IDE!";
-}
-
-console.log(hello());
-`,
+    content: [
+      "// ═══════════════════════════════════════════════════════════",
+      "//  KUBRIC REACH IDE — Local Scratch Pad",
+      "// ═══════════════════════════════════════════════════════════",
+      "//  → Connect a GitHub workspace via the sidebar to unlock:",
+      "//    • File tree, branches, commits",
+      "//    • Issues, PRs, Kanban boards",
+      "//    • Real-time chat & collaboration",
+      "//    • Milestone planning & activity feed",
+      "// ═══════════════════════════════════════════════════════════",
+      "",
+      "interface ReachConfig {",
+      "  workspace: string;",
+      "  modules: string[];",
+      "}",
+      "",
+      "const config: ReachConfig = {",
+      '  workspace: "local",',
+      '  modules: ["editor", "terminal", "chat"],',
+      "};",
+      "",
+      'console.log("REACH IDE ready:", config);',
+      "",
+    ].join("\n"),
     dirty: false,
     language: "typescript",
     loading: false,
