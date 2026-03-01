@@ -82,14 +82,15 @@ export default function Reach() {
   const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
   const [issueSubView, setIssueSubView] = useState<"list" | "kanban">("list");
 
-  // ── PRs ────────────────────────────────────
-  const [pulls, setPulls] = useState<GitPullRequest[]>([]);
-  const [pullsLoading, setPullsLoading] = useState(false);
-  const [selectedPr, setSelectedPr] = useState<GitPullRequest | null>(null);
+  // ── PRs (local-first, Supabase) ─────────────
+  const reachPRs = useReachPullRequests(workspace.activeWorkspace?.id || null);
+  const [selectedPr, setSelectedPr] = useState<ReachPullRequest | null>(null);
 
-  // ── Milestones ─────────────────────────────
-  const [milestones, setMilestones] = useState<GitMilestone[]>([]);
-  const [milestonesLoading, setMilestonesLoading] = useState(false);
+  // ── Milestones (local-first, Supabase) ─────
+  const reachMilestones = useReachMilestones(workspace.activeWorkspace?.id || null);
+
+  // ── Activity (local-first, Supabase) ───────
+  const reachActivity = useReachActivity(workspace.activeWorkspace?.id || null);
 
   // ── Commits ────────────────────────────────
   const [commits, setCommits] = useState<any[]>([]);
