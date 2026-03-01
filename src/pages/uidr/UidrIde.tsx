@@ -388,6 +388,11 @@ export default function UidrIde() {
     setShowWorkspaceSetup(false);
   };
 
+  const handleBackToRepos = () => {
+    workspace.setActiveWorkspace(null);
+    setShowWorkspaceSetup(true);
+  };
+
   const dirtyCount = tabs.filter(t => t.dirty).length;
 
   if (workspace.loading) {
