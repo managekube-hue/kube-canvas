@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url><loc>https://managekube.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+
+  <!-- Gate Paths -->
+  <url><loc>https://managekube.com/gate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/fully-managed</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://managekube.com/co-managed</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://managekube.com/self-managed</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Core Pages -->
+  <url><loc>https://managekube.com/methodology</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/get-started</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://managekube.com/assessment</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/assessment/start</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/bom</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/find-by-problem</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- How It Works -->
+  <url><loc>https://managekube.com/how-it-works</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/how-it-works/platform-overview</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/how-it-works/kubric-uidr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/how-it-works/kubric-data-graph</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/how-it-works/kubricai</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Service Layer -->
+  <url><loc>https://managekube.com/service-layer</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://managekube.com/service-layer/cio</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/npm</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/mdm</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/apm</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/cfdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/bdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/itdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/ndr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/cdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/sdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/adr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/ddr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/ti</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/vdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/grc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/strike</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/easm</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-layer/honeypot</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Service Tiers -->
+  <url><loc>https://managekube.com/service-tiers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/service-tiers/xro-essentials</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-tiers/xmx-advanced</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-tiers/xme-enterprise</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/service-tiers/custom</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Services -->
+  <url><loc>https://managekube.com/services</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://managekube.com/services/managed-noc</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/services/managed-soc</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/services/managed-compliance</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/services/managed-cloud</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/services/security-assessments</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/services/penetration-testing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/services/compliance-gap-analysis</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/services/infrastructure-audits</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/services/right-sizing</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/services/physical-security</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/services/network-buildouts</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/services/custom-automation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/services/legacy-integrations</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/services/help-desk</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/services/managed-it</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/services/smart-hands</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Solutions -->
+  <url><loc>https://managekube.com/solutions</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/solutions/manufacturing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/healthcare</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/public-sector</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/financial-services</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/retail</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/technology</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/by-market-size</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/by-market-size/smb</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/solutions/by-market-size/sme</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/solutions/by-market-size/enterprise</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/solutions/by-industry</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/by-service-type</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/by-service-type/fully-managed</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/by-service-type/co-managed</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/solutions/by-service-type/self-managed</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Compliance -->
+  <url><loc>https://managekube.com/compliance</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/compliance/cmmc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/cjis</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/nist-800-171</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/nist-800-53</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/hipaa</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/soc2</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/iso-27001</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/pci-dss</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/fedramp</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/nist-csf</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/cis-controls</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/compliance/fisma</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Industries -->
+  <url><loc>https://managekube.com/industries</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/industries/manufacturing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/healthcare</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/financial-services</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/retail</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/transportation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/mining-extraction</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/energy-utilities</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/public-sector</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/industries/telecommunications</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Company -->
+  <url><loc>https://managekube.com/pricing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://managekube.com/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://managekube.com/about/partners</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/about/roadmap</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/careers</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/support</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- Tools -->
+  <url><loc>https://managekube.com/tools/threat-ai</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+
+  <!-- Documentation -->
+  <url><loc>https://managekube.com/documentation</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- UIDR Open Source -->
+  <url><loc>https://managekube.com/uidr</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://managekube.com/uidr/platform</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://managekube.com/uidr/docs</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://managekube.com/uidr/contact</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+
+  <!-- Legal -->
+  <url><loc>https://managekube.com/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://managekube.com/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://managekube.com/accessibility</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://managekube.com/open-source-licensing</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://managekube.com/notice</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>
