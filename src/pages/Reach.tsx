@@ -70,6 +70,7 @@ export default function Reach() {
   const [commitError, setCommitError] = useState<string | null>(null);
   const [commitCommitting, setCommitCommitting] = useState(false);
   const [commitTargetPaths, setCommitTargetPaths] = useState<string[]>([]);
+  const [showStaging, setShowStaging] = useState(false);
 
   // ── Issues ─────────────────────────────────
   const [issues, setIssues] = useState<GitIssue[]>([]);
@@ -193,10 +194,12 @@ export default function Reach() {
       // Step 1: Get branch ref
       setCommitStep(1);
       const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+      const commitSha = refData.object.sha;
 
-      // Step 2: Get base tree SHA (from the commit the ref points to)
+      // Step 2: Get tree SHA from the commit object
       setCommitStep(2);
-      const baseSha = refData.object.sha;
+      const commitDetail = await gh.getCommitDetail(owner, repo, commitSha);
+      const baseTreeSha = (commitDetail as any).commit?.tree?.sha || commitSha;
 
       // Step 3: Create blob(s)
       setCommitStep(3);
@@ -209,11 +212,11 @@ export default function Reach() {
 
       // Step 4: Create new tree
       setCommitStep(4);
-      const newTree = await gh.createTree(owner, repo, baseSha, blobs);
+      const newTree = await gh.createTree(owner, repo, baseTreeSha, blobs);
 
       // Step 5: Create commit
       setCommitStep(5);
-      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [baseSha]);
+      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [commitSha]);
 
       // Step 6: Update branch ref
       setCommitStep(6);
@@ -382,7 +385,7 @@ export default function Reach() {
   // ── Load data per view ─────────────────────
   useEffect(() => {
     if (!hasWorkspace) return;
-    if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); }
+    if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
     if (activeView === "prs") loadPulls();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
@@ -425,15 +428,37 @@ export default function Reach() {
       if (!hasWorkspace) {
         return <ConnectPrompt />;
       }
+      const dirtyTabsForStaging = tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }));
       return (
         <div className="flex h-full overflow-hidden">
           <div className="w-[280px] flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden">
-            <IdeFileTree
-              owner={owner} repo={repo} branch={branch} setBranch={setBranch}
-              branches={branches} onSelectFile={openFile} selectedFile={activeTab}
-              onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
-              treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile}
-            />
+            {dirtyTabsForStaging.length > 0 && (
+              <div className="px-3 py-1.5 border-b border-white/5 flex gap-1">
+                <button onClick={() => setShowStaging(false)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium ${!showStaging ? "bg-blue-600/20 text-blue-400" : "text-white/30 hover:text-white/50"}`}>
+                  Explorer
+                </button>
+                <button onClick={() => setShowStaging(true)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium ${showStaging ? "bg-blue-600/20 text-blue-400" : "text-white/30 hover:text-white/50"}`}>
+                  Staging ({dirtyTabsForStaging.length})
+                </button>
+              </div>
+            )}
+            {showStaging && dirtyTabsForStaging.length > 0 ? (
+              <IdeStagingPanel
+                dirtyFiles={dirtyTabsForStaging}
+                branch={branch}
+                onCommitMultiple={commitMultipleFiles}
+                onDiscardFile={discardFile}
+              />
+            ) : (
+              <IdeFileTree
+                owner={owner} repo={repo} branch={branch} setBranch={setBranch}
+                branches={branches} onSelectFile={openFile} selectedFile={activeTab}
+                onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
+                treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile}
+              />
+            )}
           </div>
           <IdeEditor
             tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
