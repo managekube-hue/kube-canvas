@@ -371,15 +371,18 @@ export default function Reach() {
 
   // ── Load data per view ─────────────────────
   useEffect(() => {
+    // Issues load from Supabase (no GitHub needed)
+    if (activeView === "home" || activeView === "issues") {
+      reachIssues.loadIssues();
+    }
     if (!hasWorkspace) return;
-    if (activeView === "home") { loadIssues(); loadCommits(); loadPulls(); }
-    if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
-    if (activeView === "activity") { loadIssues(); loadCommits(); loadPulls(); }
+    if (activeView === "home") { loadCommits(); loadPulls(); }
+    if (activeView === "activity") { loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
     if (activeView === "milestones") loadAllMilestones();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
-  }, [activeView, owner, repo, branch, hasWorkspace]);
+  }, [activeView, owner, repo, branch, hasWorkspace, workspace.activeWorkspace?.id]);
 
   // ── Workspace creation ─────────────────────
   const handleCreateWorkspace = async (name: string, ghOwner: string, ghRepo: string) => {
