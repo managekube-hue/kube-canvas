@@ -42,10 +42,10 @@ export function IdePullRequestsPanel({ pulls, loading, onSelectPr, onCreatePr, b
 
   const getReviewIcon = (prNum: number) => {
     const state = reviewStatuses[prNum];
-    if (!state) return <Clock size={10} className="text-white/20" title="Pending" />;
-    if (state === "APPROVED") return <Check size={10} className="text-emerald-400" title="Approved" />;
-    if (state === "CHANGES_REQUESTED") return <AlertCircle size={10} className="text-orange-400" title="Changes Requested" />;
-    return <Eye size={10} className="text-blue-400" title="Reviewed" />;
+    if (!state) return <span title="Pending"><Clock size={10} className="text-white/20" /></span>;
+    if (state === "APPROVED") return <span title="Approved"><Check size={10} className="text-emerald-400" /></span>;
+    if (state === "CHANGES_REQUESTED") return <span title="Changes Requested"><AlertCircle size={10} className="text-orange-400" /></span>;
+    return <span title="Reviewed"><Eye size={10} className="text-blue-400" /></span>;
   };
 
   return (

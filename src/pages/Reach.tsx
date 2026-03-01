@@ -319,8 +319,12 @@ export default function Reach() {
     } catch { /* non-critical */ }
   };
 
-  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(owner, repo, title, body); loadIssues(); };
-  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
+  const createIssue = async (title: string, body: string, labels?: string[], assignees?: string[], milestone?: number) => {
+    if (!hasWorkspace) return;
+    await gh.createIssue(owner, repo, title, body, labels, assignees, milestone);
+    loadIssues();
+  };
+  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[]; milestone?: number | null }) => {
     if (!hasWorkspace) return;
     const updated = await gh.updateIssue(owner, repo, num, updates);
     setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
