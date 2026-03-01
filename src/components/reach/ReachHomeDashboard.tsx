@@ -3,14 +3,15 @@ import { Bug, MessageSquare, GitCommitHorizontal, Video, ArrowRight, Plug } from
 interface Props {
   displayName: string;
   hasWorkspace: boolean;
+  onConnectRepo?: () => void;
 }
 
-export function ReachHomeDashboard({ displayName, hasWorkspace }: Props) {
+export function ReachHomeDashboard({ displayName, hasWorkspace, onConnectRepo }: Props) {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8">
+    <div className="max-w-5xl mx-auto px-6 py-8 overflow-y-auto h-full">
       {/* Greeting */}
       <h1 className="text-2xl font-semibold text-white mb-1">
         {greeting}, {displayName}
@@ -27,7 +28,10 @@ export function ReachHomeDashboard({ displayName, hasWorkspace }: Props) {
               <p className="text-xs text-white/40">Link a GitHub repo to see your issues, commits, and PRs.</p>
             </div>
           </div>
-          <button className="px-3 py-1.5 rounded-md bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">
+          <button
+            onClick={onConnectRepo}
+            className="px-3 py-1.5 rounded-md bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors"
+          >
             Connect Repo
           </button>
         </div>
