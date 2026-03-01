@@ -506,7 +506,11 @@ export default function Reach() {
             onLoadReviews={(num) => gh.getPRReviews(owner, repo, num)}
             onAddComment={(num, body) => gh.createPRComment(owner, repo, num, body).then(() => {})}
             onMerge={mergePr}
-            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }} />
+            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }}
+            onLoadFileContent={async (path, ref) => {
+              const data = await gh.getFile(owner, repo, path, ref);
+              return data.encoding === "base64" ? atob(data.content) : data.content;
+            }} />
         ) : (
           <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
             onSelectPr={setSelectedPr} onCreatePr={createPr}
