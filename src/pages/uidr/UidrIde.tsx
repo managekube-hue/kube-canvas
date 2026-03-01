@@ -254,6 +254,8 @@ export default function UidrIde() {
 
   const updateContent = (path: string, content: string) => {
     setTabs(prev => prev.map(t => t.path === path ? { ...t, content, dirty: true } : t));
+    // Auto-save to Supabase for local files
+    autoSaveToSupabase(path, content);
   };
 
   const commitFile = async (path: string, message: string) => {
