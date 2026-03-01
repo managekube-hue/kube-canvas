@@ -1,51 +1,39 @@
 import { useState } from "react";
-import { GitPullRequest, Loader2, Plus, GitMerge, Check, AlertCircle, Eye, Clock } from "lucide-react";
+import { GitPullRequest, Loader2, Plus, GitMerge, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { GitPullRequest as PR } from "@/hooks/useGitHub";
+import type { ReachPullRequest } from "@/hooks/useReachPullRequests";
 
-interface ListProps {
-  pulls: PR[];
+interface Props {
+  pullRequests: ReachPullRequest[];
   loading: boolean;
-  onSelectPr: (pr: PR) => void;
-  onCreatePr: (title: string, head: string, base: string, body: string) => Promise<void>;
-  branches: string[];
-  currentBranch: string;
-  reviewStatuses?: Record<number, string>; // PR number → latest review state
+  onSelectPr: (pr: ReachPullRequest) => void;
+  onCreatePr: (title: string, sourceBranch: string, targetBranch: string, body: string) => Promise<void>;
 }
 
-export function IdePullRequestsPanel({ pulls, loading, onSelectPr, onCreatePr, branches, currentBranch, reviewStatuses = {} }: ListProps) {
+export function IdePullRequestsPanel({ pullRequests, loading, onSelectPr, onCreatePr }: Props) {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [head, setHead] = useState(currentBranch);
-  const [base, setBase] = useState("main");
+  const [sourceBranch, setSourceBranch] = useState("");
+  const [targetBranch, setTargetBranch] = useState("main");
   const [submitting, setSubmitting] = useState(false);
   const [filter, setFilter] = useState<"open" | "closed">("open");
 
   const handleCreate = async () => {
-    if (!title.trim()) return;
+    if (!title.trim() || !sourceBranch.trim()) return;
     setSubmitting(true);
     try {
-      await onCreatePr(title.trim(), head, base, body.trim());
-      setTitle(""); setBody(""); setShowCreate(false);
+      await onCreatePr(title.trim(), sourceBranch.trim(), targetBranch.trim(), body.trim());
+      setTitle(""); setBody(""); setSourceBranch(""); setShowCreate(false);
     } finally { setSubmitting(false); }
   };
 
-  const filtered = pulls.filter(p => filter === "open" ? !p.merged && p.state === "open" : p.state === "closed" || p.merged);
+  const filtered = pullRequests.filter(p => filter === "open" ? p.status === "open" : p.status !== "open");
 
-  const getStatus = (pr: PR): { label: string; color: string } => {
-    if (pr.merged) return { label: "Merged", color: "text-purple-400" };
-    if ((pr as any).draft) return { label: "Draft", color: "text-white/30" };
-    if (pr.state === "open") return { label: "Open", color: "text-green-400" };
-    return { label: "Closed", color: "text-red-400" };
-  };
-
-  const getReviewIcon = (prNum: number) => {
-    const state = reviewStatuses[prNum];
-    if (!state) return <span title="Pending"><Clock size={10} className="text-white/20" /></span>;
-    if (state === "APPROVED") return <span title="Approved"><Check size={10} className="text-emerald-400" /></span>;
-    if (state === "CHANGES_REQUESTED") return <span title="Changes Requested"><AlertCircle size={10} className="text-orange-400" /></span>;
-    return <span title="Reviewed"><Eye size={10} className="text-blue-400" /></span>;
+  const getStatus = (pr: ReachPullRequest): { label: string; color: string } => {
+    if (pr.status === "merged") return { label: "Merged", color: "text-purple-400" };
+    if (pr.status === "closed") return { label: "Closed", color: "text-red-400" };
+    return { label: "Open", color: "text-green-400" };
   };
 
   return (
@@ -70,18 +58,14 @@ export function IdePullRequestsPanel({ pulls, loading, onSelectPr, onCreatePr, b
             className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white outline-none" />
           <div className="flex gap-2">
             <div className="flex-1">
-              <label className="text-[9px] text-white/30 mb-0.5 block">Head</label>
-              <select value={head} onChange={(e) => setHead(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none">
-                {branches.map(b => <option key={b} value={b} className="bg-[#0c0c0c]">{b}</option>)}
-              </select>
+              <label className="text-[9px] text-white/30 mb-0.5 block">Source branch</label>
+              <input value={sourceBranch} onChange={(e) => setSourceBranch(e.target.value)} placeholder="feature/..."
+                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none" />
             </div>
             <div className="flex-1">
-              <label className="text-[9px] text-white/30 mb-0.5 block">Base</label>
-              <select value={base} onChange={(e) => setBase(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none">
-                {branches.map(b => <option key={b} value={b} className="bg-[#0c0c0c]">{b}</option>)}
-              </select>
+              <label className="text-[9px] text-white/30 mb-0.5 block">Target branch</label>
+              <input value={targetBranch} onChange={(e) => setTargetBranch(e.target.value)} placeholder="main"
+                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none" />
             </div>
           </div>
           <textarea value={body} onChange={(e) => setBody(e.target.value)} placeholder="Description" rows={3}
@@ -99,10 +83,10 @@ export function IdePullRequestsPanel({ pulls, loading, onSelectPr, onCreatePr, b
         {filtered.map(pr => {
           const status = getStatus(pr);
           return (
-            <button key={pr.number} onClick={() => onSelectPr(pr)}
+            <button key={pr.id} onClick={() => onSelectPr(pr)}
               className="w-full text-left px-3 py-2.5 border-b border-white/5 hover:bg-white/[0.02]">
               <div className="flex items-center gap-2">
-                {pr.merged ? (
+                {pr.status === "merged" ? (
                   <GitMerge size={12} className="text-purple-400 flex-shrink-0" />
                 ) : (
                   <GitPullRequest size={12} className={`flex-shrink-0 ${status.color}`} />
@@ -111,10 +95,8 @@ export function IdePullRequestsPanel({ pulls, loading, onSelectPr, onCreatePr, b
                 <span className="text-[10px] text-white/30">#{pr.number}</span>
               </div>
               <div className="flex items-center gap-2 mt-1 ml-5 text-[10px] text-white/25">
-                <img src={pr.user.avatar_url} className="w-3.5 h-3.5 rounded-full" alt="" />
-                <span>{pr.base.ref} ← {pr.head.ref}</span>
+                <span>{pr.target_branch} ← {pr.source_branch}</span>
                 <span className={`ml-auto ${status.color}`}>{status.label}</span>
-                {getReviewIcon(pr.number)}
               </div>
             </button>
           );
