@@ -554,6 +554,7 @@ export default function Reach() {
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "prs":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Pull requests require a connected repository</span></div></div>;
         return selectedPr ? (
           <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
             onLoadFiles={(num) => gh.getPRFiles(owner, repo, num)}
