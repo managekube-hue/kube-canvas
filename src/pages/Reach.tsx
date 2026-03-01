@@ -404,6 +404,7 @@ export default function Reach() {
   // ── Load data per view ─────────────────────
   useEffect(() => {
     if (!hasWorkspace) return;
+    if (activeView === "home") { loadIssues(); loadCommits(); loadPulls(); }
     if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
     if (activeView === "activity") { loadIssues(); loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
