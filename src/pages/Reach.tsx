@@ -70,6 +70,7 @@ export default function Reach() {
   const [commitError, setCommitError] = useState<string | null>(null);
   const [commitCommitting, setCommitCommitting] = useState(false);
   const [commitTargetPaths, setCommitTargetPaths] = useState<string[]>([]);
+  const [showStaging, setShowStaging] = useState(false);
 
   // ── Issues ─────────────────────────────────
   const [issues, setIssues] = useState<GitIssue[]>([]);
