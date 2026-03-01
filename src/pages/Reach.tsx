@@ -469,7 +469,7 @@ export default function Reach() {
     }
 
     // Git-dependent views need a workspace; Supabase-only views don't
-    const gitViews: ReachView[] = ["files", "issues", "prs", "search", "milestones", "activity"];
+    const gitViews: ReachView[] = ["files", "prs", "search", "milestones", "activity"];
     if (!hasWorkspace && gitViews.includes(activeView)) return <ConnectPrompt />;
 
     switch (activeView) {
@@ -477,11 +477,10 @@ export default function Reach() {
         if (selectedIssue) {
           return (
             <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-              onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-              onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-              onUpdateIssue={updateIssue}
-              availableLabels={availableLabels} availableAssignees={availableAssignees}
-              milestones={milestones} />
+              onUpdateIssue={async (id, updates) => {
+                const updated = await reachIssues.updateIssue(id, updates);
+                setSelectedIssue(updated);
+              }} />
           );
         }
         return (
@@ -503,16 +502,16 @@ export default function Reach() {
             </div>
             {issueSubView === "kanban" ? (
               <IdeKanbanBoard
-                issues={issues} loading={issuesLoading}
+                issues={reachIssues.issues} loading={reachIssues.loading}
                 onSelectIssue={setSelectedIssue}
-                onUpdateIssue={updateIssue}
-                onCreateIssue={createIssue}
+                onUpdateIssue={async (id, updates) => { await reachIssues.updateIssue(id, updates); }}
+                onCreateIssue={async (title, body, status) => { await reachIssues.createIssue(title, body, status); }}
               />
             ) : (
-              <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
-                onSelectIssue={setSelectedIssue}
-                availableLabels={availableLabels} availableAssignees={availableAssignees}
-                milestones={milestones} />
+              <IdeIssuesPanel issues={reachIssues.issues}
+                onCreateIssue={async (title, body, status, priority) => { await reachIssues.createIssue(title, body, status, priority); }}
+                loading={reachIssues.loading}
+                onSelectIssue={setSelectedIssue} />
             )}
           </div>
         );
