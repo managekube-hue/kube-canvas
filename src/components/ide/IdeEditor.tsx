@@ -118,18 +118,7 @@ export function IdeEditor({
         </div>
       )}
 
-      {/* Commit dialog */}
-      {showCommitDialog && (
-        <div className="px-4 py-2 bg-[#0c0c0c] border-b border-white/10 flex items-center gap-2">
-          <GitBranch size={12} className="text-blue-400 flex-shrink-0" />
-          <input autoFocus value={commitMsg} onChange={(e) => setCommitMsg(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && doCommit()}
-            className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none"
-            placeholder="Commit message..." />
-          <Button size="sm" onClick={doCommit} className="h-6 text-[10px] bg-blue-600">Commit to {branch}</Button>
-          <button onClick={() => setShowCommitDialog(false)} className="text-white/30 hover:text-white/60"><X size={14} /></button>
-        </div>
-      )}
+      {/* Commit dialog removed — now handled by IdeCommitModal */}
 
       {/* Editor + Preview */}
       <div className="flex-1 flex overflow-hidden">
