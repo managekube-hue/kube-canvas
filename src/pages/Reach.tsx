@@ -392,14 +392,22 @@ export default function Reach() {
 
   const dirtyCount = tabs.filter(t => t.dirty).length;
 
-  // ── No-workspace guard for panels ──────────
-  const ConnectPrompt = () => (
+  // ── No-workspace guard (only for workspace-scoped features) ──
+  const hasGitHub = !!(owner && repo);
+
+  const CreateWorkspacePrompt = () => (
     <div className="flex-1 flex flex-col items-center justify-center px-4 text-center gap-3">
-      <span className="text-xs text-white/30">Connect a GitHub workspace to use this panel</span>
+      <span className="text-xs text-white/30">Create a workspace to get started</span>
       <button onClick={() => setShowRepoModal(true)}
         className="text-[10px] py-1.5 px-3 rounded border border-dashed border-white/10 text-white/40 hover:text-white/60 hover:border-white/20 transition-colors">
-        + Connect Workspace
+        + New Workspace
       </button>
+    </div>
+  );
+
+  const NoGitHubNotice = () => (
+    <div className="px-4 py-2 bg-yellow-500/5 border-b border-yellow-500/10">
+      <span className="text-[10px] text-yellow-400/60">No repository connected — connect one in Settings to enable this feature</span>
     </div>
   );
 
