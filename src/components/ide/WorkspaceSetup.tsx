@@ -75,10 +75,13 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
             <FolderGit2 size={20} className="text-blue-400" />
           </div>
-          <div>
+          <div className="flex-1">
             <h2 className="text-lg font-bold text-white">Open Repository</h2>
             <p className="text-xs text-white/40">Select a repo to start working</p>
           </div>
+          {onClose && (
+            <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg transition-colors">✕</button>
+          )}
         </div>
       </div>
 

@@ -560,7 +560,11 @@ export default function UidrIde() {
         <IdeActivityBar viewMode={viewMode} setViewMode={setViewMode} unreadCount={unreadCount} onlineCount={onlineUsers.length} dirtyCount={dirtyCount} />
         <div className={`${viewMode === "kanban" && hasWorkspace ? "w-full" : "w-[280px]"} flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden`}>
           {hasWorkspace && (
-            <div className="px-3 py-2 border-b border-white/5">
+            <div className="px-3 py-2 border-b border-white/5 space-y-1.5">
+              <button onClick={handleBackToRepos}
+                className="flex items-center gap-1 text-[10px] text-white/30 hover:text-white/60 transition-colors">
+                ← Repositories
+              </button>
               <select value={workspace.activeWorkspace?.id || ""}
                 onChange={(e) => {
                   const ws = workspace.workspaces.find(w => w.id === e.target.value);
