@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Loader2, Plus } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,6 +10,7 @@ import { useReachPullRequests, type ReachPullRequest } from "@/hooks/useReachPul
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
+import { useReachFileEditor } from "@/hooks/useReachFileEditor";
 
 import { IdeActivityBar, type ViewMode } from "@/components/ide/IdeActivityBar";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
@@ -31,6 +32,7 @@ import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeAiCopilotPanel } from "@/components/ide/IdeAiCopilotPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
+import { IdeLocalFileTree } from "@/components/ide/IdeLocalFileTree";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 
 /** Minimal IDE-only shell — no footer, no CTA, full-screen dev environment */
@@ -111,6 +113,10 @@ export default function UidrIde() {
   const owner = workspace.activeWorkspace?.github_owner || "";
   const repo = workspace.activeWorkspace?.github_repo || "";
 
+  // Supabase file editor for local-first file storage
+  const fileEditor = useReachFileEditor(workspace.activeWorkspace?.id || null);
+  const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [viewMode, setViewMode] = useState<ViewMode>("explorer");
   const [tree, setTree] = useState<TreeNode[]>([]);
   const [treeLoading, setTreeLoading] = useState(false);
@@ -145,6 +151,29 @@ export default function UidrIde() {
   // Real-time
   const { onlineUsers } = useReachPresence(workspace.activeWorkspace?.id || null, activeTab);
   const { notifications, unreadCount, markRead, markAllRead } = useReachNotifications(workspace.activeWorkspace?.id || null);
+
+  // ── Auto-save to Supabase (debounced) ───────
+  const autoSaveToSupabase = useCallback((path: string, content: string) => {
+    if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
+    autoSaveTimerRef.current = setTimeout(async () => {
+      const file = fileEditor.getFileByPath(path);
+      if (file) {
+        await fileEditor.saveFile(file.id, content);
+        setTabs(prev => prev.map(t => t.path === path ? { ...t, dirty: false } : t));
+      }
+    }, 1500);
+  }, [fileEditor]);
+
+  // ── Load Supabase files when workspace changes ──
+  useEffect(() => {
+    if (workspace.activeWorkspace?.id) {
+      fileEditor.load().then(() => {
+        // Clear scratch tabs when loading workspace files
+        setTabs([]);
+        setActiveTab(null);
+      });
+    }
+  }, [workspace.activeWorkspace?.id]);
 
   // ── Keyboard shortcuts ─────────────────────
   useEffect(() => {
@@ -184,9 +213,23 @@ export default function UidrIde() {
     gh.listBranches(owner, repo).then(b => setBranches(b.map(x => x.name))).catch(console.error);
   }, [owner, repo]);
 
-  // ── File operations ────────────────────────
+  // ── File operations (Supabase-first, GitHub fallback) ──
   const openFile = async (path: string) => {
     if (tabs.find(t => t.path === path)) { setActiveTab(path); return; }
+
+    // Try Supabase first
+    const localFile = fileEditor.getFileByPath(path);
+    if (localFile) {
+      const newTab: OpenTab = {
+        path, content: localFile.content, dirty: false,
+        language: localFile.language, loading: false,
+      };
+      setTabs(prev => [...prev, newTab]);
+      setActiveTab(path);
+      return;
+    }
+
+    // Fall back to GitHub
     const newTab: OpenTab = { path, content: "", dirty: false, language: detectLanguage(path), loading: true };
     setTabs(prev => [...prev, newTab]);
     setActiveTab(path);
@@ -211,6 +254,8 @@ export default function UidrIde() {
 
   const updateContent = (path: string, content: string) => {
     setTabs(prev => prev.map(t => t.path === path ? { ...t, content, dirty: true } : t));
+    // Auto-save to Supabase for local files
+    autoSaveToSupabase(path, content);
   };
 
   const commitFile = async (path: string, message: string) => {
@@ -254,29 +299,57 @@ export default function UidrIde() {
   };
 
   const createNewFile = async (filePath: string) => {
-    if (!hasWorkspace) {
-      const newTab: OpenTab = { path: filePath, content: "", dirty: true, language: detectLanguage(filePath), loading: false };
-      setTabs(prev => [...prev, newTab]);
-      setActiveTab(filePath);
+    // Always create in Supabase if we have a workspace
+    if (workspace.activeWorkspace?.id) {
+      const file = await fileEditor.createFile(filePath, "");
+      if (file) {
+        const newTab: OpenTab = { path: filePath, content: "", dirty: false, language: file.language, loading: false };
+        setTabs(prev => [...prev, newTab]);
+        setActiveTab(filePath);
+      }
       return;
     }
-    try {
-      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
-      const blob = await gh.createBlob(owner, repo, "", "utf-8");
-      const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
-      const commit = await gh.createCommit(owner, repo, `Create ${filePath}`, newTree.sha, [refData.object.sha]);
-      await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
-      await loadTree(); openFile(filePath);
-    } catch (err) { console.error("Create file failed:", err); }
+    // GitHub path
+    if (hasWorkspace) {
+      try {
+        const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+        const blob = await gh.createBlob(owner, repo, "", "utf-8");
+        const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
+        const commit = await gh.createCommit(owner, repo, `Create ${filePath}`, newTree.sha, [refData.object.sha]);
+        await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
+        await loadTree(); openFile(filePath);
+      } catch (err) { console.error("Create file failed:", err); }
+      return;
+    }
+    // Pure local scratch
+    const newTab: OpenTab = { path: filePath, content: "", dirty: true, language: detectLanguage(filePath), loading: false };
+    setTabs(prev => [...prev, newTab]);
+    setActiveTab(filePath);
   };
 
   const deleteFile = async (path: string) => {
+    // Supabase-first
+    const localFile = fileEditor.getFileByPath(path);
+    if (localFile) {
+      await fileEditor.deleteFile(localFile.id);
+      closeTab(path);
+      return;
+    }
+    // GitHub fallback
     if (!hasWorkspace) { closeTab(path); return; }
     try {
       const fileData = await gh.getFile(owner, repo, path, branch);
       await gh.deleteFile(owner, repo, path, fileData.sha, `Delete ${path}`, branch);
       closeTab(path); loadTree();
     } catch (err) { console.error("Delete file failed:", err); }
+  };
+
+  const deleteFileById = async (id: string) => {
+    const file = fileEditor.files.find(f => f.id === id);
+    if (file) {
+      await fileEditor.deleteFile(id);
+      closeTab(file.path);
+    }
   };
 
   const createBranch = async (name: string) => {
@@ -375,49 +448,32 @@ export default function UidrIde() {
     </div>
   );
 
-  /* ── Local-only side panel when no workspace ── */
+  /* ── Local-only side panel — uses Supabase reach_files ── */
   const renderLocalExplorer = () => (
-    <div className="flex-1 flex flex-col">
-      <div className="px-3 py-2 border-b border-white/5 flex items-center justify-between">
-        <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Local Files</span>
-        <button
-          onClick={() => {
-            const name = prompt("New file name (e.g. main.ts):");
-            if (name) createNewFile(name);
-          }}
-          className="text-white/30 hover:text-white/60"
-        >
-          <Plus size={14} />
-        </button>
-      </div>
-      <div className="flex-1 overflow-y-auto px-1 py-1">
-        {tabs.map(t => (
-          <button key={t.path} onClick={() => setActiveTab(t.path)}
-            className={`w-full text-left px-3 py-1.5 text-xs rounded flex items-center gap-2 ${
-              activeTab === t.path ? "bg-white/10 text-white" : "text-white/50 hover:text-white/70 hover:bg-white/5"
-            }`}>
-            <span className="truncate">{t.path}</span>
-            {t.dirty && <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />}
-          </button>
-        ))}
-      </div>
-      <div className="px-3 py-3 border-t border-white/5">
-        <button onClick={() => setShowWorkspaceSetup(true)}
-          className="w-full text-center text-[10px] py-2 rounded border border-dashed border-white/10 text-white/30 hover:text-white/60 hover:border-white/20 transition-colors">
-          + Connect GitHub Workspace
-        </button>
-      </div>
-    </div>
+    <IdeLocalFileTree
+      files={fileEditor.files}
+      loading={fileEditor.loading}
+      selectedFile={activeTab}
+      onSelectFile={openFile}
+      onCreateFile={createNewFile}
+      onCreateFolder={async (path) => { await fileEditor.createFolder(path); }}
+      onDeleteFile={deleteFileById}
+      onRefresh={fileEditor.load}
+    />
   );
 
   const renderSidePanel = () => {
     if (viewMode === "explorer") {
-      return hasWorkspace ? (
-        <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
-          branches={branches} onSelectFile={openFile} selectedFile={activeTab}
-          onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
-          treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
-      ) : renderLocalExplorer();
+      // If workspace has GitHub, show GitHub tree; otherwise show Supabase file tree
+      if (hasWorkspace && owner && repo) {
+        return (
+          <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
+            branches={branches} onSelectFile={openFile} selectedFile={activeTab}
+            onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
+            treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
+        );
+      }
+      return renderLocalExplorer();
     }
 
     if (!hasWorkspace) return <ConnectWorkspacePrompt />;

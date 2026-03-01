@@ -13,6 +13,8 @@ export interface ReachFile {
   uploaded_by: string;
   folder: boolean;
   parent_id: string | null;
+  content: string | null;
+  language: string | null;
   created_at: string;
   updated_at: string;
 }

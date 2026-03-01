@@ -2887,9 +2887,11 @@ export type Database = {
       }
       reach_files: {
         Row: {
+          content: string | null
           created_at: string
           folder: boolean
           id: string
+          language: string | null
           mime_type: string | null
           name: string
           parent_id: string | null
@@ -2901,9 +2903,11 @@ export type Database = {
           workspace_id: string
         }
         Insert: {
+          content?: string | null
           created_at?: string
           folder?: boolean
           id?: string
+          language?: string | null
           mime_type?: string | null
           name: string
           parent_id?: string | null
@@ -2915,9 +2919,11 @@ export type Database = {
           workspace_id: string
         }
         Update: {
+          content?: string | null
           created_at?: string
           folder?: boolean
           id?: string
+          language?: string | null
           mime_type?: string | null
           name?: string
           parent_id?: string | null
