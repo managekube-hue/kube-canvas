@@ -448,49 +448,32 @@ export default function UidrIde() {
     </div>
   );
 
-  /* ── Local-only side panel when no workspace ── */
+  /* ── Local-only side panel — uses Supabase reach_files ── */
   const renderLocalExplorer = () => (
-    <div className="flex-1 flex flex-col">
-      <div className="px-3 py-2 border-b border-white/5 flex items-center justify-between">
-        <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Local Files</span>
-        <button
-          onClick={() => {
-            const name = prompt("New file name (e.g. main.ts):");
-            if (name) createNewFile(name);
-          }}
-          className="text-white/30 hover:text-white/60"
-        >
-          <Plus size={14} />
-        </button>
-      </div>
-      <div className="flex-1 overflow-y-auto px-1 py-1">
-        {tabs.map(t => (
-          <button key={t.path} onClick={() => setActiveTab(t.path)}
-            className={`w-full text-left px-3 py-1.5 text-xs rounded flex items-center gap-2 ${
-              activeTab === t.path ? "bg-white/10 text-white" : "text-white/50 hover:text-white/70 hover:bg-white/5"
-            }`}>
-            <span className="truncate">{t.path}</span>
-            {t.dirty && <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />}
-          </button>
-        ))}
-      </div>
-      <div className="px-3 py-3 border-t border-white/5">
-        <button onClick={() => setShowWorkspaceSetup(true)}
-          className="w-full text-center text-[10px] py-2 rounded border border-dashed border-white/10 text-white/30 hover:text-white/60 hover:border-white/20 transition-colors">
-          + Connect GitHub Workspace
-        </button>
-      </div>
-    </div>
+    <IdeLocalFileTree
+      files={fileEditor.files}
+      loading={fileEditor.loading}
+      selectedFile={activeTab}
+      onSelectFile={openFile}
+      onCreateFile={createNewFile}
+      onCreateFolder={async (path) => { await fileEditor.createFolder(path); }}
+      onDeleteFile={deleteFileById}
+      onRefresh={fileEditor.load}
+    />
   );
 
   const renderSidePanel = () => {
     if (viewMode === "explorer") {
-      return hasWorkspace ? (
-        <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
-          branches={branches} onSelectFile={openFile} selectedFile={activeTab}
-          onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
-          treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
-      ) : renderLocalExplorer();
+      // If workspace has GitHub, show GitHub tree; otherwise show Supabase file tree
+      if (hasWorkspace && owner && repo) {
+        return (
+          <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
+            branches={branches} onSelectFile={openFile} selectedFile={activeTab}
+            onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
+            treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
+        );
+      }
+      return renderLocalExplorer();
     }
 
     if (!hasWorkspace) return <ConnectWorkspacePrompt />;
