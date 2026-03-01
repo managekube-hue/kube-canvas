@@ -71,6 +71,7 @@ export default function Reach() {
   const [commitCommitting, setCommitCommitting] = useState(false);
   const [commitTargetPaths, setCommitTargetPaths] = useState<string[]>([]);
   const [showStaging, setShowStaging] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // ── Issues ─────────────────────────────────
   const [issues, setIssues] = useState<GitIssue[]>([]);
@@ -115,10 +116,19 @@ export default function Reach() {
           setShowCommitModal(true);
         }
       }
+      if (meta && e.key === "b") { e.preventDefault(); setSidebarCollapsed(prev => !prev); }
+      if (meta && e.key === "w") {
+        e.preventDefault();
+        if (activeTab) closeTab(activeTab);
+      }
+      if (e.key === "Escape") {
+        if (commandPaletteOpen) setCommandPaletteOpen(false);
+        else if (showCommitModal) { setShowCommitModal(false); setCommitError(null); }
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [tabs, activeTab, hasWorkspace]);
+  }, [tabs, activeTab, hasWorkspace, commandPaletteOpen, showCommitModal, sidebarCollapsed]);
 
   // ── Handle Zoom callback ───────────────────
   useEffect(() => {
@@ -583,7 +593,11 @@ export default function Reach() {
       case "meetings":
         return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
-        return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
+        return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead}
+          onNavigate={(type) => {
+            const viewMap: Record<string, ReachView> = { issue: "issues", pr: "prs", mention: "chat", chat: "chat", commit: "files" };
+            setActiveView(viewMap[type] || "home");
+          }} />;
       case "settings":
         return <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
           onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />;
@@ -619,6 +633,23 @@ export default function Reach() {
             renderContent()
           )}
         </main>
+
+        {/* Status bar with presence */}
+        {hasWorkspace && onlineUsers.length > 0 && (
+          <div className="h-6 border-t border-white/5 bg-[#080808] px-3 flex items-center gap-2 flex-shrink-0">
+            <span className="text-[9px] text-white/20">Online:</span>
+            <div className="flex items-center gap-1">
+              {onlineUsers.slice(0, 8).map(u => (
+                <div key={u.user_id} className="flex items-center gap-1" title={`${u.email}${u.active_file ? ` — ${u.active_file}` : ""}`}>
+                  <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                  <span className="text-[9px] text-white/30">{u.email.split("@")[0]}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex-1" />
+            <span className="text-[9px] text-white/15">{branch}</span>
+          </div>
+        )}
       </div>
 
       {showRepoModal && (
