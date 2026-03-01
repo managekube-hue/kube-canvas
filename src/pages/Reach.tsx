@@ -115,6 +115,15 @@ export default function Reach() {
           setShowCommitModal(true);
         }
       }
+      if (meta && e.key === "b") { e.preventDefault(); setSidebarCollapsed(prev => !prev); }
+      if (meta && e.key === "w") {
+        e.preventDefault();
+        if (activeTab) closeTab(activeTab);
+      }
+      if (e.key === "Escape") {
+        if (commandPaletteOpen) setCommandPaletteOpen(false);
+        else if (showCommitModal) { setShowCommitModal(false); setCommitError(null); }
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
