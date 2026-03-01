@@ -299,29 +299,57 @@ export default function UidrIde() {
   };
 
   const createNewFile = async (filePath: string) => {
-    if (!hasWorkspace) {
-      const newTab: OpenTab = { path: filePath, content: "", dirty: true, language: detectLanguage(filePath), loading: false };
-      setTabs(prev => [...prev, newTab]);
-      setActiveTab(filePath);
+    // Always create in Supabase if we have a workspace
+    if (workspace.activeWorkspace?.id) {
+      const file = await fileEditor.createFile(filePath, "");
+      if (file) {
+        const newTab: OpenTab = { path: filePath, content: "", dirty: false, language: file.language, loading: false };
+        setTabs(prev => [...prev, newTab]);
+        setActiveTab(filePath);
+      }
       return;
     }
-    try {
-      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
-      const blob = await gh.createBlob(owner, repo, "", "utf-8");
-      const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
-      const commit = await gh.createCommit(owner, repo, `Create ${filePath}`, newTree.sha, [refData.object.sha]);
-      await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
-      await loadTree(); openFile(filePath);
-    } catch (err) { console.error("Create file failed:", err); }
+    // GitHub path
+    if (hasWorkspace) {
+      try {
+        const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+        const blob = await gh.createBlob(owner, repo, "", "utf-8");
+        const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
+        const commit = await gh.createCommit(owner, repo, `Create ${filePath}`, newTree.sha, [refData.object.sha]);
+        await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
+        await loadTree(); openFile(filePath);
+      } catch (err) { console.error("Create file failed:", err); }
+      return;
+    }
+    // Pure local scratch
+    const newTab: OpenTab = { path: filePath, content: "", dirty: true, language: detectLanguage(filePath), loading: false };
+    setTabs(prev => [...prev, newTab]);
+    setActiveTab(filePath);
   };
 
   const deleteFile = async (path: string) => {
+    // Supabase-first
+    const localFile = fileEditor.getFileByPath(path);
+    if (localFile) {
+      await fileEditor.deleteFile(localFile.id);
+      closeTab(path);
+      return;
+    }
+    // GitHub fallback
     if (!hasWorkspace) { closeTab(path); return; }
     try {
       const fileData = await gh.getFile(owner, repo, path, branch);
       await gh.deleteFile(owner, repo, path, fileData.sha, `Delete ${path}`, branch);
       closeTab(path); loadTree();
     } catch (err) { console.error("Delete file failed:", err); }
+  };
+
+  const deleteFileById = async (id: string) => {
+    const file = fileEditor.files.find(f => f.id === id);
+    if (file) {
+      await fileEditor.deleteFile(id);
+      closeTab(file.path);
+    }
   };
 
   const createBranch = async (name: string) => {
