@@ -2401,6 +2401,39 @@ export type Database = {
         }
         Relationships: []
       }
+      developer_ai_configs: {
+        Row: {
+          api_key_encrypted: string
+          created_at: string
+          id: string
+          is_default: boolean | null
+          model_preference: string | null
+          provider: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          api_key_encrypted: string
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          model_preference?: string | null
+          provider: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          api_key_encrypted?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          model_preference?: string | null
+          provider?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lead_exports: {
         Row: {
           business_name: string
@@ -2738,6 +2771,57 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "reach_channels_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_cometchat_channels: {
+        Row: {
+          channel_name: string
+          channel_type: string
+          cometchat_guid: string
+          created_at: string
+          id: string
+          linked_issue_id: string | null
+          metadata: Json | null
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          channel_name: string
+          channel_type?: string
+          cometchat_guid: string
+          created_at?: string
+          id?: string
+          linked_issue_id?: string | null
+          metadata?: Json | null
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          channel_name?: string
+          channel_type?: string
+          cometchat_guid?: string
+          created_at?: string
+          id?: string
+          linked_issue_id?: string | null
+          metadata?: Json | null
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_cometchat_channels_linked_issue_id_fkey"
+            columns: ["linked_issue_id"]
+            isOneToOne: false
+            referencedRelation: "reach_issues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_cometchat_channels_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "reach_workspaces"
