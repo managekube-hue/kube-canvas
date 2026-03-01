@@ -167,7 +167,7 @@ serve(async (req) => {
         console.error("Token upsert error:", upsertErr);
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=save_failed` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=save_failed` },
         });
       }
 
