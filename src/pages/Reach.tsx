@@ -430,7 +430,12 @@ export default function Reach() {
           </div>
           <IdeEditor
             tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
-            onContentChange={updateContent} onCommit={commitFile} branch={branch}
+            onContentChange={updateContent}
+            onCommit={(path) => {
+              setCommitTargetPaths([path]);
+              setShowCommitModal(true);
+            }}
+            branch={branch}
             onlineUsers={onlineUsers} owner={owner} repo={repo}
           />
         </div>
