@@ -534,6 +534,7 @@ export default function Reach() {
           />
         );
       case "search":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Code search requires a connected repository</span></div></div>;
         return (
           <IdeSearchPanel
             tree={tree}
@@ -542,6 +543,7 @@ export default function Reach() {
           />
         );
       case "milestones":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Milestones require a connected repository</span></div></div>;
         return (
           <IdeMilestonesPanel
             milestones={milestones} loading={milestonesLoading}
