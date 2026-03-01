@@ -168,9 +168,11 @@ export default function UidrIde() {
   useEffect(() => {
     if (workspace.activeWorkspace?.id) {
       fileEditor.load().then(() => {
-        // Clear scratch tabs when loading workspace files
-        setTabs([]);
-        setActiveTab(null);
+        // Only clear scratch tabs if Supabase has files; otherwise keep the scratch pad
+        if (fileEditor.files.length > 0) {
+          setTabs([]);
+          setActiveTab(null);
+        }
       });
     }
   }, [workspace.activeWorkspace?.id]);
