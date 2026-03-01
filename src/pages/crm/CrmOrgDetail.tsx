@@ -17,7 +17,6 @@ import {
   Activity, Save, Plus, Mail, Phone, Globe, MapPin,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Breadcrumbs } from "@/components/crm/Breadcrumbs";
 
 interface OrgData {
   id: string;
@@ -161,10 +160,6 @@ export default function CrmOrgDetail() {
 
   return (
     <div className="space-y-6">
-      <Breadcrumbs items={[
-        { label: "Organizations", href: "/crm/organizations" },
-        { label: org.name },
-      ]} />
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={() => navigate("/crm/organizations")}>

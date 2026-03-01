@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useCrmUser } from "@/hooks/useCrmUser";
-import { useNotifications } from "@/hooks/useNotifications";
 import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
   LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck, ShoppingCart,
-  BookOpen, Mail, RefreshCw, Zap, Target, AlertTriangle,
+  BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
-import { QuickCreate } from "./QuickCreate";
-import { CommandPalette } from "./CommandPalette";
-import { TimerWidget } from "./TimerWidget";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/crm" },
@@ -24,7 +20,6 @@ const navItems = [
   { label: "BOM Quotes", icon: ShoppingCart, path: "/crm/bom-quotes" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
-  { label: "Lead Nurturing", icon: Target, path: "/crm/lead-nurturing" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },
   { label: "Tickets", icon: Ticket, path: "/crm/tickets" },
   { label: "Time Tracking", icon: Clock, path: "/crm/time" },
@@ -33,17 +28,12 @@ const navItems = [
   { label: "Assets", icon: Package, path: "/crm/assets" },
   { label: "Deployments", icon: Calendar, path: "/crm/deployments" },
   { label: "Audit Log", icon: Shield, path: "/crm/audit", adminOnly: true },
-  { label: "Email Templates", icon: Mail, path: "/crm/email-templates", adminOnly: true },
-  { label: "HubSpot Sync", icon: RefreshCw, path: "/crm/hubspot-sync", adminOnly: true },
-  { label: "Workflows", icon: Zap, path: "/crm/workflows", adminOnly: true },
-  { label: "Duplicates", icon: AlertTriangle, path: "/crm/duplicates", adminOnly: true },
   { label: "Settings", icon: Settings, path: "/crm/settings", adminOnly: true },
   { label: "Help & Guides", icon: BookOpen, path: "/crm/help" },
 ];
 
 export function CrmLayout() {
   const { crmUser, loading, error, isAdmin } = useCrmUser();
-  useNotifications(); // Initialize notification system
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -89,8 +79,6 @@ export function CrmLayout() {
 
   return (
     <div className="h-screen flex overflow-hidden bg-background">
-      <CommandPalette />
-      <TimerWidget />
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setMobileOpen(false)} />
@@ -184,24 +172,21 @@ export function CrmLayout() {
       {/* Main */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="h-14 border-b border-border flex items-center justify-between px-4 lg:px-6 bg-card">
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setMobileOpen(true)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-            <h1 className="text-lg font-semibold text-foreground">
-              {visibleNav.find(n => 
-                location.pathname === n.path || 
-                (n.path !== "/crm" && location.pathname.startsWith(n.path))
-              )?.label || "CRM"}
-            </h1>
-          </div>
-          <QuickCreate />
+        <header className="h-14 border-b border-border flex items-center px-4 lg:px-6 bg-card">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden mr-2"
+            onClick={() => setMobileOpen(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          <h1 className="text-lg font-semibold text-foreground">
+            {visibleNav.find(n => 
+              location.pathname === n.path || 
+              (n.path !== "/crm" && location.pathname.startsWith(n.path))
+            )?.label || "CRM"}
+          </h1>
         </header>
 
         {/* Content */}

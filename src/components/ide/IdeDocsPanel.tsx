@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
-import ReactMarkdown from "react-markdown";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { BookOpen, ChevronRight, ChevronDown, FileText, Loader2, ArrowLeft, ExternalLink, Plus, Save, Edit3, Eye } from "lucide-react";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
@@ -228,7 +227,17 @@ export function IdeDocsPanel({ tree, onLoadFile, onOpenInEditor, onSaveDoc, onCr
               prose-table:text-xs prose-th:text-white/60 prose-td:text-white/50 prose-th:border-white/10 prose-td:border-white/10
               prose-hr:border-white/10 prose-img:rounded-lg prose-img:border prose-img:border-white/10
             ">
-              <ReactMarkdown>{content}</ReactMarkdown>
+              {/* Render markdown as text for view mode since BlockNote handles edit */}
+              {content.split("\n").map((line, i) => {
+                if (line.startsWith("# ")) return <h1 key={i}>{line.slice(2)}</h1>;
+                if (line.startsWith("## ")) return <h2 key={i}>{line.slice(3)}</h2>;
+                if (line.startsWith("### ")) return <h3 key={i}>{line.slice(4)}</h3>;
+                if (line.startsWith("- ")) return <li key={i}>{line.slice(2)}</li>;
+                if (line.startsWith("> ")) return <blockquote key={i}><p>{line.slice(2)}</p></blockquote>;
+                if (line.startsWith("```")) return null;
+                if (line.trim() === "") return <br key={i} />;
+                return <p key={i}>{line}</p>;
+              })}
             </div>
           )}
         </div>

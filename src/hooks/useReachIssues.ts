@@ -19,12 +19,6 @@ export interface ReachIssue {
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  // Scrum fields
-  story_points?: number | null;
-  sprint_id?: string | null;
-  epic_id?: string | null;
-  due_date?: string | null;
-  parent_id?: string | null;
 }
 
 export type IssueColumn = "backlog" | "todo" | "in_progress" | "review" | "done";
@@ -57,8 +51,7 @@ export function useReachIssues(workspaceId: string | null) {
     body: string = "",
     status: string = "todo",
     priority: string = "medium",
-    labels: string[] = [],
-    extra?: { story_points?: number; sprint_id?: string; due_date?: string }
+    labels: string[] = []
   ) => {
     if (!workspaceId || !user) throw new Error("No workspace or user");
     const { data, error } = await supabase
@@ -71,9 +64,6 @@ export function useReachIssues(workspaceId: string | null) {
         priority,
         labels,
         created_by: user.id,
-        ...(extra?.story_points != null ? { story_points: extra.story_points } : {}),
-        ...(extra?.sprint_id ? { sprint_id: extra.sprint_id } : {}),
-        ...(extra?.due_date ? { due_date: extra.due_date } : {}),
       })
       .select()
       .single();
