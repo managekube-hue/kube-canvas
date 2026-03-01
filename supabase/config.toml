@@ -38,3 +38,9 @@ verify_jwt = false
 
 [functions.gh]
 verify_jwt = false
+
+[functions.cometchat-auth]
+verify_jwt = false
+
+[functions.ai-chat]
+verify_jwt = false
