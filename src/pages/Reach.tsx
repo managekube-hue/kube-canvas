@@ -488,10 +488,13 @@ export default function Reach() {
             onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
             onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
             onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+            availableLabels={availableLabels} availableAssignees={availableAssignees}
+            milestones={milestones} />
         ) : (
           <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
-            onSelectIssue={setSelectedIssue} />
+            onSelectIssue={setSelectedIssue}
+            availableLabels={availableLabels} availableAssignees={availableAssignees}
+            milestones={milestones} />
         );
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
