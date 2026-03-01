@@ -64,7 +64,7 @@ serve(async (req) => {
         // No code at all — redirect user back with error rather than blank page
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=missing_code` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=missing_code` },
         });
       }
 
@@ -92,7 +92,7 @@ serve(async (req) => {
         console.error("Zoom token exchange failed:", err);
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=token_exchange` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=token_exchange` },
         });
       }
 
@@ -144,7 +144,7 @@ serve(async (req) => {
         console.error("Could not determine user_id from state or email lookup");
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=no_user` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=no_user` },
         });
       }
 
@@ -167,14 +167,14 @@ serve(async (req) => {
         console.error("Token upsert error:", upsertErr);
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=save_failed` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=save_failed` },
         });
       }
 
-      // Redirect user back to ManageKube IDE
+      // Redirect user back to REACH dashboard
       return new Response(null, {
         status: 302,
-        headers: { Location: `${SITE_URL}/uidr/ide?zoom=connected` },
+        headers: { Location: `${SITE_URL}/reach?zoom=connected` },
       });
     }
 
