@@ -1,4 +1,4 @@
-/** Fully Managed — /solutions/by-service-type/fully-managed — rich deep page */
+/** Fully Managed: /solutions/by-service-type/fully-managed: rich deep page */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -70,7 +70,7 @@ export default function FullyManagedSolution() {
           <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>The Fully Managed Model</p>
           <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
           <p className="text-[16px] leading-relaxed max-w-4xl" style={{ color: "#393837" }}>
-            Fully Managed is for organizations that require security outcomes without security operational overhead. The organization does not want to manage tools, tune detections, or staff a 24/7 security operations center. It wants threats detected, incidents responded to, compliance maintained, and evidence produced — without directing internal resources toward how those outcomes are achieved. Fully Managed delivers: we operate the Kubric platform continuously. Your team receives outcomes.
+            Fully Managed is for organizations that require security outcomes without security operational overhead. The organization does not want to manage tools, tune detections, or staff a 24/7 security operations center. It wants threats detected, incidents responded to, compliance maintained, and evidence produced, without directing internal resources toward how those outcomes are achieved. Fully Managed delivers: we operate the Kubric platform continuously. Your team receives outcomes.
           </p>
         </div>
       </section>
@@ -81,7 +81,7 @@ export default function FullyManagedSolution() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="h-[2px] w-10 mb-6" style={{ background: ORANGE }} />
             <h2 className="font-black text-white mb-3 leading-tight" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontFamily: "'Special Elite', serif" }}>
-              We are not another MSP or software platform — we are a different kind of partner.
+              We are not another MSP or software platform. We are a different kind of partner.
             </h2>
             <p className="text-[14px] mb-12" style={{ color: "rgba(205,202,197,0.45)" }}>
               Our service delivery is unmatched and consistently outperforms expectations.
@@ -162,12 +162,12 @@ export default function FullyManagedSolution() {
           <div className="h-[2px] w-10 mb-8" style={{ background: ORANGE }} />
           <div className="grid sm:grid-cols-2 gap-[1px]" style={{ background: "#CDCAC5" }}>
             {[
-              "24/7 Platform Operations — We monitor, tune, and maintain the Kubric platform continuously. Your team has no platform management responsibilities.",
-              "Full Methodology Coverage — Every detection runs through Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document, and Close — according to your service tier.",
-              "Incident Response — We respond to incidents. We contain, remediate, document, and close. Your team is notified of outcomes, not tasked with producing them.",
-              "Compliance Evidence — Evidence is collected automatically throughout operations. Audit packages are generated on demand without manual preparation.",
-              "Quarterly Business Reviews — Incidents, trends, and forward-looking recommendations reviewed with your leadership on a defined cadence.",
-              "Dedicated Service Delivery Manager — One named point of contact. One team that maintains continuity of knowledge about your environment.",
+              "24/7 Platform Operations: We monitor, tune, and maintain the Kubric platform continuously. Your team has no platform management responsibilities.",
+              "Full Methodology Coverage: Every detection runs through Hunt, Identify, Alert, Triage, Diagnose, Remediate, Document, and Close, according to your service tier.",
+              "Incident Response: We respond to incidents. We contain, remediate, document, and close. Your team is notified of outcomes, not tasked with producing them.",
+              "Compliance Evidence: Evidence is collected automatically throughout operations. Audit packages are generated on demand without manual preparation.",
+              "Quarterly Business Reviews: Incidents, trends, and forward-looking recommendations reviewed with your leadership on a defined cadence.",
+              "Dedicated Service Delivery Manager: One named point of contact. One team that maintains continuity of knowledge about your environment.",
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }}
                 className="p-6 flex items-start gap-3" style={{ background: "#EEE9E3" }}>

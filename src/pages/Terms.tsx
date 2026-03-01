@@ -1,5 +1,5 @@
 /**
- * Terms of Service — ManageKube, Inc.
+ * Terms of Service: ManageKube, Inc.
  * Word-for-word from provided documentation
  */
 

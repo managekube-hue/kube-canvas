@@ -1,4 +1,4 @@
-/** v2.0 spec copy — How It Works landing page (How_It_works.docx) */
+/** v2.0 spec copy: How It Works landing page (How_It_works.docx) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -6,11 +6,11 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import childPageVideo from "@/assets/child-page.mp4";
 
 const stats = [
-  { metric: "Global Average Breach Cost (2025)", finding: "USD $4.44 million per incident — a 9% reduction year-over-year, yet masking record-high costs in the United States ($10.22M) and healthcare ($7.42M), where regulatory exposure and litigation drive losses well above the global mean.", source: "IBM Cost of a Data Breach Report, 2025" },
-  { metric: "Median Attacker Dwell Time", finding: "11 days — the time adversaries operate undetected inside an enterprise environment before detection. While a long-term low, eleven days of unchecked lateral movement represents catastrophic potential blast radius in any unmonitored environment.", source: "Mandiant M-Trends 2025" },
+  { metric: "Global Average Breach Cost (2025)", finding: "USD $4.44 million per incident, a 9% reduction year-over-year, yet masking record-high costs in the United States ($10.22M) and healthcare ($7.42M), where regulatory exposure and litigation drive losses well above the global mean.", source: "IBM Cost of a Data Breach Report, 2025" },
+  { metric: "Median Attacker Dwell Time", finding: "11 days: the time adversaries operate undetected inside an enterprise environment before detection. While a long-term low, eleven days of unchecked lateral movement represents catastrophic potential blast radius in any unmonitored environment.", source: "Mandiant M-Trends 2025" },
   { metric: "AI-Driven Security Adoption Gap", finding: "97% of organizations that experienced an AI-based breach had no AI-driven security controls in place. Organizations deploying AI and automation extensively saved an average of $2.22 million in breach costs versus those without.", source: "IBM Cost of a Data Breach Report, 2025" },
   { metric: "Ransomware Recovery Cost", finding: "Average ransomware recovery cost reached $1.5 million in 2025, with average ransom payments approaching $1.0 million. Ransomware incidents have increased 13% over the past five years.", source: "Sophos State of Ransomware, 2025" },
-  { metric: "Global Cybercrime Cost Trajectory", finding: "Cybercrime is projected to cost the global economy $10.5 trillion annually by 2025 — a 250% increase from $3 trillion in 2015 — representing the greatest transfer of economic wealth in history.", source: "CompTIA / Cybersecurity Ventures, 2025" },
+  { metric: "Global Cybercrime Cost Trajectory", finding: "Cybercrime is projected to cost the global economy $10.5 trillion annually by 2025, a 250% increase from $3 trillion in 2015, representing the greatest transfer of economic wealth in history.", source: "CompTIA / Cybersecurity Ventures, 2025" },
 ];
 
 const whatYouReceive = [
@@ -61,7 +61,7 @@ export default function OurTools() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            ManageKube was architected differently. Before a single detection capability was deployed, we built a graph capable of correlating any signal from any source—identity, network, cloud, endpoint, application, data—in real time. Detection followed. Response followed. Then came the analysts who operate it around the clock.
+            ManageKube was architected differently. Before a single detection capability was deployed, we built a graph capable of correlating any signal from any source (identity, network, cloud, endpoint, application, data) in real time. Detection followed. Response followed. Then came the analysts who operate it around the clock.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "40px" }}>
             The result is not a stack of tools with a help desk attached. It is an integrated detection and response architecture managed by practitioners who know your environment.

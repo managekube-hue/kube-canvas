@@ -1,4 +1,4 @@
-/** v2.0 spec copy — Kubric UIDR (How_It_works.docx pp.8-9) */
+/** v2.0 spec copy: Kubric UIDR (How_It_works.docx pp.8-9) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -13,9 +13,9 @@ const detectionGroups = [
 ];
 
 const lifecycle = [
-  { step: "Step 1: Hunt", desc: "Continuous, proactive scanning for anomalies — not exclusively known-bad patterns. The platform hunts even when no alert has fired." },
+  { step: "Step 1: Hunt", desc: "Continuous, proactive scanning for anomalies, not exclusively known-bad patterns. The platform hunts even when no alert has fired." },
   { step: "Step 2: Identify", desc: "When a signal is detected, it is validated against context from every other capability. Is this IP associated with known threat infrastructure? Has this user exhibited this behavior previously? Is this configuration drift or an authorized change?" },
-  { step: "Step 3: Alert", desc: "Validated findings become alerts. Alerts carry context from across the full platform — not only the domain where the signal originated. Severity is assigned based on true environmental context, not raw CVSS scores." },
+  { step: "Step 3: Alert", desc: "Validated findings become alerts. Alerts carry context from across the full platform, not only the domain where the signal originated. Severity is assigned based on true environmental context, not raw CVSS scores." },
   { step: "Step 4: Triage", desc: "Analysts review every alert. False positives are eliminated with documented rationale. True positives are escalated with full context attached." },
   { step: "Step 5: Diagnose", desc: "Root cause analysis commences automatically. The platform reconstructs the attack chain using data from every affected capability." },
   { step: "Step 6: Remediate", desc: "Response actions are executed and documented: account suspension, network isolation, credential rotation, configuration restoration. Every action is recorded with analyst attribution." },
@@ -45,7 +45,7 @@ export default function KubricUidr() {
         </div>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works — Kubric UIDR</span>
+            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works: Kubric UIDR</span>
             <div style={{ height: "2px", width: "56px", background: "#993619", margin: "20px 0" }} />
             <h1 className="font-black text-white leading-tight" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif", marginBottom: "12px" }}>
               Unified Intelligent Detection & Response
@@ -60,10 +60,10 @@ export default function KubricUidr() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            Traditional detection looks for known-bad patterns — signatures, indicators of compromise, hash matches. These remain necessary. They are no longer sufficient. Modern attacks use valid credentials. They traverse legitimate protocols. They blend with normal traffic until the precise moment they execute their objective.
+            Traditional detection looks for known-bad patterns: signatures, indicators of compromise, hash matches. These remain necessary. They are no longer sufficient. Modern attacks use valid credentials. They traverse legitimate protocols. They blend with normal traffic until the precise moment they execute their objective.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
-            Kubric UIDR is the detection engine that powers every ManageKube service. It does not rely on signatures alone. It analyzes behavior. It correlates across domains. It establishes what normal looks like — for your environment, your users, your systems — and alerts when activity deviates.
+            Kubric UIDR is the detection engine that powers every ManageKube service. It does not rely on signatures alone. It analyzes behavior. It correlates across domains. It establishes what normal looks like for your environment, your users, your systems, and alerts when activity deviates.
           </p>
         </div>
       </section>
@@ -98,7 +98,7 @@ export default function KubricUidr() {
       {/* ── Eight-Stage Lifecycle ── */}
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl">
-          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>How Detection Works — The Eight-Stage Lifecycle</p>
+          <p style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "16px" }}>How Detection Works: The Eight-Stage Lifecycle</p>
           <div style={{ height: "2px", width: "40px", background: "#993619", marginBottom: "24px" }} />
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "32px" }}>
             This is not a checklist. It is the operational workflow the platform strictly enforces. Every detection capability follows the same process without exception:

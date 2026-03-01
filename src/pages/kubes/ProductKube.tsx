@@ -7,7 +7,7 @@ const ProductKube = () => {
       tagline="Infrastructure & Software"
       phase="REMEDIATE"
       description="Validated reference architectures and certified expertise. The project configurator that generates BOMs for implementation."
-      narrative="The Product Kube is your gateway to validated infrastructure and software solutions. Strategic partnerships deliver pre-integrated reference architectures designed for your workload. From PowerEdge servers and VxRail HCI to cloud platforms and security tools—all configured, staged, and deployed by certified engineers. The project configurator pulls SKUs and generates bills of materials for seamless implementation."
+      narrative="The Product Kube is your gateway to validated infrastructure and software solutions. Strategic partnerships deliver pre-integrated reference architectures designed for your workload. From PowerEdge servers and VxRail HCI to cloud platforms and security tools, all configured, staged, and deployed by certified engineers. The project configurator pulls SKUs and generates bills of materials for seamless implementation."
       blocks={[
         {
           id: "infrastructure-hardware",

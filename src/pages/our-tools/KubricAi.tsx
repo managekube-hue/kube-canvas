@@ -1,4 +1,4 @@
-/** v2.0 spec copy — KubricAI (How_It_works.docx pp.12-14) */
+/** v2.0 spec copy: KubricAI (How_It_works.docx pp.12-14) */
 import { PageLayout } from "@/components/PageLayout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -14,11 +14,11 @@ const models = [
 ];
 
 const delivers = [
-  "70–90% noise reduction — your analysts receive fewer, higher-fidelity alerts",
-  "Priority-scored findings — your team addresses what minimizes actual risk",
-  "Actionable recommendations — containment and response initiate faster",
-  "Continuous learning — the platform improves with every closed incident",
-  "Analyst efficiency — more critical incidents resolved per analyst hour",
+  "70 to 90% noise reduction: your analysts receive fewer, higher-fidelity alerts",
+  "Priority-scored findings: your team addresses what minimizes actual risk",
+  "Actionable recommendations: containment and response initiate faster",
+  "Continuous learning: the platform improves with every closed incident",
+  "Analyst efficiency: more critical incidents resolved per analyst hour",
 ];
 
 export default function KubricAi() {
@@ -35,7 +35,7 @@ export default function KubricAi() {
         </div>
         <div className="container mx-auto px-6 lg:px-12 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works — KubricAI</span>
+            <span style={{ color: "#993619", fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" }}>How It Works: KubricAI</span>
             <div style={{ height: "2px", width: "56px", background: "#993619", margin: "20px 0" }} />
             <h1 className="font-black text-white leading-tight" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)", fontFamily: "'Special Elite', serif", marginBottom: "12px" }}>
               The Intelligence Layer That Reduces Noise and Prioritizes What Matters
@@ -50,10 +50,10 @@ export default function KubricAi() {
       <section style={{ background: "#FEFBF6", padding: "80px 0" }}>
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837", marginBottom: "24px" }}>
-            The average enterprise generates more security telemetry than its team can physically review. Alerts fire. Logs accumulate. Findings compound. The true signal is buried. Your team spends its operational hours filtering rather than responding — and the adversary moves freely in the gap.
+            The average enterprise generates more security telemetry than its team can physically review. Alerts fire. Logs accumulate. Findings compound. The true signal is buried. Your team spends its operational hours filtering rather than responding, and the adversary moves freely in the gap.
           </p>
           <p style={{ fontSize: "16px", lineHeight: 1.7, color: "#393837" }}>
-            KubricAI is the intelligence layer engineered to resolve this structural failure. It does not add more data. It extracts the actionable signal. Machine learning models analyze every finding, every relationship, and every baseline deviation — then mathematically determine what demands attention.
+            KubricAI is the intelligence layer engineered to resolve this structural failure. It does not add more data. It extracts the actionable signal. Machine learning models analyze every finding, every relationship, and every baseline deviation, then mathematically determine what demands attention.
           </p>
         </div>
       </section>
@@ -74,7 +74,7 @@ export default function KubricAi() {
               Every detection capability generates findings. Most are benign. Some are malicious. KubricAI learns the operational difference between them.
             </p>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, marginBottom: "12px" }}>
-              {["Behavioral baselines are constructed per entity — user, device, application, network segment — and refined continuously over time.",
+              {["Behavioral baselines are constructed per entity (user, device, application, network segment) and refined continuously over time.",
                 "Deviations are scored against hyper-local baselines. A senior finance executive authenticating at 6:00 AM is operationally normal. The identical login pattern from an IT support account is flagged.",
                 "False positive patterns are learned and encoded. When an alert type consistently resolves to a benign state, KubricAI automatically adjusts its sensitivity threshold."
               ].map(item => (
@@ -95,7 +95,7 @@ export default function KubricAi() {
             </p>
             <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
               {["Asset criticality is modeled directly in the graph: internet-facing, business-critical, or containing regulated data.",
-                "Vulnerability exploitability is scored using EPSS (Exploit Prediction Scoring System) — evaluating real-world probability of exploitation, not CVSS severity alone."
+                "Vulnerability exploitability is scored using EPSS (Exploit Prediction Scoring System), evaluating real-world probability of exploitation, not CVSS severity alone."
               ].map(item => (
                 <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "10px" }}>
                   <CheckCircle size={12} style={{ color: "#993619", flexShrink: 0, marginTop: "3px" }} />
@@ -112,7 +112,7 @@ export default function KubricAi() {
               Every alert arrives with a recommended action. Analysts do not start from zero.
             </p>
             <p style={{ fontSize: "15px", lineHeight: 1.7, color: "#393837", marginBottom: "16px" }}>
-              For known incident types, KubricAI recommends remediation steps derived from past closed incidents. For novel incidents, KubricAI analyzes the attack chain and recommends containment actions — account suspension, network isolation, credential rotation — specific to the entities involved. For vulnerabilities, KubricAI recommends patch priority, compensating controls, or risk acceptance based on environmental context.
+              For known incident types, KubricAI recommends remediation steps derived from past closed incidents. For novel incidents, KubricAI analyzes the attack chain and recommends containment actions (account suspension, network isolation, credential rotation) specific to the entities involved. For vulnerabilities, KubricAI recommends patch priority, compensating controls, or risk acceptance based on environmental context.
             </p>
             <p style={{ fontSize: "14px", fontWeight: 600, color: "#1D1D1B" }}>Result: Response time decreases. Consistency increases. Institutional knowledge becomes platform knowledge.</p>
           </div>

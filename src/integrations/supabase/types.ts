@@ -182,6 +182,51 @@ export type Database = {
         }
         Relationships: []
       }
+      bom_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          item_count: number
+          items: Json
+          last_name: string | null
+          message: string | null
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          item_count?: number
+          items?: Json
+          last_name?: string | null
+          message?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          item_count?: number
+          items?: Json
+          last_name?: string | null
+          message?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cms_career_applications: {
         Row: {
           cover_letter: string | null
@@ -2356,6 +2401,39 @@ export type Database = {
         }
         Relationships: []
       }
+      developer_ai_configs: {
+        Row: {
+          api_key_encrypted: string
+          created_at: string
+          id: string
+          is_default: boolean | null
+          model_preference: string | null
+          provider: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          api_key_encrypted: string
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          model_preference?: string | null
+          provider: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          api_key_encrypted?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          model_preference?: string | null
+          provider?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lead_exports: {
         Row: {
           business_name: string
@@ -2609,6 +2687,812 @@ export type Database = {
         }
         Relationships: []
       }
+      reach_activity: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          entity_id: string | null
+          entity_title: string | null
+          entity_type: string
+          id: string
+          metadata: Json | null
+          workspace_id: string
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          entity_id?: string | null
+          entity_title?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          workspace_id: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_title?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_activity_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_channels: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_archived: boolean
+          linked_issue_id: string | null
+          name: string
+          type: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_archived?: boolean
+          linked_issue_id?: string | null
+          name: string
+          type?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_archived?: boolean
+          linked_issue_id?: string | null
+          name?: string
+          type?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_channels_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_cometchat_channels: {
+        Row: {
+          channel_name: string
+          channel_type: string
+          cometchat_guid: string
+          created_at: string
+          id: string
+          linked_issue_id: string | null
+          metadata: Json | null
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          channel_name: string
+          channel_type?: string
+          cometchat_guid: string
+          created_at?: string
+          id?: string
+          linked_issue_id?: string | null
+          metadata?: Json | null
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          channel_name?: string
+          channel_type?: string
+          cometchat_guid?: string
+          created_at?: string
+          id?: string
+          linked_issue_id?: string | null
+          metadata?: Json | null
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_cometchat_channels_linked_issue_id_fkey"
+            columns: ["linked_issue_id"]
+            isOneToOne: false
+            referencedRelation: "reach_issues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_cometchat_channels_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_commits: {
+        Row: {
+          additions: number | null
+          author_avatar: string | null
+          author_email: string | null
+          author_name: string | null
+          committed_at: string | null
+          deletions: number | null
+          files_changed: number | null
+          github_url: string | null
+          id: string
+          message: string
+          sha: string
+          synced_at: string
+          workspace_id: string
+        }
+        Insert: {
+          additions?: number | null
+          author_avatar?: string | null
+          author_email?: string | null
+          author_name?: string | null
+          committed_at?: string | null
+          deletions?: number | null
+          files_changed?: number | null
+          github_url?: string | null
+          id?: string
+          message: string
+          sha: string
+          synced_at?: string
+          workspace_id: string
+        }
+        Update: {
+          additions?: number | null
+          author_avatar?: string | null
+          author_email?: string | null
+          author_name?: string | null
+          committed_at?: string | null
+          deletions?: number | null
+          files_changed?: number | null
+          github_url?: string | null
+          id?: string
+          message?: string
+          sha?: string
+          synced_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_commits_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_files: {
+        Row: {
+          content: string | null
+          created_at: string
+          folder: boolean
+          id: string
+          language: string | null
+          mime_type: string | null
+          name: string
+          parent_id: string | null
+          path: string
+          size_bytes: number | null
+          storage_path: string | null
+          updated_at: string
+          uploaded_by: string
+          workspace_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          folder?: boolean
+          id?: string
+          language?: string | null
+          mime_type?: string | null
+          name: string
+          parent_id?: string | null
+          path: string
+          size_bytes?: number | null
+          storage_path?: string | null
+          updated_at?: string
+          uploaded_by: string
+          workspace_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          folder?: boolean
+          id?: string
+          language?: string | null
+          mime_type?: string | null
+          name?: string
+          parent_id?: string | null
+          path?: string
+          size_bytes?: number | null
+          storage_path?: string | null
+          updated_at?: string
+          uploaded_by?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_files_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "reach_files"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_files_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_issues: {
+        Row: {
+          assigned_to: string | null
+          body: string | null
+          body_html: string | null
+          closed_at: string | null
+          created_at: string
+          created_by: string
+          github_issue_number: number | null
+          github_synced_at: string | null
+          id: string
+          labels: string[] | null
+          milestone_id: string | null
+          number: number
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          body?: string | null
+          body_html?: string | null
+          closed_at?: string | null
+          created_at?: string
+          created_by: string
+          github_issue_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          labels?: string[] | null
+          milestone_id?: string | null
+          number?: number
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          body?: string | null
+          body_html?: string | null
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          github_issue_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          labels?: string[] | null
+          milestone_id?: string | null
+          number?: number
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_issues_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "reach_milestones"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_issues_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_messages: {
+        Row: {
+          attachments: Json | null
+          body: string
+          body_html: string | null
+          channel_id: string
+          created_at: string
+          id: string
+          is_deleted: boolean
+          is_edited: boolean
+          parent_id: string | null
+          reactions: Json | null
+          updated_at: string
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          attachments?: Json | null
+          body: string
+          body_html?: string | null
+          channel_id: string
+          created_at?: string
+          id?: string
+          is_deleted?: boolean
+          is_edited?: boolean
+          parent_id?: string | null
+          reactions?: Json | null
+          updated_at?: string
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          attachments?: Json | null
+          body?: string
+          body_html?: string | null
+          channel_id?: string
+          created_at?: string
+          id?: string
+          is_deleted?: boolean
+          is_edited?: boolean
+          parent_id?: string | null
+          reactions?: Json | null
+          updated_at?: string
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_messages_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "reach_channels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_messages_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "reach_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_messages_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_milestones: {
+        Row: {
+          closed_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          due_date: string | null
+          github_milestone_number: number | null
+          github_synced_at: string | null
+          id: string
+          status: string
+          title: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          closed_at?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          due_date?: string | null
+          github_milestone_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          status?: string
+          title: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_date?: string | null
+          github_milestone_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_milestones_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          link: string | null
+          source_id: string | null
+          source_type: string | null
+          title: string
+          type: string
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          source_id?: string | null
+          source_type?: string | null
+          title: string
+          type: string
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          source_id?: string | null
+          source_type?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_notifications_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_pull_requests: {
+        Row: {
+          assigned_to: string | null
+          body: string | null
+          closed_at: string | null
+          created_at: string
+          created_by: string
+          github_pr_number: number | null
+          github_synced_at: string | null
+          id: string
+          merged_at: string | null
+          number: number
+          source_branch: string
+          status: string
+          target_branch: string
+          title: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          body?: string | null
+          closed_at?: string | null
+          created_at?: string
+          created_by: string
+          github_pr_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          merged_at?: string | null
+          number?: number
+          source_branch: string
+          status?: string
+          target_branch?: string
+          title: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          body?: string | null
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          github_pr_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          merged_at?: string | null
+          number?: number
+          source_branch?: string
+          status?: string
+          target_branch?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_pull_requests_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_rooms: {
+        Row: {
+          channel_id: string | null
+          created_at: string
+          ended_at: string | null
+          id: string
+          is_active: boolean
+          name: string
+          started_at: string | null
+          started_by: string | null
+          workspace_id: string
+          zoom_join_url: string | null
+          zoom_meeting_id: string | null
+          zoom_password: string | null
+        }
+        Insert: {
+          channel_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          started_at?: string | null
+          started_by?: string | null
+          workspace_id: string
+          zoom_join_url?: string | null
+          zoom_meeting_id?: string | null
+          zoom_password?: string | null
+        }
+        Update: {
+          channel_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          started_at?: string | null
+          started_by?: string | null
+          workspace_id?: string
+          zoom_join_url?: string | null
+          zoom_meeting_id?: string | null
+          zoom_password?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_rooms_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "reach_channels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_rooms_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_video_rooms: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          id: string
+          is_active: boolean
+          name: string
+          started_at: string | null
+          started_by: string | null
+          updated_at: string
+          workspace_id: string
+          zoom_join_url: string | null
+          zoom_meeting_id: string | null
+          zoom_password: string | null
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          started_at?: string | null
+          started_by?: string | null
+          updated_at?: string
+          workspace_id: string
+          zoom_join_url?: string | null
+          zoom_meeting_id?: string | null
+          zoom_password?: string | null
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          started_at?: string | null
+          started_by?: string | null
+          updated_at?: string
+          workspace_id?: string
+          zoom_join_url?: string | null
+          zoom_meeting_id?: string | null
+          zoom_password?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_video_rooms_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_workspace_members: {
+        Row: {
+          avatar_url: string | null
+          display_name: string | null
+          id: string
+          joined_at: string
+          role: Database["public"]["Enums"]["reach_role"]
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          display_name?: string | null
+          id?: string
+          joined_at?: string
+          role?: Database["public"]["Enums"]["reach_role"]
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          display_name?: string | null
+          id?: string
+          joined_at?: string
+          role?: Database["public"]["Enums"]["reach_role"]
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_workspace_members_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_workspaces: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          created_by: string | null
+          default_branch: string
+          description: string | null
+          github_owner: string | null
+          github_repo: string | null
+          id: string
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_branch?: string
+          description?: string | null
+          github_owner?: string | null
+          github_repo?: string | null
+          id?: string
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_branch?: string
+          description?: string | null
+          github_owner?: string | null
+          github_repo?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reach_zoom_tokens: {
+        Row: {
+          access_token: string
+          created_at: string
+          expires_at: string
+          id: string
+          refresh_token: string
+          updated_at: string
+          user_id: string
+          zoom_email: string | null
+          zoom_user_id: string | null
+        }
+        Insert: {
+          access_token: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          refresh_token: string
+          updated_at?: string
+          user_id: string
+          zoom_email?: string | null
+          zoom_user_id?: string | null
+        }
+        Update: {
+          access_token?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          refresh_token?: string
+          updated_at?: string
+          user_id?: string
+          zoom_email?: string | null
+          zoom_user_id?: string | null
+        }
+        Relationships: []
+      }
       sync_metadata: {
         Row: {
           created_at: string | null
@@ -2819,9 +3703,14 @@ export type Database = {
       }
     }
     Functions: {
+      crm_users_is_empty: { Args: never; Returns: boolean }
       get_crm_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["crm_role"]
+      }
+      get_reach_role: {
+        Args: { _user_id: string; _workspace_id: string }
+        Returns: Database["public"]["Enums"]["reach_role"]
       }
       guard_notion_sync_cron: { Args: never; Returns: undefined }
       has_crm_role: {
@@ -2839,6 +3728,10 @@ export type Database = {
         Returns: boolean
       }
       is_crm_user: { Args: { _user_id: string }; Returns: boolean }
+      is_reach_member: {
+        Args: { _user_id: string; _workspace_id: string }
+        Returns: boolean
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
@@ -2852,6 +3745,7 @@ export type Database = {
         | "dispatcher"
         | "billing"
         | "portal_user"
+      reach_role: "owner" | "admin" | "maintainer" | "contributor" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2989,6 +3883,7 @@ export const Constants = {
         "billing",
         "portal_user",
       ],
+      reach_role: ["owner", "admin", "maintainer", "contributor", "viewer"],
     },
   },
 } as const

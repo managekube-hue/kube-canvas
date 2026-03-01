@@ -1,5 +1,5 @@
 /**
- * NOTICE — Third-Party Attributions and Copyright Notices
+ * NOTICE: Third-Party Attributions and Copyright Notices
  * Word-for-word from provided documentation
  */
 

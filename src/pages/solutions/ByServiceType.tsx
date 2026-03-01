@@ -1,4 +1,4 @@
-/** By Service Type — /solutions/by-service-type — word-for-word from Solutions.docx page 13 */
+/** By Service Type: /solutions/by-service-type, word-for-word from Solutions.docx page 13 */
 import { SolutionsNarrativePage } from "@/components/SolutionsNarrativePage";
 
 export default function ByServiceType() {

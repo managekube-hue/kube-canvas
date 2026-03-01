@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.18-19) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.18-19) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function VdrKube() {
   return <ServiceLayerPage

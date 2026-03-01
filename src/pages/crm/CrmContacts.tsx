@@ -123,8 +123,25 @@ export default function CrmContacts() {
                     <p className="text-xs text-muted-foreground">{c.email || "No email"} {c.job_title ? `· ${c.job_title}` : ""}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Badge variant="outline" className="text-xs capitalize">{c.lifecycle_stage}</Badge>
+                <div className="flex items-center gap-2">
+                  <select
+                    className="text-xs border border-border rounded px-2 py-1 bg-background text-foreground"
+                    value={c.lifecycle_stage}
+                    onClick={e => e.stopPropagation()}
+                    onChange={async (e) => {
+                      e.stopPropagation();
+                      const newStage = e.target.value;
+                      await supabase.from("crm_contacts").update({ lifecycle_stage: newStage }).eq("id", c.id);
+                      fetchContacts();
+                    }}
+                  >
+                    <option value="lead">Lead</option>
+                    <option value="mql">MQL</option>
+                    <option value="sql">SQL</option>
+                    <option value="opportunity">Opportunity</option>
+                    <option value="customer">Customer</option>
+                    <option value="churned">Churned</option>
+                  </select>
                   <span className="text-xs text-muted-foreground">Score: {c.lead_score}</span>
                 </div>
               </CardContent>

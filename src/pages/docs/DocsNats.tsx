@@ -30,7 +30,7 @@ const integrations = [
   { point: "KAI → CrewAI", library: "CrewAI Python", importPath: "from crewai import Agent, Task, Crew", license: "MIT", comm: "Multi-agent orchestration" },
   { point: "KAI → Voice (COMM)", library: "Vapi REST API", importPath: "POST https://api.vapi.ai/call", license: "Commercial ToS", comm: "Voice alerts via KAI-COMM" },
   { point: "KAI → Stripe", library: "Stripe Go SDK", importPath: 'import "github.com/stripe/stripe-go/v76"', license: "MIT", comm: "Payment processing for KAI-CLERK" },
-  { point: "PSA → Zammad", library: "Zammad REST API", importPath: "GET/POST https://zammad/api/v1/tickets", license: "AGPL 3.0 — API", comm: "ITSM ticketing bridge" },
+  { point: "PSA → Zammad", library: "Zammad REST API", importPath: "GET/POST https://zammad/api/v1/tickets", license: "AGPL 3.0, API", comm: "ITSM ticketing bridge" },
   { point: "Service → Gateway", library: "go-chi Router (Go)", importPath: 'import "github.com/go-chi/chi/v5"', license: "MIT", comm: "Kubric API gateway routing" },
 ];
 
@@ -45,7 +45,7 @@ export default function DocsNats() {
             <span className="text-foreground">NATS Message Bus</span>
           </div>
 
-          <h1 className="text-3xl lg:text-4xl font-black text-foreground mb-4">NATS Message Bus — Subject Hierarchy</h1>
+          <h1 className="text-3xl lg:text-4xl font-black text-foreground mb-4">NATS Message Bus: Subject Hierarchy</h1>
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
             All KAI-to-module and module-to-module communication uses the following NATS subject taxonomy. JetStream provides persistence and consumer groups for guaranteed delivery.
           </p>

@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.28-29) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.28-29) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function NpmKube() {
   return <ServiceLayerPage

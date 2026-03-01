@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 
 
 
-/** DO NOT TOUCH — Self-Managed Home — per architecture doc page 27/23 */
+/** DO NOT TOUCH: Self-Managed Home, per architecture doc page 27/23 */
 
 // Doc: Route prefix /self-managed
 // Doc: Hero → "The Platform. No Managed Layer. Full Control."
@@ -38,39 +38,39 @@ const SUB_NAV = [
 ];
 
 // Per architecture doc page 27: Home page sections
-// Section 1 — Platform Architecture: How Kubric UIDR Orchestrates Your Environment
-// Section 2 — The Detection and Response Kube Catalog: 16 Modules. Each One Independently Deployable.
-// Section 3 — Platform Mechanics: Data Flows, APIs, and Integration Points
-// Section 4 — Compliance Automation at the Control Level: 100+ Frameworks. Your Team Owns the Evidence.
-// Section 5 — Start Building: Free Trial. Technical Demo. Or Deploy Now.
+// Section 1: Platform Architecture: How Kubric UIDR Orchestrates Your Environment
+// Section 2: The Detection and Response Kube Catalog: 16 Modules. Each One Independently Deployable.
+// Section 3: Platform Mechanics: Data Flows, APIs, and Integration Points
+// Section 4: Compliance Automation at the Control Level: 100+ Frameworks. Your Team Owns the Evidence.
+// Section 5: Start Building: Free Trial. Technical Demo. Or Deploy Now.
 
 const PLATFORM_MODULES = [
   {
     icon: Server,
     label: "Kubric UIDR Platform",
     desc: "Platform internals: agent architecture, data ingestion, and correlation engine.",
-    detail: "The Kubric UIDR agent-based architecture deploys across your environment — collecting telemetry at the endpoint, network, and cloud layer, normalizing it into the Kubric data model, and making it queryable via graph API and REST endpoints.",
+    detail: "The Kubric UIDR agent-based architecture deploys across your environment, collecting telemetry at the endpoint, network, and cloud layer, normalizing it into the Kubric data model, and making it queryable via graph API and REST endpoints.",
     href: "/uidr/platform",
   },
   {
     icon: Database,
     label: "Kubric Data Graph",
     desc: "Graph data model: nodes, edges, relationships, and query interface.",
-    detail: "The Kubric Data Graph represents your environment as a continuously updated property graph — assets, identities, events, vulnerabilities, and their relationships modeled as nodes and edges queryable via graph API.",
+    detail: "The Kubric Data Graph represents your environment as a continuously updated property graph: assets, identities, events, vulnerabilities, and their relationships modeled as nodes and edges queryable via graph API.",
     href: "/our-tools/kubric-data-graph",
   },
   {
     icon: Cpu,
     label: "KubricAI",
     desc: "ML models, detection logic, automated response playbooks, and AI configuration.",
-    detail: "KubricAI runs ML-based anomaly detection, behavioral analysis, and automated response orchestration on top of the Kubric data graph — configurable via playbook editor and exposed through the KubricAI API for custom integration.",
+    detail: "KubricAI runs ML-based anomaly detection, behavioral analysis, and automated response orchestration on top of the Kubric data graph, configurable via playbook editor and exposed through the KubricAI API for custom integration.",
     href: "/our-tools/kubric-ai",
   },
   {
     icon: BookOpen,
     label: "K-DOCS Monorepo",
     desc: "120k+ detection assets. Full library-to-module mapping.",
-    detail: "The complete K-DOCS detection library — from K-MAP-001 through K-MAP-020. Every playbook, every runbook, every detection rule available to your team immediately.",
+    detail: "The complete K-DOCS detection library, from K-MAP-001 through K-MAP-020. Every playbook, every runbook, every detection rule available to your team immediately.",
     href: "/uidr/docs",
   },
   {
@@ -110,7 +110,7 @@ const KUBE_CATALOG = [
 const PLATFORM_TIERS = [
   {
     name: "XRO",
-    label: "XRO — Essentials",
+    label: "XRO: Essentials",
     sub: "9 Capabilities. Foundational detection coverage. Deployable in your environment.",
     desc: "XRO deploys 9 core capabilities for unified infrastructure visibility, network monitoring, identity threat detection, vulnerability management, configuration drift, help desk, MDM, M365 management, and portal access: all running in your environment under your control.",
     cta: "Deploy XRO →",
@@ -118,7 +118,7 @@ const PLATFORM_TIERS = [
   },
   {
     name: "XMX",
-    label: "XMX — Advanced",
+    label: "XMX: Advanced",
     sub: "16 Capabilities. Expanded detection surface. Full API access.",
     desc: "XMX deploys 16 capabilities extending coverage to managed SOC, cloud detection, application performance, backup and disaster recovery, compliance management, and real-time visibility: all integrated through the Kubric UIDR orchestration layer.",
     cta: "Deploy XMX →",
@@ -126,7 +126,7 @@ const PLATFORM_TIERS = [
   },
   {
     name: "XME",
-    label: "XME — Enterprise",
+    label: "XME: Enterprise",
     sub: "All 23 Capabilities. Complete detection stack. Premium API access.",
     desc: "XME deploys the full capability set including software supply chain detection, data exfiltration response, STRIKE threat intelligence, EASM, Honeypot deception, FinOps governance, and dedicated vCISO advisory: complete coverage for regulated enterprises.",
     cta: "Deploy XME →",
@@ -259,7 +259,7 @@ export default function SelfManaged() {
       </div>
 
       {/* ══ SECTION 1: Platform Architecture ════════════════════════════ */}
-      {/* Doc: "Platform Architecture — How Kubric UIDR Orchestrates Your Environment" */}
+      {/* Doc: "Platform Architecture: How Kubric UIDR Orchestrates Your Environment" */}
       <section className="py-24" style={{ background: BG }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Platform Architecture</p>
@@ -338,7 +338,7 @@ export default function SelfManaged() {
       </section>
 
       {/* ══ SECTION 2: Kube Catalog ══════════════════════════════════════ */}
-      {/* Doc: "The Detection and Response Kube Catalog — 16 Modules. Each One Independently Deployable." */}
+      {/* Doc: "The Detection and Response Kube Catalog: 16 Modules. Each One Independently Deployable." */}
       <section className="py-24" style={{ background: BG3 }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: ORANGE }}>Detection & Response</p>
@@ -405,7 +405,7 @@ export default function SelfManaged() {
             Pre-configured module sets matched to environment size.<br />Fully customizable from day one.
           </h2>
           <p className="text-[15px] leading-relaxed mb-16 max-w-3xl" style={{ color: TEXT_DIM }}>
-            XRO, XMM, and XME are deployment starting points — each one a proven module configuration your team deploys, then expands by adding modules as your detection and response requirements grow.
+            XRO, XMM, and XME are deployment starting points, each one a proven module configuration your team deploys, then expands by adding modules as your detection and response requirements grow.
           </p>
 
           <div className="grid lg:grid-cols-3 gap-[1px]" style={{ background: BORDER }}>
@@ -448,7 +448,7 @@ export default function SelfManaged() {
       </section>
 
       {/* ══ SECTION 4: Compliance Automation ════════════════════════════ */}
-      {/* Doc: "Compliance Automation at the Control Level — 100+ Frameworks. Your Team Owns the Evidence." */}
+      {/* Doc: "Compliance Automation at the Control Level: 100+ Frameworks. Your Team Owns the Evidence." */}
       <section className="py-24" style={{ background: BG3 }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -462,7 +462,7 @@ export default function SelfManaged() {
                 100+ Frameworks. Your Team Owns the Evidence.
               </p>
               <p className="text-[14px] leading-relaxed mb-6" style={{ color: TEXT_DIM }}>
-                The GRC module maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit packages via API — the GRC module gives your team programmatic access to your entire compliance posture.
+                The GRC module maps your environment against 100+ frameworks. Your team owns the evidence collection logic. Configure evidence collection rules, set control verification schedules, and export audit-ready deliverables via API — the GRC module gives your team programmatic access to your entire compliance posture.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link to="/service-layer/grc" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: ORANGE, letterSpacing: "0.1em" }}>
@@ -487,7 +487,7 @@ export default function SelfManaged() {
       </section>
 
       {/* ══ SECTION 5: Start Building ════════════════════════════════════ */}
-      {/* Doc: "Start Building — Free Trial. Technical Demo. Or Deploy Now." */}
+      {/* Doc: "Start Building: Free Trial. Technical Demo. Or Deploy Now." */}
       <section className="py-24" style={{ background: BG }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="max-w-3xl">
@@ -497,7 +497,7 @@ export default function SelfManaged() {
               Free Trial. Technical Demo.<br />Or Deploy Now.
             </h2>
             <p className="text-[15px] leading-relaxed mb-12" style={{ color: TEXT_DIM }}>
-              Optional professional services for self-managed teams — deployment engineering, integration development, and security advisory available on a project basis when your team wants outside expertise on a specific challenge.
+              Optional professional services for self-managed teams: deployment engineering, integration development, and security advisory available on a project basis when your team wants outside expertise on a specific challenge.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link

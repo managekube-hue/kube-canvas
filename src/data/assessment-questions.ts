@@ -592,6 +592,65 @@ export const SR_QUESTIONS: AssessmentQuestion[] = [
       { label: "No vulnerability scanning", value: "none", score: { risk: 10 }, flags: { no_vuln_scanning: true } },
     ],
   },
+  // SR-10: Patch management cadence
+  {
+    code: "SR-Q_PATCH",
+    flow: "SR",
+    label: "How quickly are critical security patches applied?",
+    description: "Unpatched vulnerabilities are the #2 attack vector after phishing. 72-hour patch SLA is the enterprise standard.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Automated patching within 72 hours of release", value: "auto_72h", score: { cf_infrastructure_maturity: 3 } },
+      { label: "Manual patching within 7 days", value: "manual_7d", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Monthly patch cycles", value: "monthly", score: { cf_infrastructure_maturity: 0, risk: 5 } },
+      { label: "Ad-hoc / when we get to it", value: "ad_hoc", score: { risk: 15 } },
+      { label: "No patch management process", value: "none", score: { risk: 20 }, flags: { no_patch_mgmt: true } },
+    ],
+  },
+  // SR-11: Email security gateway
+  {
+    code: "SR-Q_EMAIL_SEC",
+    flow: "SR",
+    label: "What email security controls are in place?",
+    description: "Email remains the #1 attack vector. Advanced threat protection blocks 99%+ of phishing before it reaches inboxes.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Advanced email security gateway with sandboxing (Proofpoint, Mimecast, etc.)", value: "advanced_gateway", score: { cf_secops_maturity: 3 } },
+      { label: "Microsoft Defender for Office 365 / Google Advanced Protection", value: "native_advanced", score: { cf_secops_maturity: 2 } },
+      { label: "Basic spam filtering only", value: "basic_spam", score: { cf_secops_maturity: 0, risk: 10 } },
+      { label: "No dedicated email security", value: "none", score: { risk: 15 } },
+    ],
+  },
+  // SR-12: DNS filtering
+  {
+    code: "SR-Q_DNS",
+    flow: "SR",
+    label: "Do you use DNS-layer security filtering?",
+    description: "DNS filtering blocks command-and-control callbacks and malicious domains before connections are established.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Yes, enterprise DNS security (Cisco Umbrella, Zscaler, etc.)", value: "enterprise_dns", score: { cf_secops_maturity: 2 } },
+      { label: "Basic DNS filtering", value: "basic_dns", score: { cf_secops_maturity: 1 } },
+      { label: "No DNS filtering", value: "none", score: { risk: 5 } },
+    ],
+  },
+  // SR-13: Dark web monitoring
+  {
+    code: "SR-Q_DARKWEB",
+    flow: "SR",
+    label: "Do you monitor for compromised credentials on the dark web?",
+    description: "Stolen credentials appear on dark web marketplaces an average of 11 months before they are used in attacks.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_security_remediation === true,
+    options: [
+      { label: "Yes, continuous monitoring with automated alerts", value: "continuous", score: { cf_secops_maturity: 2 } },
+      { label: "Periodic checks (quarterly or less)", value: "periodic", score: { cf_secops_maturity: 1 } },
+      { label: "No dark web monitoring", value: "none", score: { risk: 5 } },
+    ],
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -837,7 +896,53 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "No DR plan", value: "no", score: { cf_dr_bc_maturity: -2 }, flags: { no_dr_plan: true } },
     ],
   },
-  // IA-05: Cloud workload distribution (per spec IA-Q22)
+  // IA-05: Desktop / workstation OS
+  {
+    code: "IA-Q10_DESKTOP",
+    flow: "IA",
+    label: "What desktop/workstation operating systems are deployed?",
+    description: "End-of-life desktop OS is the most common lateral movement enabler in ransomware events.",
+    type: "multi",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Windows 11", value: "win11", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Windows 10 (supported)", value: "win10", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Windows 8.1 / 7 (End of Life)", value: "win_eol", score: { risk: 15 }, flags: { unsupported_os: true } },
+      { label: "macOS (latest 2 versions)", value: "macos_current", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Linux workstations", value: "linux", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Chrome OS", value: "chromeos", score: { cf_infrastructure_maturity: 1 } },
+    ],
+  },
+  // IA-05: Mobile device management
+  {
+    code: "IA-Q11_MDM",
+    flow: "IA",
+    label: "How are mobile devices managed?",
+    description: "Unmanaged mobile devices accessing corporate data represent a significant data loss risk.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Full MDM/UEM solution (Intune, JAMF, etc.)", value: "full_mdm", score: { cf_infrastructure_maturity: 3 } },
+      { label: "Basic mobile management (email only)", value: "basic_mdm", score: { cf_infrastructure_maturity: 1 } },
+      { label: "BYOD with no management", value: "byod_unmanaged", score: { risk: 10 } },
+      { label: "No mobile device policy", value: "none", score: { risk: 15 } },
+    ],
+  },
+  // IA-05: Wireless infrastructure
+  {
+    code: "IA-Q12_WIRELESS",
+    flow: "IA",
+    label: "What is the state of your wireless infrastructure?",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_infra_assessment === true,
+    options: [
+      { label: "Enterprise-grade WiFi 6/6E with centralised management", value: "enterprise_wifi6", score: { cf_infrastructure_maturity: 3 } },
+      { label: "Managed access points (WiFi 5 or earlier)", value: "managed_wifi5", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Consumer-grade equipment", value: "consumer", score: { risk: 5 } },
+      { label: "No managed wireless", value: "none" },
+    ],
+  },
+  // IA-06: Cloud workload distribution (per spec IA-Q22)
   {
     code: "IA-Q22",
     flow: "IA",
@@ -853,7 +958,7 @@ export const IA_QUESTIONS: AssessmentQuestion[] = [
       { label: "All on-premises", value: "all_onprem", score: { cf_cloud_maturity: 0 } },
     ],
   },
-  // IA-05: Cloud security controls (per spec IA-Q22A)
+  // IA-06: Cloud security controls (per spec IA-Q22A)
   {
     code: "IA-Q22A",
     flow: "IA",
@@ -1040,7 +1145,53 @@ export const CM_QUESTIONS: AssessmentQuestion[] = [
       { label: "No cloud skills currently", value: "none", score: { complexity: 2 } },
     ],
   },
-  // CM-05: Success metrics
+  // CM-05: Data sovereignty requirements
+  {
+    code: "CM-Q5A",
+    flow: "CM",
+    label: "Do you have data sovereignty or residency requirements?",
+    description: "Data residency mandates restrict which cloud regions and providers can be used.",
+    type: "single",
+    hubspotProperty: "mk_cf_cloud_maturity",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Yes, strict regulatory requirements (specific country/region)", value: "strict", score: { complexity: 3 } },
+      { label: "Yes, preference for domestic hosting", value: "preference", score: { complexity: 1 } },
+      { label: "No specific requirements", value: "none" },
+    ],
+  },
+  // CM-05: Cloud provider preference
+  {
+    code: "CM-Q8A",
+    flow: "CM",
+    label: "Which cloud provider(s) are you using or evaluating?",
+    type: "multi",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Microsoft Azure", value: "azure" },
+      { label: "Amazon Web Services (AWS)", value: "aws" },
+      { label: "Google Cloud Platform", value: "gcp" },
+      { label: "Oracle Cloud", value: "oracle" },
+      { label: "Multi-cloud strategy", value: "multi_cloud", score: { complexity: 2 } },
+      { label: "Not yet decided", value: "undecided" },
+    ],
+  },
+  // CM-05: Network readiness for cloud
+  {
+    code: "CM-Q10A",
+    flow: "CM",
+    label: "How would you rate your network readiness for cloud workloads?",
+    description: "Insufficient bandwidth and latency issues are the #1 cause of failed cloud migrations.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_cloud_strategy === true,
+    options: [
+      { label: "Excellent — redundant internet, SD-WAN, QoS configured", value: "excellent", score: { cf_infrastructure_maturity: 2 } },
+      { label: "Adequate — single ISP, sufficient bandwidth", value: "adequate", score: { cf_infrastructure_maturity: 1 } },
+      { label: "Questionable — bandwidth concerns or reliability issues", value: "questionable", score: { risk: 5 } },
+      { label: "Not assessed", value: "unknown", score: { risk: 3 } },
+    ],
+  },
+  // CM-06: Success metrics
   {
     code: "CM-Q16",
     flow: "CM",
@@ -1057,7 +1208,7 @@ export const CM_QUESTIONS: AssessmentQuestion[] = [
       { label: "Compliance achievement", value: "compliance" },
     ],
   },
-  // CM-05: Cloud budget
+  // CM-06: Cloud budget
   {
     code: "CM-Q17",
     flow: "CM",
@@ -1226,7 +1377,37 @@ export const GE_QUESTIONS: AssessmentQuestion[] = [
       { label: "No API strategy", value: "none" },
     ],
   },
-  // GE-03: Multi-site expansion / M&A
+  // GE-03: Digital transformation maturity
+  {
+    code: "GE-Q7A",
+    flow: "GE",
+    label: "How would you describe your digital transformation maturity?",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "Leading — cloud-native, data-driven decisions, AI/ML in production", value: "leading", score: { cf_automation_maturity: 3 } },
+      { label: "Progressing — some cloud, some automation, digital roadmap exists", value: "progressing", score: { cf_automation_maturity: 2 } },
+      { label: "Beginning — mostly manual, starting to explore digital tools", value: "beginning", score: { cf_automation_maturity: 1 } },
+      { label: "Traditional — paper-based, minimal technology adoption", value: "traditional", score: { complexity: 2 } },
+    ],
+  },
+  // GE-03: Customer-facing technology
+  {
+    code: "GE-Q11A",
+    flow: "GE",
+    label: "What customer-facing technology investments are planned?",
+    type: "multi",
+    showIf: (_answers, flags) => flags.flag_growth_enablement === true,
+    options: [
+      { label: "E-commerce / digital storefront", value: "ecommerce" },
+      { label: "Customer portal / self-service", value: "customer_portal" },
+      { label: "CRM / marketing automation", value: "crm_marketing" },
+      { label: "Mobile application", value: "mobile_app" },
+      { label: "AI/chatbot customer service", value: "ai_chatbot" },
+      { label: "None planned", value: "none" },
+    ],
+  },
+  // GE-04: Multi-site expansion / M&A
   {
     code: "GE-Q12",
     flow: "GE",
@@ -1423,6 +1604,36 @@ export const CO_QUESTIONS: AssessmentQuestion[] = [
       { label: "Standard: $1M - $5M coverage", value: "standard_1_5m", score: { cf_business_gov_maturity: 1 } },
       { label: "Basic: under $1M coverage", value: "basic_under1m", score: { cf_business_gov_maturity: 1 } },
       { label: "No cyber insurance", value: "none", score: { risk: 5 }, flags: { no_insurance: true } },
+    ],
+  },
+  // CO-04: IT staffing efficiency
+  {
+    code: "CO-Q_STAFF",
+    flow: "CO",
+    label: "How efficiently is your IT budget spent on staffing vs. tools?",
+    description: "High staffing-to-tool ratio often indicates automation opportunities and MSP consolidation value.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "More than 70% on staff, less than 30% on tools", value: "staff_heavy", score: { cf_cost_maturity: 0, complexity: 2 } },
+      { label: "Roughly 50/50 split", value: "balanced", score: { cf_cost_maturity: 2 } },
+      { label: "More on tools/services than staff", value: "tool_heavy", score: { cf_cost_maturity: 3 } },
+      { label: "Not tracked", value: "unknown", score: { cf_cost_maturity: 0 } },
+    ],
+  },
+  // CO-04: Procurement process
+  {
+    code: "CO-Q_PROC",
+    flow: "CO",
+    label: "How are IT purchases and renewals managed?",
+    description: "Centralised procurement typically saves 15-25% through volume negotiation and elimination of shadow IT.",
+    type: "single",
+    showIf: (_answers, flags) => flags.flag_cost_optimization === true,
+    options: [
+      { label: "Centralised IT procurement with approval workflows", value: "centralised", score: { cf_business_gov_maturity: 2, cf_cost_maturity: 2 } },
+      { label: "IT reviews but departments can purchase independently", value: "partial", score: { cf_cost_maturity: 1 } },
+      { label: "Decentralised — departments buy their own tools", value: "decentralised", score: { cf_cost_maturity: 0 }, flags: { shadow_it: true } },
+      { label: "No formal process", value: "none", flags: { shadow_it: true } },
     ],
   },
 ];

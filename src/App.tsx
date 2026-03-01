@@ -15,6 +15,7 @@ import FullyManaged from "./pages/paths/FullyManaged";
 import CoManaged from "./pages/paths/CoManaged";
 import SelfManaged from "./pages/paths/SelfManaged";
 import Index from "./pages/Index";
+import UniversalHome from "./pages/UniversalHome";
 import NotFound from "./pages/NotFound";
 import Methodology from "./pages/Methodology";
 import ServiceLayerOverview from "./pages/KubesOverview";
@@ -141,6 +142,7 @@ import ThreatAi from "./pages/tools/ThreatAi";
 import CVEDetailPage from "./pages/tools/CVEDetailPage";
 import CmsAdmin from "./pages/CmsAdmin";
 import Login from "./pages/auth/Login";
+import SetPassword from "./pages/auth/SetPassword";
 
 // CRM App
 import { CrmLayout } from "./components/crm/CrmLayout";
@@ -151,7 +153,21 @@ import CrmContacts from "./pages/crm/CrmContacts";
 import CrmContactDetail from "./pages/crm/CrmContactDetail";
 import CrmDeals from "./pages/crm/CrmDeals";
 import CrmTickets from "./pages/crm/CrmTickets";
+import CrmContracts from "./pages/crm/CrmContracts";
+import CrmAssets from "./pages/crm/CrmAssets";
+import CrmTimeTracking from "./pages/crm/CrmTimeTracking";
+import CrmDeployments from "./pages/crm/CrmDeployments";
+import CrmAuditLog from "./pages/crm/CrmAuditLog";
 import CrmPlaceholder from "./pages/crm/CrmPlaceholder";
+import CrmInvoices from "./pages/crm/CrmInvoices";
+import CrmSettings from "./pages/crm/CrmSettings";
+import CrmHelp from "./pages/crm/CrmHelp";
+import CrmLeadImport from "./pages/crm/CrmLeadImport";
+import CrmBulkUpload from "./pages/crm/CrmBulkUpload";
+import CrmCareers from "./pages/crm/CrmCareers";
+import CrmAssessmentSessions from "./pages/crm/CrmAssessmentSessions";
+import CrmBomQuotes from "./pages/crm/CrmBomQuotes";
+import BomCatalogue from "./pages/BomCatalogue";
 
 // UIDR Open Source Docs Site
 import UidrHome from "./pages/uidr/UidrHome";
@@ -163,6 +179,7 @@ import UidrContributors from "./pages/uidr/UidrContributors";
 import UidrOpenSource from "./pages/uidr/UidrOpenSource";
 import UidrContact from "./pages/uidr/UidrContact";
 import UidrIde from "./pages/uidr/UidrIde";
+import Reach from "./pages/Reach";
 
 
 const queryClient = new QueryClient();
@@ -179,8 +196,10 @@ const App = () => (
         <ScrollToTop />
         <BOMCart />
         <Routes>
+          {/* Universal Homepage */}
+          <Route path="/" element={<UniversalHome />} />
           {/* Qualification Gate */}
-          <Route path="/" element={<QualificationGate />} />
+          <Route path="/gate" element={<QualificationGate />} />
           <Route path="/fully-managed" element={<FullyManaged />} />
           <Route path="/co-managed" element={<CoManaged />} />
           <Route path="/self-managed" element={<SelfManaged />} />
@@ -192,6 +211,7 @@ const App = () => (
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/assessment/start" element={<AssessmentEngine />} />
+          <Route path="/bom" element={<BomCatalogue />} />
           <Route path="/find-by-problem" element={<FindByProblem />} />
           <Route path="/find-by-size" element={<Navigate to="/solutions/by-market-size" replace />} />
           <Route path="/solutions" element={<SolutionsHub />} />
@@ -372,13 +392,19 @@ const App = () => (
             <Route path="contacts/:id" element={<CrmContactDetail />} />
             <Route path="deals" element={<CrmDeals />} />
             <Route path="tickets" element={<CrmTickets />} />
-            <Route path="time" element={<CrmPlaceholder title="Time Tracking" />} />
-            <Route path="contracts" element={<CrmPlaceholder title="Contracts" />} />
-            <Route path="invoices" element={<CrmPlaceholder title="Invoices & Billing" />} />
-            <Route path="assets" element={<CrmPlaceholder title="Asset Management" />} />
-            <Route path="deployments" element={<CrmPlaceholder title="Deployment Schedules" />} />
-            <Route path="audit" element={<CrmPlaceholder title="Audit Log" />} />
-            <Route path="settings" element={<CrmPlaceholder title="Settings" />} />
+            <Route path="time" element={<CrmTimeTracking />} />
+            <Route path="contracts" element={<CrmContracts />} />
+            <Route path="invoices" element={<CrmInvoices />} />
+            <Route path="leads" element={<CrmLeadImport />} />
+            <Route path="bulk-upload" element={<CrmBulkUpload />} />
+            <Route path="careers" element={<CrmCareers />} />
+            <Route path="assessments" element={<CrmAssessmentSessions />} />
+            <Route path="bom-quotes" element={<CrmBomQuotes />} />
+            <Route path="assets" element={<CrmAssets />} />
+            <Route path="deployments" element={<CrmDeployments />} />
+            <Route path="audit" element={<CrmAuditLog />} />
+            <Route path="settings" element={<CrmSettings />} />
+            <Route path="help" element={<CrmHelp />} />
             <Route path="legacy" element={<CmsAdmin />} />
           </Route>
           <Route path="/cms" element={<Navigate to="/crm" replace />} />
@@ -398,6 +424,7 @@ const App = () => (
 
           {/* Auth */}
           <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/set-password" element={<SetPassword />} />
 
           {/* UIDR Open Source Docs Site */}
           <Route path="/uidr" element={<UidrHome />} />
@@ -408,6 +435,7 @@ const App = () => (
           <Route path="/uidr/contributors" element={<AuthGate><UidrContributors /></AuthGate>} />
           <Route path="/uidr/open-source" element={<AuthGate><UidrOpenSource /></AuthGate>} />
           <Route path="/uidr/ide" element={<AuthGate><UidrIde /></AuthGate>} />
+          <Route path="/reach" element={<AuthGate><Reach /></AuthGate>} />
           <Route path="/uidr/contact" element={<UidrContact />} />
 
           <Route path="*" element={<NotFound />} />

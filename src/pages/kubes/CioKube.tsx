@@ -1,4 +1,4 @@
-/** DO NOT TOUCH — v2.0 spec copy (Service_Layer.docx pp.12-13) */
+/** DO NOT TOUCH: v2.0 spec copy (Service_Layer.docx pp.12-13) */
 import { ServiceLayerPage } from "@/components/ServiceLayerPage";
 export default function CioKube() {
   return <ServiceLayerPage

@@ -4,7 +4,8 @@ import { useCrmUser } from "@/hooks/useCrmUser";
 import {
   Building2, Users, BarChart3, Ticket, FileText, Package,
   Calendar, Settings, LogOut, ChevronLeft, ChevronRight,
-  LayoutDashboard, Briefcase, Clock, Shield, Menu,
+  LayoutDashboard, Briefcase, Clock, Shield, Menu, Upload, Megaphone, ClipboardCheck, ShoppingCart,
+  BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,11 @@ import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/crm" },
+  { label: "Lead Pipeline", icon: BarChart3, path: "/crm/leads" },
+  { label: "CSV Upload", icon: Upload, path: "/crm/bulk-upload" },
+  { label: "Careers", icon: Megaphone, path: "/crm/careers" },
+  { label: "Assessments", icon: ClipboardCheck, path: "/crm/assessments" },
+  { label: "BOM Quotes", icon: ShoppingCart, path: "/crm/bom-quotes" },
   { label: "Organizations", icon: Building2, path: "/crm/organizations" },
   { label: "Contacts", icon: Users, path: "/crm/contacts" },
   { label: "Deals", icon: Briefcase, path: "/crm/deals" },
@@ -23,6 +29,7 @@ const navItems = [
   { label: "Deployments", icon: Calendar, path: "/crm/deployments" },
   { label: "Audit Log", icon: Shield, path: "/crm/audit", adminOnly: true },
   { label: "Settings", icon: Settings, path: "/crm/settings", adminOnly: true },
+  { label: "Help & Guides", icon: BookOpen, path: "/crm/help" },
 ];
 
 export function CrmLayout() {
@@ -41,15 +48,23 @@ export function CrmLayout() {
   }
 
   if (error === "no_access" || !crmUser) {
+    const handleSwitchAccount = async () => {
+      await supabase.auth.signOut();
+      navigate("/auth/login?redirect=/crm");
+    };
+
     return (
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4 max-w-md p-8">
           <Shield className="h-12 w-12 mx-auto text-destructive" />
           <h1 className="text-2xl font-bold text-foreground">Access Denied</h1>
           <p className="text-muted-foreground">
-            You don't have CRM access. Contact your administrator to be added as a CRM user.
+            You don't have CRM access. If you have CRM credentials, sign in with your CRM account below.
           </p>
-          <Button variant="outline" onClick={() => navigate("/")}>Back to Site</Button>
+          <div className="flex flex-col gap-2">
+            <Button onClick={handleSwitchAccount}>Sign in with CRM Account</Button>
+            <Button variant="outline" onClick={() => navigate("/")}>Back to Site</Button>
+          </div>
         </div>
       </div>
     );
@@ -57,7 +72,7 @@ export function CrmLayout() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/auth/login");
+    navigate("/auth/login?redirect=/crm");
   };
 
   const visibleNav = navItems.filter(item => !item.adminOnly || isAdmin);
