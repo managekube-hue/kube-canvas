@@ -320,11 +320,12 @@ export default function UidrIde() {
 
   // ── Load data per view mode ────────────────
   useEffect(() => {
-    if (viewMode === "issues" || viewMode === "kanban") { reachIssues.loadIssues(); }
-    if (!hasWorkspace) return;
+    if (viewMode === "issues" || viewMode === "kanban") reachIssues.loadIssues();
+    if (viewMode === "pulls") reachPRs.load();
+    if (viewMode === "milestones") reachMilestones.load();
+    if (viewMode === "activity") reachActivity.load();
+    if (!owner || !repo) return;
     if (viewMode === "commits") loadCommits();
-    if (viewMode === "pulls") loadPulls();
-    if (viewMode === "milestones") loadMilestones();
     if (viewMode === "settings") loadCollaborators();
   }, [viewMode, owner, repo, branch, hasWorkspace]);
 
