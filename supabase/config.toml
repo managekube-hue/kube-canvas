@@ -35,3 +35,6 @@ verify_jwt = false
 
 [functions.zoom-oauth-callback]
 verify_jwt = false
+
+[functions.gh]
+verify_jwt = false
