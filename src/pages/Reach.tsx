@@ -593,7 +593,11 @@ export default function Reach() {
       case "meetings":
         return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
-        return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
+        return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead}
+          onNavigate={(type) => {
+            const viewMap: Record<string, ReachView> = { issue: "issues", pr: "prs", mention: "chat", chat: "chat", commit: "files" };
+            setActiveView(viewMap[type] || "home");
+          }} />;
       case "settings":
         return <IdeSettingsPanel workspace={workspace.activeWorkspace!} members={workspace.members}
           onRefreshMembers={workspace.refreshMembers} collaborators={collaborators} />;
