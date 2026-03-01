@@ -128,7 +128,7 @@ export default function Reach() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [tabs, activeTab, hasWorkspace]);
+  }, [tabs, activeTab, hasWorkspace, commandPaletteOpen, showCommitModal, sidebarCollapsed]);
 
   // ── Handle Zoom callback ───────────────────
   useEffect(() => {
