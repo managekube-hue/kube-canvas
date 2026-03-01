@@ -411,6 +411,17 @@ export default function UidrIde() {
     );
   }
 
+  /* ── Reusable prompt when no workspace connected ── */
+  const ConnectWorkspacePrompt = () => (
+    <div className="flex-1 flex flex-col items-center justify-center px-4 text-center gap-3">
+      <span className="text-xs text-white/30">Connect a GitHub workspace to use this panel</span>
+      <button onClick={() => setShowWorkspaceSetup(true)}
+        className="text-[10px] py-1.5 px-3 rounded border border-dashed border-white/10 text-white/40 hover:text-white/60 hover:border-white/20 transition-colors">
+        + Connect Workspace
+      </button>
+    </div>
+  );
+
   /* ── Local-only side panel when no workspace ── */
   const renderLocalExplorer = () => (
     <div className="flex-1 flex flex-col">
@@ -457,18 +468,8 @@ export default function UidrIde() {
       ) : renderLocalExplorer();
     }
 
-    // Views that require workspace
-    if (!hasWorkspace) {
-      return (
-        <div className="flex-1 flex flex-col items-center justify-center px-4 text-center gap-3">
-          <span className="text-xs text-white/30">Connect a GitHub workspace to use this panel</span>
-          <button onClick={() => setShowWorkspaceSetup(true)}
-            className="text-[10px] py-1.5 px-3 rounded border border-dashed border-white/10 text-white/40 hover:text-white/60 hover:border-white/20 transition-colors">
-            + Connect Workspace
-          </button>
-        </div>
-      );
-    }
+    // Views that require workspace — single guard
+    if (!hasWorkspace) return <ConnectWorkspacePrompt />;
 
     switch (viewMode) {
       case "search":
