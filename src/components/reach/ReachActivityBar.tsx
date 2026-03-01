@@ -1,16 +1,19 @@
 import {
   Home, Bug, MessageSquare, FolderTree, GitPullRequest,
-  FileText, Video, Bell, Settings,
+  FileText, Video, Bell, Settings, Search, Activity, Target,
 } from "lucide-react";
 
-export type ReachView = "home" | "issues" | "chat" | "files" | "prs" | "docs" | "meetings" | "notifications" | "settings";
+export type ReachView = "home" | "issues" | "chat" | "files" | "prs" | "docs" | "meetings" | "notifications" | "settings" | "search" | "activity" | "milestones";
 
 const topItems: { view: ReachView; icon: typeof Home; label: string }[] = [
   { view: "home", icon: Home, label: "Home" },
   { view: "issues", icon: Bug, label: "Issues" },
+  { view: "activity", icon: Activity, label: "Activity" },
   { view: "chat", icon: MessageSquare, label: "Chat" },
   { view: "files", icon: FolderTree, label: "Files" },
+  { view: "search", icon: Search, label: "Search" },
   { view: "prs", icon: GitPullRequest, label: "Pull Requests" },
+  { view: "milestones", icon: Target, label: "Milestones" },
   { view: "docs", icon: FileText, label: "Documents" },
   { view: "meetings", icon: Video, label: "Meetings" },
   { view: "notifications", icon: Bell, label: "Notifications" },

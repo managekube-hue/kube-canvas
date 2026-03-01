@@ -27,7 +27,7 @@ import { IdeStagingPanel } from "@/components/ide/IdeStagingPanel";
 import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
-import { Loader2 } from "lucide-react";
+import { Loader2, List, LayoutDashboard } from "lucide-react";
 import { toast } from "sonner";
 
 interface OpenTab { path: string; content: string; dirty: boolean; language: string; loading: boolean; }
@@ -78,6 +78,7 @@ export default function Reach() {
   const [selectedIssue, setSelectedIssue] = useState<GitIssue | null>(null);
   const [availableLabels, setAvailableLabels] = useState<GitLabel[]>([]);
   const [availableAssignees, setAvailableAssignees] = useState<Array<{ login: string; avatar_url: string }>>([]);
+  const [issueSubView, setIssueSubView] = useState<"list" | "kanban">("list");
 
   // ── PRs ────────────────────────────────────
   const [pulls, setPulls] = useState<GitPullRequest[]>([]);
@@ -191,17 +192,14 @@ export default function Reach() {
     setCommitCommitting(true);
     setCommitError(null);
     try {
-      // Step 1: Get branch ref
       setCommitStep(1);
       const refData = await gh.getRef(owner, repo, `heads/${branch}`);
       const commitSha = refData.object.sha;
 
-      // Step 2: Get tree SHA from the commit object
       setCommitStep(2);
       const commitDetail = await gh.getCommitDetail(owner, repo, commitSha);
       const baseTreeSha = (commitDetail as any).commit?.tree?.sha || commitSha;
 
-      // Step 3: Create blob(s)
       setCommitStep(3);
       const blobs = await Promise.all(
         dirtyTabs.map(async t => {
@@ -210,19 +208,15 @@ export default function Reach() {
         })
       );
 
-      // Step 4: Create new tree
       setCommitStep(4);
       const newTree = await gh.createTree(owner, repo, baseTreeSha, blobs);
 
-      // Step 5: Create commit
       setCommitStep(5);
       const commit = await gh.createCommit(owner, repo, message, newTree.sha, [commitSha]);
 
-      // Step 6: Update branch ref
       setCommitStep(6);
       await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
 
-      // Post-commit actions
       setTabs(prev => prev.map(t => paths.includes(t.path) ? { ...t, dirty: false } : t));
       setShowCommitModal(false);
       setCommitTargetPaths([]);
@@ -239,7 +233,6 @@ export default function Reach() {
     }
   };
 
-  // Legacy single-file commit (used by inline commit bar)
   const commitFile = async (path: string, message: string) => {
     setCommitTargetPaths([path]);
     await commitWithProgress([path], message);
@@ -305,7 +298,6 @@ export default function Reach() {
       console.log("[Reach] Fetching issues for:", { owner, repo });
       const data = await gh.listIssues(owner, repo, "all");
       console.log("[Reach] Issues returned:", data.length, "items. Shape:", data[0] ? Object.keys(data[0]) : "empty");
-      console.log("[Reach] First issue sample:", data[0] ? { number: data[0].number, title: data[0].title, state: data[0].state, labels: data[0].labels.length } : "none");
       setIssues(data);
     } catch (err) { console.error("[Reach] Issues fetch failed:", err); }
     finally { setIssuesLoading(false); }
@@ -357,14 +349,27 @@ export default function Reach() {
     finally { setMilestonesLoading(false); }
   };
 
+  const loadAllMilestones = async () => {
+    if (!owner || !repo) return;
+    setMilestonesLoading(true);
+    try {
+      const [open, closed] = await Promise.all([
+        gh.listMilestones(owner, repo, "open"),
+        gh.listMilestones(owner, repo, "closed"),
+      ]);
+      setMilestones([...open, ...closed]);
+    } catch (err) { console.error(err); }
+    finally { setMilestonesLoading(false); }
+  };
+
   const createMilestone = async (title: string, desc: string, dueOn?: string) => {
     if (!hasWorkspace) return;
-    await gh.createMilestone(owner, repo, title, desc, dueOn); loadMilestones();
+    await gh.createMilestone(owner, repo, title, desc, dueOn); loadAllMilestones();
   };
 
   const updateMilestone = async (num: number, updates: { state?: string }) => {
     if (!hasWorkspace) return;
-    await gh.updateMilestone(owner, repo, num, updates); loadMilestones();
+    await gh.updateMilestone(owner, repo, num, updates); loadAllMilestones();
   };
 
   // ── Commits ────────────────────────────────
@@ -390,7 +395,9 @@ export default function Reach() {
   useEffect(() => {
     if (!hasWorkspace) return;
     if (activeView === "issues") { loadIssues(); loadLabelsAndAssignees(); loadMilestones(); }
+    if (activeView === "activity") { loadIssues(); loadCommits(); loadPulls(); }
     if (activeView === "prs") loadPulls();
+    if (activeView === "milestones") loadAllMilestones();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
   }, [activeView, owner, repo, branch, hasWorkspace]);
@@ -416,7 +423,6 @@ export default function Reach() {
 
   // ── Render content based on active view ────
   const renderContent = () => {
-    // HOME — always works, no workspace needed
     if (activeView === "home") {
       return (
         <ReachHomeDashboard
@@ -427,11 +433,8 @@ export default function Reach() {
       );
     }
 
-    // FILES — full IDE layout with sidebar + editor
     if (activeView === "files") {
-      if (!hasWorkspace) {
-        return <ConnectPrompt />;
-      }
+      if (!hasWorkspace) return <ConnectPrompt />;
       const dirtyTabsForStaging = tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }));
       return (
         <div className="flex h-full overflow-hidden">
@@ -478,23 +481,76 @@ export default function Reach() {
       );
     }
 
-    // All other views need a workspace
     if (!hasWorkspace) return <ConnectPrompt />;
 
     switch (activeView) {
       case "issues":
-        return selectedIssue ? (
-          <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
-            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
-            onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees}
-            milestones={milestones} />
-        ) : (
-          <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
-            onSelectIssue={setSelectedIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees}
-            milestones={milestones} />
+        if (selectedIssue) {
+          return (
+            <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
+              onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
+              onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
+              onUpdateIssue={updateIssue}
+              availableLabels={availableLabels} availableAssignees={availableAssignees}
+              milestones={milestones} />
+          );
+        }
+        return (
+          <div className="flex flex-col h-full">
+            {/* Sub-view tabs: List / Kanban */}
+            <div className="px-3 py-1.5 border-b border-white/5 flex gap-2">
+              <button onClick={() => setIssueSubView("list")}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-medium transition-colors ${
+                  issueSubView === "list" ? "bg-blue-500/15 text-blue-400" : "text-white/30 hover:text-white/60"
+                }`}>
+                <List size={12} /> List
+              </button>
+              <button onClick={() => setIssueSubView("kanban")}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-medium transition-colors ${
+                  issueSubView === "kanban" ? "bg-blue-500/15 text-blue-400" : "text-white/30 hover:text-white/60"
+                }`}>
+                <LayoutDashboard size={12} /> Kanban
+              </button>
+            </div>
+            {issueSubView === "kanban" ? (
+              <IdeKanbanBoard
+                issues={issues} loading={issuesLoading}
+                onSelectIssue={setSelectedIssue}
+                onUpdateIssue={updateIssue}
+                onCreateIssue={createIssue}
+              />
+            ) : (
+              <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
+                onSelectIssue={setSelectedIssue}
+                availableLabels={availableLabels} availableAssignees={availableAssignees}
+                milestones={milestones} />
+            )}
+          </div>
+        );
+      case "activity":
+        return (
+          <IdeActivityFeed
+            owner={owner} repo={repo}
+            onLoadCommits={() => gh.listCommits(owner, repo, branch)}
+            onLoadIssueEvents={() => gh.listIssues(owner, repo, "all")}
+            onLoadPullEvents={() => gh.listPRs(owner, repo, "all")}
+          />
+        );
+      case "search":
+        return (
+          <IdeSearchPanel
+            tree={tree}
+            onSelectFile={(path) => { openFile(path); setActiveView("files"); }}
+            onSearchCode={searchCode}
+          />
+        );
+      case "milestones":
+        return (
+          <IdeMilestonesPanel
+            milestones={milestones} loading={milestonesLoading}
+            onCreateMilestone={createMilestone}
+            onUpdateMilestone={updateMilestone}
+          />
         );
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
@@ -538,7 +594,6 @@ export default function Reach() {
 
   return (
     <div className="h-screen w-screen flex bg-[#0a0a0a] text-white overflow-hidden">
-      {/* Activity Bar */}
       <ReachActivityBar
         activeView={activeView}
         setActiveView={setActiveView}
@@ -547,9 +602,7 @@ export default function Reach() {
         dirtyCount={dirtyCount}
       />
 
-      {/* Main Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Bar */}
         <ReachTopBar
           workspace={workspace.activeWorkspace}
           workspaces={workspace.workspaces}
@@ -557,7 +610,6 @@ export default function Reach() {
           user={user}
         />
 
-        {/* Content */}
         <main className="flex-1 overflow-hidden flex flex-col">
           {workspace.loading ? (
             <div className="flex-1 flex items-center justify-center">
@@ -569,7 +621,6 @@ export default function Reach() {
         </main>
       </div>
 
-      {/* Repo connect modal */}
       {showRepoModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <div className="w-[800px] max-h-[600px] rounded-xl border border-white/10 overflow-hidden flex flex-col bg-[#0a0a0a]">
@@ -581,7 +632,6 @@ export default function Reach() {
         </div>
       )}
 
-      {/* Commit Modal */}
       <IdeCommitModal
         open={showCommitModal}
         onClose={() => { setShowCommitModal(false); setCommitError(null); }}
@@ -593,7 +643,6 @@ export default function Reach() {
         committing={commitCommitting}
       />
 
-      {/* Command Palette */}
       <IdeCommandPalette
         open={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
@@ -601,10 +650,10 @@ export default function Reach() {
         onSelectFile={(path) => { openFile(path); setActiveView("files"); setCommandPaletteOpen(false); }}
         onSetViewMode={(mode) => {
           const mapping: Record<string, ReachView> = {
-            explorer: "files", search: "files", issues: "issues", kanban: "issues",
-            chat: "chat", commits: "files", pulls: "prs", milestones: "issues",
+            explorer: "files", search: "search", issues: "issues", kanban: "issues",
+            chat: "chat", commits: "files", pulls: "prs", milestones: "milestones",
             notifications: "notifications", settings: "settings", docs: "docs",
-            activity: "home", staging: "files", video: "meetings",
+            activity: "activity", staging: "files", video: "meetings",
           };
           setActiveView(mapping[mode] || "home");
         }}

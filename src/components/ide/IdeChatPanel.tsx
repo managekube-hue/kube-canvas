@@ -59,6 +59,16 @@ function useTypingIndicator(channelId: string | null, userId: string | null, use
   return { typingUsers, setTyping };
 }
 
+// P42: Message grouping — same user within 5 minutes
+function shouldShowHeader(messages: Message[], idx: number): boolean {
+  if (idx === 0) return true;
+  const prev = messages[idx - 1];
+  const curr = messages[idx];
+  if (prev.user_id !== curr.user_id) return true;
+  const diff = new Date(curr.created_at).getTime() - new Date(prev.created_at).getTime();
+  return diff > 5 * 60 * 1000; // 5 minutes
+}
+
 export function IdeChatPanel({ workspaceId }: Props) {
   const { user } = useAuth();
   const [channels, setChannels] = useState<Channel[]>([]);
@@ -91,7 +101,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
       });
   }, [workspaceId]);
 
-  // Load messages & subscribe
+  // Load messages & subscribe (P37 + P38)
   useEffect(() => {
     if (!activeChannel) return;
     supabase
@@ -102,6 +112,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
       .limit(200)
       .then(({ data }) => { if (data) setMessages(data); });
 
+    // P38: Realtime subscription
     const ch = supabase
       .channel(`ide-chat-${activeChannel}`)
       .on("postgres_changes", {
@@ -120,6 +131,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
+  // P39: Send message (Enter, not Shift+Enter)
   const sendMessage = async () => {
     if (!input.trim() || !activeChannel || !user) return;
     const body = replyTo
@@ -160,6 +172,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
     setTyping(val.length > 0);
   };
 
+  // P41: @mention highlighting
   const renderBody = (body: string) => {
     const parts = body.split(/(@\w+)/g);
     return parts.map((part, i) =>
@@ -202,15 +215,15 @@ export function IdeChatPanel({ workspaceId }: Props) {
         ))}
       </div>
 
-      {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-2 space-y-1" style={{ scrollbarWidth: "thin" }}>
+      {/* Messages — P42: grouped by user within 5min */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-2 space-y-0.5" style={{ scrollbarWidth: "thin" }}>
         {messages.map((msg, idx) => {
           const isOwn = msg.user_id === user?.id;
-          const showAvatar = idx === 0 || messages[idx - 1].user_id !== msg.user_id;
+          const showHeader = shouldShowHeader(messages, idx);
           return (
             <div key={msg.id} className="group hover:bg-white/[0.02] rounded px-1 py-0.5 -mx-1">
-              {showAvatar && (
-                <div className="flex items-baseline gap-2 mt-1.5">
+              {showHeader && (
+                <div className="flex items-baseline gap-2 mt-2">
                   <span className="text-[10px] font-bold text-white/60">
                     {isOwn ? "You" : msg.user_id.slice(0, 8)}
                   </span>
@@ -229,6 +242,12 @@ export function IdeChatPanel({ workspaceId }: Props) {
                     <span>{renderBody(msg.body)}</span>
                   )}
                 </div>
+                {/* P40: Reply button + hover timestamp for grouped messages */}
+                {!showHeader && (
+                  <span className="text-[8px] text-white/0 group-hover:text-white/15 flex-shrink-0 mt-1 tabular-nums">
+                    {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  </span>
+                )}
                 <button onClick={() => setReplyTo(msg)}
                   className="text-white/0 group-hover:text-white/20 hover:!text-white/50 flex-shrink-0 mt-0.5" title="Reply">
                   <Reply size={10} />
@@ -255,7 +274,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
         </div>
       )}
 
-      {/* Reply indicator */}
+      {/* P40: Reply indicator */}
       {replyTo && (
         <div className="px-3 py-1.5 border-t border-white/5 flex items-center gap-2 bg-blue-500/5">
           <Reply size={10} className="text-blue-400 flex-shrink-0" />
@@ -268,7 +287,7 @@ export function IdeChatPanel({ workspaceId }: Props) {
         </div>
       )}
 
-      {/* Input */}
+      {/* P39: Input — Enter sends, Shift+Enter newline */}
       <div className="px-3 py-2 border-t border-white/5">
         <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
           <button onClick={() => { setInput(prev => prev + "@"); inputRef.current?.focus(); }}
@@ -276,7 +295,9 @@ export function IdeChatPanel({ workspaceId }: Props) {
             <AtSign size={14} />
           </button>
           <input ref={inputRef} value={input} onChange={(e) => handleInputChange(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+            }}
             placeholder={activeChannel ? "Message..." : "Select a channel"}
             disabled={!activeChannel}
             className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/20" />
