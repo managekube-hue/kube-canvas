@@ -78,8 +78,8 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
 
       <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
         {loading && <div className="flex justify-center py-8"><Loader2 size={16} className="animate-spin text-blue-400" /></div>}
-        {!loading && issues.length === 0 && (
-          <p className="text-xs text-white/30 text-center py-8">No open issues</p>
+        {!loading && filteredIssues.length === 0 && (
+          <p className="text-xs text-white/30 text-center py-8">No {filter} issues</p>
         )}
         {issues.map(issue => (
           <div key={issue.number} className="px-3 py-2.5 border-b border-white/5 hover:bg-white/[0.02] cursor-pointer" onClick={() => onSelectIssue?.(issue)}>
