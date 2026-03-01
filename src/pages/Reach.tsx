@@ -633,6 +633,23 @@ export default function Reach() {
             renderContent()
           )}
         </main>
+
+        {/* Status bar with presence */}
+        {hasWorkspace && onlineUsers.length > 0 && (
+          <div className="h-6 border-t border-white/5 bg-[#080808] px-3 flex items-center gap-2 flex-shrink-0">
+            <span className="text-[9px] text-white/20">Online:</span>
+            <div className="flex items-center gap-1">
+              {onlineUsers.slice(0, 8).map(u => (
+                <div key={u.user_id} className="flex items-center gap-1" title={`${u.email}${u.active_file ? ` — ${u.active_file}` : ""}`}>
+                  <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                  <span className="text-[9px] text-white/30">{u.email.split("@")[0]}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex-1" />
+            <span className="text-[9px] text-white/15">{branch}</span>
+          </div>
+        )}
       </div>
 
       {showRepoModal && (
