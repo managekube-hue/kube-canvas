@@ -581,7 +581,7 @@ export default function Reach() {
           }}
           onCreateDoc={hasGitHub ? createNewFile : async (p) => { setTabs(prev => [...prev, { path: p, content: "", dirty: true, language: "markdown", loading: false }]); setActiveTab(p); }} />;
       case "meetings":
-        return workspace.activeWorkspace ? <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
+        return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead}
           onNavigate={(type) => {
