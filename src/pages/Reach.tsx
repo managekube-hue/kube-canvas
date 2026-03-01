@@ -319,8 +319,12 @@ export default function Reach() {
     } catch { /* non-critical */ }
   };
 
-  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(owner, repo, title, body); loadIssues(); };
-  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
+  const createIssue = async (title: string, body: string, labels?: string[], assignees?: string[], milestone?: number) => {
+    if (!hasWorkspace) return;
+    await gh.createIssue(owner, repo, title, body, labels, assignees, milestone);
+    loadIssues();
+  };
+  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[]; milestone?: number | null }) => {
     if (!hasWorkspace) return;
     const updated = await gh.updateIssue(owner, repo, num, updates);
     setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
@@ -484,10 +488,13 @@ export default function Reach() {
             onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
             onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
             onUpdateIssue={updateIssue}
-            availableLabels={availableLabels} availableAssignees={availableAssignees} />
+            availableLabels={availableLabels} availableAssignees={availableAssignees}
+            milestones={milestones} />
         ) : (
           <IdeIssuesPanel issues={issues} onCreateIssue={createIssue} loading={issuesLoading}
-            onSelectIssue={setSelectedIssue} />
+            onSelectIssue={setSelectedIssue}
+            availableLabels={availableLabels} availableAssignees={availableAssignees}
+            milestones={milestones} />
         );
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
@@ -499,7 +506,11 @@ export default function Reach() {
             onLoadReviews={(num) => gh.getPRReviews(owner, repo, num)}
             onAddComment={(num, body) => gh.createPRComment(owner, repo, num, body).then(() => {})}
             onMerge={mergePr}
-            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }} />
+            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }}
+            onLoadFileContent={async (path, ref) => {
+              const data = await gh.getFile(owner, repo, path, ref);
+              return data.encoding === "base64" ? atob(data.content) : data.content;
+            }} />
         ) : (
           <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
             onSelectPr={setSelectedPr} onCreatePr={createPr}

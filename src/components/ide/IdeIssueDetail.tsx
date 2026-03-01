@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Loader2, MessageSquare, Tag, User, Calendar, X, Send, Clock, CheckCircle2, Circle } from "lucide-react";
+import { ArrowLeft, Loader2, MessageSquare, Calendar, X, Send, CheckCircle2, Circle, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
-import type { GitIssue, GitComment, GitLabel } from "@/hooks/useGitHub";
+import type { GitIssue, GitComment, GitLabel, GitMilestone } from "@/hooks/useGitHub";
 
 interface Props {
   issue: GitIssue;
   onBack: () => void;
   onLoadComments: (num: number) => Promise<GitComment[]>;
   onAddComment: (num: number, body: string) => Promise<void>;
-  onUpdateIssue: (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => Promise<void>;
+  onUpdateIssue: (num: number, updates: { state?: string; assignees?: string[]; labels?: string[]; milestone?: number | null }) => Promise<void>;
   availableLabels: GitLabel[];
   availableAssignees: Array<{ login: string; avatar_url: string }>;
+  milestones?: GitMilestone[];
 }
 
 export function IdeIssueDetail({
   issue, onBack, onLoadComments, onAddComment, onUpdateIssue,
-  availableLabels, availableAssignees,
+  availableLabels, availableAssignees, milestones = [],
 }: Props) {
   const [comments, setComments] = useState<GitComment[]>([]);
   const [loadingComments, setLoadingComments] = useState(true);
@@ -24,13 +25,11 @@ export function IdeIssueDetail({
   const [submitting, setSubmitting] = useState(false);
   const [showLabelPicker, setShowLabelPicker] = useState(false);
   const [showAssigneePicker, setShowAssigneePicker] = useState(false);
+  const [showMilestonePicker, setShowMilestonePicker] = useState(false);
 
   useEffect(() => {
     setLoadingComments(true);
-    onLoadComments(issue.number)
-      .then(setComments)
-      .catch(console.error)
-      .finally(() => setLoadingComments(false));
+    onLoadComments(issue.number).then(setComments).catch(console.error).finally(() => setLoadingComments(false));
   }, [issue.number]);
 
   const handleComment = async () => {
@@ -39,16 +38,11 @@ export function IdeIssueDetail({
     try {
       await onAddComment(issue.number, newComment.trim());
       const updated = await onLoadComments(issue.number);
-      setComments(updated);
-      setNewComment("");
-    } finally {
-      setSubmitting(false);
-    }
+      setComments(updated); setNewComment("");
+    } finally { setSubmitting(false); }
   };
 
-  const toggleState = () => {
-    onUpdateIssue(issue.number, { state: issue.state === "open" ? "closed" : "open" });
-  };
+  const toggleState = () => onUpdateIssue(issue.number, { state: issue.state === "open" ? "closed" : "open" });
 
   const toggleLabel = (label: string) => {
     const current = issue.labels.map(l => l.name);
@@ -62,13 +56,15 @@ export function IdeIssueDetail({
     onUpdateIssue(issue.number, { assignees: next });
   };
 
+  const changeMilestone = (milestoneNum: number | null) => {
+    onUpdateIssue(issue.number, { milestone: milestoneNum });
+    setShowMilestonePicker(false);
+  };
+
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
       <div className="px-3 py-2 border-b border-white/5 flex items-center gap-2">
-        <button onClick={onBack} className="text-white/30 hover:text-white/60">
-          <ArrowLeft size={14} />
-        </button>
+        <button onClick={onBack} className="text-white/30 hover:text-white/60"><ArrowLeft size={14} /></button>
         <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Issue #{issue.number}</span>
       </div>
 
@@ -88,7 +84,7 @@ export function IdeIssueDetail({
           </div>
         </div>
 
-        {/* Body */}
+        {/* Body (markdown) */}
         {issue.body && (
           <div className="px-3 py-3 border-b border-white/5 text-xs text-white/70 prose prose-invert prose-xs max-w-none">
             <ReactMarkdown>{issue.body}</ReactMarkdown>
@@ -112,17 +108,13 @@ export function IdeIssueDetail({
                   </div>
                 ))}
               </div>
-            ) : (
-              <p className="text-[10px] text-white/20 mt-1">None</p>
-            )}
+            ) : <p className="text-[10px] text-white/20 mt-1">None</p>}
             {showAssigneePicker && (
               <div className="mt-2 bg-white/5 rounded-lg border border-white/10 p-2 space-y-1 max-h-32 overflow-y-auto">
                 {availableAssignees.map(a => (
                   <button key={a.login} onClick={() => toggleAssignee(a.login)}
                     className="w-full flex items-center gap-2 px-2 py-1 text-[10px] hover:bg-white/5 rounded transition-colors">
-                    {issue.assignees.some(x => x.login === a.login)
-                      ? <CheckCircle2 size={10} className="text-blue-400" />
-                      : <Circle size={10} className="text-white/20" />}
+                    {issue.assignees.some(x => x.login === a.login) ? <CheckCircle2 size={10} className="text-blue-400" /> : <Circle size={10} className="text-white/20" />}
                     <img src={a.avatar_url} className="w-4 h-4 rounded-full" alt="" />
                     <span className="text-white/60">{a.login}</span>
                   </button>
@@ -140,9 +132,7 @@ export function IdeIssueDetail({
             <div className="flex gap-1 mt-1.5 flex-wrap">
               {issue.labels.map(l => (
                 <span key={l.name} className="text-[9px] px-1.5 py-0.5 rounded-full"
-                  style={{ backgroundColor: `#${l.color}25`, color: `#${l.color}` }}>
-                  {l.name}
-                </span>
+                  style={{ backgroundColor: `#${l.color}25`, color: `#${l.color}` }}>{l.name}</span>
               ))}
               {issue.labels.length === 0 && <p className="text-[10px] text-white/20">None</p>}
             </div>
@@ -151,9 +141,7 @@ export function IdeIssueDetail({
                 {availableLabels.map(l => (
                   <button key={l.name} onClick={() => toggleLabel(l.name)}
                     className="w-full flex items-center gap-2 px-2 py-1 text-[10px] hover:bg-white/5 rounded transition-colors">
-                    {issue.labels.some(x => x.name === l.name)
-                      ? <CheckCircle2 size={10} className="text-blue-400" />
-                      : <Circle size={10} className="text-white/20" />}
+                    {issue.labels.some(x => x.name === l.name) ? <CheckCircle2 size={10} className="text-blue-400" /> : <Circle size={10} className="text-white/20" />}
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: `#${l.color}` }} />
                     <span className="text-white/60">{l.name}</span>
                   </button>
@@ -162,13 +150,37 @@ export function IdeIssueDetail({
             )}
           </div>
 
-          {/* Milestone */}
-          {issue.milestone && (
-            <div>
-              <span className="text-[9px] text-white/30 uppercase font-bold tracking-wider">Milestone</span>
-              <p className="text-[10px] text-white/50 mt-1">{issue.milestone.title}</p>
+          {/* Milestone (P26) */}
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] text-white/30 uppercase font-bold tracking-wider flex items-center gap-1">
+                <Target size={9} /> Milestone
+              </span>
+              <button onClick={() => setShowMilestonePicker(!showMilestonePicker)} className="text-[9px] text-blue-400 hover:text-blue-300">
+                {issue.milestone ? "Change" : "Set"}
+              </button>
             </div>
-          )}
+            {issue.milestone ? (
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-[10px] text-white/50">{issue.milestone.title}</p>
+                <button onClick={() => changeMilestone(null)} className="text-[9px] text-red-400 hover:text-red-300">Remove</button>
+              </div>
+            ) : <p className="text-[10px] text-white/20 mt-1">None</p>}
+            {showMilestonePicker && (
+              <div className="mt-2 bg-white/5 rounded-lg border border-white/10 p-2 space-y-1 max-h-32 overflow-y-auto">
+                {milestones.map(m => (
+                  <button key={m.number} onClick={() => changeMilestone(m.number)}
+                    className={`w-full flex items-center gap-2 px-2 py-1 text-[10px] hover:bg-white/5 rounded transition-colors ${
+                      issue.milestone?.number === m.number ? "text-blue-400" : "text-white/60"
+                    }`}>
+                    {issue.milestone?.number === m.number ? <CheckCircle2 size={10} className="text-blue-400" /> : <Circle size={10} className="text-white/20" />}
+                    <span>{m.title}</span>
+                  </button>
+                ))}
+                {milestones.length === 0 && <p className="text-[9px] text-white/20 text-center py-1">No milestones</p>}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Actions */}
@@ -186,11 +198,7 @@ export function IdeIssueDetail({
             <MessageSquare size={9} /> Comments ({comments.length})
           </span>
         </div>
-        {loadingComments && (
-          <div className="flex justify-center py-4">
-            <Loader2 size={14} className="animate-spin text-blue-400" />
-          </div>
-        )}
+        {loadingComments && <div className="flex justify-center py-4"><Loader2 size={14} className="animate-spin text-blue-400" /></div>}
         {comments.map(c => (
           <div key={c.id} className="px-3 py-2.5 border-t border-white/5">
             <div className="flex items-center gap-2 mb-1.5">
@@ -210,15 +218,9 @@ export function IdeIssueDetail({
       {/* Comment input */}
       <div className="px-3 py-2 border-t border-white/5">
         <div className="flex items-end gap-2">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment…"
-            rows={2}
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none resize-none placeholder:text-white/20"
-          />
-          <Button size="sm" onClick={handleComment} disabled={submitting || !newComment.trim()}
-            className="h-8 text-[10px] bg-blue-600 gap-1">
+          <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Add a comment…" rows={2}
+            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none resize-none placeholder:text-white/20" />
+          <Button size="sm" onClick={handleComment} disabled={submitting || !newComment.trim()} className="h-8 text-[10px] bg-blue-600 gap-1">
             {submitting ? <Loader2 size={10} className="animate-spin" /> : <Send size={10} />}
           </Button>
         </div>
