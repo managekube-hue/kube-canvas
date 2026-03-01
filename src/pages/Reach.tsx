@@ -440,6 +440,11 @@ export default function Reach() {
           displayName={displayName}
           hasWorkspace={hasWorkspace}
           onConnectRepo={() => setShowRepoModal(true)}
+          issues={issues}
+          commits={commits}
+          pulls={pulls}
+          unreadMessages={unreadCount}
+          onNavigate={(view) => setActiveView(view as ReachView)}
         />
       );
     }
