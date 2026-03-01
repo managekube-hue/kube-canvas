@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Loader2, Plus } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useGitHubProxy, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHubProxy";
+import { useGitHub, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
 import { useReachWorkspace } from "@/hooks/useReachWorkspace";
 import { useReachPresence } from "@/hooks/useReachPresence";
 import { useReachNotifications } from "@/hooks/useReachNotifications";
@@ -100,11 +100,11 @@ const DEFAULT_SCRATCH: OpenTab[] = [
 export default function UidrIde() {
   const { user } = useAuth();
   const workspace = useReachWorkspace();
+  const gh = useGitHub();
 
   const hasWorkspace = !!workspace.activeWorkspace;
   const owner = workspace.activeWorkspace?.github_owner || "";
   const repo = workspace.activeWorkspace?.github_repo || "";
-  const gh = useGitHubProxy(owner, repo);
 
   const [viewMode, setViewMode] = useState<ViewMode>("explorer");
   const [tree, setTree] = useState<TreeNode[]>([]);
@@ -151,7 +151,7 @@ export default function UidrIde() {
       if (meta && e.key === "p" && !e.shiftKey) { e.preventDefault(); setCommandPaletteOpen(true); }
       if (meta && e.key === "s") {
         e.preventDefault();
-        if (!hasWorkspace) return; // local-only, no commit
+        if (!hasWorkspace) return;
         const tab = tabs.find(t => t.path === activeTab && t.dirty);
         if (tab) {
           const msg = `Update ${tab.path.split("/").pop()}`;
@@ -168,7 +168,7 @@ export default function UidrIde() {
     if (!owner || !repo) return;
     setTreeLoading(true);
     try {
-      const data = await gh.getTree(branch);
+      const data = await gh.getTree(owner, repo, branch);
       setTree(buildTree(data.tree));
     } catch (err) { console.error("Failed to load tree:", err); }
     finally { setTreeLoading(false); }
@@ -178,7 +178,7 @@ export default function UidrIde() {
 
   useEffect(() => {
     if (!owner || !repo) return;
-    gh.getBranches().then(b => setBranches(b.map(x => x.name))).catch(console.error);
+    gh.listBranches(owner, repo).then(b => setBranches(b.map(x => x.name))).catch(console.error);
   }, [owner, repo]);
 
   // ── File operations ────────────────────────
@@ -188,12 +188,11 @@ export default function UidrIde() {
     setTabs(prev => [...prev, newTab]);
     setActiveTab(path);
     if (!hasWorkspace) {
-      // Local-only mode — just open empty
       setTabs(prev => prev.map(t => t.path === path ? { ...t, content: `// ${path}`, loading: false } : t));
       return;
     }
     try {
-      const data = await gh.getFile(path, branch);
+      const data = await gh.getFile(owner, repo, path, branch);
       const decoded = data.encoding === "base64" ? atob(data.content) : data.content;
       setTabs(prev => prev.map(t => t.path === path ? { ...t, content: decoded, loading: false } : t));
     } catch { setTabs(prev => prev.map(t => t.path === path ? { ...t, content: `// Error loading ${path}`, loading: false } : t)); }
@@ -216,11 +215,11 @@ export default function UidrIde() {
     const tab = tabs.find(t => t.path === path);
     if (!tab) return;
     try {
-      const refData = await gh.getRef(`heads/${branch}`);
-      const blob = await gh.createBlob(tab.content, "utf-8");
-      const newTree = await gh.createTree(refData.object.sha, [{ path, mode: "100644", type: "blob", sha: blob.sha }]);
-      const commit = await gh.createCommit(message, newTree.sha, [refData.object.sha]);
-      await gh.updateRef(`heads/${branch}`, commit.sha);
+      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+      const blob = await gh.createBlob(owner, repo, tab.content, "utf-8");
+      const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path, mode: "100644", type: "blob", sha: blob.sha }]);
+      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [refData.object.sha]);
+      await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
       setTabs(prev => prev.map(t => t.path === path ? { ...t, dirty: false } : t));
       loadCommits(); loadTree();
     } catch (err) { console.error("Commit failed:", err); }
@@ -231,16 +230,16 @@ export default function UidrIde() {
     const dirtyTabs = tabs.filter(t => paths.includes(t.path) && t.dirty);
     if (dirtyTabs.length === 0) return;
     try {
-      const refData = await gh.getRef(`heads/${branch}`);
+      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
       const blobs = await Promise.all(
         dirtyTabs.map(async t => {
-          const blob = await gh.createBlob(t.content, "utf-8");
+          const blob = await gh.createBlob(owner, repo, t.content, "utf-8");
           return { path: t.path, mode: "100644" as const, type: "blob" as const, sha: blob.sha };
         })
       );
-      const newTree = await gh.createTree(refData.object.sha, blobs);
-      const commit = await gh.createCommit(message, newTree.sha, [refData.object.sha]);
-      await gh.updateRef(`heads/${branch}`, commit.sha);
+      const newTree = await gh.createTree(owner, repo, refData.object.sha, blobs);
+      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [refData.object.sha]);
+      await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
       setTabs(prev => prev.map(t => paths.includes(t.path) ? { ...t, dirty: false } : t));
       loadCommits(); loadTree();
     } catch (err) { console.error("Multi-file commit failed:", err); }
@@ -253,18 +252,17 @@ export default function UidrIde() {
 
   const createNewFile = async (filePath: string) => {
     if (!hasWorkspace) {
-      // Local-only: just open a new tab
       const newTab: OpenTab = { path: filePath, content: "", dirty: true, language: detectLanguage(filePath), loading: false };
       setTabs(prev => [...prev, newTab]);
       setActiveTab(filePath);
       return;
     }
     try {
-      const refData = await gh.getRef(`heads/${branch}`);
-      const blob = await gh.createBlob("", "utf-8");
-      const newTree = await gh.createTree(refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
-      const commit = await gh.createCommit(`Create ${filePath}`, newTree.sha, [refData.object.sha]);
-      await gh.updateRef(`heads/${branch}`, commit.sha);
+      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+      const blob = await gh.createBlob(owner, repo, "", "utf-8");
+      const newTree = await gh.createTree(owner, repo, refData.object.sha, [{ path: filePath, mode: "100644", type: "blob", sha: blob.sha }]);
+      const commit = await gh.createCommit(owner, repo, `Create ${filePath}`, newTree.sha, [refData.object.sha]);
+      await gh.updateRef(owner, repo, `heads/${branch}`, commit.sha);
       await loadTree(); openFile(filePath);
     } catch (err) { console.error("Create file failed:", err); }
   };
@@ -272,8 +270,8 @@ export default function UidrIde() {
   const deleteFile = async (path: string) => {
     if (!hasWorkspace) { closeTab(path); return; }
     try {
-      const fileData = await gh.getFile(path, branch);
-      await gh.deleteFile(path, fileData.sha, `Delete ${path}`, branch);
+      const fileData = await gh.getFile(owner, repo, path, branch);
+      await gh.deleteFile(owner, repo, path, fileData.sha, `Delete ${path}`, branch);
       closeTab(path); loadTree();
     } catch (err) { console.error("Delete file failed:", err); }
   };
@@ -281,8 +279,8 @@ export default function UidrIde() {
   const createBranch = async (name: string) => {
     if (!hasWorkspace) return;
     try {
-      const refData = await gh.getRef(`heads/${branch}`);
-      await gh.createRef(`refs/heads/${name}`, refData.object.sha);
+      const refData = await gh.getRef(owner, repo, `heads/${branch}`);
+      await gh.createRef(owner, repo, `refs/heads/${name}`, refData.object.sha);
       setBranches(prev => [...prev, name]);
       setBranch(name);
     } catch (err) { console.error("Create branch failed:", err); }
@@ -291,7 +289,7 @@ export default function UidrIde() {
   // ── Load file content for docs panel ───────
   const loadFileContent = async (path: string): Promise<string> => {
     if (!hasWorkspace) return `// ${path} (local mode)`;
-    const data = await gh.getFile(path, branch);
+    const data = await gh.getFile(owner, repo, path, branch);
     return data.encoding === "base64" ? atob(data.content) : data.content;
   };
 
@@ -299,23 +297,23 @@ export default function UidrIde() {
   const loadIssues = async () => {
     if (!owner || !repo) return;
     setIssuesLoading(true);
-    try { setIssues(await gh.getIssues("all")); } catch (err) { console.error(err); }
+    try { setIssues(await gh.listIssues(owner, repo, "all")); } catch (err) { console.error(err); }
     finally { setIssuesLoading(false); }
   };
 
   const loadLabelsAndAssignees = async () => {
     if (!owner || !repo) return;
     try {
-      const [labels, assignees] = await Promise.all([gh.getLabels(), gh.getAssignees()]);
+      const [labels, assignees] = await Promise.all([gh.getLabels(owner, repo), gh.getAssignees(owner, repo)]);
       setAvailableLabels(labels);
       setAvailableAssignees(assignees);
     } catch { /* non-critical */ }
   };
 
-  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(title, body); loadIssues(); };
+  const createIssue = async (title: string, body: string) => { if (!hasWorkspace) return; await gh.createIssue(owner, repo, title, body); loadIssues(); };
   const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[] }) => {
     if (!hasWorkspace) return;
-    const updated = await gh.updateIssue(num, updates);
+    const updated = await gh.updateIssue(owner, repo, num, updates);
     setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
     if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
   };
@@ -324,55 +322,55 @@ export default function UidrIde() {
   const loadPulls = async () => {
     if (!owner || !repo) return;
     setPullsLoading(true);
-    try { setPulls(await gh.getPulls("all")); } catch (err) { console.error(err); }
+    try { setPulls(await gh.listPRs(owner, repo, "all")); } catch (err) { console.error(err); }
     finally { setPullsLoading(false); }
   };
 
   const createPr = async (title: string, head: string, base: string, body: string) => {
     if (!hasWorkspace) return;
-    await gh.createPull(title, head, base, body); loadPulls();
+    await gh.createPR(owner, repo, title, head, base, body); loadPulls();
   };
 
   const mergePr = async (num: number, method: "merge" | "squash" | "rebase") => {
     if (!hasWorkspace) return;
-    await gh.mergePull(num, undefined, method); loadPulls();
+    await gh.mergePR(owner, repo, num, undefined, method); loadPulls();
   };
 
   // ── Milestones ─────────────────────────────
   const loadMilestones = async () => {
     if (!owner || !repo) return;
     setMilestonesLoading(true);
-    try { setMilestones(await gh.getMilestones("open")); } catch (err) { console.error(err); }
+    try { setMilestones(await gh.listMilestones(owner, repo, "open")); } catch (err) { console.error(err); }
     finally { setMilestonesLoading(false); }
   };
 
   const createMilestone = async (title: string, desc: string, dueOn?: string) => {
     if (!hasWorkspace) return;
-    await gh.createMilestone(title, desc, dueOn); loadMilestones();
+    await gh.createMilestone(owner, repo, title, desc, dueOn); loadMilestones();
   };
 
   const updateMilestone = async (num: number, updates: { state?: string }) => {
     if (!hasWorkspace) return;
-    await gh.updateMilestone(num, updates); loadMilestones();
+    await gh.updateMilestone(owner, repo, num, updates); loadMilestones();
   };
 
   // ── Commits ────────────────────────────────
   const loadCommits = async () => {
     if (!owner || !repo) return;
     setCommitsLoading(true);
-    try { setCommits(await gh.getCommits(branch)); } catch (err) { console.error(err); }
+    try { setCommits(await gh.listCommits(owner, repo, branch)); } catch (err) { console.error(err); }
     finally { setCommitsLoading(false); }
   };
 
-  const loadCommitDetail = async (sha: string): Promise<GitCommitDetail> => gh.getCommitDetail(sha);
+  const loadCommitDetail = async (sha: string): Promise<GitCommitDetail> => gh.getCommitDetail(owner, repo, sha);
 
   // ── Search ─────────────────────────────────
-  const searchCode = async (query: string): Promise<GitSearchResult> => gh.searchCode(query);
+  const searchCode = async (query: string): Promise<GitSearchResult> => gh.searchCode(owner, repo, query);
 
   // ── Collaborators ──────────────────────────
   const loadCollaborators = async () => {
     if (!owner || !repo) return;
-    try { setCollaborators(await gh.getCollaborators()); } catch { /* non-critical */ }
+    try { setCollaborators(await gh.listCollaborators(owner, repo)); } catch { /* non-critical */ }
   };
 
   // ── Load data per view mode ────────────────
@@ -458,7 +456,6 @@ export default function UidrIde() {
   );
 
   const renderSidePanel = () => {
-    // Views that always work (local or connected)
     if (viewMode === "explorer") {
       return hasWorkspace ? (
         <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
@@ -468,7 +465,6 @@ export default function UidrIde() {
       ) : renderLocalExplorer();
     }
 
-    // Views that require workspace — single guard
     if (!hasWorkspace) return <ConnectWorkspacePrompt />;
 
     switch (viewMode) {
@@ -488,8 +484,8 @@ export default function UidrIde() {
       case "issues":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(num)}
-            onAddComment={(num, body) => gh.createIssueComment(num, body).then(() => {})}
+            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
+            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
             onUpdateIssue={updateIssue}
             availableLabels={availableLabels} availableAssignees={availableAssignees} />
         ) : (
@@ -499,8 +495,8 @@ export default function UidrIde() {
       case "kanban":
         return selectedIssue ? (
           <IdeIssueDetail issue={selectedIssue} onBack={() => setSelectedIssue(null)}
-            onLoadComments={(num) => gh.getIssueComments(num)}
-            onAddComment={(num, body) => gh.createIssueComment(num, body).then(() => {})}
+            onLoadComments={(num) => gh.getIssueComments(owner, repo, num)}
+            onAddComment={(num, body) => gh.createIssueComment(owner, repo, num, body).then(() => {})}
             onUpdateIssue={updateIssue}
             availableLabels={availableLabels} availableAssignees={availableAssignees} />
         ) : (
@@ -517,12 +513,12 @@ export default function UidrIde() {
       case "pulls":
         return selectedPr ? (
           <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
-            onLoadFiles={(num) => gh.getPullFiles(num)}
-            onLoadComments={(num) => gh.getPullComments(num)}
-            onLoadReviews={(num) => gh.getPullReviews(num)}
-            onAddComment={(num, body) => gh.createPullComment(num, body).then(() => {})}
+            onLoadFiles={(num) => gh.getPRFiles(owner, repo, num)}
+            onLoadComments={(num) => gh.getPRComments(owner, repo, num)}
+            onLoadReviews={(num) => gh.getPRReviews(owner, repo, num)}
+            onAddComment={(num, body) => gh.createPRComment(owner, repo, num, body).then(() => {})}
             onMerge={mergePr}
-            onUpdatePr={async (num, updates) => { await gh.updatePull(num, updates); loadPulls(); }} />
+            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }} />
         ) : (
           <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
             onSelectPr={setSelectedPr} onCreatePr={createPr}
@@ -537,9 +533,9 @@ export default function UidrIde() {
         return <IdeCommitsPanel commits={commits} loading={commitsLoading} onLoadCommitDetail={loadCommitDetail} />;
       case "activity":
         return <IdeActivityFeed owner={owner} repo={repo}
-          onLoadCommits={() => gh.getCommits(branch)}
-          onLoadIssueEvents={() => gh.getIssues("all")}
-          onLoadPullEvents={() => gh.getPulls("all")} />;
+          onLoadCommits={() => gh.listCommits(owner, repo, branch)}
+          onLoadIssueEvents={() => gh.listIssues(owner, repo, "all")}
+          onLoadPullEvents={() => gh.listPRs(owner, repo, "all")} />;
       case "video":
         return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
