@@ -411,7 +411,7 @@ export default function Reach() {
           displayName={displayName}
           hasWorkspace={hasWorkspace}
           onConnectRepo={() => setShowRepoModal(true)}
-          issues={issues}
+          issues={reachIssues.issues}
           commits={commits}
           pulls={pulls}
           unreadMessages={unreadCount}
