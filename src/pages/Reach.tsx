@@ -328,16 +328,13 @@ export default function Reach() {
 
   // ── Load data per view ─────────────────────
   useEffect(() => {
-    // Issues load from Supabase (no GitHub needed)
-    if (activeView === "home" || activeView === "issues") {
-      reachIssues.loadIssues();
-    }
+    // All local-first Supabase loads
+    if (activeView === "home" || activeView === "issues") reachIssues.loadIssues();
+    if (activeView === "home" || activeView === "prs") reachPRs.load();
+    if (activeView === "home" || activeView === "milestones") reachMilestones.load();
+    if (activeView === "home" || activeView === "activity") reachActivity.load();
     // GitHub-dependent loads only when repo is connected
     if (!owner || !repo) return;
-    if (activeView === "home") { loadCommits(); loadPulls(); }
-    if (activeView === "activity") { loadCommits(); loadPulls(); }
-    if (activeView === "prs") loadPulls();
-    if (activeView === "milestones") loadAllMilestones();
     if (activeView === "files") loadCommits();
     if (activeView === "settings") loadCollaborators();
   }, [activeView, owner, repo, branch, hasWorkspace, workspace.activeWorkspace?.id]);
