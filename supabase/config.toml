@@ -27,7 +27,7 @@ verify_jwt = false
 [functions.crm-sync-monitor]
 verify_jwt = false
 
-[functions.gh-relay]
+[functions.github-proxy]
 verify_jwt = false
 
 [functions.zoom-meetings]
