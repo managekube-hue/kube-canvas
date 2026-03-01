@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Target, Plus, Loader2, CheckCircle2, Clock } from "lucide-react";
+import { useState } from "react";
+import { Target, Plus, Loader2, CheckCircle2, Clock, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { GitMilestone } from "@/hooks/useGitHub";
 
@@ -76,9 +76,16 @@ export function IdeMilestonesPanel({ milestones, loading, onCreateMilestone, onU
               <div className="flex items-center gap-2">
                 {m.state === "open" ? <Clock size={12} className="text-blue-400" /> : <CheckCircle2 size={12} className="text-green-400" />}
                 <span className="text-xs font-semibold text-white flex-1">{m.title}</span>
-                {m.state === "open" && (
+                {m.state === "open" ? (
                   <button onClick={() => onUpdateMilestone(m.number, { state: "closed" })}
-                    className="text-[9px] text-white/30 hover:text-white/60">Close</button>
+                    className="text-[9px] text-white/30 hover:text-white/60 flex items-center gap-1">
+                    <CheckCircle2 size={9} /> Close
+                  </button>
+                ) : (
+                  <button onClick={() => onUpdateMilestone(m.number, { state: "open" })}
+                    className="text-[9px] text-white/30 hover:text-green-400 flex items-center gap-1">
+                    <RotateCcw size={9} /> Reopen
+                  </button>
                 )}
               </div>
               {m.description && <p className="text-[10px] text-white/40 mt-1 ml-5">{m.description}</p>}
