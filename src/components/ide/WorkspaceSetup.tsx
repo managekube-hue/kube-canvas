@@ -4,6 +4,7 @@ import { useGitHub, type GitRepo } from "@/hooks/useGitHub";
 
 interface WorkspaceSetupProps {
   onCreateWorkspace: (name: string, owner: string, repo: string) => Promise<void>;
+  onClose?: () => void;
 }
 
 export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
