@@ -35,9 +35,13 @@ export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupPro
 
   const handleImport = async (repo: GitRepo) => {
     setImporting(repo.full_name);
+    setError(null);
+    console.log("[WorkspaceSetup] Importing repo:", { name: repo.name, owner: repo.owner.login, full_name: repo.full_name });
     try {
       await onCreateWorkspace(repo.name, repo.owner.login, repo.name);
+      console.log("[WorkspaceSetup] Import succeeded:", repo.full_name);
     } catch (err: unknown) {
+      console.error("[WorkspaceSetup] Import failed:", err);
       const msg = err instanceof Error ? err.message : "Failed to import repository";
       setError(msg);
     } finally {
