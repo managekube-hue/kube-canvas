@@ -447,16 +447,30 @@ export default function UidrIde() {
   );
 
   const renderSidePanel = () => {
-    if (!hasWorkspace) return renderLocalExplorer();
+    // Views that always work (local or connected)
+    if (viewMode === "explorer") {
+      return hasWorkspace ? (
+        <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
+          branches={branches} onSelectFile={openFile} selectedFile={activeTab}
+          onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
+          treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
+      ) : renderLocalExplorer();
+    }
+
+    // Views that require workspace
+    if (!hasWorkspace) {
+      return (
+        <div className="flex-1 flex flex-col items-center justify-center px-4 text-center gap-3">
+          <span className="text-xs text-white/30">Connect a GitHub workspace to use this panel</span>
+          <button onClick={() => setShowWorkspaceSetup(true)}
+            className="text-[10px] py-1.5 px-3 rounded border border-dashed border-white/10 text-white/40 hover:text-white/60 hover:border-white/20 transition-colors">
+            + Connect Workspace
+          </button>
+        </div>
+      );
+    }
 
     switch (viewMode) {
-      case "explorer":
-        return (
-          <IdeFileTree owner={owner} repo={repo} branch={branch} setBranch={setBranch}
-            branches={branches} onSelectFile={openFile} selectedFile={activeTab}
-            onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
-            treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile} />
-        );
       case "search":
         return <IdeSearchPanel tree={tree} onSelectFile={openFile} onSearchCode={searchCode} />;
       case "docs":
