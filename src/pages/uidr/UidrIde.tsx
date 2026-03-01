@@ -167,11 +167,7 @@ export default function UidrIde() {
   // ── Load Supabase files when workspace changes ──
   useEffect(() => {
     if (workspace.activeWorkspace?.id) {
-      fileEditor.load().then(() => {
-        // Clear scratch tabs when loading workspace files
-        setTabs([]);
-        setActiveTab(null);
-      });
+      fileEditor.load();
     }
   }, [workspace.activeWorkspace?.id]);
 
@@ -481,13 +477,11 @@ export default function UidrIde() {
     }
 
     if (viewMode === "chat") {
-      if (!hasWorkspace) return <ConnectWorkspacePrompt />;
-      return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
+      return <IdeChatPanel workspaceId={workspace.activeWorkspace?.id || "local"} />;
     }
 
     if (viewMode === "video") {
-      if (!hasWorkspace) return <ConnectWorkspacePrompt />;
-      return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
+      return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace?.id || "local"} />;
     }
 
     if (viewMode === "notifications") {
