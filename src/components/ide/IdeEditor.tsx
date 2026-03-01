@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GitBranch, Loader2, Save, X, ChevronRight, Eye, Columns2 } from "lucide-react";
 import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,16 @@ export function IdeEditor({
   const [showCommitDialog, setShowCommitDialog] = useState(false);
   const [commitTarget, setCommitTarget] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const monacoMounted = useRef(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!monacoMounted.current) {
+        console.error("[IdeEditor] Monaco failed to mount within 3 seconds");
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
 
   const activeTabData = tabs.find(t => t.path === activeTab);
   const isMarkdown = activeTab?.match(/\.(md|mdx)$/i);
@@ -156,6 +166,7 @@ export function IdeEditor({
                     </div>
                   }
                   onMount={(editor) => {
+                    monacoMounted.current = true;
                     editor.focus();
                   }}
                   options={{
