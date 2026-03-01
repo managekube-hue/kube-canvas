@@ -461,31 +461,24 @@ export default function UidrIde() {
           onDiscardFile={discardFile}
         />;
       case "pulls":
-        return selectedPr ? (
-          <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
-            onLoadFiles={(num) => gh.getPRFiles(owner, repo, num)}
-            onLoadComments={(num) => gh.getPRComments(owner, repo, num)}
-            onLoadReviews={(num) => gh.getPRReviews(owner, repo, num)}
-            onAddComment={(num, body) => gh.createPRComment(owner, repo, num, body).then(() => {})}
-            onMerge={mergePr}
-            onUpdatePr={async (num, updates) => { await gh.updatePR(owner, repo, num, updates); loadPulls(); }} />
-        ) : (
-          <IdePullRequestsPanel pulls={pulls} loading={pullsLoading}
-            onSelectPr={setSelectedPr} onCreatePr={createPr}
-            branches={branches} currentBranch={branch} />
+        return (
+          <IdePullRequestsPanel
+            pullRequests={reachPRs.pullRequests}
+            loading={reachPRs.loading}
+            onSelectPr={setSelectedPr}
+            onCreatePr={async (title, source, target, body) => { await reachPRs.create(title, source, target, body); }}
+          />
         );
       case "milestones":
-        return <IdeMilestonesPanel milestones={milestones} loading={milestonesLoading}
-          onCreateMilestone={createMilestone} onUpdateMilestone={updateMilestone} />;
+        return <IdeMilestonesPanel milestones={reachMilestones.milestones} loading={reachMilestones.loading}
+          onCreateMilestone={async (title, desc, due) => { await reachMilestones.create(title, desc, due); }}
+          onUpdateMilestone={async (id, updates) => { await reachMilestones.update(id, updates); }} />;
       case "chat":
         return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "commits":
         return <IdeCommitsPanel commits={commits} loading={commitsLoading} onLoadCommitDetail={loadCommitDetail} />;
       case "activity":
-        return <IdeActivityFeed owner={owner} repo={repo}
-          onLoadCommits={() => gh.listCommits(owner, repo, branch)}
-          onLoadIssueEvents={() => gh.listIssues(owner, repo, "all")}
-          onLoadPullEvents={() => gh.listPRs(owner, repo, "all")} />;
+        return <IdeActivityFeed entries={reachActivity.entries} loading={reachActivity.loading} onRefresh={reachActivity.load} />;
       case "video":
         return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "notifications":
