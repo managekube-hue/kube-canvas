@@ -109,7 +109,6 @@ export function IdeVideoRoomsPanel({ workspaceId }: Props) {
     const params = new URLSearchParams(window.location.search);
     if (params.get("zoom") === "connected") {
       checkZoomStatus();
-      // Clean up URL
       const url = new URL(window.location.href);
       url.searchParams.delete("zoom");
       window.history.replaceState({}, "", url.pathname);
