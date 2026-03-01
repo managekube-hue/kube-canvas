@@ -4,9 +4,10 @@ import { useGitHub, type GitRepo } from "@/hooks/useGitHub";
 
 interface WorkspaceSetupProps {
   onCreateWorkspace: (name: string, owner: string, repo: string) => Promise<void>;
+  onClose?: () => void;
 }
 
-export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
+export function WorkspaceSetup({ onCreateWorkspace, onClose }: WorkspaceSetupProps) {
   const gh = useGitHub();
   const [repos, setRepos] = useState<GitRepo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,9 +35,13 @@ export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
 
   const handleImport = async (repo: GitRepo) => {
     setImporting(repo.full_name);
+    setError(null);
+    console.log("[WorkspaceSetup] Importing repo:", { name: repo.name, owner: repo.owner.login, full_name: repo.full_name });
     try {
       await onCreateWorkspace(repo.name, repo.owner.login, repo.name);
+      console.log("[WorkspaceSetup] Import succeeded:", repo.full_name);
     } catch (err: unknown) {
+      console.error("[WorkspaceSetup] Import failed:", err);
       const msg = err instanceof Error ? err.message : "Failed to import repository";
       setError(msg);
     } finally {
@@ -70,10 +75,13 @@ export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
             <FolderGit2 size={20} className="text-blue-400" />
           </div>
-          <div>
+          <div className="flex-1">
             <h2 className="text-lg font-bold text-white">Open Repository</h2>
             <p className="text-xs text-white/40">Select a repo to start working</p>
           </div>
+          {onClose && (
+            <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg transition-colors">✕</button>
+          )}
         </div>
       </div>
 
