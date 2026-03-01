@@ -405,11 +405,14 @@ export default function UidrIde() {
     );
   }
 
-  // ── Workspace setup modal (optional, not blocking) ──
-  if (showWorkspaceSetup) {
+  // ── Workspace setup (optional, not blocking) ──
+  if (showWorkspaceSetup || (!hasWorkspace && workspace.workspaces.length === 0)) {
     return (
       <IdeShell>
-        <WorkspaceSetup onCreateWorkspace={handleCreateWorkspace} />
+        <WorkspaceSetup
+          onCreateWorkspace={handleCreateWorkspace}
+          onClose={hasWorkspace ? () => setShowWorkspaceSetup(false) : undefined}
+        />
       </IdeShell>
     );
   }
