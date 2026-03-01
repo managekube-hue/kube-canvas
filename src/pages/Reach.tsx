@@ -524,6 +524,7 @@ export default function Reach() {
           </div>
         );
       case "activity":
+        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Activity feed requires a connected repository</span></div></div>;
         return (
           <IdeActivityFeed
             owner={owner} repo={repo}
