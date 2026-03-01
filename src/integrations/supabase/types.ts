@@ -2654,6 +2654,50 @@ export type Database = {
         }
         Relationships: []
       }
+      reach_activity: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          entity_id: string | null
+          entity_title: string | null
+          entity_type: string
+          id: string
+          metadata: Json | null
+          workspace_id: string
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          entity_id?: string | null
+          entity_title?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          workspace_id: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_title?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_activity_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reach_channels: {
         Row: {
           created_at: string
@@ -2757,6 +2801,66 @@ export type Database = {
           },
         ]
       }
+      reach_files: {
+        Row: {
+          created_at: string
+          folder: boolean
+          id: string
+          mime_type: string | null
+          name: string
+          parent_id: string | null
+          path: string
+          size_bytes: number | null
+          storage_path: string | null
+          updated_at: string
+          uploaded_by: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          folder?: boolean
+          id?: string
+          mime_type?: string | null
+          name: string
+          parent_id?: string | null
+          path: string
+          size_bytes?: number | null
+          storage_path?: string | null
+          updated_at?: string
+          uploaded_by: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          folder?: boolean
+          id?: string
+          mime_type?: string | null
+          name?: string
+          parent_id?: string | null
+          path?: string
+          size_bytes?: number | null
+          storage_path?: string | null
+          updated_at?: string
+          uploaded_by?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_files_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "reach_files"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reach_files_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reach_issues: {
         Row: {
           assigned_to: string | null
@@ -2769,6 +2873,7 @@ export type Database = {
           github_synced_at: string | null
           id: string
           labels: string[] | null
+          milestone_id: string | null
           number: number
           priority: string
           status: string
@@ -2787,6 +2892,7 @@ export type Database = {
           github_synced_at?: string | null
           id?: string
           labels?: string[] | null
+          milestone_id?: string | null
           number?: number
           priority?: string
           status?: string
@@ -2805,6 +2911,7 @@ export type Database = {
           github_synced_at?: string | null
           id?: string
           labels?: string[] | null
+          milestone_id?: string | null
           number?: number
           priority?: string
           status?: string
@@ -2813,6 +2920,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "reach_issues_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "reach_milestones"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "reach_issues_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -2892,6 +3006,59 @@ export type Database = {
           },
         ]
       }
+      reach_milestones: {
+        Row: {
+          closed_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          due_date: string | null
+          github_milestone_number: number | null
+          github_synced_at: string | null
+          id: string
+          status: string
+          title: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          closed_at?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          due_date?: string | null
+          github_milestone_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          status?: string
+          title: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_date?: string | null
+          github_milestone_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_milestones_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reach_notifications: {
         Row: {
           body: string | null
@@ -2935,6 +3102,71 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "reach_notifications_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "reach_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reach_pull_requests: {
+        Row: {
+          assigned_to: string | null
+          body: string | null
+          closed_at: string | null
+          created_at: string
+          created_by: string
+          github_pr_number: number | null
+          github_synced_at: string | null
+          id: string
+          merged_at: string | null
+          number: number
+          source_branch: string
+          status: string
+          target_branch: string
+          title: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          body?: string | null
+          closed_at?: string | null
+          created_at?: string
+          created_by: string
+          github_pr_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          merged_at?: string | null
+          number?: number
+          source_branch: string
+          status?: string
+          target_branch?: string
+          title: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          body?: string | null
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          github_pr_number?: number | null
+          github_synced_at?: string | null
+          id?: string
+          merged_at?: string | null
+          number?: number
+          source_branch?: string
+          status?: string
+          target_branch?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reach_pull_requests_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "reach_workspaces"
