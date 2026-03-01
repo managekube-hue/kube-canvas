@@ -552,7 +552,7 @@ export default function Reach() {
           />
         );
       case "chat":
-        return workspace.activeWorkspace ? <IdeChatPanel workspaceId={workspace.activeWorkspace.id} /> : <ConnectPrompt />;
+        return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
       case "prs":
         return selectedPr ? (
           <IdePrReviewPanel pr={selectedPr} onBack={() => setSelectedPr(null)}
