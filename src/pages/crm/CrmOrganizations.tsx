@@ -193,29 +193,30 @@ export default function CrmOrganizations() {
                 />
                 <div className="flex-1 flex items-center justify-between cursor-pointer" onClick={() => navigate(`/crm/organizations/${org.id}`)}>
                   <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Building2 className="h-5 w-5 text-primary" />
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Building2 className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">{org.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {org.industry || "No industry"} · {org.type}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-foreground">{org.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {org.industry || "No industry"} · {org.type}
-                    </p>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right hidden sm:block">
+                      <p className="text-sm font-medium text-foreground">
+                        ${Number(org.contract_value_monthly || 0).toLocaleString()}/mo
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className={`h-2.5 w-2.5 rounded-full ${healthColor(org.health_score)}`} />
+                      <span className="text-xs text-muted-foreground">{org.health_score}</span>
+                    </div>
+                    <Badge variant={org.status === "active" ? "default" : "secondary"} className="text-xs">
+                      {org.status}
+                    </Badge>
                   </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right hidden sm:block">
-                    <p className="text-sm font-medium text-foreground">
-                      ${Number(org.contract_value_monthly || 0).toLocaleString()}/mo
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`h-2.5 w-2.5 rounded-full ${healthColor(org.health_score)}`} />
-                    <span className="text-xs text-muted-foreground">{org.health_score}</span>
-                  </div>
-                  <Badge variant={org.status === "active" ? "default" : "secondary"} className="text-xs">
-                    {org.status}
-                  </Badge>
                 </div>
               </CardContent>
             </Card>
