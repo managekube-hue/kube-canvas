@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Loader2, Plus, LayoutDashboard, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { GitIssue } from "@/hooks/useGitHub";
 
 interface Props {
@@ -27,7 +28,7 @@ function categorizeIssue(issue: GitIssue): Column {
   for (const col of columns) {
     if (col.matchLabels.some(ml => labelNames.includes(ml))) return col.id;
   }
-  // Default: if assigned → in_progress, else → todo
+  // Default open issues → in_progress if assigned, else todo
   if (issue.assignees.length > 0) return "in_progress";
   return "todo";
 }
@@ -37,9 +38,13 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
   const [quickTitle, setQuickTitle] = useState("");
   const [draggedIssue, setDraggedIssue] = useState<GitIssue | null>(null);
   const [dragOverCol, setDragOverCol] = useState<Column | null>(null);
+  const [updatingIssues, setUpdatingIssues] = useState<Set<number>>(new Set());
+
+  // Filter out PRs
+  const pureIssues = issues.filter(i => !(i as any).pull_request);
 
   const buckets: Record<Column, GitIssue[]> = { backlog: [], todo: [], in_progress: [], review: [], done: [] };
-  for (const issue of issues) {
+  for (const issue of pureIssues) {
     const col = categorizeIssue(issue);
     buckets[col].push(issue);
   }
@@ -48,33 +53,39 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
     if (!draggedIssue) return;
     setDragOverCol(null);
     const currentCol = categorizeIssue(draggedIssue);
-    if (currentCol === targetCol) return;
+    if (currentCol === targetCol) { setDraggedIssue(null); return; }
 
-    if (targetCol === "done") {
-      await onUpdateIssue(draggedIssue.number, { state: "closed" });
-    } else {
-      const currentLabels = draggedIssue.labels.map(l => l.name);
-      // Remove old column labels
-      const allColumnLabels = columns.flatMap(c => c.matchLabels);
-      const cleanedLabels = currentLabels.filter(l => !allColumnLabels.includes(l.toLowerCase()));
-      // Add new column label
-      const targetLabel = columns.find(c => c.id === targetCol)?.matchLabels[0];
-      if (targetLabel) cleanedLabels.push(targetLabel);
-      const updates: { state?: string; labels?: string[] } = { labels: cleanedLabels };
-      if (draggedIssue.state === "closed") updates.state = "open";
-      await onUpdateIssue(draggedIssue.number, updates);
+    const issueNum = draggedIssue.number;
+    setUpdatingIssues(prev => new Set(prev).add(issueNum));
+
+    try {
+      if (targetCol === "done") {
+        await onUpdateIssue(issueNum, { state: "closed" });
+        toast.success(`Issue #${issueNum} closed`);
+      } else {
+        const currentLabels = draggedIssue.labels.map(l => l.name);
+        const allColumnLabels = columns.flatMap(c => c.matchLabels);
+        const cleanedLabels = currentLabels.filter(l => !allColumnLabels.includes(l.toLowerCase()));
+        const targetLabel = columns.find(c => c.id === targetCol)?.matchLabels[0];
+        if (targetLabel) cleanedLabels.push(targetLabel);
+        const updates: { state?: string; labels?: string[] } = { labels: cleanedLabels };
+        if (draggedIssue.state === "closed") updates.state = "open";
+        await onUpdateIssue(issueNum, updates);
+        toast.success(`Issue #${issueNum} → ${columns.find(c => c.id === targetCol)?.label}`);
+      }
+    } catch (err) {
+      toast.error(`Failed to move issue #${issueNum}`);
+      // State reverts automatically since we re-render from parent issues array
+    } finally {
+      setUpdatingIssues(prev => { const n = new Set(prev); n.delete(issueNum); return n; });
+      setDraggedIssue(null);
     }
-    setDraggedIssue(null);
   };
 
   const handleQuickCreate = async (col: Column) => {
     if (!quickTitle.trim()) return;
-    const labels: string[] = [];
-    const colDef = columns.find(c => c.id === col);
-    if (colDef?.matchLabels[0]) labels.push(colDef.matchLabels[0]);
     await onCreateIssue(quickTitle.trim(), "");
-    setQuickTitle("");
-    setQuickAdd(null);
+    setQuickTitle(""); setQuickAdd(null);
   };
 
   if (loading) {
@@ -90,13 +101,12 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
       <div className="px-3 py-2 border-b border-white/5 flex items-center gap-2">
         <LayoutDashboard size={12} className="text-blue-400" />
         <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Issue Board</span>
-        <span className="text-[9px] text-white/20 ml-auto">{issues.length} issues</span>
+        <span className="text-[9px] text-white/20 ml-auto">{pureIssues.length} issues</span>
       </div>
 
       <div className="flex-1 flex gap-2 p-2 overflow-x-auto" style={{ scrollbarWidth: "thin" }}>
         {columns.map(col => (
-          <div
-            key={col.id}
+          <div key={col.id}
             className={`flex-shrink-0 w-[200px] flex flex-col rounded-lg border transition-colors ${
               dragOverCol === col.id ? "border-blue-500/40 bg-blue-500/5" : "border-white/5 bg-white/[0.02]"
             }`}
@@ -104,70 +114,67 @@ export function IdeKanbanBoard({ issues, loading, onSelectIssue, onUpdateIssue, 
             onDragLeave={() => setDragOverCol(null)}
             onDrop={() => handleDrop(col.id)}
           >
-            {/* Column header */}
             <div className="px-2.5 py-2 flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${col.color}`} />
               <span className="text-[10px] font-semibold text-white/60 flex-1">{col.label}</span>
-              <span className="text-[9px] text-white/25 bg-white/5 px-1.5 py-0.5 rounded-full">
-                {buckets[col.id].length}
-              </span>
+              <span className="text-[9px] text-white/25 bg-white/5 px-1.5 py-0.5 rounded-full">{buckets[col.id].length}</span>
               <button onClick={() => setQuickAdd(quickAdd === col.id ? null : col.id)} className="text-white/20 hover:text-white/50">
                 <Plus size={10} />
               </button>
             </div>
 
-            {/* Quick add */}
             {quickAdd === col.id && (
               <div className="px-2 pb-2">
-                <input
-                  autoFocus
-                  value={quickTitle}
-                  onChange={e => setQuickTitle(e.target.value)}
+                <input autoFocus value={quickTitle} onChange={e => setQuickTitle(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && handleQuickCreate(col.id)}
                   onBlur={() => { if (!quickTitle.trim()) setQuickAdd(null); }}
                   placeholder="Issue title…"
-                  className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] text-white outline-none"
-                />
+                  className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] text-white outline-none" />
               </div>
             )}
 
-            {/* Cards */}
             <div className="flex-1 overflow-y-auto px-1.5 pb-1.5 space-y-1" style={{ scrollbarWidth: "thin" }}>
-              {buckets[col.id].map(issue => (
-                <div
-                  key={issue.number}
-                  draggable
-                  onDragStart={() => setDraggedIssue(issue)}
-                  onDragEnd={() => { setDraggedIssue(null); setDragOverCol(null); }}
-                  onClick={() => onSelectIssue(issue)}
-                  className={`group bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-white/10 rounded-lg p-2 cursor-pointer transition-all ${
-                    draggedIssue?.number === issue.number ? "opacity-40" : ""
-                  }`}
-                >
-                  <div className="flex items-start gap-1.5">
-                    <GripVertical size={10} className="text-white/10 group-hover:text-white/25 mt-0.5 flex-shrink-0 cursor-grab" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[11px] text-white/80 font-medium leading-tight line-clamp-2">{issue.title}</p>
-                      <div className="flex items-center gap-1.5 mt-1.5">
-                        <span className="text-[9px] text-white/25">#{issue.number}</span>
-                        {issue.assignees.slice(0, 2).map(a => (
-                          <img key={a.login} src={a.avatar_url} className="w-3.5 h-3.5 rounded-full" alt={a.login} title={a.login} />
-                        ))}
+              {buckets[col.id].map(issue => {
+                const isUpdating = updatingIssues.has(issue.number);
+                return (
+                  <div key={issue.number} draggable={!isUpdating}
+                    onDragStart={() => setDraggedIssue(issue)}
+                    onDragEnd={() => { setDraggedIssue(null); setDragOverCol(null); }}
+                    onClick={() => !isUpdating && onSelectIssue(issue)}
+                    className={`group bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-white/10 rounded-lg p-2 cursor-pointer transition-all relative ${
+                      draggedIssue?.number === issue.number ? "opacity-40" : ""
+                    } ${isUpdating ? "pointer-events-none" : ""}`}
+                  >
+                    {isUpdating && (
+                      <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center z-10">
+                        <Loader2 size={14} className="animate-spin text-blue-400" />
                       </div>
-                      {issue.labels.length > 0 && (
-                        <div className="flex gap-1 mt-1.5 flex-wrap">
-                          {issue.labels.slice(0, 2).map(l => (
-                            <span key={l.name} className="text-[8px] px-1 py-0.5 rounded"
-                              style={{ backgroundColor: `#${l.color}20`, color: `#${l.color}` }}>
-                              {l.name}
-                            </span>
+                    )}
+                    <div className="flex items-start gap-1.5">
+                      <GripVertical size={10} className="text-white/10 group-hover:text-white/25 mt-0.5 flex-shrink-0 cursor-grab" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] text-white/80 font-medium leading-tight line-clamp-2">{issue.title}</p>
+                        <div className="flex items-center gap-1.5 mt-1.5">
+                          <span className="text-[9px] text-white/25">#{issue.number}</span>
+                          {issue.assignees.slice(0, 2).map(a => (
+                            <img key={a.login} src={a.avatar_url} className="w-3.5 h-3.5 rounded-full" alt={a.login} title={a.login} />
                           ))}
                         </div>
-                      )}
+                        {issue.labels.length > 0 && (
+                          <div className="flex gap-1 mt-1.5 flex-wrap">
+                            {issue.labels.slice(0, 2).map(l => (
+                              <span key={l.name} className="text-[8px] px-1 py-0.5 rounded"
+                                style={{ backgroundColor: `#${l.color}20`, color: `#${l.color}` }}>
+                                {l.name}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}
