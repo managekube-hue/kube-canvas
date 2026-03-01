@@ -479,13 +479,11 @@ export default function Reach() {
           </div>
         );
       case "activity":
-        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Activity feed requires a connected repository</span></div></div>;
         return (
           <IdeActivityFeed
-            owner={owner} repo={repo}
-            onLoadCommits={() => gh.listCommits(owner, repo, branch)}
-            onLoadIssueEvents={() => gh.listIssues(owner, repo, "all")}
-            onLoadPullEvents={() => gh.listPRs(owner, repo, "all")}
+            entries={reachActivity.entries}
+            loading={reachActivity.loading}
+            onRefresh={reachActivity.load}
           />
         );
       case "search":
