@@ -215,7 +215,7 @@ export default function Reach() {
 
       // Step 5: Create commit
       setCommitStep(5);
-      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [baseSha]);
+      const commit = await gh.createCommit(owner, repo, message, newTree.sha, [commitSha]);
 
       // Step 6: Update branch ref
       setCommitStep(6);
