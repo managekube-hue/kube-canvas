@@ -427,15 +427,37 @@ export default function Reach() {
       if (!hasWorkspace) {
         return <ConnectPrompt />;
       }
+      const dirtyTabsForStaging = tabs.filter(t => t.dirty).map(t => ({ path: t.path, content: t.content }));
       return (
         <div className="flex h-full overflow-hidden">
           <div className="w-[280px] flex-shrink-0 bg-[#0c0c0c] border-r border-white/5 flex flex-col overflow-hidden">
-            <IdeFileTree
-              owner={owner} repo={repo} branch={branch} setBranch={setBranch}
-              branches={branches} onSelectFile={openFile} selectedFile={activeTab}
-              onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
-              treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile}
-            />
+            {dirtyTabsForStaging.length > 0 && (
+              <div className="px-3 py-1.5 border-b border-white/5 flex gap-1">
+                <button onClick={() => setShowStaging(false)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium ${!showStaging ? "bg-blue-600/20 text-blue-400" : "text-white/30 hover:text-white/50"}`}>
+                  Explorer
+                </button>
+                <button onClick={() => setShowStaging(true)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium ${showStaging ? "bg-blue-600/20 text-blue-400" : "text-white/30 hover:text-white/50"}`}>
+                  Staging ({dirtyTabsForStaging.length})
+                </button>
+              </div>
+            )}
+            {showStaging && dirtyTabsForStaging.length > 0 ? (
+              <IdeStagingPanel
+                dirtyFiles={dirtyTabsForStaging}
+                branch={branch}
+                onCommitMultiple={commitMultipleFiles}
+                onDiscardFile={discardFile}
+              />
+            ) : (
+              <IdeFileTree
+                owner={owner} repo={repo} branch={branch} setBranch={setBranch}
+                branches={branches} onSelectFile={openFile} selectedFile={activeTab}
+                onRefresh={loadTree} onCreateBranch={createBranch} tree={tree}
+                treeLoading={treeLoading} onNewFile={createNewFile} onDeleteFile={deleteFile}
+              />
+            )}
           </div>
           <IdeEditor
             tabs={tabs} activeTab={activeTab} onTabSelect={setActiveTab} onTabClose={closeTab}
