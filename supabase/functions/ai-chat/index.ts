@@ -43,42 +43,19 @@ serve(async (req) => {
       });
     }
 
-    const LITELLM_BASE_URL = Deno.env.get("LITELLM_BASE_URL");
-    const LITELLM_API_KEY = Deno.env.get("LITELLM_API_KEY");
-
-    if (!LITELLM_BASE_URL || !LITELLM_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: "LiteLLM not configured. Set LITELLM_BASE_URL and LITELLM_API_KEY." }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Check if user has a BYOK config override
-    const adminClient = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
-
-    const { data: userConfig } = await adminClient
-      .from("developer_ai_configs")
-      .select("provider, model_preference")
-      .eq("user_id", user.id)
-      .eq("is_default", true)
-      .maybeSingle();
-
-    const selectedModel = model || userConfig?.model_preference || "gpt-4o";
-
-    // Route everything through LiteLLM
-    const litellmUrl = `${LITELLM_BASE_URL.replace(/\/$/, "")}/chat/completions`;
+    // Route through internal litellm edge function, forwarding user's auth token
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+    const litellmUrl = `${SUPABASE_URL}/functions/v1/litellm`;
 
     const response = await fetch(litellmUrl, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LITELLM_API_KEY}`,
+        Authorization: authHeader,
+        apikey: Deno.env.get("SUPABASE_ANON_KEY")!,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: selectedModel,
+        model: model || undefined,
         messages: [
           { role: "system", content: "You are an AI coding assistant embedded in a developer IDE. Be concise, technical, and helpful. Format code with markdown." },
           ...messages,
