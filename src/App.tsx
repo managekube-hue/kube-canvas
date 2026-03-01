@@ -179,6 +179,7 @@ import UidrContributors from "./pages/uidr/UidrContributors";
 import UidrOpenSource from "./pages/uidr/UidrOpenSource";
 import UidrContact from "./pages/uidr/UidrContact";
 import UidrIde from "./pages/uidr/UidrIde";
+import Reach from "./pages/Reach";
 
 
 const queryClient = new QueryClient();
