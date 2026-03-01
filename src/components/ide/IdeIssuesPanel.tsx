@@ -81,7 +81,7 @@ export function IdeIssuesPanel({ issues, onCreateIssue, loading, onSelectIssue }
         {!loading && filteredIssues.length === 0 && (
           <p className="text-xs text-white/30 text-center py-8">No {filter} issues</p>
         )}
-        {issues.map(issue => (
+        {filteredIssues.map(issue => (
           <div key={issue.number} className="px-3 py-2.5 border-b border-white/5 hover:bg-white/[0.02] cursor-pointer" onClick={() => onSelectIssue?.(issue)}>
             <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full flex-shrink-0 ${issue.state === "open" ? "bg-green-500" : "bg-red-500"}`} />
