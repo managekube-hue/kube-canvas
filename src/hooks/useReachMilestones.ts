@@ -59,7 +59,7 @@ export function useReachMilestones(workspaceId: string | null) {
     return ms;
   }, [workspaceId, user]);
 
-  const update = useCallback(async (id: string, updates: Partial<Pick<ReachMilestone, "title" | "description" | "due_date" | "status">>) => {
+  const update = useCallback(async (id: string, updates: Partial<Pick<ReachMilestone, "title" | "description" | "due_date">> & { status?: string }) => {
     if (updates.status === "closed") {
       (updates as any).closed_at = new Date().toISOString();
     } else if (updates.status === "open") {
