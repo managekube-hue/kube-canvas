@@ -482,6 +482,8 @@ export default function UidrIde() {
         return <IdeActivityFeed entries={reachActivity.entries} loading={reachActivity.loading} onRefresh={reachActivity.load} />;
       case "video":
         return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
+      case "ai":
+        return <IdeAiCopilotPanel workspaceId={workspace.activeWorkspace!.id} activeFile={activeTab} />;
       case "notifications":
         return <IdeNotificationsPanel notifications={notifications} onMarkRead={markRead} onMarkAllRead={markAllRead} />;
       case "settings":
