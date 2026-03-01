@@ -124,14 +124,15 @@ export default function UidrIde() {
   const reachIssues = useReachIssues(workspace.activeWorkspace?.id || null);
   const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
 
-  // PRs
-  const [pulls, setPulls] = useState<GitPullRequest[]>([]);
-  const [pullsLoading, setPullsLoading] = useState(false);
-  const [selectedPr, setSelectedPr] = useState<GitPullRequest | null>(null);
+  // PRs (local-first)
+  const reachPRs = useReachPullRequests(workspace.activeWorkspace?.id || null);
+  const [selectedPr, setSelectedPr] = useState<ReachPullRequest | null>(null);
 
-  // Milestones
-  const [milestones, setMilestones] = useState<GitMilestone[]>([]);
-  const [milestonesLoading, setMilestonesLoading] = useState(false);
+  // Milestones (local-first)
+  const reachMilestones = useReachMilestones(workspace.activeWorkspace?.id || null);
+
+  // Activity (local-first)
+  const reachActivity = useReachActivity(workspace.activeWorkspace?.id || null);
 
   // Commits
   const [commits, setCommits] = useState<any[]>([]);
