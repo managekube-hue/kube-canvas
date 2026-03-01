@@ -15,14 +15,18 @@ export function useReachPresence(workspaceId: string | null, activeFile: string 
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   const sync = useCallback(() => {
-    if (!workspaceId || !user) return;
+    if (!user) return;
 
     // Clean up previous
     if (channelRef.current) {
       supabase.removeChannel(channelRef.current);
     }
 
-    const ch = supabase.channel(`reach-presence-${workspaceId}`, {
+    const channelName = workspaceId
+      ? `reach-presence-${workspaceId}`
+      : `reach-presence-local`;
+
+    const ch = supabase.channel(channelName, {
       config: { presence: { key: user.id } },
     });
 
@@ -50,7 +54,7 @@ export function useReachPresence(workspaceId: string | null, activeFile: string 
     });
 
     channelRef.current = ch;
-  }, [workspaceId, user, activeFile]);
+  }, [workspaceId, user]);
 
   useEffect(() => {
     sync();
