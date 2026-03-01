@@ -298,38 +298,8 @@ export default function Reach() {
     return data.encoding === "base64" ? atob(data.content) : data.content;
   };
 
-  // ── Issues ─────────────────────────────────
-  const loadIssues = async () => {
-    if (!owner || !repo) return;
-    setIssuesLoading(true);
-    try {
-      console.log("[Reach] Fetching issues for:", { owner, repo });
-      const data = await gh.listIssues(owner, repo, "all");
-      console.log("[Reach] Issues returned:", data.length, "items. Shape:", data[0] ? Object.keys(data[0]) : "empty");
-      setIssues(data);
-    } catch (err) { console.error("[Reach] Issues fetch failed:", err); }
-    finally { setIssuesLoading(false); }
-  };
-
-  const loadLabelsAndAssignees = async () => {
-    if (!owner || !repo) return;
-    try {
-      const [labels, assignees] = await Promise.all([gh.getLabels(owner, repo), gh.getAssignees(owner, repo)]);
-      setAvailableLabels(labels); setAvailableAssignees(assignees);
-    } catch { /* non-critical */ }
-  };
-
-  const createIssue = async (title: string, body: string, labels?: string[], assignees?: string[], milestone?: number) => {
-    if (!hasWorkspace) return;
-    await gh.createIssue(owner, repo, title, body, labels, assignees, milestone);
-    loadIssues();
-  };
-  const updateIssue = async (num: number, updates: { state?: string; assignees?: string[]; labels?: string[]; milestone?: number | null }) => {
-    if (!hasWorkspace) return;
-    const updated = await gh.updateIssue(owner, repo, num, updates);
-    setIssues(prev => prev.map(i => i.number === num ? { ...i, ...updated } : i));
-    if (selectedIssue?.number === num) setSelectedIssue(prev => prev ? { ...prev, ...updated } : null);
-  };
+  // ── Issues (powered by useReachIssues — no GitHub dependency) ──
+  // loadIssues, createIssue, updateIssue all come from reachIssues hook
 
   // ── PRs ────────────────────────────────────
   const loadPulls = async () => {
