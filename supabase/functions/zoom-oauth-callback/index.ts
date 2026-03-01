@@ -92,7 +92,7 @@ serve(async (req) => {
         console.error("Zoom token exchange failed:", err);
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=token_exchange` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=token_exchange` },
         });
       }
 
