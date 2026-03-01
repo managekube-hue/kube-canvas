@@ -144,7 +144,7 @@ serve(async (req) => {
         console.error("Could not determine user_id from state or email lookup");
         return new Response(null, {
           status: 302,
-          headers: { Location: `${SITE_URL}/uidr/ide?zoom=error&reason=no_user` },
+          headers: { Location: `${SITE_URL}/reach?zoom=error&reason=no_user` },
         });
       }
 
