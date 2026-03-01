@@ -9,6 +9,7 @@ import { useReachNotifications } from "@/hooks/useReachNotifications";
 import { useGitHub, type GitIssue, type GitPullRequest, type GitMilestone, type GitLabel, type GitCollaborator, type GitCommitDetail, type GitSearchResult } from "@/hooks/useGitHub";
 import { IdeFileTree, buildTree, type TreeNode } from "@/components/ide/IdeFileTree";
 import { IdeEditor } from "@/components/ide/IdeEditor";
+import { IdeCommitModal, type CommitStep } from "@/components/ide/IdeCommitModal";
 import { IdeSearchPanel } from "@/components/ide/IdeSearchPanel";
 import { IdeIssuesPanel } from "@/components/ide/IdeIssuesPanel";
 import { IdeIssueDetail } from "@/components/ide/IdeIssueDetail";
