@@ -496,12 +496,11 @@ export default function Reach() {
           />
         );
       case "milestones":
-        if (!hasGitHub) return <div className="flex-1 flex flex-col"><NoGitHubNotice /><div className="flex-1 flex items-center justify-center"><span className="text-xs text-white/30">Milestones require a connected repository</span></div></div>;
         return (
           <IdeMilestonesPanel
-            milestones={milestones} loading={milestonesLoading}
-            onCreateMilestone={createMilestone}
-            onUpdateMilestone={updateMilestone}
+            milestones={reachMilestones.milestones} loading={reachMilestones.loading}
+            onCreateMilestone={async (title, desc, due) => { await reachMilestones.create(title, desc, due); }}
+            onUpdateMilestone={async (id, updates) => { await reachMilestones.update(id, updates); }}
           />
         );
       case "chat":
