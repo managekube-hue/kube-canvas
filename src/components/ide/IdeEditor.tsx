@@ -143,12 +143,21 @@ export function IdeEditor({
           ) : (
             <>
               <div className={`${showPreview && isMarkdown ? "w-1/2" : "flex-1"} overflow-hidden`}>
-                <Editor
+              <Editor
                   height="100%"
                   language={activeTabData.language}
                   value={activeTabData.content}
                   onChange={(val) => onContentChange(activeTabData.path, val || "")}
                   theme="vs-dark"
+                  loading={
+                    <div className="flex flex-col items-center justify-center h-full gap-3">
+                      <Loader2 className="w-6 h-6 animate-spin text-blue-400" />
+                      <span className="text-xs text-white/40">Loading editor…</span>
+                    </div>
+                  }
+                  onMount={(editor) => {
+                    editor.focus();
+                  }}
                   options={{
                     fontSize: 13,
                     fontFamily: "'Roboto Mono', monospace",
