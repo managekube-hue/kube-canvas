@@ -1,45 +1,60 @@
-import { useState, useEffect } from "react";
-import { Loader2, FolderGit2, Lock, Globe, Star, GitBranch } from "lucide-react";
-import { useGitHubGlobal, type GitRepo } from "@/hooks/useGitHubProxy";
+import { useState } from "react";
+import { Loader2, FolderGit2, Lock, Globe, Star, GitBranch, LogIn } from "lucide-react";
+import { useGitHub, type GitRepo } from "@/hooks/useGitHub";
+import { supabase } from "@/lib/supabase";
 
 interface WorkspaceSetupProps {
   onCreateWorkspace: (name: string, owner: string, repo: string) => Promise<void>;
 }
 
 export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
-  const gh = useGitHubGlobal();
+  const gh = useGitHub();
   const [repos, setRepos] = useState<GitRepo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [importing, setImporting] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
 
-  useEffect(() => {
-    loadRepos();
-  }, []);
-
+  // Load repos once token is ready
   const loadRepos = async () => {
+    if (!gh.token) return;
     setLoading(true);
     setError(null);
     try {
-      const data = await gh.listRepos(100, 1, "updated");
+      const data = await gh.listRepos();
       setRepos(data);
-    } catch (err: any) {
-      setError(err.message || "Failed to load repositories");
+      setLoaded(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to load repositories";
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
+  // Auto-load when token becomes available
+  if (gh.token && !loaded && !loading && !error) {
+    loadRepos();
+  }
+
   const handleImport = async (repo: GitRepo) => {
     setImporting(repo.full_name);
     try {
       await onCreateWorkspace(repo.name, repo.owner.login, repo.name);
-    } catch (err: any) {
-      setError(err.message || "Failed to import repository");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to import repository";
+      setError(msg);
     } finally {
       setImporting(null);
     }
+  };
+
+  const handleReAuth = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: { scopes: "repo read:user" },
+    });
   };
 
   const filtered = filter
@@ -49,7 +64,31 @@ export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
       )
     : repos;
 
-  if (loading) {
+  // No GitHub token — prompt re-auth
+  if (!gh.loading && !gh.token) {
+    return (
+      <div className="flex-1 flex items-center justify-center bg-[#0a0a0a]">
+        <div className="text-center max-w-sm space-y-4">
+          <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center mx-auto">
+            <LogIn size={24} className="text-yellow-400" />
+          </div>
+          <h2 className="text-lg font-bold text-white">GitHub Access Required</h2>
+          <p className="text-sm text-white/40">
+            Sign in with GitHub to access your repositories. Your GitHub OAuth token is used directly — no proxy needed.
+          </p>
+          <button
+            onClick={handleReAuth}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            Sign in with GitHub
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading token or repos
+  if (gh.loading || (loading && !loaded)) {
     return (
       <div className="flex-1 flex items-center justify-center bg-[#0a0a0a]">
         <div className="text-center">
@@ -89,12 +128,17 @@ export function WorkspaceSetup({ onCreateWorkspace }: WorkspaceSetupProps) {
         <div className="px-8 pb-4">
           <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 space-y-2">
             <p className="font-semibold">Repository access failed</p>
-            {error.includes("401") || error.includes("Bad credentials") ? (
-              <p className="text-white/40">The GitHub access token has expired or is invalid. Please contact your workspace admin to update the <code className="text-red-300 bg-red-500/10 px-1 rounded">GITHUB_TOKEN</code> secret in Supabase.</p>
+            {error.includes("401") || error.includes("Bad credentials") || error.includes("No GitHub token") ? (
+              <div className="space-y-2">
+                <p className="text-white/40">Your GitHub token has expired. Please re-authenticate.</p>
+                <button onClick={handleReAuth} className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
+                  Re-authenticate with GitHub
+                </button>
+              </div>
             ) : (
               <p className="text-white/40">{error}</p>
             )}
-            <button onClick={loadRepos} className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
+            <button onClick={loadRepos} className="text-blue-400 hover:text-blue-300 underline underline-offset-2 block">
               Retry
             </button>
           </div>
