@@ -28,6 +28,7 @@ import { IdeKanbanBoard } from "@/components/ide/IdeKanbanBoard";
 import { IdeActivityFeed } from "@/components/ide/IdeActivityFeed";
 import { IdeStagingPanel } from "@/components/ide/IdeStagingPanel";
 import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
+import { IdeAiCopilotPanel } from "@/components/ide/IdeAiCopilotPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
