@@ -117,12 +117,9 @@ export default function UidrIde() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [showWorkspaceSetup, setShowWorkspaceSetup] = useState(false);
 
-  // Issues
-  const [issues, setIssues] = useState<GitIssue[]>([]);
-  const [issuesLoading, setIssuesLoading] = useState(false);
-  const [selectedIssue, setSelectedIssue] = useState<GitIssue | null>(null);
-  const [availableLabels, setAvailableLabels] = useState<GitLabel[]>([]);
-  const [availableAssignees, setAvailableAssignees] = useState<Array<{ login: string; avatar_url: string }>>([]);
+  // Issues (local-first)
+  const reachIssues = useReachIssues(workspace.activeWorkspace?.id || null);
+  const [selectedIssue, setSelectedIssue] = useState<ReachIssue | null>(null);
 
   // PRs
   const [pulls, setPulls] = useState<GitPullRequest[]>([]);
