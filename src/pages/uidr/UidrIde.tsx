@@ -483,13 +483,11 @@ export default function UidrIde() {
     }
 
     if (viewMode === "chat") {
-      if (!hasWorkspace) return <ConnectWorkspacePrompt />;
-      return <IdeChatPanel workspaceId={workspace.activeWorkspace!.id} />;
+      return <IdeChatPanel workspaceId={workspace.activeWorkspace?.id || "local"} />;
     }
 
     if (viewMode === "video") {
-      if (!hasWorkspace) return <ConnectWorkspacePrompt />;
-      return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace!.id} />;
+      return <IdeVideoRoomsPanel workspaceId={workspace.activeWorkspace?.id || "local"} />;
     }
 
     if (viewMode === "notifications") {
