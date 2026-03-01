@@ -477,9 +477,8 @@ export default function Reach() {
       );
     }
 
-    // Git-dependent views need a workspace; Supabase-only views don't
-    const gitViews: ReachView[] = ["files", "prs", "search", "milestones", "activity"];
-    if (!hasWorkspace && gitViews.includes(activeView)) return <ConnectPrompt />;
+    // All views are accessible — no GitHub gate. Views that need GitHub show empty states.
+    if (!hasWorkspace) return <CreateWorkspacePrompt />;
 
     switch (activeView) {
       case "issues":
