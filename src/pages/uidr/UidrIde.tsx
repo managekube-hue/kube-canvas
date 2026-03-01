@@ -32,6 +32,7 @@ import { IdeVideoRoomsPanel } from "@/components/ide/IdeVideoRoomsPanel";
 import { IdeAiCopilotPanel } from "@/components/ide/IdeAiCopilotPanel";
 import { IdeCommandPalette } from "@/components/ide/IdeCommandPalette";
 import { IdeEditor } from "@/components/ide/IdeEditor";
+import { IdeLocalFileTree } from "@/components/ide/IdeLocalFileTree";
 import { WorkspaceSetup } from "@/components/ide/WorkspaceSetup";
 
 /** Minimal IDE-only shell — no footer, no CTA, full-screen dev environment */
