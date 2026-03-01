@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Loader2, Plus, LayoutDashboard, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { GitIssue } from "@/hooks/useGitHubProxy";
+import type { GitIssue } from "@/hooks/useGitHub";
 
 interface Props {
   issues: GitIssue[];

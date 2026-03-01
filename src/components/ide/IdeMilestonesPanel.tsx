@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Target, Plus, Loader2, CheckCircle2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { GitMilestone } from "@/hooks/useGitHubProxy";
+import type { GitMilestone } from "@/hooks/useGitHub";
 
 interface Props {
   milestones: GitMilestone[];

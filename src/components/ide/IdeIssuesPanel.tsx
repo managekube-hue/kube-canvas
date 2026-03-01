@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { GitIssue } from "@/hooks/useGitHubProxy";
+import type { GitIssue } from "@/hooks/useGitHub";
 
 interface Props {
   issues: GitIssue[];

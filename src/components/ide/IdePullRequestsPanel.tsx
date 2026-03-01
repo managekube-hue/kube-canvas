@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { GitPullRequest, Loader2, Plus, GitMerge, ArrowLeft, Send, ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
-import type { GitPullRequest as PR, GitPrFile, GitComment } from "@/hooks/useGitHubProxy";
+import type { GitPullRequest as PR, GitPrFile, GitComment } from "@/hooks/useGitHub";
 
 // ── PR List ─────────────────────────────────
 

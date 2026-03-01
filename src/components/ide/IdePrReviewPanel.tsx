@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, Check, X, MessageSquare, GitMerge, GitPullRequest as PrIcon, Loader2, Send, Eye, AlertCircle, ChevronDown, ChevronRight, FileCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
-import type { GitPullRequest, GitPrFile, GitComment } from "@/hooks/useGitHubProxy";
+import type { GitPullRequest, GitPrFile, GitComment } from "@/hooks/useGitHub";
 
 type ReviewStatus = "pending" | "approved" | "changes_requested" | "commented";
 
